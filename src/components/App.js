@@ -7,7 +7,7 @@ const App = () => {
 
   // Test API call to make when app is mounted
   useEffect(() => {
-    APIv1.get('/')
+    APIv1.get('/hello')
     .then((response) => {
       console.log(response.data)
       setMessage(response.data)
