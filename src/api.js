@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-console.log(process.env.REACT_APP_ENV)
-
 let url = 'https://www.runlog.dev/api'
 
 if (process.env.REACT_APP_ENV === 'dev') {
