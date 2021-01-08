@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+
 import { APIv1 } from '../api'
+
+import actions from '../reducers/actions'
+import { AuthContext } from '../context/AuthContext'
+
 import '../styles/App.css'
+
+//import HomePage from './HomePage'
+import Navbar from './Navbar'
+//import UserPage from './User/UserPage'
+//import PrivateRoute from './Auth/PrivateRoute'
+
+
 
 const App = () => {
   const [message, setMessage] = useState()
-  const [token, setToken] = useState()
   const [runs, setRuns] = useState()
+  const [auth, authDispatch] = useContext(AuthContext)
 
   // Test API call to make when app is mounted
   useEffect(() => {
@@ -16,6 +28,15 @@ const App = () => {
     .catch((error) => {
       console.error(error)
     })
+
+    // Check for a JWT, and save it to the AuthContext if set
+    const token = localStorage.getItem('token')
+    if (token != null) {
+      authDispatch({
+        type: actions.SET_TOKEN,
+        token: token,
+      })
+    }
   }, [])
 
   // Send API call to log the user in with their email and password
@@ -27,25 +48,49 @@ const App = () => {
 
     console.dir(userData)
 
+    authDispatch({
+      type: actions.LOGIN__START
+    })
+
     APIv1.post('/users/login', userData)
     .then((response) => {
       console.dir(response.data.accessToken)
-      setToken(response.data.accessToken)
+      localStorage.setItem('token', response.data.accessToken)
+
+      authDispatch({
+        type: actions.LOGIN__SUCCESS,
+        token: response.data.accessToken,
+        user: response.data.user,
+      })
     })
     .catch((error) => {
       console.error(error)
     })
   }
 
+  // Delete the user token and reset auth state
+  const logout = () => {
+    localStorage.setItem('token', null)
+    authDispatch({
+      type: actions.LOGOUT
+    })
+  }
+
   // Send API call to log the user in with their email and password
   const getRuns = () => {
-    if (token == null) {
+    console.log('auth:')
+    console.dir(auth)
+
+    // TODO: Read the login state from the authContext first!
+    // If logged in and a token exists, then we make the API call
+    // If not, redirect to the login page (for now, just send an alert)
+    if (auth.token == null) {
       return alert('No token! Log in first')
     }
 
     APIv1.get('/runs', {
       headers: {
-        authorization: token
+        authorization: auth.token
       }
     })
     .then((response) => {
@@ -58,6 +103,8 @@ const App = () => {
 
   return (
     <div className='App'>
+      <Navbar />
+
       <header>
         <h1>Runlog</h1>
         <p>Better logging and planning for Fitbit runners</p>
@@ -93,6 +140,11 @@ const App = () => {
          </div>
 
         <button onClick={login}>Log In</button>
+      </div>
+
+      <div>
+        <h3>Logout</h3>
+        <button onClick={logout}>Log Out</button>
       </div>
 
       <div>
