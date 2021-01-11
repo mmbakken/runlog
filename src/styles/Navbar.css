@@ -1,3 +1,15 @@
 .Navbar {
+  margin-bottom: 1rem;
+}
 
+.Navbar ul {
+  display: inline-flex;
+}
+
+.Navbar li {
+  margin-right: 0.5rem;
+}
+
+.Navbar li:last-child() {
+  margin-right: 0;
 }

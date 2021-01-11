@@ -1,18 +1,26 @@
 import React from 'react'
-
-//import LoginPage from './Login/LoginPage'
-//import UserPage from './User/UserPage'
+import {
+  Link
+} from 'react-router-dom'
 
 import '../styles/Navbar.css'
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className='Navbar'>
       <ul>
-        <li>Home</li>
-        <li>Calendar</li>
-        <li>List</li>
-        <li>Login</li>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
+        <li>
+          <Link to='/calendar'>Calendar</Link>
+        </li>
+        <li>
+          <Link to='/list'>List</Link>
+        </li>
+        <li>
+          <Link to='/login'>Login</Link>
+        </li>
       </ul>
     </nav>
   )

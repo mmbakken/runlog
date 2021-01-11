@@ -2,13 +2,12 @@ import actions from './actions'
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case actions.SET_TOKEN: {
+    case actions.SET_USER: {
       return {
         ...state,
-        token: action.token,
+        user: action.user,
         isLoggedIn: true,
         isLoggingIn: false,
-        // TODO: How to get user info if the ID is already saved?
       }
     }
 
@@ -23,8 +22,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.user,
-        token: action.token,
-        isLoggedIn: false,
+        isLoggedIn: true,
         isLoggingIn: false,
       }
     }
@@ -42,7 +40,6 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: null,
-        token: null,
         isLoggedIn: false,
         isLoggingIn: false,
       }
