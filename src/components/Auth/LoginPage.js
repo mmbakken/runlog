@@ -1,11 +1,8 @@
 import React, { useContext } from 'react'
-import {
-  useHistory,
-  useLocation
-} from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import actions from '../../reducers/actions'
 import { AuthContext } from '../../context/AuthContext'
-import { APIv1 } from '../../api'
+import { APIv1, setAuthHeader } from '../../api'
 
 import '../../styles/LoginPage.css'
 
@@ -22,63 +19,82 @@ const LoginPage = () => {
     }
 
     authDispatch({
-      type: actions.LOGIN__START
+      type: actions.LOGIN__START,
     })
 
     APIv1.post('/users/login', userData)
-    .then((response) => {
-      localStorage.setItem('token', response.data.accessToken)
+      .then((response) => {
+        localStorage.setItem('token', response.data.accessToken)
+        setAuthHeader(response.data.accessToken)
 
-      // Add the token to the API instance
-      APIv1.defaults.headers.post['authorization'] = response.data.accessToken
-      APIv1.defaults.headers.get['authorization'] = response.data.accessToken
+        authDispatch({
+          type: actions.LOGIN__SUCCESS,
+          user: response.data.user,
+        })
 
-      authDispatch({
-        type: actions.LOGIN__SUCCESS,
-        user: response.data.user,
+        // If we were redirected to the login page, send the user where they wanted to go.
+        let from = '/'
+        if (
+          location &&
+          location.state &&
+          location.state.from &&
+          location.state.from.pathname
+        ) {
+          from = location.state.from.pathname
+        }
+
+        history.push(from)
       })
-
-      // If we were redirected to the login page, send the user where they wanted to go.
-      let from = '/'
-      if (location && location.state && location.state.from && location.state.from.pathname) {
-        from = location.state.from.pathname
-      }
-
-      history.push(from)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (
     <div className='LoginPage'>
       <h3>Log In</h3>
 
-      <div style={{
-        width: '30rem',
-        marginBottom: '1rem',
-      }}>
-        <div style={{
-          width: '100%',
-          marginBottom: '0.5rem',
-        }}>
-          <label style={{ display: 'block', marginBottom: '0.25rem' }} name='email'>
+      <div
+        style={{
+          width: '30rem',
+          marginBottom: '1rem',
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            marginBottom: '0.5rem',
+          }}
+        >
+          <label
+            style={{ display: 'block', marginBottom: '0.25rem' }}
+            name='email'
+          >
             Email
           </label>
           <input id='userEmail' name='email' type='text' placeholder='Email' />
         </div>
 
-        <div style={{
-          width: '100%',
-          marginBottom: '0.5rem',
-        }}>
-          <label style={{ display: 'block', marginBottom: '0.25rem' }} name='password'>
+        <div
+          style={{
+            width: '100%',
+            marginBottom: '0.5rem',
+          }}
+        >
+          <label
+            style={{ display: 'block', marginBottom: '0.25rem' }}
+            name='password'
+          >
             Password
           </label>
-          <input id='userPassword' name='password' type='password' placeholder='Password' />
+          <input
+            id='userPassword'
+            name='password'
+            type='password'
+            placeholder='Password'
+          />
         </div>
-       </div>
+      </div>
 
       <button onClick={login}>Log In</button>
     </div>

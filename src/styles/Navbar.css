@@ -10,6 +10,11 @@
   margin-right: 0.5rem;
 }
 
+.Navbar li.active {
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid red;
+}
+
 .Navbar li:last-child() {
   margin-right: 0;
 }
