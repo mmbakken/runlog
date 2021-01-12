@@ -5,8 +5,8 @@ import authReducer from '../reducers/authReducer'
 
 export const AuthContext = createContext()
 
-export const AuthContextProvider = props => {
-  const [ auth, authDispatch ] = useReducer(authReducer, initialState.auth)
+export const AuthContextProvider = (props) => {
+  const [auth, authDispatch] = useReducer(authReducer, initialState.auth)
 
   return (
     <AuthContext.Provider value={[auth, authDispatch]}>
@@ -16,5 +16,5 @@ export const AuthContextProvider = props => {
 }
 
 AuthContextProvider.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 }

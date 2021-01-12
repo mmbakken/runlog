@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import {
-  useHistory
-} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import actions from '../reducers/actions'
 import { AuthContext } from '../context/AuthContext'
 import { APIv1 } from '../api'
@@ -16,19 +14,19 @@ const HomePage = () => {
   // Test API call to make when app is mounted
   useEffect(() => {
     APIv1.get('/hello')
-    .then((response) => {
-      setMessage(response.data)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+      .then((response) => {
+        setMessage(response.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }, [])
 
   // Delete the user token and reset auth state
   const logout = () => {
     localStorage.removeItem('token')
     authDispatch({
-      type: actions.LOGOUT
+      type: actions.LOGOUT,
     })
     history.push('/')
   }
@@ -45,12 +43,12 @@ const HomePage = () => {
         <pre>{JSON.stringify(auth, null, 2)}</pre>
       </div>
 
-      {auth.isLoggedIn && 
+      {auth.isLoggedIn && (
         <div>
           <h3>Logout</h3>
           <button onClick={logout}>Log Out</button>
         </div>
-      }
+      )}
     </div>
   )
 }

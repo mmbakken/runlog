@@ -9,12 +9,12 @@ const ListPage = () => {
   // Send API call to log the user in with their email and password
   const getRuns = () => {
     APIv1.get('/runs')
-    .then((response) => {
-      setRuns(response.data)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+      .then((response) => {
+        setRuns(response.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (
@@ -25,12 +25,14 @@ const ListPage = () => {
       </header>
 
       <div>
-        <div style={{
-          width: '30rem',
-          border: '1px solid black',
-          padding: '2rem',
-          marginBottom: '4rem',
-        }}>
+        <div
+          style={{
+            width: '30rem',
+            border: '1px solid black',
+            padding: '2rem',
+            marginBottom: '4rem',
+          }}
+        >
           <pre>{runs && JSON.stringify(runs, null, 2)}</pre>
         </div>
 
