@@ -1,61 +1,40 @@
-import React, { useEffect, useContext } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import actions from '../reducers/actions'
-import { AuthContext } from '../context/AuthContext'
 import PrivateRoute from './Auth/PrivateRoute'
 import Navbar from './Navbar'
 import LoginPage from './Auth/LoginPage'
 import HomePage from './HomePage'
 import CalendarPage from './Calendar/CalendarPage'
 import ListPage from './List/ListPage'
-import { APIv1, setAuthHeader } from '../api'
+
+import {
+  HomeRoute,
+  CalendarRoute,
+  ListRoute,
+  LoginRoute,
+} from '../constants/routes'
 import '../styles/App.css'
 
 const App = () => {
-  const authDispatch = useContext(AuthContext)[1]
-
-  useEffect(() => {
-    // Check for a JWT, and save it to the AuthContext if set
-    const token = localStorage.getItem('token')
-
-    if (token != null) {
-      // Add the token to the API instance
-      setAuthHeader(token)
-
-      // Go get the user information from the token
-      APIv1.get('/user')
-        .then((response) => {
-          // Then save the user info to auth state
-          authDispatch({
-            type: actions.SET_USER,
-            user: response.data.user,
-          })
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  }, [])
-
   return (
     <div className='App'>
       <Router>
         <Navbar />
 
         <Switch>
-          <Route path='/login'>
+          <Route path={LoginRoute}>
             <LoginPage />
           </Route>
 
-          <PrivateRoute path='/calendar'>
+          <PrivateRoute path={CalendarRoute}>
             <CalendarPage />
           </PrivateRoute>
 
-          <PrivateRoute path='/list'>
+          <PrivateRoute path={ListRoute}>
             <ListPage />
           </PrivateRoute>
 
-          <Route path='/'>
+          <Route path={HomeRoute}>
             <HomePage />
           </Route>
         </Switch>

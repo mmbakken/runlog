@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import actions from '../../reducers/actions'
 import { AuthContext } from '../../context/AuthContext'
 import { APIv1, setAuthHeader } from '../../api'
+import { HomeRoute } from '../../constants/routes'
 
 import '../../styles/LoginPage.css'
 
@@ -33,7 +34,7 @@ const LoginPage = () => {
         })
 
         // If we were redirected to the login page, send the user where they wanted to go.
-        let from = '/'
+        let from = HomeRoute
         if (
           location &&
           location.state &&

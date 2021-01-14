@@ -3,5 +3,6 @@ export default {
     user: null,
     isLoggedIn: false,
     isLoggingIn: false,
+    checkingJWT: true,
   },
 }

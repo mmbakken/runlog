@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import actions from '../reducers/actions'
 import { AuthContext } from '../context/AuthContext'
 import { APIv1 } from '../api'
+import { HomeRoute } from '../constants/routes'
 
 import '../styles/HomePage.css'
 
@@ -28,7 +29,7 @@ const HomePage = () => {
     authDispatch({
       type: actions.LOGOUT,
     })
-    history.push('/')
+    history.push(HomeRoute)
   }
 
   return (

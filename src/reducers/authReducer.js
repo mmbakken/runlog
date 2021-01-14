@@ -2,12 +2,30 @@ import actions from './actions'
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case actions.SET_USER: {
+    case actions.GET_USER__START: {
+      return {
+        ...state,
+        isLoggingIn: false,
+      }
+    }
+
+    case actions.GET_USER__SUCCESS: {
       return {
         ...state,
         user: action.user,
-        isLoggedIn: true,
         isLoggingIn: false,
+        isLoggedIn: true,
+        checkingJWT: false,
+      }
+    }
+
+    case actions.GET_USER__ERROR: {
+      return {
+        ...state,
+        user: null,
+        isLoggingIn: false,
+        isLoggedIn: false,
+        checkingJWT: false,
       }
     }
 
@@ -15,6 +33,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         isLoggingIn: true,
+        checkingJWT: false,
       }
     }
 
@@ -24,6 +43,7 @@ const authReducer = (state, action) => {
         user: action.user,
         isLoggedIn: true,
         isLoggingIn: false,
+        checkingJWT: false,
       }
     }
 
@@ -33,6 +53,7 @@ const authReducer = (state, action) => {
         user: null,
         isLoggedIn: false,
         isLoggingIn: false,
+        checkingJWT: false,
       }
     }
 
@@ -42,6 +63,7 @@ const authReducer = (state, action) => {
         user: null,
         isLoggedIn: false,
         isLoggingIn: false,
+        checkingJWT: false,
       }
     }
 
