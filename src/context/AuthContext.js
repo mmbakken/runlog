@@ -37,6 +37,11 @@ export const AuthContextProvider = (props) => {
             type: actions.GET_USER__ERROR,
           })
         })
+    } else {
+      // Reset the checkingJWT flag to false
+      authDispatch({
+        type: actions.LOGOUT,
+      })
     }
   }, [])
 
