@@ -14,8 +14,8 @@ const APIv1 = axios.create({
 
 // Once the JWT is determined, we need to add it to all requests made to the API
 const setAuthHeader = (token) => {
-  APIv1.defaults.headers.post['authorization'] = token
-  APIv1.defaults.headers.get['authorization'] = token
+  APIv1.defaults.headers.post['Authorization'] = token
+  APIv1.defaults.headers.get['Authorization'] = token
 }
 
 export { APIv1, setAuthHeader }
