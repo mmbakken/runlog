@@ -1,14 +1,14 @@
 import React from 'react'
 
-import '../../styles/UserPage.css'
+import '../../styles/AccountPage.css'
 
-const UserPage = () => {
+const AccountPage = () => {
   return (
-    <div>
+    <div className='AccountPage'>
       <h1>My Account</h1>
       <pre>This is where I should JSON.stringify() the user object</pre>
     </div>
   )
 }
 
-export default UserPage
+export default AccountPage

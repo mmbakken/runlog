@@ -10,6 +10,22 @@
   margin-right: 0.5rem;
 }
 
+.Navbar li > a {
+  color: rgba(16, 16, 16, 1);
+  text-decoration: underline;
+}
+
+.Navbar li > a:visited {
+  color: rgba(16, 16, 16, 1);
+  text-decoration: underline;
+}
+
+.Navbar li > a:hover {
+  color: rgba(90, 16, 16, 1);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .Navbar li.active {
   padding-bottom: 0.25rem;
   border-bottom: 2px solid red;

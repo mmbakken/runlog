@@ -6,12 +6,14 @@ import LoginPage from './Auth/LoginPage'
 import HomePage from './HomePage'
 import CalendarPage from './Calendar/CalendarPage'
 import ListPage from './List/ListPage'
+import AccountPage from './User/AccountPage'
 
 import {
   HomeRoute,
   CalendarRoute,
   ListRoute,
   LoginRoute,
+  AccountRoute,
 } from '../constants/routes'
 import '../styles/App.css'
 
@@ -32,6 +34,10 @@ const App = () => {
 
           <PrivateRoute path={ListRoute}>
             <ListPage />
+          </PrivateRoute>
+
+          <PrivateRoute path={AccountRoute}>
+            <AccountPage />
           </PrivateRoute>
 
           <Route path={HomeRoute}>
