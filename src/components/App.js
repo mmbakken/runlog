@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './Auth/PrivateRoute'
 import Navbar from './Navbar'
 import LoginPage from './Auth/LoginPage'
+import StravaTokenHandler from './Auth/StravaTokenHandler'
 import HomePage from './HomePage'
 import CalendarPage from './Calendar/CalendarPage'
 import ListPage from './List/ListPage'
@@ -24,6 +25,10 @@ const App = () => {
         <Navbar />
 
         <Switch>
+          <PrivateRoute path='/exchange_token'>
+            <StravaTokenHandler />
+          </PrivateRoute>
+
           <Route path={LoginRoute}>
             <LoginPage />
           </Route>
