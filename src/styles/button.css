@@ -1,0 +1,19 @@
+button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  background-color: rgb(240, 240, 240);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(220, 220, 220);
+  transition: background-color ease-in 0.12s;
+}
+
+button:focus {
+  cursor: pointer;
+  border: 1px solid black;
+  outline: none;
+  transition: background-color ease-in 0.12s;
+}

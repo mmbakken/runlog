@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useLocation, Redirect } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
 import { AccountRoute } from '../../constants/routes'
 
 const StravaTokenHandler = () => {
+  const authDispatch = useContext(AuthContext)[1]
   // Example query string:
   // exchange_token?state=&code=a2cc22fecae427b4e1cfc39cbb4e41d1977a5e12&scope=read
   const query = new URLSearchParams(useLocation().search)
@@ -17,11 +20,27 @@ const StravaTokenHandler = () => {
 
   useEffect(() => {
     APIv1.post(`/users/${userId}/stravaCode/${code}`, { scope: scope })
-      .then((response) => {
-        console.log('Strava account linked')
-        console.dir(response.data)
+      .then(() => {
+        // Get the updated user object now
+        authDispatch({
+          type: actions.GET_USER__START,
+        })
 
-        // TODO: response.data should be the updated user object
+        // Go get the full user information
+        APIv1.get(`/users/${userId}`)
+          .then((response) => {
+            // Then save the user info to auth state
+            authDispatch({
+              type: actions.GET_USER__SUCCESS,
+              user: response.data,
+            })
+          })
+          .catch((error) => {
+            console.error(error)
+            authDispatch({
+              type: actions.GET_USER__ERROR,
+            })
+          })
       })
       .catch((error) => {
         console.log(

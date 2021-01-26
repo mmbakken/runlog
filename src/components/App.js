@@ -16,7 +16,9 @@ import {
   LoginRoute,
   AccountRoute,
 } from '../constants/routes'
+
 import '../styles/App.css'
+import '../styles/button.css'
 
 const App = () => {
   return (

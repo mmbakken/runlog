@@ -1,5 +1,6 @@
 import React, { useReducer, createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import jwt_decode from 'jwt-decode'
 import initialState from '../reducers/initialState'
 import authReducer from '../reducers/authReducer'
 import actions from '../reducers/actions'
@@ -18,17 +19,20 @@ export const AuthContextProvider = (props) => {
       // Add the token to the API instance
       setAuthHeader(token)
 
+      // Decode the JWT for the basic user fields
+      const user = jwt_decode(token)
+
       authDispatch({
         type: actions.GET_USER__START,
       })
 
-      // Go get the user information from the token
-      APIv1.get('/user')
+      // Go get the full user information
+      APIv1.get(`/users/${user.id}`)
         .then((response) => {
           // Then save the user info to auth state
           authDispatch({
             type: actions.GET_USER__SUCCESS,
-            user: response.data.user,
+            user: response.data,
           })
         })
         .catch((error) => {
