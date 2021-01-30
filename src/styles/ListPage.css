@@ -13,6 +13,7 @@
 
 .ListPage pre {
   width: 30rem;
+  background-color: white;
   border: 1px solid black;
   padding: 1rem;
   min-height: 4rem;

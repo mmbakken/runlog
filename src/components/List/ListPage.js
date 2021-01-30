@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { APIv1 } from '../../api'
 
+import StravaImport from './StravaImport'
+
 import '../../styles/ListPage.css'
 
 const ListPage = () => {
@@ -50,14 +52,18 @@ const ListPage = () => {
       </section>
 
       {hasStravaAccount && (
-        <section>
-          <div>
-            <h3>Recent Strava Runs</h3>
-            <pre>{stravaRuns && JSON.stringify(stravaRuns, null, 2)}</pre>
-          </div>
+        <>
+          <section>
+            <div>
+              <h3>Recent Strava Runs</h3>
+              <pre>{stravaRuns && JSON.stringify(stravaRuns, null, 2)}</pre>
+            </div>
 
-          <button onClick={getRecentStravaRuns}>Get Strava Runs</button>
-        </section>
+            <button onClick={getRecentStravaRuns}>Get Strava Runs</button>
+          </section>
+
+          <StravaImport />
+        </>
       )}
     </div>
   )
