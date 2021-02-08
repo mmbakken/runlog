@@ -38,7 +38,7 @@ const AccountPage = () => {
     const scopes = encodeURIComponent('read,read_all,activity:read_all')
 
     window.location.replace(
-      `http://www.strava.com/oauth/authorize?client_id=${stravaClientId}&response_type=code&redirect_uri=${stravaRedirectURI}&approval_prompt=force&scope=${scopes}&state=${auth.user.id}`
+      `https://www.strava.com/oauth/authorize?client_id=${stravaClientId}&response_type=code&redirect_uri=${stravaRedirectURI}&approval_prompt=force&scope=${scopes}&state=${auth.user.id}`
     )
   }
 
