@@ -38,14 +38,16 @@ const ListPage = () => {
   return (
     <div className='ListPage'>
       <header>
-        <h1>List Page</h1>
+        <h1 className='font-heading text-4xl'>runlog</h1>
         <p>This page will be for showing a list view of the runs</p>
       </header>
 
       <section>
         <div>
           <h3>Runlog.dev runs</h3>
-          <pre>{runs && JSON.stringify(runs, null, 2)}</pre>
+          <pre className='font-mono'>
+            {runs && JSON.stringify(runs, null, 2)}
+          </pre>
         </div>
 
         <button onClick={getRuns}>Get Runs</button>
@@ -56,7 +58,9 @@ const ListPage = () => {
           <section>
             <div>
               <h3>Recent Strava Runs</h3>
-              <pre>{stravaRuns && JSON.stringify(stravaRuns, null, 2)}</pre>
+              <pre className='font-mono'>
+                {stravaRuns && JSON.stringify(stravaRuns, null, 2)}
+              </pre>
             </div>
 
             <button onClick={getRecentStravaRuns}>Get Strava Runs</button>

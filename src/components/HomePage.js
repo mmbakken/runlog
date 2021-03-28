@@ -28,7 +28,7 @@ const HomePage = () => {
 
       <div>
         <h3>Auth state</h3>
-        <pre>{JSON.stringify(auth, null, 2)}</pre>
+        <pre className='font-mono'>{JSON.stringify(auth, null, 2)}</pre>
       </div>
     </div>
   )

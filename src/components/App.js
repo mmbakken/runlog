@@ -22,7 +22,7 @@ import '../styles/button.css'
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App font-sans'>
       <Router>
         <Navbar />
 

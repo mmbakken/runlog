@@ -53,7 +53,7 @@ const AccountPage = () => {
       </header>
 
       <div>
-        <pre>{JSON.stringify(auth.user, null, 2)}</pre>
+        <pre className='font-mono'>{JSON.stringify(auth.user, null, 2)}</pre>
       </div>
 
       {!hasFitbitAccount && (
