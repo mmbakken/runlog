@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
-import '../../styles/AccountPage.css'
-
 const AccountPage = () => {
   const auth = useContext(AuthContext)[0]
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
@@ -43,9 +41,9 @@ const AccountPage = () => {
   }
 
   return (
-    <div className='AccountPage'>
+    <div className='AccountPage px-4 space-y-2'>
       <header>
-        <h1>Account Settings</h1>
+        <h1 className='text-xl'>Account Settings</h1>
         <p>
           Manage your user account settings and your Fitbit and Strava
           authorization.
@@ -53,12 +51,17 @@ const AccountPage = () => {
       </header>
 
       <div>
-        <pre className='font-mono'>{JSON.stringify(auth.user, null, 2)}</pre>
+        <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+          {JSON.stringify(auth.user, null, 2)}
+        </pre>
       </div>
 
       {!hasFitbitAccount && (
         <div>
-          <button onClick={redirectToFitbitAuthPage}>
+          <button
+            className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+            onClick={redirectToFitbitAuthPage}
+          >
             Link Fitbit Account
           </button>
         </div>
@@ -66,7 +69,10 @@ const AccountPage = () => {
 
       {!hasStravaAccount && (
         <div>
-          <button onClick={redirectToStravaAuthPage}>
+          <button
+            className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+            onClick={redirectToStravaAuthPage}
+          >
             Link Strava Account
           </button>
         </div>

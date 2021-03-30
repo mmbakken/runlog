@@ -4,8 +4,6 @@ import { APIv1 } from '../../api'
 
 import StravaImport from './StravaImport'
 
-import '../../styles/ListPage.css'
-
 const ListPage = () => {
   const [runs, setRuns] = useState()
   const [stravaRuns, setStravaRuns] = useState()
@@ -36,34 +34,45 @@ const ListPage = () => {
   }
 
   return (
-    <div className='ListPage'>
-      <header>
-        <h1 className='font-heading text-4xl'>runlog</h1>
-        <p>This page will be for showing a list view of the runs</p>
-      </header>
-
-      <section>
+    <div className='ListPage px-4 space-y-4'>
+      <section className='space-y-2'>
         <div>
-          <h3>Runlog.dev runs</h3>
-          <pre className='font-mono'>
-            {runs && JSON.stringify(runs, null, 2)}
-          </pre>
+          <h2 className='text-lg'>Runlog.dev runs</h2>
+
+          {runs && runs.length > 0 && (
+            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+              {runs && JSON.stringify(runs, null, 2)}
+            </pre>
+          )}
         </div>
 
-        <button onClick={getRuns}>Get Runs</button>
+        <button
+          className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+          onClick={getRuns}
+        >
+          Get Runs
+        </button>
       </section>
 
       {hasStravaAccount && (
         <>
-          <section>
+          <section className='space-y-2'>
             <div>
-              <h3>Recent Strava Runs</h3>
-              <pre className='font-mono'>
-                {stravaRuns && JSON.stringify(stravaRuns, null, 2)}
-              </pre>
+              <h2 className='text-lg'>Recent Strava Runs</h2>
+
+              {stravaRuns && stravaRuns.length > 0 && (
+                <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+                  {stravaRuns && JSON.stringify(stravaRuns, null, 2)}
+                </pre>
+              )}
             </div>
 
-            <button onClick={getRecentStravaRuns}>Get Strava Runs</button>
+            <button
+              className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+              onClick={getRecentStravaRuns}
+            >
+              Get Strava Runs
+            </button>
           </section>
 
           <StravaImport />

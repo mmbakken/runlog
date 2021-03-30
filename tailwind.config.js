@@ -14,7 +14,12 @@ module.exports = {
         'monospace',
       ],
     },
-    extend: {},
+    extend: {
+      spacing: {
+        // 1rem === 4 units
+        120: '30rem',
+      },
+    },
   },
   variants: {
     extend: {},

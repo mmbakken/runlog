@@ -17,12 +17,9 @@ import {
   AccountRoute,
 } from '../constants/routes'
 
-import '../styles/App.css'
-import '../styles/button.css'
-
 const App = () => {
   return (
-    <div className='App font-sans'>
+    <div className='App font-sans text-gray-900 h-full w-full'>
       <Router>
         <Navbar />
 

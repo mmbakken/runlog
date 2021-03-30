@@ -1,35 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { APIv1 } from '../api'
-import '../styles/HomePage.css'
+import React from 'react'
 
 const HomePage = () => {
-  const [message, setMessage] = useState()
-  const auth = useContext(AuthContext)[0]
-
-  // Test API call to make when app is mounted
-  useEffect(() => {
-    APIv1.get('/hello')
-      .then((response) => {
-        setMessage(response.data)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [])
-
   return (
-    <div className='HomePage'>
+    <div className='HomePage px-4'>
       <header>
-        <h1>Runlog</h1>
-        <p>Better logging and planning for Fitbit runners</p>
-        <p>From the API: {message}</p>
+        <h1>
+          Better planning and logging tools for runners. No spreadsheets
+          allowed.
+        </h1>
+        <p className='font-mono'>
+          [pardon our dust, currently under construction]
+        </p>
       </header>
-
-      <div>
-        <h3>Auth state</h3>
-        <pre className='font-mono'>{JSON.stringify(auth, null, 2)}</pre>
-      </div>
     </div>
   )
 }

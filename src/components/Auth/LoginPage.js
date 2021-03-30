@@ -5,8 +5,6 @@ import { AuthContext } from '../../context/AuthContext'
 import { APIv1, setAuthHeader } from '../../api'
 import { HomeRoute } from '../../constants/routes'
 
-import '../../styles/LoginPage.css'
-
 const LoginPage = () => {
   const authDispatch = useContext(AuthContext)[1]
   const history = useHistory()
@@ -52,8 +50,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className='LoginPage'>
-      <h3>Log In</h3>
+    <div className='LoginPage px-4'>
+      <h2 className='text-lg'>Log In</h2>
 
       <div
         style={{
@@ -97,7 +95,12 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <button onClick={login}>Log In</button>
+      <button
+        className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+        onClick={login}
+      >
+        Log In
+      </button>
     </div>
   )
 }

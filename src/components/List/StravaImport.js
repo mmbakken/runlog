@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { APIv1 } from '../../api'
 
-//import '../../styles/ListPage.css'
-
 const StravaImport = () => {
   const auth = useContext(AuthContext)[0]
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
@@ -28,16 +26,21 @@ const StravaImport = () => {
   }
 
   return (
-    <section className='StravaImport'>
+    <section className='StravaImport space-y-2'>
       <header>
-        <h3>Runlog.dev runs</h3>
+        <h2 className='text-lg'>Runlog.dev runs</h2>
         <p>
           Begin the process of loading of ALL Strava run activities into Runlog.
           This is an asynchronous action and may require a long time to finish.
         </p>
       </header>
 
-      <button onClick={beginStravaBulkImport}>Begin Strava Import</button>
+      <button
+        className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+        onClick={beginStravaBulkImport}
+      >
+        Begin Strava Import
+      </button>
     </section>
   )
 }
