@@ -41,7 +41,7 @@ const AccountPage = () => {
   }
 
   return (
-    <div className='AccountPage px-4 space-y-2'>
+    <div className='AccountPage px-4 pb-4 space-y-2'>
       <header>
         <h1 className='text-xl'>Account Settings</h1>
         <p>

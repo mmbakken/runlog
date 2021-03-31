@@ -19,6 +19,10 @@ module.exports = {
         // 1rem === 4 units
         120: '30rem',
       },
+      gridTemplateColumns: {
+        14: 'repeat(14, minmax(0, 1fr))',
+        'list-page': 'repeat(14, auto)',
+      },
       colors: {
         eggplant: {
           700: '#7A2A46',

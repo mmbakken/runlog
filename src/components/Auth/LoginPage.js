@@ -50,11 +50,11 @@ const LoginPage = () => {
   }
 
   return (
-    <div className='LoginPage w-full px-4'>
+    <div className='LoginPage w-full px-4 pb-4'>
       <h1 className='text-xl mb-4'>Log In</h1>
 
       <div className='w-full space-y-2'>
-        <div className='flex flex-col w-full md:w-1/2 lg:w-1/4 space-y-1'>
+        <div className='flex flex-col w-full md:w-1/3 lg:w-1/4 space-y-1'>
           <label name='email'>Email</label>
           <input
             className='px-4 py-2 border rounded border-gray-900'
@@ -65,7 +65,7 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className='flex flex-col w-full md:w-1/2 lg:w-1/4 space-y-1'>
+        <div className='flex flex-col w-full md:w-1/3 lg:w-1/4 space-y-1'>
           <label name='password'>Password</label>
           <input
             className='px-4 py-2 border rounded border-gray-900'
