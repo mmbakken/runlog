@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div className='HomePage px-4'>
+    <div className='HomePage px-4 pb-4'>
       <header>
         <h1>
           Better planning and logging tools for runners. No spreadsheets

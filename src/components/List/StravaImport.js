@@ -36,7 +36,7 @@ const StravaImport = () => {
       </header>
 
       <button
-        className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+        className='px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition'
         onClick={beginStravaBulkImport}
       >
         Begin Strava Import

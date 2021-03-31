@@ -50,43 +50,25 @@ const LoginPage = () => {
   }
 
   return (
-    <div className='LoginPage px-4'>
-      <h2 className='text-lg'>Log In</h2>
+    <div className='LoginPage w-full px-4'>
+      <h1 className='text-xl mb-4'>Log In</h1>
 
-      <div
-        style={{
-          width: '30rem',
-          marginBottom: '1rem',
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            marginBottom: '0.5rem',
-          }}
-        >
-          <label
-            style={{ display: 'block', marginBottom: '0.25rem' }}
+      <div className='w-full space-y-2'>
+        <div className='flex flex-col w-full md:w-1/2 lg:w-1/4 space-y-1'>
+          <label name='email'>Email</label>
+          <input
+            className='px-4 py-2 border rounded border-gray-900'
+            id='userEmail'
             name='email'
-          >
-            Email
-          </label>
-          <input id='userEmail' name='email' type='text' placeholder='Email' />
+            type='text'
+            placeholder='Email'
+          />
         </div>
 
-        <div
-          style={{
-            width: '100%',
-            marginBottom: '0.5rem',
-          }}
-        >
-          <label
-            style={{ display: 'block', marginBottom: '0.25rem' }}
-            name='password'
-          >
-            Password
-          </label>
+        <div className='flex flex-col w-full md:w-1/2 lg:w-1/4 space-y-1'>
+          <label name='password'>Password</label>
           <input
+            className='px-4 py-2 border rounded border-gray-900'
             id='userPassword'
             name='password'
             type='password'
@@ -96,7 +78,7 @@ const LoginPage = () => {
       </div>
 
       <button
-        className='px-4 py-2 border text-white border-gray-900 rounded bg-red-700 hover:bg-red-600 transition'
+        className='mt-4 px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition'
         onClick={login}
       >
         Log In

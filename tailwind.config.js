@@ -19,6 +19,13 @@ module.exports = {
         // 1rem === 4 units
         120: '30rem',
       },
+      colors: {
+        eggplant: {
+          700: '#7A2A46',
+          600: '#983457',
+        },
+        offwhite: '#F6EEE9',
+      },
     },
   },
   variants: {
