@@ -64,7 +64,7 @@ const ListPage = () => {
   }
 
   return (
-    <div className='ListPage w-full bg-offwhite bg-opacity-60 px-4 pb-4 space-y-4'>
+    <div className='ListPage w-full px-4 pb-4 space-y-4'>
       {runs && runs.length > 0 && (
         <section className='grid grid-cols-list-page'>
           <div className='contents'>
