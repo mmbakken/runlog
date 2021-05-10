@@ -81,7 +81,6 @@ const ListPage = () => {
             <div>Ice</div>
             <div>Stretch</div>
             <div>Lift</div>
-            <div>Link</div>
           </div>
 
           {runs
@@ -92,9 +91,17 @@ const ListPage = () => {
               return (
                 <div key={index} className='contents'>
                   <div>
-                    {DateTime.fromISO(run.startDate).toLocaleString(
-                      DateTime.DATE_FULL
-                    )}
+                    <a
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
+                        12
+                      )}`}
+                    >
+                      {DateTime.fromISO(run.startDate).toLocaleString(
+                        DateTime.DATE_FULL
+                      )}
+                    </a>
                   </div>
                   <div>
                     {Number(run.distance / METERS_PER_MILE)
@@ -109,22 +116,11 @@ const ListPage = () => {
                   <div>{formatPace(run.averageSpeed)}</div>
                   <div>{run.averageHeartRate}</div>
                   <div>{run.maxHeartRate}</div>
-                  <div>-</div>
-                  <div>-</div>
-                  <div>-</div>
-                  <div>-</div>
-                  <div>-</div>
-                  <div>
-                    <a
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-                        12
-                      )}`}
-                    >
-                      Details
-                    </a>
-                  </div>
+                  <div>{run.results}</div>
+                  <div>{run.shoes}</div>
+                  <div>{run.ice ? 'Y' : '-'}</div>
+                  <div>{run.stretch ? 'Y' : '-'}</div>
+                  <div>{run.strength != null ? 'Y' : '-'}</div>
                 </div>
               )
             })}

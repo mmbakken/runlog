@@ -21,7 +21,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         14: 'repeat(14, minmax(0, 1fr))',
-        'list-page': 'repeat(14, auto)',
+        'list-page': 'repeat(13, auto)',
       },
       colors: {
         eggplant: {

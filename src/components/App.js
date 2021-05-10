@@ -19,7 +19,7 @@ import {
 
 const App = () => {
   return (
-    <div className='App font-sans text-gray-900 h-full w-full'>
+    <div className='font-sans text-gray-900 h-full w-full'>
       <Router>
         <Navbar />
 
