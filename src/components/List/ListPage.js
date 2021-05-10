@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { DateTime, Duration } from 'luxon'
 import { AuthContext } from '../../context/AuthContext'
 import { APIv1 } from '../../api'
 
-import {
-  SECONDS_PER_MINUTE,
-  MILLISECONDS_PER_SECOND,
-  METERS_PER_MILE,
-  METERS_PER_SECOND_TO_MINUTES_PER_MILE,
-} from '../../constants/unitConversion.js'
-
 // Components
 import StravaImport from './StravaImport'
+import RunTableHeaders from './RunTableHeaders'
+import RunTableRows from './RunTableRows'
 
 const ListPage = () => {
   const [runs, setRuns] = useState()
@@ -47,85 +41,12 @@ const ListPage = () => {
       })
   }
 
-  // Convert meters per second into minutes per mile, as a string to display to humans.
-  const formatPace = (speed) => {
-    // Solve for x, given speed:
-    //
-    // 26.8224 min/mi       x min/mi             26.8224 min/mi
-    // --------------- === ----------- => x === ----------------
-    //     1 m/s            speed m/s                 speed
-
-    const minutesPerMile = METERS_PER_SECOND_TO_MINUTES_PER_MILE / speed
-    return (
-      Duration.fromMillis(
-        minutesPerMile * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND
-      ).toFormat('m:ss') + '/mi'
-    )
-  }
-
   return (
     <div className='ListPage w-full px-4 pb-4 space-y-4'>
-      {runs && runs.length > 0 && (
-        <section className='grid grid-cols-list-page'>
-          <div className='contents'>
-            <div>Date</div>
-            <div>Miles</div>
-            <div>Weekly</div>
-            <div>7 Day</div>
-            <div>Time</div>
-            <div>Pace</div>
-            <div>Avg HR</div>
-            <div>Max HR</div>
-            <div>Results</div>
-            <div>Shoes</div>
-            <div>Ice</div>
-            <div>Stretch</div>
-            <div>Lift</div>
-          </div>
-
-          {runs
-            .sort((a, b) => {
-              return a.startDate < b.startDate ? 1 : -1
-            })
-            .map((run, index) => {
-              return (
-                <div key={index} className='contents'>
-                  <div>
-                    <a
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-                        12
-                      )}`}
-                    >
-                      {DateTime.fromISO(run.startDate).toLocaleString(
-                        DateTime.DATE_FULL
-                      )}
-                    </a>
-                  </div>
-                  <div>
-                    {Number(run.distance / METERS_PER_MILE)
-                      .toFixed(2)
-                      .toLocaleString()}
-                  </div>
-                  <div>todo</div>
-                  <div>todo</div>
-                  <div>
-                    {Duration.fromMillis(run.time * 1000).toFormat('h:mm:ss')}
-                  </div>
-                  <div>{formatPace(run.averageSpeed)}</div>
-                  <div>{run.averageHeartRate}</div>
-                  <div>{run.maxHeartRate}</div>
-                  <div>{run.results}</div>
-                  <div>{run.shoes}</div>
-                  <div>{run.ice ? 'Y' : '-'}</div>
-                  <div>{run.stretch ? 'Y' : '-'}</div>
-                  <div>{run.strength != null ? 'Y' : '-'}</div>
-                </div>
-              )
-            })}
-        </section>
-      )}
+      <section className='grid grid-cols-list-page'>
+        <RunTableHeaders />
+        <RunTableRows runs={runs} />
+      </section>
 
       {hasStravaAccount && (
         <>

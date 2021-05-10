@@ -20,7 +20,7 @@ module.exports = {
         120: '30rem',
       },
       gridTemplateColumns: {
-        14: 'repeat(14, minmax(0, 1fr))',
+        13: 'repeat(13, minmax(0, 1fr))',
         'list-page': 'repeat(13, auto)',
       },
       colors: {
@@ -33,7 +33,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      padding: ['first'],
+    },
   },
   plugins: [],
 }
