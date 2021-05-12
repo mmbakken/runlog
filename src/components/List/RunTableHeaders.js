@@ -3,7 +3,7 @@ import React from 'react'
 // Simple component for displaying table headers
 const RunTableHeaders = () => {
   // Tailwind classes
-  const tableHeaderClasses = 'px-1 pb-1 first:px-0 text-lg'
+  const tableHeaderClasses = 'px-1 pb-1 first:px-0'
 
   return (
     <div className='contents'>
@@ -15,11 +15,11 @@ const RunTableHeaders = () => {
       <div className={tableHeaderClasses}>Pace</div>
       <div className={tableHeaderClasses}>Avg HR</div>
       <div className={tableHeaderClasses}>Max HR</div>
-      <div className={tableHeaderClasses}>Results</div>
       <div className={tableHeaderClasses}>Shoes</div>
-      <div className={tableHeaderClasses}>Ice</div>
+      <div className={tableHeaderClasses}>Results</div>
+      <div className={tableHeaderClasses}>Strength</div>
       <div className={tableHeaderClasses}>Stretch</div>
-      <div className={tableHeaderClasses}>Lift</div>
+      <div className={tableHeaderClasses}>Ice</div>
     </div>
   )
 }

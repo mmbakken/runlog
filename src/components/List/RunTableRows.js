@@ -1,6 +1,8 @@
 import React from 'react'
 import { DateTime, Duration } from 'luxon'
 
+import Checkbox from './Checkbox.js'
+
 // Contants
 import {
   SECONDS_PER_MINUTE,
@@ -11,6 +13,10 @@ import {
 
 // Given an array of run activities, displays the table content as expected for the ListPage
 const RunTableRows = (props) => {
+  if (props.runs == null || props.runs.length === 0) {
+    return null
+  }
+
   // Convert meters per second into minutes per mile, as a string to display to humans.
   const formatPace = (speed) => {
     // Solve for x, given speed:
@@ -29,12 +35,6 @@ const RunTableRows = (props) => {
 
   // Tailwind classes
   const tableCellClasses = 'px-1 py-1 first:px-0 flex items-center'
-
-  if (props.runs == null || props.runs.length === 0) {
-    return null
-  } else {
-    console.dir(props.runs)
-  }
 
   return props.runs
     .sort((a, b) => {
@@ -71,12 +71,29 @@ const RunTableRows = (props) => {
             {Math.round(run.averageHeartRate)}
           </div>
           <div className={tableCellClasses}>{run.maxHeartRate}</div>
-          <div className={tableCellClasses}>{run.results}</div>
+
+          {/* User-editable fields */}
           <div className={tableCellClasses}>{run.shoes}</div>
-          <div className={tableCellClasses}>{run.ice ? 'Y' : '-'}</div>
-          <div className={tableCellClasses}>{run.stretch ? 'Y' : '-'}</div>
+
+          <div className={tableCellClasses}>{run.results}</div>
+          <div className={tableCellClasses}>{run.strength}</div>
+
+          <div className={`${tableCellClasses} flex justify-center`}>
+            <Checkbox
+              checked={run.stretch}
+              onChange={() => {
+                console.log('Toggled stretch checkbox')
+              }}
+            />
+          </div>
+
           <div className={tableCellClasses}>
-            {run.strength != null ? 'Y' : '-'}
+            <Checkbox
+              checked={run.ice}
+              onChange={() => {
+                console.log('Toggled ice checkbox')
+              }}
+            />
           </div>
         </div>
       )
