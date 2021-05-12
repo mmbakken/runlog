@@ -15,11 +15,13 @@ const RunTableHeaders = () => {
       <div className={tableHeaderClasses}>Pace</div>
       <div className={tableHeaderClasses}>Avg HR</div>
       <div className={tableHeaderClasses}>Max HR</div>
-      <div className={tableHeaderClasses}>Shoes</div>
       <div className={tableHeaderClasses}>Results</div>
-      <div className={tableHeaderClasses}>Strength</div>
-      <div className={tableHeaderClasses}>Stretch</div>
-      <div className={tableHeaderClasses}>Ice</div>
+      <div className={`${tableHeaderClasses} justify-self-center`}>Shoes</div>
+      <div className={`${tableHeaderClasses} justify-self-center`}>
+        Strength
+      </div>
+      <div className={`${tableHeaderClasses} justify-self-center`}>Stretch</div>
+      <div className={`${tableHeaderClasses} justify-self-center`}>Ice</div>
     </div>
   )
 }

@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { DateTime, Duration } from 'luxon'
 
 import Checkbox from './Checkbox.js'
+import RunResultsCell from './RunResultsCell.js'
 
 // Contants
 import {
@@ -12,8 +14,8 @@ import {
 } from '../../constants/unitConversion.js'
 
 // Given an array of run activities, displays the table content as expected for the ListPage
-const RunTableRows = (props) => {
-  if (props.runs == null || props.runs.length === 0) {
+const RunTableRows = ({ runs, showDialog }) => {
+  if (runs == null || runs.length === 0) {
     return null
   }
 
@@ -36,7 +38,7 @@ const RunTableRows = (props) => {
   // Tailwind classes
   const tableCellClasses = 'px-1 py-1 first:px-0 flex items-center'
 
-  return props.runs
+  return runs
     .sort((a, b) => {
       return a.startDate < b.startDate ? 1 : -1
     })
@@ -73,9 +75,13 @@ const RunTableRows = (props) => {
           <div className={tableCellClasses}>{run.maxHeartRate}</div>
 
           {/* User-editable fields */}
+
+          <div className={tableCellClasses}>
+            <RunResultsCell results={run.results} showDialog={showDialog} />
+          </div>
+
           <div className={tableCellClasses}>{run.shoes}</div>
 
-          <div className={tableCellClasses}>{run.results}</div>
           <div className={tableCellClasses}>{run.strength}</div>
 
           <div className={`${tableCellClasses} flex justify-center`}>
@@ -87,7 +93,7 @@ const RunTableRows = (props) => {
             />
           </div>
 
-          <div className={tableCellClasses}>
+          <div className={`${tableCellClasses} flex justify-center`}>
             <Checkbox
               checked={run.ice}
               onChange={() => {
@@ -98,6 +104,10 @@ const RunTableRows = (props) => {
         </div>
       )
     })
+}
+
+RunTableRows.propTypes = {
+  showDialog: PropTypes.func.isRequired,
 }
 
 export default RunTableRows
