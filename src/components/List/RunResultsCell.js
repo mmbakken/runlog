@@ -1,36 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+
+import { RunPageRoute } from '../../constants/routes'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 // Simple component for displaying table headers
-const RunResultsCell = ({ results, showDialog }) => {
-  const [showPrompt, setShowPrompt] = useState()
-
-  const handleMouseEnter = (e) => {
-    e.preventDefault()
-    console.log('enter')
-    setShowPrompt(true)
+const RunResultsCell = ({ runId, isHovering, showDialog }) => {
+  if (isHovering) {
+    return (
+      <div
+        className='flex items-center hover:underline cursor-pointer'
+        onClick={showDialog}
+      >
+        <Link to={RunPageRoute.split(':')[0].concat(runId)}>
+          <FontAwesomeIcon className='mr-1 text-sm' icon={faEdit} />
+          Edit
+        </Link>
+      </div>
+    )
+  } else {
+    return <div></div>
   }
-
-  return (
-    <div
-      className='w-24 h-12 cursor-pointer'
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => {
-        setShowPrompt(false)
-      }}
-      onClick={showDialog}
-    >
-      {results && (
-        <span className='overflow-ellipsis overflow-hidden'>{results}</span>
-      )}
-
-      {!results && (
-        <span className=''>
-          {showPrompt && <span>How&#39;d it go today?</span>}
-        </span>
-      )}
-    </div>
-  )
 }
 
 RunResultsCell.propTypes = {

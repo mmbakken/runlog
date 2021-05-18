@@ -49,7 +49,7 @@ const Navbar = () => {
         </li>
 
         <li className={'hover:underline ' + listClasses}>
-          <Link to={ListRoute}>List</Link>
+          <Link to={ListRoute}>Runs</Link>
         </li>
 
         {!auth.isLoggedIn && (

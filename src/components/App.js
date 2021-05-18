@@ -7,12 +7,14 @@ import StravaTokenHandler from './Auth/StravaTokenHandler'
 import HomePage from './HomePage'
 import CalendarPage from './Calendar/CalendarPage'
 import ListPage from './List/ListPage'
+import RunPage from './List/RunPage'
 import AccountPage from './User/AccountPage'
 
 import {
   HomeRoute,
   CalendarRoute,
   ListRoute,
+  RunPageRoute,
   LoginRoute,
   AccountRoute,
 } from '../constants/routes'
@@ -36,8 +38,12 @@ const App = () => {
             <CalendarPage />
           </PrivateRoute>
 
-          <PrivateRoute path={ListRoute}>
+          <PrivateRoute exact path={ListRoute}>
             <ListPage />
+          </PrivateRoute>
+
+          <PrivateRoute path={RunPageRoute}>
+            <RunPage />
           </PrivateRoute>
 
           <PrivateRoute path={AccountRoute}>
