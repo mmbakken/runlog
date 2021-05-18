@@ -6,7 +6,7 @@ const RunTableHeaders = () => {
   const tableHeaderClasses = 'px-1 pb-1 first:px-0'
 
   return (
-    <div className='contents'>
+    <div className='RunTableHeaders contents'>
       <div className={tableHeaderClasses}>Date</div>
       <div className={tableHeaderClasses}>Miles</div>
       <div className={tableHeaderClasses}>Weekly</div>

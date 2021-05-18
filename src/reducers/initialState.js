@@ -1,8 +1,7 @@
 export default {
-  auth: {
-    user: null,
-    isLoggedIn: false,
-    isLoggingIn: false,
-    checkingJWT: true,
+  runs: {
+    byId: {},
+    isFetching: false,
+    error: null,
   },
 }

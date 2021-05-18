@@ -14,9 +14,13 @@ import {
 } from '../../constants/unitConversion.js'
 
 // Given an array of run activities, displays the table content as expected for the ListPage
-const RunTableRows = ({ runs, showDialog }) => {
-  if (runs == null || runs.length === 0) {
+const RunTableRows = ({ runs, isLoading }) => {
+  if (runs == null || Object.keys(runs).length === 0) {
     return null
+  }
+
+  if (isLoading) {
+    return <div className='w-full'>Loading...</div>
   }
 
   // Pass row hover state to child cells
@@ -51,65 +55,60 @@ const RunTableRows = ({ runs, showDialog }) => {
   // Tailwind classes
   const tableCellClasses = 'px-1 py-1 first:px-0 flex items-center'
 
-  return runs
-    .sort((a, b) => {
-      return a.startDate < b.startDate ? 1 : -1
-    })
-    .map((run, rowIndex) => {
-      return (
-        <div
-          key={rowIndex}
-          className='table-row contents'
-          onMouseEnter={(e) => {
-            handleMouseEnter(e, rowIndex)
-          }}
-          onMouseLeave={(e) => {
-            handleMouseLeave(e, rowIndex)
-          }}
-        >
-          <div className={`${tableCellClasses} hover:underline`}>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-                12
-              )}`}
-            >
-              {DateTime.fromISO(run.startDate).toLocaleString(
-                DateTime.DATE_FULL
-              )}
-            </a>
-          </div>
-          <div className={tableCellClasses}>
-            {Number(run.distance / METERS_PER_MILE)
-              .toFixed(2)
-              .toLocaleString()}
-          </div>
-          <div className={tableCellClasses}>todo</div>
-          <div className={tableCellClasses}>todo</div>
-          <div className={tableCellClasses}>
-            {Duration.fromMillis(run.time * 1000).toFormat('h:mm:ss')}
-          </div>
-          <div className={tableCellClasses}>{formatPace(run.averageSpeed)}</div>
-          <div className={tableCellClasses}>
-            {Math.round(run.averageHeartRate)}
-          </div>
-          <div className={tableCellClasses}>{run.maxHeartRate}</div>
+  const sortedRuns = Object.values(runs).sort((a, b) => {
+    return a.startDate < b.startDate ? 1 : -1
+  })
 
-          <div className={tableCellClasses}>
-            <RunResultsCell
-              runId={run._id}
-              isHovering={hoverRow === rowIndex}
-              showDialog={showDialog}
-            />
-          </div>
+  return sortedRuns.map((run, rowIndex) => {
+    return (
+      <div
+        key={rowIndex}
+        className='RunTableRows table-row contents'
+        onMouseEnter={(e) => {
+          handleMouseEnter(e, rowIndex)
+        }}
+        onMouseLeave={(e) => {
+          handleMouseLeave(e, rowIndex)
+        }}
+      >
+        <div className={`${tableCellClasses} hover:underline`}>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
+              12
+            )}`}
+          >
+            {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
+          </a>
         </div>
-      )
-    })
+        <div className={tableCellClasses}>
+          {Number(run.distance / METERS_PER_MILE)
+            .toFixed(2)
+            .toLocaleString()}
+        </div>
+        <div className={tableCellClasses}>todo</div>
+        <div className={tableCellClasses}>todo</div>
+        <div className={tableCellClasses}>
+          {Duration.fromMillis(run.time * 1000).toFormat('h:mm:ss')}
+        </div>
+        <div className={tableCellClasses}>{formatPace(run.averageSpeed)}</div>
+        <div className={tableCellClasses}>
+          {Math.round(run.averageHeartRate)}
+        </div>
+        <div className={tableCellClasses}>{run.maxHeartRate}</div>
+
+        <div className={tableCellClasses}>
+          <RunResultsCell runId={run._id} isHovering={hoverRow === rowIndex} />
+        </div>
+      </div>
+    )
+  })
 }
 
 RunTableRows.propTypes = {
-  showDialog: PropTypes.func.isRequired,
+  runs: PropTypes.object,
+  isLoading: PropTypes.bool,
 }
 
 export default RunTableRows

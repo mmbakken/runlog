@@ -1,7 +1,6 @@
 import React, { useReducer, createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import jwt_decode from 'jwt-decode'
-import initialState from '../reducers/initialState'
 import authReducer from '../reducers/authReducer'
 import actions from '../reducers/actions'
 import { APIv1, setAuthHeader } from '../api'
@@ -9,7 +8,14 @@ import { APIv1, setAuthHeader } from '../api'
 export const AuthContext = createContext()
 
 export const AuthContextProvider = (props) => {
-  const [auth, authDispatch] = useReducer(authReducer, initialState.auth)
+  const initialState = {
+    user: null,
+    isLoggedIn: false,
+    isLoggingIn: false,
+    checkingJWT: true,
+  }
+
+  const [auth, authDispatch] = useReducer(authReducer, initialState)
 
   useEffect(() => {
     // Check for a JWT, and save it to the AuthContext if set

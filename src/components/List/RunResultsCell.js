@@ -8,13 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 // Simple component for displaying table headers
-const RunResultsCell = ({ runId, isHovering, showDialog }) => {
+const RunResultsCell = ({ runId, isHovering }) => {
   if (isHovering) {
     return (
-      <div
-        className='flex items-center hover:underline cursor-pointer'
-        onClick={showDialog}
-      >
+      <div className='flex items-center hover:underline cursor-pointer'>
         <Link to={RunPageRoute.split(':')[0].concat(runId)}>
           <FontAwesomeIcon className='mr-1 text-sm' icon={faEdit} />
           Edit
@@ -28,7 +25,7 @@ const RunResultsCell = ({ runId, isHovering, showDialog }) => {
 
 RunResultsCell.propTypes = {
   results: PropTypes.string,
-  showDialog: PropTypes.func.isRequired,
+  isHovering: PropTypes.bool,
 }
 
 export default RunResultsCell

@@ -68,7 +68,7 @@ const authReducer = (state, action) => {
     }
 
     default: {
-      throw new Error(`No action of type: "${action.type}"`)
+      throw new Error(`No auth action of type: "${action.type}"`)
     }
   }
 }
