@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import { DateTime } from 'luxon'
 
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
@@ -30,17 +31,67 @@ const RunPage = () => {
       })
   }, [params.runId])
 
+  const run = state.runs.byId[params.runId]
+
+  if (run == null) {
+    return <div className='RunPage w-full'></div>
+  }
+
+  // Given a timezone string from Strava e.g. "(GMT-06:00) America/Chicago", returns a string that
+  // that is Luxon-compatible e.g. "America/Chicago".
+  // See: https://moment.github.io/luxon/docs/manual/zones.html#creating-datetimes-in-a-zone
+  // Also: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  const stravaTimezoneToTZ = (stravaTimezoneString) => {
+    return stravaTimezoneString.split(' ')[1]
+  }
+
+  // Given a run, returns a title string to use, based on the time of day
+  const generateTitle = (runStartTime, timezone) => {
+    const dt = DateTime.fromISO(runStartTime, { zone: timezone })
+
+    // Thresholds
+    const startOfMorning = dt.set({ hour: 4, minute: 0, second: 0 })
+    const startOfAfternoon = dt.set({ hour: 12, minute: 0, second: 0 })
+    const startOfEvening = dt.set({ hour: 17, minute: 0, second: 0 })
+    const startOfLateNight = dt.set({ hour: 22, minute: 0, second: 0 })
+
+    if (dt < startOfMorning || dt >= startOfLateNight) {
+      return 'Late Night Run'
+    } else if (dt < startOfAfternoon) {
+      return 'Morning Run'
+    } else if (dt < startOfEvening) {
+      return 'Afternoon Run'
+    } else {
+      return 'Evening Run'
+    }
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
-      <h1 className='text-lg'>RunPage</h1>
+      <header>
+        <h1 className='text-lg'>
+          {generateTitle(run.startDate, stravaTimezoneToTZ(run.timezone))}
+        </h1>
+        <h2 className='text-sm text-gray-500'>
+          {DateTime.fromISO(run.startDate, {
+            zone: stravaTimezoneToTZ(run.timezone),
+          }).toLocaleString(DateTime.DATETIME_FULL)}
+        </h2>
+      </header>
 
       {state.runs.isFetching && <p>Loading...</p>}
 
       {!state.runs.isFetching && (
         <div>
-          <pre className='w-48 font-mono'>
-            {JSON.stringify(state.runs.byId[params.runId], null, 2)}
-          </pre>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
+              12
+            )}`}
+          >
+            View on Garmin
+          </a>
         </div>
       )}
     </div>
