@@ -7,6 +7,11 @@ import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
+// Unit formatting helper functions
+import formatMileage from '../../formatters/formatMileage'
+import formatPace from '../../formatters/formatPace'
+import formatDuration from '../../formatters/formatDuration'
+
 const RunPage = () => {
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
@@ -90,10 +95,10 @@ const RunPage = () => {
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
-        <h1 className='text-lg'>
+        <h1 className='text-2xl'>
           {generateTitle(run.startDate, stravaTimezoneToTZ(run.timezone))}
         </h1>
-        <h2 className='text-sm text-gray-500'>
+        <h2 className='text-gray-500'>
           {generateSubheader(
             run.startDate,
             run.timezone,
@@ -106,17 +111,43 @@ const RunPage = () => {
       {state.runs.isFetching && <p>Loading...</p>}
 
       {!state.runs.isFetching && (
-        <div>
-          <a
-            target='_blank'
-            rel='noopener noreferrer'
-            href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-              12
-            )}`}
-          >
-            View on Garmin
-          </a>
-        </div>
+        <section className='flex flex-col items-start space-y-4'>
+          <div className='flex p-4 border border-gray-600 text-xl space-x-8'>
+            <div>
+              <div>{formatMileage(run.distance)}</div>
+              <div className='text-base text-gray-600'>miles</div>
+            </div>
+
+            <div>
+              <div>{formatDuration(run.time)}</div>
+              <div className='text-base text-gray-600'>time</div>
+            </div>
+
+            <div>
+              <div>{formatPace(run.averageSpeed)}</div>
+              <div className='text-base text-gray-600'>pace</div>
+            </div>
+
+            <div>
+              <div>
+                {Math.round(run.averageHeartRate)} / {run.maxHeartRate}
+              </div>
+              <div className='text-base text-gray-600'>heart rate</div>
+            </div>
+          </div>
+
+          <div>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
+                12
+              )}`}
+            >
+              View on Garmin
+            </a>
+          </div>
+        </section>
       )}
     </div>
   )
