@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { DateTime, Duration } from 'luxon'
+import { Link } from 'react-router-dom'
 
-//import Checkbox from './Checkbox.js'
-import RunResultsCell from './RunResultsCell.js'
+import { RunPageRoute } from '../../constants/routes'
 
 // Contants
 import {
@@ -21,19 +21,6 @@ const RunTableRows = ({ runs, isLoading }) => {
 
   if (isLoading) {
     return <div className='w-full'>Loading...</div>
-  }
-
-  // Pass row hover state to child cells
-  const [hoverRow, setHoverRow] = useState(null)
-
-  const handleMouseEnter = (e, rowIndex) => {
-    e.preventDefault()
-    setHoverRow(rowIndex)
-  }
-
-  const handleMouseLeave = (e) => {
-    e.preventDefault()
-    setHoverRow(null)
   }
 
   // Convert meters per second into minutes per mile, as a string to display to humans.
@@ -61,26 +48,11 @@ const RunTableRows = ({ runs, isLoading }) => {
 
   return sortedRuns.map((run, rowIndex) => {
     return (
-      <div
-        key={rowIndex}
-        className='RunTableRows table-row contents'
-        onMouseEnter={(e) => {
-          handleMouseEnter(e, rowIndex)
-        }}
-        onMouseLeave={(e) => {
-          handleMouseLeave(e, rowIndex)
-        }}
-      >
+      <div key={rowIndex} className='RunTableRows table-row contents'>
         <div className={`${tableCellClasses} hover:underline`}>
-          <a
-            target='_blank'
-            rel='noopener noreferrer'
-            href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-              12
-            )}`}
-          >
+          <Link to={RunPageRoute.split(':')[0].concat(run._id)}>
             {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
-          </a>
+          </Link>
         </div>
         <div className={tableCellClasses}>
           {Number(run.distance / METERS_PER_MILE)
@@ -97,10 +69,6 @@ const RunTableRows = ({ runs, isLoading }) => {
           {Math.round(run.averageHeartRate)}
         </div>
         <div className={tableCellClasses}>{run.maxHeartRate}</div>
-
-        <div className={tableCellClasses}>
-          <RunResultsCell runId={run._id} isHovering={hoverRow === rowIndex} />
-        </div>
       </div>
     )
   })

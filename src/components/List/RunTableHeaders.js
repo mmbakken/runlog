@@ -15,7 +15,6 @@ const RunTableHeaders = () => {
       <div className={tableHeaderClasses}>Pace</div>
       <div className={tableHeaderClasses}>Avg HR</div>
       <div className={tableHeaderClasses}>Max HR</div>
-      <div className={tableHeaderClasses}>Results</div>
     </div>
   )
 }
