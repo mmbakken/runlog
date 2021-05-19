@@ -47,15 +47,13 @@ const stateReducer = (state, action) => {
     case actions.GET_RUN__SUCCESS: {
       const newRuns = {}
 
-      // Copy the map of the current state's run objects, but make sure to use the new run data
-      // from the API response for the single run that was fetched.
+      // Copy the map of the current state's run objects.
       for (let runId of Object.keys(state.runs)) {
-        if (runId === action.id) {
-          newRuns[runId] = action.run
-        } else {
-          newRuns[runId] = state.runs[runId]
-        }
+        newRuns[runId] = action.run
       }
+
+      // Always overwrite this run object in the cloned map
+      newRuns[action.run._id] = action.run
 
       return {
         ...state,
