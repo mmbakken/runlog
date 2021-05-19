@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { DateTime } from 'luxon'
+import reverse from 'reverse-geocode'
 
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
@@ -66,6 +67,26 @@ const RunPage = () => {
     }
   }
 
+  // Given some run data, returns a string to use as the subheader for this page.
+  const generateSubheader = (runStartTime, timezone, lat, lng) => {
+    const dateTime = DateTime.fromISO(runStartTime, {
+      zone: stravaTimezoneToTZ(timezone),
+    }).toLocaleString(DateTime.DATETIME_FULL)
+
+    // NB: This only works for locations in the US. It's gonna give terrible data otherwise.
+    const location = reverse.lookup(lat, lng, 'us')
+
+    if (
+      location == null ||
+      location.city == null ||
+      location.state_abbr == null
+    ) {
+      return dateTime
+    }
+
+    return `${dateTime} in ${location.city}, ${location.state_abbr}`
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
@@ -73,9 +94,12 @@ const RunPage = () => {
           {generateTitle(run.startDate, stravaTimezoneToTZ(run.timezone))}
         </h1>
         <h2 className='text-sm text-gray-500'>
-          {DateTime.fromISO(run.startDate, {
-            zone: stravaTimezoneToTZ(run.timezone),
-          }).toLocaleString(DateTime.DATETIME_FULL)}
+          {generateSubheader(
+            run.startDate,
+            run.timezone,
+            run.startLatitude,
+            run.startLongitude
+          )}
         </h2>
       </header>
 
