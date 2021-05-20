@@ -82,6 +82,7 @@ const stateReducer = (state, action) => {
         ...state,
         runs: {
           ...state.runs,
+          isSendingEdit: true,
         },
       }
     }
@@ -103,6 +104,7 @@ const stateReducer = (state, action) => {
           ...state.runs,
           byId: newRuns,
           error: null,
+          isSendingEdit: false,
         },
       }
     }
@@ -113,6 +115,7 @@ const stateReducer = (state, action) => {
         runs: {
           ...state.runs,
           error: action.error,
+          isSendingEdit: false,
         },
       }
     }

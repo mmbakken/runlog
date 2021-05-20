@@ -22,11 +22,12 @@ const RunPage = () => {
   const run = state.runs.byId[params.runId]
   const [resultsText, setResultsText] = useState('')
   const [allowResultsEdits, setAllowResultsEdits] = useState(false)
+  const [allowCheckboxEdits, setAllowCheckboxEdits] = useState(false)
   const [resultsTimeoutRef, setResultsTimeoutRef] = useState(null)
   const [isChecked, setIsChecked] = useState({
-    stretch: false,
-    strength: false,
-    ice: false,
+    stretch: null,
+    strength: null,
+    ice: null,
   })
 
   // Calls the API endpoint to push changes to the database, and updates the state context if the
@@ -78,6 +79,16 @@ const RunPage = () => {
     if (resultsTimeoutRef == null) {
       setResultsText(run == null || run.results == null ? '' : run.results)
     }
+
+    // Wait for the run to load before sending any updates to API
+    if (run != null) {
+      setAllowCheckboxEdits(true)
+      setIsChecked({
+        stretch: run.stretch,
+        strength: run.strength,
+        ice: run.ice,
+      })
+    }
   }, [run])
 
   // If the results text changes in the text area, schedule an update to the API. Cancel any prior
@@ -99,6 +110,24 @@ const RunPage = () => {
       )
     }
   }, [resultsText])
+
+  // When the checkbox state is changed, trigger a
+  useEffect(() => {
+    console.log('isChecked effect')
+
+    if (isChecked != null && allowCheckboxEdits) {
+      console.log('able to edit checked fields')
+
+      // Just send the checked state of all fields in one API call, since they're trivial to update
+      updateRun({
+        updates: {
+          strength: isChecked.strength,
+          stretch: isChecked.stretch,
+          ice: isChecked.ice,
+        },
+      })
+    }
+  }, [isChecked.strength, isChecked.stretch, isChecked.ice])
 
   if (run == null) {
     return <div className='RunPage w-full'></div>
@@ -223,12 +252,12 @@ const RunPage = () => {
             </div>
           </div>
 
-          <div className='w-120'>
+          <div className='w-160'>
             <label className='w-full text-xl block'>
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-2 p-2 w-full h-32 max-h-32 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
+                className='text-base block mt-2 p-2 w-full min-h-32 max-h-64 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={focusHandler}
@@ -238,7 +267,7 @@ const RunPage = () => {
             </label>
           </div>
 
-          <div className='w-120 flex flex-row space-x-6 justify-between'>
+          <div className='flex flex-row space-x-8'>
             <label className='text-xl block flex flex-col items-center'>
               Stretched
               <Checkbox

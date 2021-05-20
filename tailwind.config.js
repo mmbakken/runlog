@@ -18,6 +18,7 @@ module.exports = {
       spacing: {
         // 1rem === 4 units
         120: '30rem',
+        160: '40rem',
       },
       gridTemplateColumns: {
         'list-page': 'repeat(8, auto)',
