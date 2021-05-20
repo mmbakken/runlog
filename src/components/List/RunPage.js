@@ -155,6 +155,14 @@ const RunPage = () => {
     setAllowResultsEdits(true)
   }
 
+  // When the user presses ESC, unfocus the results textarea
+  const keyDownHandler = (event) => {
+    if (event.key === 'Escape') {
+      document.activeElement.blur()
+      event.preventDefault()
+    }
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
@@ -203,10 +211,12 @@ const RunPage = () => {
             <label className='text-xl block'>
               Results
               <textarea
+                tabIndex='0'
                 className='text-base block mt-2 p-2 w-120 h-32 max-h-32 overflow-scroll border border-gray-900 bg-offwhite-25 focus:outline-none'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={focusHandler}
+                onKeyDown={keyDownHandler}
                 onChange={onResultsChange}
               />
             </label>
