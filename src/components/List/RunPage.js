@@ -12,6 +12,9 @@ import formatMileage from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 
+// Components
+import Checkbox from './Checkbox'
+
 const RunPage = () => {
   const DEBOUNCE_TIME_IN_MS = 500
   const params = useParams()
@@ -20,6 +23,11 @@ const RunPage = () => {
   const [resultsText, setResultsText] = useState('')
   const [allowResultsEdits, setAllowResultsEdits] = useState(false)
   const [resultsTimeoutRef, setResultsTimeoutRef] = useState(null)
+  const [isChecked, setIsChecked] = useState({
+    stretch: false,
+    strength: false,
+    ice: false,
+  })
 
   // Calls the API endpoint to push changes to the database, and updates the state context if the
   // update is successful. Failure will result in the error object being saved to the global state.
@@ -163,6 +171,14 @@ const RunPage = () => {
     }
   }
 
+  // When a checkbox changes state, this function is called and the local component state changes
+  const onCheckboxChange = (checkboxId) => {
+    setIsChecked({
+      ...isChecked,
+      [checkboxId]: !isChecked[checkboxId], // flip it
+    })
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
@@ -207,17 +223,46 @@ const RunPage = () => {
             </div>
           </div>
 
-          <div>
-            <label className='text-xl block'>
+          <div className='w-120'>
+            <label className='w-full text-xl block'>
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-2 p-2 w-120 h-32 max-h-32 overflow-scroll border border-gray-900 bg-offwhite-25 focus:outline-none'
+                className='text-base block mt-2 p-2 w-full h-32 max-h-32 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={focusHandler}
                 onKeyDown={keyDownHandler}
                 onChange={onResultsChange}
+              />
+            </label>
+          </div>
+
+          <div className='w-120 flex flex-row space-x-6 justify-between'>
+            <label className='text-xl block flex flex-col items-center'>
+              Stretched
+              <Checkbox
+                className='mt-2'
+                onChange={() => onCheckboxChange('stretch')}
+                checked={isChecked.stretch}
+              />
+            </label>
+
+            <label className='text-xl block flex flex-col items-center'>
+              Strength
+              <Checkbox
+                className='mt-2'
+                onChange={() => onCheckboxChange('strength')}
+                checked={isChecked.strength}
+              />
+            </label>
+
+            <label className='text-xl block flex flex-col items-center'>
+              Iced
+              <Checkbox
+                className='mt-2'
+                onChange={() => onCheckboxChange('ice')}
+                checked={isChecked.ice}
               />
             </label>
           </div>
