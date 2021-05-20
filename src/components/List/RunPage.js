@@ -111,13 +111,10 @@ const RunPage = () => {
     }
   }, [resultsText])
 
-  // When the checkbox state is changed, trigger a
+  // When the checkbox state is changed, trigger an API call
+  // TODO: this is a little broken when you click super fast but it's fine for now.
   useEffect(() => {
-    console.log('isChecked effect')
-
     if (isChecked != null && allowCheckboxEdits) {
-      console.log('able to edit checked fields')
-
       // Just send the checked state of all fields in one API call, since they're trivial to update
       updateRun({
         updates: {
@@ -257,7 +254,7 @@ const RunPage = () => {
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-2 p-2 w-full min-h-32 max-h-64 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
+                className='text-base block mt-2 p-2 w-full h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={focusHandler}
