@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import reverse from 'reverse-geocode'
@@ -13,8 +13,35 @@ import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 
 const RunPage = () => {
+  const DEBOUNCE_TIME_IN_MS = 500
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
+  const run = state.runs.byId[params.runId]
+  const [resultsText, setResultsText] = useState('')
+  const [allowResultsEdits, setAllowResultsEdits] = useState(false)
+  const [resultsTimeoutRef, setResultsTimeoutRef] = useState(null)
+
+  // Calls the API endpoint to push changes to the database, and updates the state context if the
+  // update is successful. Failure will result in the error object being saved to the global state.
+  const updateRun = (updates) => {
+    dispatch({
+      type: actions.EDIT_RUN__START,
+    })
+
+    APIv1.put(`/runs/${params.runId}`, updates)
+      .then((response) => {
+        dispatch({
+          type: actions.EDIT_RUN__SUCCESS,
+          run: response.data,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.EDIT_RUN__ERROR,
+          error: error,
+        })
+      })
+  }
 
   // Get the run id in question any time the route param changes (and on first load).
   useEffect(() => {
@@ -37,7 +64,33 @@ const RunPage = () => {
       })
   }, [params.runId])
 
-  const run = state.runs.byId[params.runId]
+  // When the run object is updated in the global state, update our local component state for the
+  // user-editable fields. Only do this when an update has not been queued up.
+  useEffect(() => {
+    if (resultsTimeoutRef == null) {
+      setResultsText(run == null || run.results == null ? '' : run.results)
+    }
+  }, [run])
+
+  // If the results text changes in the text area, schedule an update to the API. Cancel any prior
+  // planned API call, if there was one.
+  useEffect(() => {
+    if (allowResultsEdits) {
+      clearTimeout(resultsTimeoutRef)
+
+      // In X ms, unless it gets cancelled first, send an API call to save the resultsText to the db
+      setResultsTimeoutRef(
+        setTimeout(() => {
+          // Make the API call to update the result text
+          updateRun({
+            updates: {
+              results: resultsText,
+            },
+          })
+        }, DEBOUNCE_TIME_IN_MS)
+      )
+    }
+  }, [resultsText])
 
   if (run == null) {
     return <div className='RunPage w-full'></div>
@@ -92,6 +145,16 @@ const RunPage = () => {
     return `${dateTime} in ${location.city}, ${location.state_abbr}`
   }
 
+  const onResultsChange = (event) => {
+    // TODO: Debounced API call to update the value of the results field
+    setResultsText(event.target.value)
+  }
+
+  // When the user focuses on the results textarea, begin allowing updates to the run.results field
+  const focusHandler = () => {
+    setAllowResultsEdits(true)
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
@@ -112,7 +175,7 @@ const RunPage = () => {
 
       {!state.runs.isFetching && (
         <section className='flex flex-col items-start space-y-4'>
-          <div className='flex p-4 border border-gray-600 text-xl space-x-8'>
+          <div className='flex p-4 border border-gray-900 bg-offwhite-25 text-xl space-x-6'>
             <div>
               <div>{formatMileage(run.distance)}</div>
               <div className='text-base text-gray-600'>miles</div>
@@ -134,6 +197,19 @@ const RunPage = () => {
               </div>
               <div className='text-base text-gray-600'>heart rate</div>
             </div>
+          </div>
+
+          <div>
+            <label className='text-xl block'>
+              Results
+              <textarea
+                className='text-base block mt-2 p-2 w-120 h-32 max-h-32 overflow-scroll border border-gray-900 bg-offwhite-25 focus:outline-none'
+                placeholder='How was your run?'
+                value={resultsText}
+                onFocus={focusHandler}
+                onChange={onResultsChange}
+              />
+            </label>
           </div>
 
           <div>
