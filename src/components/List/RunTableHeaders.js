@@ -8,6 +8,7 @@ const RunTableHeaders = () => {
   return (
     <div className='RunTableHeaders contents'>
       <div className={tableHeaderClasses}>Date</div>
+      <div className={tableHeaderClasses}>Title</div>
       <div className={tableHeaderClasses}>Miles</div>
       <div className={tableHeaderClasses}>Weekly</div>
       <div className={tableHeaderClasses}>7-Day</div>

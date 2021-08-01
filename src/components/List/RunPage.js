@@ -138,27 +138,6 @@ const RunPage = () => {
     return stravaTimezoneString.split(' ')[1]
   }
 
-  // Given a run, returns a title string to use, based on the time of day
-  const generateTitle = (runStartTime, timezone) => {
-    const dt = DateTime.fromISO(runStartTime, { zone: timezone })
-
-    // Thresholds
-    const startOfMorning = dt.set({ hour: 4, minute: 0, second: 0 })
-    const startOfAfternoon = dt.set({ hour: 12, minute: 0, second: 0 })
-    const startOfEvening = dt.set({ hour: 17, minute: 0, second: 0 })
-    const startOfLateNight = dt.set({ hour: 22, minute: 0, second: 0 })
-
-    if (dt < startOfMorning || dt >= startOfLateNight) {
-      return 'Late Night Run'
-    } else if (dt < startOfAfternoon) {
-      return 'Morning Run'
-    } else if (dt < startOfEvening) {
-      return 'Afternoon Run'
-    } else {
-      return 'Evening Run'
-    }
-  }
-
   // Given some run data, returns a string to use as the subheader for this page.
   const generateSubheader = (runStartTime, timezone, lat, lng) => {
     const dateTime = DateTime.fromISO(runStartTime, {
@@ -208,9 +187,7 @@ const RunPage = () => {
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
       <header>
-        <h1 className='text-2xl'>
-          {generateTitle(run.startDate, stravaTimezoneToTZ(run.timezone))}
-        </h1>
+        <h1 className='text-2xl'>{run.title}</h1>
         <h2 className='text-gray-500'>
           {generateSubheader(
             run.startDate,

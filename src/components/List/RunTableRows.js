@@ -30,9 +30,12 @@ const RunTableRows = ({ runs, isLoading }) => {
   return sortedRuns.map((run, rowIndex) => {
     return (
       <div key={rowIndex} className='RunTableRows table-row contents'>
+        <div className={tableCellClasses}>
+          {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
+        </div>
         <div className={`${tableCellClasses} hover:underline`}>
           <Link to={RunPageRoute.split(':')[0].concat(run._id)}>
-            {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
+            {run.title}
           </Link>
         </div>
         <div className={tableCellClasses}>{formatMileage(run.distance)}</div>
