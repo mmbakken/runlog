@@ -15,7 +15,12 @@ const ListPage = () => {
   const [state, dispatch] = useContext(StateContext)
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
 
-  if (state == null || state.runs === null || state.runs.byId === null) {
+  if (
+    state == null ||
+    state.runs === null ||
+    state.runs.byId === null ||
+    state.dailyStats.byId === null
+  ) {
     return <div className='ListPage w-full px-4 pb-4'></div>
   }
 
@@ -23,6 +28,10 @@ const ListPage = () => {
   useEffect(() => {
     dispatch({
       type: actions.GET_ALL_RUNS__START,
+    })
+
+    dispatch({
+      type: actions.GET_ALL_DAILY_STATS__START,
     })
 
     APIv1.get('/runs')
@@ -35,6 +44,22 @@ const ListPage = () => {
       .catch((error) => {
         dispatch({
           type: actions.GET_ALL_RUNS__ERROR,
+          error: error,
+        })
+      })
+
+    APIv1.get('/dailyStats')
+      .then((response) => {
+        console.dir(response)
+
+        dispatch({
+          type: actions.GET_ALL_DAILY_STATS__SUCCESS,
+          dailyStats: response.data,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.GET_ALL_DAILY_STATS__ERROR,
           error: error,
         })
       })

@@ -120,8 +120,45 @@ const stateReducer = (state, action) => {
       }
     }
 
+    ////////
+    // Daily Stats GET actions
+    ////////
+
+    case actions.GET_ALL_DAILY_STATS__START: {
+      return {
+        ...state,
+        dailyStats: {
+          ...state.dailyStats,
+          isFetching: true,
+        },
+      }
+    }
+
+    case actions.GET_ALL_DAILY_STATS__SUCCESS: {
+      return {
+        ...state,
+        dailyStats: {
+          ...state.dailyStats,
+          isFetching: false,
+          byId: action.dailyStats,
+          error: null,
+        },
+      }
+    }
+
+    case actions.GET_ALL_DAILY_STATS__ERROR: {
+      return {
+        ...state,
+        dailyStats: {
+          ...state.dailyStats,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+
     default: {
-      throw new Error(`No run action of type: "${action.type}"`)
+      throw new Error(`No action of type: "${action.type}"`)
     }
   }
 }

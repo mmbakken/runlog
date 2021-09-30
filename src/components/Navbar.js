@@ -35,42 +35,46 @@ const Navbar = () => {
 
   return (
     <nav className='Navbar mb-4 mt-2'>
-      <ul className='inline-flex items-center space-x-4 text-lg'>
-        <li>
-          <Link to={HomeRoute}>
-            <header>
-              <h1 className='font-heading px-4 pb-2 text-4xl'>runlog</h1>
-            </header>
-          </Link>
-        </li>
-
-        <li className={'hover:underline ' + calendarClasses}>
-          <Link to={CalendarRoute}>Calendar</Link>
-        </li>
-
-        <li className={'hover:underline ' + listClasses}>
-          <Link to={ListRoute}>Runs</Link>
-        </li>
-
-        {!auth.isLoggedIn && (
-          <li className={'hover:underline ' + loginClasses}>
-            <Link to={LoginRoute}>Login</Link>
+      <div className='flex justify-between text-lg'>
+        <ul className='inline-flex items-center space-x-4 '>
+          <li>
+            <Link to={HomeRoute}>
+              <header>
+                <h1 className='font-heading px-4 pb-2 text-4xl'>runlog</h1>
+              </header>
+            </Link>
           </li>
-        )}
 
-        {auth.isLoggedIn && (
-          <>
-            <li className={'hover:underline ' + accountClasses}>
-              <Link to={AccountRoute}>Account</Link>
+          <li className={'hover:underline ' + calendarClasses}>
+            <Link to={CalendarRoute}>Calendar</Link>
+          </li>
+
+          <li className={'hover:underline ' + listClasses}>
+            <Link to={ListRoute}>Runs</Link>
+          </li>
+        </ul>
+
+        <ul className='inline-flex items-center space-x-4 mr-4'>
+          {!auth.isLoggedIn && (
+            <li className={'hover:underline ' + loginClasses}>
+              <Link to={LoginRoute}>Login</Link>
             </li>
-            <li>
-              <a className='cursor-pointer hover:underline' onClick={logout}>
-                Logout
-              </a>
-            </li>
-          </>
-        )}
-      </ul>
+          )}
+
+          {auth.isLoggedIn && (
+            <>
+              <li className={'hover:underline ' + accountClasses}>
+                <Link to={AccountRoute}>Account</Link>
+              </li>
+              <li>
+                <a className='cursor-pointer hover:underline' onClick={logout}>
+                  Logout
+                </a>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
     </nav>
   )
 }
