@@ -26,16 +26,33 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
   })
 
   return sortedDailyStats.map((dailyStats, rowIndex) => {
+    const hasMultipleRuns = dailyStats.runIds.length > 1
+
     return (
       <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
         <div className={tableCellClasses}>
           {DateTime.fromISO(dailyStats.date).toLocaleString(DateTime.DATE_FULL)}
         </div>
-        <div className={`${tableCellClasses} hover:underline`}>
-          <Link to={RunPageRoute.split(':')[0].concat(dailyStats.date)}>
-            {'<daily title here>'}
-          </Link>
-        </div>
+
+        {hasMultipleRuns && (
+          <div
+            className={`${tableCellClasses} hover:underline cursor-pointer`}
+            onClick={() => {
+              console.log('Show/hide runs for this date')
+            }}
+          >
+            {dailyStats.title}
+          </div>
+        )}
+
+        {!hasMultipleRuns && (
+          <div className={`${tableCellClasses} hover:underline`}>
+            <Link to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}>
+              {dailyStats.title}
+            </Link>
+          </div>
+        )}
+
         <div className={tableCellClasses}>
           {formatMileage(dailyStats.distance)}
         </div>

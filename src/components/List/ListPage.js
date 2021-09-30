@@ -7,6 +7,9 @@ import { APIv1 } from '../../api'
 // Third Party UI components
 import Switch from 'react-switch'
 
+// Colors - should probably pull this from Tailwind
+const eggplant700 = '#7A2A46'
+
 // Components
 import StravaImport from './StravaImport'
 import RunTableHeaders from './RunTableHeaders'
@@ -88,13 +91,19 @@ const ListPage = () => {
   return (
     <div className='ListPage w-full px-4 pb-4 space-y-4'>
       <div>
-        <label>
-          <span>Group runs by date</span>
+        <label className='inline-flex items-center space-x-2'>
+          <span>Group by date</span>
           <Switch
             onChange={() => {
               setGroupByDate(!groupByDate)
             }}
             checked={groupByDate}
+            uncheckedIcon={false}
+            checkedIcon={false}
+            activeBoxShadow={null}
+            onColor={eggplant700}
+            height={20}
+            width={40}
           />
         </label>
       </div>
