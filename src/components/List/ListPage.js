@@ -4,16 +4,22 @@ import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
+// Third Party UI components
+import Switch from 'react-switch'
+
 // Components
 import StravaImport from './StravaImport'
 import RunTableHeaders from './RunTableHeaders'
 import RunTableRows from './RunTableRows'
+import DailyStatsTableHeaders from './DailyStatsTableHeaders'
+import DailyStatsTableRows from './DailyStatsTableRows'
 
 const ListPage = () => {
   const [stravaRuns, setStravaRuns] = useState()
   const auth = useContext(AuthContext)[0]
   const [state, dispatch] = useContext(StateContext)
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
+  const [groupByDate, setGroupByDate] = useState(true)
 
   if (
     state == null ||
@@ -65,6 +71,8 @@ const ListPage = () => {
       })
   }, [])
 
+  useState()
+
   // Tell Runlog API to talk to Strava and get the most recent run activities
   const getRecentStravaRuns = () => {
     // Go get the full user information
@@ -79,10 +87,37 @@ const ListPage = () => {
 
   return (
     <div className='ListPage w-full px-4 pb-4 space-y-4'>
-      <section className='grid grid-cols-list-page'>
-        <RunTableHeaders />
-        <RunTableRows runs={state.runs.byId} isLoading={state.runs.isLoading} />
-      </section>
+      <div>
+        <label>
+          <span>Group runs by date</span>
+          <Switch
+            onChange={() => {
+              setGroupByDate(!groupByDate)
+            }}
+            checked={groupByDate}
+          />
+        </label>
+      </div>
+
+      {groupByDate && (
+        <section className='grid grid-cols-daily-stats-page'>
+          <DailyStatsTableHeaders />
+          <DailyStatsTableRows
+            dailyStats={state.dailyStats.byId}
+            isLoading={state.dailyStats.isLoading}
+          />
+        </section>
+      )}
+
+      {!groupByDate && (
+        <section className='grid grid-cols-runs-page'>
+          <RunTableHeaders />
+          <RunTableRows
+            runs={state.runs.byId}
+            isLoading={state.runs.isLoading}
+          />
+        </section>
+      )}
 
       {hasStravaAccount && (
         <>

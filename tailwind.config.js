@@ -21,7 +21,8 @@ module.exports = {
         160: '40rem',
       },
       gridTemplateColumns: {
-        'list-page': 'repeat(9, auto)',
+        'daily-stats-page': 'repeat(5, auto)',
+        'runs-page': 'repeat(7, auto)',
       },
       colors: {
         eggplant: {

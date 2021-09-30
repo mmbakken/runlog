@@ -39,8 +39,6 @@ const RunTableRows = ({ runs, isLoading }) => {
           </Link>
         </div>
         <div className={tableCellClasses}>{formatMileage(run.distance)}</div>
-        <div className={tableCellClasses}>todo</div>
-        <div className={tableCellClasses}>todo</div>
         <div className={tableCellClasses}>{formatDuration(run.time)}</div>
         <div className={tableCellClasses}>{formatPace(run.averageSpeed)}</div>
         <div className={tableCellClasses}>
