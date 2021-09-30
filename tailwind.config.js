@@ -21,8 +21,8 @@ module.exports = {
         160: '40rem',
       },
       gridTemplateColumns: {
-        'daily-stats-page': 'repeat(5, auto)',
-        'runs-page': 'repeat(7, auto)',
+        'daily-stats-page': 'repeat(5, minmax(auto, max-content))',
+        'runs-page': 'repeat(7, minmax(auto, max-content))',
       },
       colors: {
         eggplant: {
@@ -39,7 +39,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      padding: ['first'],
+      padding: ['last'],
     },
   },
   plugins: [],

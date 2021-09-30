@@ -19,7 +19,7 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
   }
 
   // Tailwind classes
-  const tableCellClasses = 'px-1 py-1 first:px-0 flex items-center'
+  const tableCellClasses = 'py-1 flex items-center'
 
   const sortedDailyStats = Object.values(dailyStats).sort((a, b) => {
     return a.date < b.date ? 1 : -1
@@ -30,15 +30,15 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
 
     return (
       <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
-        <div className={tableCellClasses}>
+        <div className={`${tableCellClasses} pr-4`}>
           {DateTime.fromISO(dailyStats.date).toLocaleString(DateTime.DATE_FULL)}
         </div>
 
         {hasMultipleRuns && (
           <div
-            className={`${tableCellClasses} hover:underline cursor-pointer`}
+            className={`${tableCellClasses} pr-4 hover:underline cursor-pointer`}
             onClick={() => {
-              console.log('Show/hide runs for this date')
+              console.log('TODO: Show/hide runs for this date')
             }}
           >
             {dailyStats.title}
@@ -46,20 +46,20 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
         )}
 
         {!hasMultipleRuns && (
-          <div className={`${tableCellClasses} hover:underline`}>
+          <div className={`${tableCellClasses} pr-4 hover:underline`}>
             <Link to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}>
               {dailyStats.title}
             </Link>
           </div>
         )}
 
-        <div className={tableCellClasses}>
+        <div className={`${tableCellClasses} justify-self-end pl-4`}>
           {formatMileage(dailyStats.distance)}
         </div>
-        <div className={tableCellClasses}>
+        <div className={`${tableCellClasses} justify-self-end pl-4`}>
           {formatMileage(dailyStats.weeklyDistance)}
         </div>
-        <div className={tableCellClasses}>
+        <div className={`${tableCellClasses} justify-self-end pl-4`}>
           {formatMileage(dailyStats.sevenDayDistance)}
         </div>
       </div>
