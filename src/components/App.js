@@ -21,7 +21,7 @@ import {
 
 const App = () => {
   return (
-    <div className='font-sans text-gray-900 h-full w-full'>
+    <div className='font-sans text-gray-900 h-full max-w-screen-2xl mx-auto'>
       <Router>
         <Navbar />
 

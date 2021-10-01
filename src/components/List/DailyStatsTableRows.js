@@ -30,13 +30,13 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
 
     return (
       <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
-        <div className={`${tableCellClasses} pr-4`}>
+        <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
           {DateTime.fromISO(dailyStats.date).toLocaleString(DateTime.DATE_FULL)}
         </div>
 
         {hasMultipleRuns && (
           <div
-            className={`${tableCellClasses} pr-4 hover:underline cursor-pointer`}
+            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline cursor-pointer`}
             onClick={() => {
               console.log('TODO: Show/hide runs for this date')
             }}
@@ -46,20 +46,28 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
         )}
 
         {!hasMultipleRuns && (
-          <div className={`${tableCellClasses} pr-4 hover:underline`}>
+          <div
+            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+          >
             <Link to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}>
               {dailyStats.title}
             </Link>
           </div>
         )}
 
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+        >
           {formatMileage(dailyStats.distance)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+        >
           {formatMileage(dailyStats.weeklyDistance)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+        >
           {formatMileage(dailyStats.sevenDayDistance)}
         </div>
       </div>

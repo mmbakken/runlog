@@ -30,27 +30,39 @@ const RunTableRows = ({ runs, isLoading }) => {
   return sortedRuns.map((run, rowIndex) => {
     return (
       <div key={rowIndex} className='RunTableRows table-row contents'>
-        <div className={`${tableCellClasses} pr-4`}>
+        <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
           {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
         </div>
-        <div className={`${tableCellClasses} pr-4 hover:underline`}>
+        <div
+          className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+        >
           <Link to={RunPageRoute.split(':')[0].concat(run._id)}>
             {run.title}
           </Link>
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+        >
           {formatMileage(run.distance)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+        >
           {formatDuration(run.time)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+        >
           {formatPace(run.averageSpeed)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+        >
           {Math.round(run.averageHeartRate)}
         </div>
-        <div className={`${tableCellClasses} justify-self-end pl-4`}>
+        <div
+          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+        >
           {run.maxHeartRate}
         </div>
       </div>

@@ -28,10 +28,12 @@ const Navbar = () => {
   }
 
   // Set up the class names for each link item
-  const calendarClasses = currentPath === CalendarRoute ? 'underline' : null
-  const listClasses = currentPath === ListRoute ? 'underline' : null
-  const loginClasses = currentPath === LoginRoute ? 'underline' : null
-  const accountClasses = currentPath === AccountRoute ? 'underline' : null
+  const calendarClasses =
+    currentPath === CalendarRoute ? 'border-eggplant-700' : ''
+  const listClasses = currentPath === ListRoute ? 'border-eggplant-700' : ''
+  const loginClasses = currentPath === LoginRoute ? 'border-eggplant-700' : ''
+  const accountClasses =
+    currentPath === AccountRoute ? 'border-eggplant-700' : ''
 
   return (
     <nav className='Navbar mb-4 mt-2'>
@@ -45,33 +47,52 @@ const Navbar = () => {
             </Link>
           </li>
 
-          <li className={'hover:underline ' + calendarClasses}>
+          <li
+            className={
+              'mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700 ' +
+              calendarClasses
+            }
+          >
             <Link to={CalendarRoute}>Calendar</Link>
           </li>
 
-          <li className={'hover:underline ' + listClasses}>
+          <li
+            className={
+              'mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700 ' +
+              listClasses
+            }
+          >
             <Link to={ListRoute}>Runs</Link>
           </li>
+
+          {auth.isLoggedIn && (
+            <li
+              className={
+                'mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700 ' +
+                accountClasses
+              }
+            >
+              <Link to={AccountRoute}>Account</Link>
+            </li>
+          )}
         </ul>
 
         <ul className='inline-flex items-center space-x-4 mr-4'>
           {!auth.isLoggedIn && (
-            <li className={'hover:underline ' + loginClasses}>
+            <li
+              className={
+                'mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700 ' +
+                loginClasses
+              }
+            >
               <Link to={LoginRoute}>Login</Link>
             </li>
           )}
 
           {auth.isLoggedIn && (
-            <>
-              <li className={'hover:underline ' + accountClasses}>
-                <Link to={AccountRoute}>Account</Link>
-              </li>
-              <li>
-                <a className='cursor-pointer hover:underline' onClick={logout}>
-                  Logout
-                </a>
-              </li>
-            </>
+            <li className='cursor-pointer mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700'>
+              <a onClick={logout}>Logout</a>
+            </li>
           )}
         </ul>
       </div>
