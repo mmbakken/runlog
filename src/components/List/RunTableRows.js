@@ -27,45 +27,76 @@ const RunTableRows = ({ runs, isLoading }) => {
     return a.startDate < b.startDate ? 1 : -1
   })
 
-  return sortedRuns.map((run, rowIndex) => {
+  return sortedRuns.map((run, rowIndex, runsArray) => {
+    const date = DateTime.fromISO(run.startDate)
+    let nextDate = runsArray[rowIndex + 1]
+    let addWeekBorder = false
+
+    // If there's another date in the array after this one (before this one, chronologically)...
+    if (nextDate != null) {
+      nextDate = DateTime.fromISO(runsArray[rowIndex + 1].startDate)
+
+      // AND they're not in the same week, then show a divider
+      if (
+        date.weekday < nextDate.weekday ||
+        date.diff(nextDate, 'days').days >= 7
+      ) {
+        addWeekBorder = true
+      }
+    }
+
     return (
-      <div key={rowIndex} className='RunTableRows table-row contents'>
-        <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
-          {DateTime.fromISO(run.startDate).toLocaleString(DateTime.DATE_FULL)}
+      <>
+        <div key={rowIndex} className='RunTableRows table-row contents'>
+          <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
+            {DateTime.fromISO(run.startDate).toLocaleString({
+              weekday: 'long',
+              month: 'numeric',
+              day: 'numeric',
+              year: '2-digit',
+            })}
+          </div>
+          <div
+            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+          >
+            <Link to={RunPageRoute.split(':')[0].concat(run._id)}>
+              {run.title}
+            </Link>
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+          >
+            {formatMileage(run.distance)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+          >
+            {formatDuration(run.time)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+          >
+            {formatPace(run.averageSpeed)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+          >
+            {Math.round(run.averageHeartRate)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+          >
+            {run.maxHeartRate}
+          </div>
         </div>
-        <div
-          className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
-        >
-          <Link to={RunPageRoute.split(':')[0].concat(run._id)}>
-            {run.title}
-          </Link>
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
-        >
-          {formatMileage(run.distance)}
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
-        >
-          {formatDuration(run.time)}
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
-        >
-          {formatPace(run.averageSpeed)}
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
-        >
-          {Math.round(run.averageHeartRate)}
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
-        >
-          {run.maxHeartRate}
-        </div>
-      </div>
+
+        {addWeekBorder && (
+          <div
+            key={`${rowIndex}-week-border`}
+            className='RunTableRows table-row col-span-7 w-full border-b border-eggplant-700'
+          />
+        )}
+      </>
     )
   })
 }

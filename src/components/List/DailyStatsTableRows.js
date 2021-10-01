@@ -25,52 +25,84 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
     return a.date < b.date ? 1 : -1
   })
 
-  return sortedDailyStats.map((dailyStats, rowIndex) => {
+  return sortedDailyStats.map((dailyStats, rowIndex, dailyStatsArray) => {
+    const date = DateTime.fromISO(dailyStats.date)
     const hasMultipleRuns = dailyStats.runIds.length > 1
+    let nextDate = dailyStatsArray[rowIndex + 1]
+    let addWeekBorder = false
+
+    // If there's another date in the array after this one (before this one, chronologically)...
+    if (nextDate != null) {
+      nextDate = DateTime.fromISO(dailyStatsArray[rowIndex + 1].date)
+
+      // AND they're not in the same week, then show a divider
+      if (
+        date.weekday < nextDate.weekday ||
+        date.diff(nextDate, 'days').days >= 7
+      ) {
+        addWeekBorder = true
+      }
+    }
 
     return (
-      <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
-        <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
-          {DateTime.fromISO(dailyStats.date).toLocaleString(DateTime.DATE_FULL)}
-        </div>
-
-        {hasMultipleRuns && (
-          <div
-            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline cursor-pointer`}
-            onClick={() => {
-              console.log('TODO: Show/hide runs for this date')
-            }}
-          >
-            {dailyStats.title}
+      <>
+        <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
+          <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
+            {date.toLocaleString({
+              weekday: 'long',
+              month: 'numeric',
+              day: 'numeric',
+              year: '2-digit',
+            })}
           </div>
-        )}
 
-        {!hasMultipleRuns && (
-          <div
-            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
-          >
-            <Link to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}>
+          {hasMultipleRuns && (
+            <div
+              className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline cursor-pointer`}
+              onClick={() => {
+                console.log('TODO: Show/hide runs for this date')
+              }}
+            >
               {dailyStats.title}
-            </Link>
-          </div>
-        )}
+            </div>
+          )}
 
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
-        >
-          {formatMileage(dailyStats.distance)}
+          {!hasMultipleRuns && (
+            <div
+              className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+            >
+              <Link
+                to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}
+              >
+                {dailyStats.title}
+              </Link>
+            </div>
+          )}
+
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+          >
+            {formatMileage(dailyStats.distance)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+          >
+            {formatMileage(dailyStats.weeklyDistance)}
+          </div>
+          <div
+            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+          >
+            {formatMileage(dailyStats.sevenDayDistance)}
+          </div>
         </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
-        >
-          {formatMileage(dailyStats.weeklyDistance)}
-        </div>
-        <div
-          className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
-        >
-          {formatMileage(dailyStats.sevenDayDistance)}
-        </div>
-      </div>
+
+        {addWeekBorder && (
+          <div
+            key={`${rowIndex}-week-border`}
+            className='DailyStatsTableRows table-row col-span-5 w-full border-b border-eggplant-700'
+          />
+        )}
+      </>
     )
   })
 }
