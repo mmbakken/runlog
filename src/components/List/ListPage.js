@@ -59,8 +59,6 @@ const ListPage = () => {
 
     APIv1.get('/dailyStats')
       .then((response) => {
-        console.dir(response)
-
         dispatch({
           type: actions.GET_ALL_DAILY_STATS__SUCCESS,
           dailyStats: response.data,
