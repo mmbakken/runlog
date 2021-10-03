@@ -26,14 +26,16 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
   })
 
   return sortedDailyStats.map((dailyStats, rowIndex, dailyStatsArray) => {
-    const date = DateTime.fromISO(dailyStats.date)
+    const date = DateTime.fromISO(dailyStats.date, { zone: 'utc' })
     const hasMultipleRuns = dailyStats.runIds.length > 1
     let nextDate = dailyStatsArray[rowIndex + 1]
     let addWeekBorder = false
 
     // If there's another date in the array after this one (before this one, chronologically)...
     if (nextDate != null) {
-      nextDate = DateTime.fromISO(dailyStatsArray[rowIndex + 1].date)
+      nextDate = DateTime.fromISO(dailyStatsArray[rowIndex + 1].date, {
+        zone: 'utc',
+      })
 
       // AND they're not in the same week, then show a divider
       if (

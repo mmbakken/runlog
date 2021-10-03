@@ -28,13 +28,21 @@ const RunTableRows = ({ runs, isLoading }) => {
   })
 
   return sortedRuns.map((run, rowIndex, runsArray) => {
-    const date = DateTime.fromISO(run.startDate)
+    // Timeone field has a weird format like "(GMT-07:00) America/Denver", just ignore the offset
+    const tz = run.timezone.split(' ')[1]
+
+    // Make sure to interpret this run's start date in the timezone that it actually happened,
+    // instead of the timezone this browser is in
+    const date = DateTime.fromISO(run.startDate, { zone: tz })
+
     let nextDate = runsArray[rowIndex + 1]
     let addWeekBorder = false
 
     // If there's another date in the array after this one (before this one, chronologically)...
     if (nextDate != null) {
-      nextDate = DateTime.fromISO(runsArray[rowIndex + 1].startDate)
+      nextDate = DateTime.fromISO(runsArray[rowIndex + 1].startDate, {
+        zone: tz,
+      })
 
       // AND they're not in the same week, then show a divider
       if (
