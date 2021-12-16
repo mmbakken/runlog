@@ -9,6 +9,7 @@ import { RunPageRoute } from '../../constants/routes'
 import formatMileage from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
+import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays the table content as expected for the ListPage
 const RunTableRows = ({ runs, isLoading }) => {
@@ -35,22 +36,14 @@ const RunTableRows = ({ runs, isLoading }) => {
     // instead of the timezone this browser is in
     const date = DateTime.fromISO(run.startDate, { zone: tz })
 
-    let nextDate = runsArray[rowIndex + 1]
     let addWeekBorder = false
 
-    // If there's another date in the array after this one (before this one, chronologically)...
-    if (nextDate != null) {
-      nextDate = DateTime.fromISO(runsArray[rowIndex + 1].startDate, {
+    if (runsArray[rowIndex + 1]) {
+      let nextDate = DateTime.fromISO(runsArray[rowIndex + 1].startDate, {
         zone: tz,
       })
 
-      // AND they're not in the same week, then show a divider
-      if (
-        date.weekday < nextDate.weekday ||
-        date.diff(nextDate, 'days').days >= 7
-      ) {
-        addWeekBorder = true
-      }
+      addWeekBorder = showWeekDivider(date, nextDate)
     }
 
     return (

@@ -7,6 +7,7 @@ import { RunPageRoute } from '../../constants/routes'
 
 // Unit formatting helper functions
 import formatMileage from '../../formatters/formatMileage'
+import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays the table content as expected for the ListPage
 const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
@@ -28,22 +29,15 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
   return sortedDailyStats.map((dailyStats, rowIndex, dailyStatsArray) => {
     const date = DateTime.fromISO(dailyStats.date, { zone: 'utc' })
     const hasMultipleRuns = dailyStats.runIds.length > 1
-    let nextDate = dailyStatsArray[rowIndex + 1]
+
     let addWeekBorder = false
 
-    // If there's another date in the array after this one (before this one, chronologically)...
-    if (nextDate != null) {
-      nextDate = DateTime.fromISO(dailyStatsArray[rowIndex + 1].date, {
+    if (dailyStatsArray[rowIndex + 1]) {
+      let nextDate = DateTime.fromISO(dailyStatsArray[rowIndex + 1].date, {
         zone: 'utc',
       })
 
-      // AND they're not in the same week, then show a divider
-      if (
-        date.weekday < nextDate.weekday ||
-        date.diff(nextDate, 'days').days >= 7
-      ) {
-        addWeekBorder = true
-      }
+      addWeekBorder = showWeekDivider(date, nextDate)
     }
 
     return (
