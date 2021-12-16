@@ -104,7 +104,7 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
 }
 
 DailyStatsTableRows.propTypes = {
-  runs: PropTypes.object,
+  dailyStats: PropTypes.object,
   isLoading: PropTypes.bool,
 }
 
