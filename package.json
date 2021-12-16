@@ -24,7 +24,7 @@
   "scripts": {
     "start-dev": "REACT_APP_ENV=dev craco start",
     "start-prod": "REACT_APP_ENV=prod craco start",
-    "build": "REACT_APP_ENV=prod craco --max_old_space_size=1024 build",
+    "build": "REACT_APP_ENV=prod craco --max_old_space_size=512 build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
