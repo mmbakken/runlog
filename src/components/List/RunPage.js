@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import reverse from 'reverse-geocode'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
@@ -20,15 +23,22 @@ const RunPage = () => {
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
   const run = state.runs.byId[params.runId]
-  const [resultsText, setResultsText] = useState('')
+
   const [allowResultsEdits, setAllowResultsEdits] = useState(false)
-  const [allowCheckboxEdits, setAllowCheckboxEdits] = useState(false)
+  const [resultsText, setResultsText] = useState('')
   const [resultsTimeoutRef, setResultsTimeoutRef] = useState(null)
+
+  const [allowCheckboxEdits, setAllowCheckboxEdits] = useState(false)
   const [isChecked, setIsChecked] = useState({
     stretch: null,
     strength: null,
     ice: null,
   })
+
+  const [allowTitleEdits, setAllowTitleEdits] = useState(false)
+  const [isHoveringTitle, setIsHoveringTitle] = useState(false)
+  const [showTitleEditField, setShowTitleEditField] = useState(false)
+  const [runTitle, setRunTitle] = useState('')
 
   // Calls the API endpoint to push changes to the database, and updates the state context if the
   // update is successful. Failure will result in the error object being saved to the global state.
@@ -83,13 +93,26 @@ const RunPage = () => {
     // Wait for the run to load before sending any updates to API
     if (run != null) {
       setAllowCheckboxEdits(true)
+      setAllowTitleEdits(true)
       setIsChecked({
         stretch: run.stretch,
         strength: run.strength,
         ice: run.ice,
       })
+      setRunTitle(run.title)
     }
   }, [run])
+
+  // Send an update when the run title is changed, by the user defocusing the edit field.
+  useEffect(() => {
+    if (allowTitleEdits) {
+      updateRun({
+        updates: {
+          title: runTitle,
+        },
+      })
+    }
+  }, [showTitleEditField])
 
   // If the results text changes in the text area, schedule an update to the API. Cancel any prior
   // planned API call, if there was one.
@@ -164,12 +187,12 @@ const RunPage = () => {
   }
 
   // When the user focuses on the results textarea, begin allowing updates to the run.results field
-  const focusHandler = () => {
+  const resultsFocusHandler = () => {
     setAllowResultsEdits(true)
   }
 
   // When the user presses ESC, unfocus the results textarea
-  const keyDownHandler = (event) => {
+  const resultsKeyDownHandler = (event) => {
     if (event.key === 'Escape') {
       document.activeElement.blur()
       event.preventDefault()
@@ -184,10 +207,72 @@ const RunPage = () => {
     })
   }
 
+  const onTitleMouseEnter = () => {
+    setIsHoveringTitle(true)
+  }
+
+  const onTitleMouseLeave = () => {
+    setIsHoveringTitle(false)
+  }
+
+  // When user clicks on the editable title field
+  const onTitleClick = () => {
+    setShowTitleEditField(true)
+  }
+
+  // When user clicks on the editable title field
+  const onTitleBlur = () => {
+    setShowTitleEditField(false)
+  }
+
+  const onTitleChange = (event) => {
+    setRunTitle(event.target.value)
+  }
+
+  const titleKeyDownHandler = (event) => {
+    if (event.key === 'Escape' || event.key === 'Enter') {
+      document.activeElement.blur()
+      event.preventDefault()
+    }
+  }
+
   return (
     <div className='RunPage w-full px-4 pb-4 space-y-4'>
-      <header>
-        <h1 className='text-2xl'>{run.title}</h1>
+      <header className='w-full'>
+        {showTitleEditField && (
+          <input
+            className='text-2xl px-2 py-1 max-w-full'
+            type='text'
+            value={runTitle}
+            onChange={onTitleChange}
+            onBlur={onTitleBlur}
+            autoFocus
+            onKeyDown={titleKeyDownHandler}
+            size={30}
+          />
+        )}
+
+        {!showTitleEditField && (
+          <h1 className='truncate'>
+            <span
+              onMouseEnter={onTitleMouseEnter}
+              onMouseLeave={onTitleMouseLeave}
+              onClick={onTitleClick}
+              className={`text-2xl ${
+                isHoveringTitle ? 'underline cursor-pointer' : ''
+              }`}
+            >
+              {runTitle}
+              {isHoveringTitle && (
+                <FontAwesomeIcon
+                  className={'inline-block ml-2'}
+                  icon={faEdit}
+                />
+              )}
+            </span>
+          </h1>
+        )}
+
         <h2 className='text-gray-500'>
           {generateSubheader(
             run.startDate,
@@ -234,8 +319,8 @@ const RunPage = () => {
                 className='text-base block mt-2 p-2 w-full h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
                 placeholder='How was your run?'
                 value={resultsText}
-                onFocus={focusHandler}
-                onKeyDown={keyDownHandler}
+                onFocus={resultsFocusHandler}
+                onKeyDown={resultsKeyDownHandler}
                 onChange={onResultsChange}
               />
             </label>
