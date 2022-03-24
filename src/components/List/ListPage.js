@@ -17,12 +17,20 @@ import RunTableRows from './RunTableRows'
 import DailyStatsTableHeaders from './DailyStatsTableHeaders'
 import DailyStatsTableRows from './DailyStatsTableRows'
 
+// Should the group by date toggle be on or off?
+const getInitialGroupByState = () => {
+  if (localStorage.getItem('groupByDate') == null) {
+    return true // Want runs grouped by date for new users. Might be a dumb setting but who care.
+  }
+  return JSON.parse(localStorage.getItem('groupByDate'))
+}
+
 const ListPage = () => {
   const [stravaRuns, setStravaRuns] = useState()
   const auth = useContext(AuthContext)[0]
   const [state, dispatch] = useContext(StateContext)
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
-  const [groupByDate, setGroupByDate] = useState(true)
+  const [groupByDate, setGroupByDate] = useState(getInitialGroupByState())
 
   if (
     state == null ||
@@ -93,6 +101,7 @@ const ListPage = () => {
           <span>Group by date</span>
           <Switch
             onChange={() => {
+              localStorage.setItem('groupByDate', !groupByDate)
               setGroupByDate(!groupByDate)
             }}
             checked={groupByDate}
