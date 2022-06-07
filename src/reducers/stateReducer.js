@@ -157,6 +157,89 @@ const stateReducer = (state, action) => {
       }
     }
 
+    case actions.GET_ALL_TRAINING__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+    case actions.GET_ALL_TRAINING__SUCCESS: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+    case actions.GET_ALL_TRAINING__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+    case actions.GET_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+    case actions.GET_TRAINING_PLAN__SUCCESS: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+    case actions.GET_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+    case actions.CREATE_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+    case actions.CREATE_TRAINING_PLAN__SUCCESS: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+    case actions.CREATE_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+
     default: {
       throw new Error(`No action of type: "${action.type}"`)
     }

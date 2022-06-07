@@ -5,14 +5,18 @@ import Navbar from './Navbar'
 import LoginPage from './Auth/LoginPage'
 import StravaTokenHandler from './Auth/StravaTokenHandler'
 import HomePage from './HomePage'
-import CalendarPage from './Calendar/CalendarPage'
+import CurrentTrainingPlan from './Training/CurrentTrainingPlan'
+import AllTrainingPlans from './Training/AllTrainingPlans'
+import CreateTrainingPlan from './Training/CreateTrainingPlan'
 import ListPage from './List/ListPage'
 import RunPage from './List/RunPage'
 import AccountPage from './User/AccountPage'
 
 import {
   HomeRoute,
-  CalendarRoute,
+  TrainingRoute,
+  CreateTrainingRoute,
+  AllTrainingPlansRoute,
   ListRoute,
   RunPageRoute,
   LoginRoute,
@@ -34,8 +38,16 @@ const App = () => {
             <LoginPage />
           </Route>
 
-          <PrivateRoute path={CalendarRoute}>
-            <CalendarPage />
+          <PrivateRoute exact path={TrainingRoute}>
+            <CurrentTrainingPlan />
+          </PrivateRoute>
+
+          <PrivateRoute path={CreateTrainingRoute}>
+            <CreateTrainingPlan />
+          </PrivateRoute>
+
+          <PrivateRoute path={AllTrainingPlansRoute}>
+            <AllTrainingPlans />
           </PrivateRoute>
 
           <PrivateRoute exact path={ListRoute}>

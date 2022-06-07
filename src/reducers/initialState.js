@@ -11,4 +11,11 @@ export default {
     isFetching: false,
     error: null,
   },
+
+  training: {
+    byId: {},
+    isFetching: false,
+    activePlan: null,
+    error: null,
+  },
 }
