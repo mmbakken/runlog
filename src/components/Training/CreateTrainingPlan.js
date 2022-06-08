@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { DateTime } from 'luxon'
 import { StateContext } from '../../context/StateContext'
 import { AuthContext } from '../../context/AuthContext'
@@ -10,59 +10,63 @@ const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
   const auth = useContext(AuthContext)[0]
   const now = useState(DateTime.local())[0]
+
   const DEFAULT_WEEK_COUNT = 8 // Seems like a reasonable training plan length
   const DEFAULT_WEEK_STARTS_ON = 1 // Monday
   const DAYS_PER_WEEK = 7
   const DEFAULT_TITLE = 'New Training Plan'
+  const DEFAULT_START_DATE = nextUpcomingWeekStart(
+    now.toISODate(),
+    auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON
+  )
 
   // Tracks local state info about the unsaved training plan. This data will be converted to the
   // expected format (and required fields) before being sent to the API for creation.
   const [newTrainingPlan, setTrainingPlan] = useState({
-    startDate: nextUpcomingWeekStart(
-      now.toISODate(),
-      auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON
-    ),
-    startDateISO: nextUpcomingWeekStart(
-      now.toISODate(),
-      auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON
-    ).toISODate(),
+    startDate: DEFAULT_START_DATE,
+    startDateISO: DEFAULT_START_DATE.toISODate(),
     weekCount: DEFAULT_WEEK_COUNT,
-    endDate: now.plus({ days: DEFAULT_WEEK_COUNT * DAYS_PER_WEEK - 1 }),
-    endDateISO: now
-      .plus({ days: DEFAULT_WEEK_COUNT * DAYS_PER_WEEK - 1 })
-      .toISODate(),
+    endDate: DEFAULT_START_DATE.plus({
+      days: DEFAULT_WEEK_COUNT * DAYS_PER_WEEK - 1,
+    }),
+    endDateISO: DEFAULT_START_DATE.plus({
+      days: DEFAULT_WEEK_COUNT * DAYS_PER_WEEK - 1,
+    }).toISODate(),
     timezone: now.zoneName,
     title: DEFAULT_TITLE,
     goal: '',
   })
 
-  useEffect(() => {
-    console.log(`Timezone string: ${DateTime.local().zoneName}`)
-  }, [])
-
   const handleSubmit = (e) => {
     e.preventDefault()
 
     // TODO: Convert the newTrainingPlan state into the values the API cares about
-    setTrainingPlan({
-      ...newTrainingPlan,
-      startDate: newTrainingPlan.startDate.toISODate(),
-      endDate: newTrainingPlan.endDate.toISODate(),
-    })
+    const newPlan = {
+      startDate: newTrainingPlan.startDateISO,
+      endDate: newTrainingPlan.endDateISO,
+      weekCount: Number.parseInt(newTrainingPlan.weekCount),
+      title: newTrainingPlan.title,
+      goal: newTrainingPlan.goal,
+      timezone: newTrainingPlan.timezone,
+    }
 
     dispatch({
       action: actions.CREATE_TRAINING_PLAN__START,
-      plan: newTrainingPlan,
+      plan: newPlan,
     })
 
-    APIv1.post('/plans')
+    APIv1.post('/training', newPlan)
       .then((response) => {
+        console.log('Successful response!')
+        console.dir(response.data)
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__SUCCESS,
           plan: response.data,
         })
       })
       .catch((error) => {
+        console.error('Error')
+        console.dir(error)
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__ERROR,
           error: error,
@@ -88,21 +92,22 @@ const CreateTrainingPlan = () => {
 
   // Handler to update the start of the training plan
   const onDateChange = (newDate) => {
-    // TODO: Date validation and formatting
-    // - Must be on the start of a week (user-defined setting)
-    // - Ensure yyyy-mm-dd format
+    // TODO: Need to ensure that the user picks a date which is the start of a week
 
     const newStartDate = DateTime.fromISO(newDate)
 
     if (!newStartDate.isValid) {
       console.error(`Invalid start date selected: ${newDate}`)
       return
+
+      // TODO: Set an error UI state and describe the error to the user
     }
 
     const newEndDate = newStartDate.plus({
       days: DAYS_PER_WEEK * newTrainingPlan.weekCount,
     })
 
+    // TODO: If this happens it's likely bc the weekCount is not a number
     if (!newEndDate.isValid) {
       console.error('Invalid end date after changing start date!')
       return
@@ -120,7 +125,7 @@ const CreateTrainingPlan = () => {
   // Handler to update the end date of the training plan
   const onWeekCountChange = (newWeekCount) => {
     const endDate = newTrainingPlan.startDate.plus({
-      days: DAYS_PER_WEEK * newWeekCount,
+      days: DAYS_PER_WEEK * Number.parseInt(newWeekCount) - 1,
     })
     setTrainingPlan({
       ...newTrainingPlan,
