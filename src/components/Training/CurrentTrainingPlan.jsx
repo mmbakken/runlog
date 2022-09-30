@@ -3,10 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
-import {
-  CreateTrainingRoute,
-  AllTrainingPlansRoute,
-} from '../../constants/routes'
+import { AllTrainingPlansRoute } from '../../constants/routes'
 
 const CurrentTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -22,13 +19,13 @@ const CurrentTrainingPlan = () => {
       .then((response) => {
         dispatch({
           type: actions.GET_ALL_TRAINING__SUCCESS,
-          training: response.data,
+          data: response.data,
         })
       })
       .catch((error) => {
         dispatch({
           type: actions.GET_ALL_TRAINING__ERROR,
-          training: error,
+          error: error,
         })
       })
   }, [])
@@ -39,11 +36,6 @@ const CurrentTrainingPlan = () => {
         {state.training.isFetching && <span>Loading...</span>}
       </div>
     )
-  }
-
-  // If there's no plans, redirect to creation page
-  if (Object.keys(state.training.byId).length === 0) {
-    return <Redirect to={{ pathname: CreateTrainingRoute }} />
   }
 
   // If there are plans but no current one, redirect to the AllPlans page

@@ -166,15 +166,29 @@ const stateReducer = (state, action) => {
         },
       }
     }
+
     case actions.GET_ALL_TRAINING__SUCCESS: {
-      return {
+      const ids = Object.keys(action.data)
+      let trainingById = {}
+
+      for (let i = 0; i < ids.length; i++) {
+        trainingById[ids[i]] = { ...action.data[ids[i]] }
+      }
+
+      const returnObj = {
         ...state,
         training: {
           ...state.training,
           isFetching: false,
+          byId: trainingById, // Just replace all training objects with newly retrieved data
+          allIds: ids,
+          error: null,
         },
       }
+
+      return returnObj
     }
+
     case actions.GET_ALL_TRAINING__ERROR: {
       return {
         ...state,
