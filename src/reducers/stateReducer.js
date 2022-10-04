@@ -157,6 +157,10 @@ const stateReducer = (state, action) => {
       }
     }
 
+    ////////
+    // Training Plans GET actions
+    ////////
+
     case actions.GET_ALL_TRAINING__START: {
       return {
         ...state,
@@ -199,6 +203,7 @@ const stateReducer = (state, action) => {
         },
       }
     }
+
     case actions.GET_TRAINING_PLAN__START: {
       return {
         ...state,
@@ -209,23 +214,38 @@ const stateReducer = (state, action) => {
       }
     }
     case actions.GET_TRAINING_PLAN__SUCCESS: {
-      return {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+
+      const allIds = Object.keys(trainingById)
+
+      const returnObj = {
         ...state,
         training: {
           ...state.training,
           isFetching: false,
+          byId: trainingById, // Just replace all training objects with newly retrieved data
+          allIds: allIds,
+          error: null,
         },
       }
+
+      return returnObj
     }
+
     case actions.GET_TRAINING_PLAN__ERROR: {
       return {
         ...state,
         training: {
           ...state.training,
           isFetching: false,
+          error: action.error,
         },
       }
     }
+
     case actions.CREATE_TRAINING_PLAN__START: {
       return {
         ...state,
@@ -235,15 +255,26 @@ const stateReducer = (state, action) => {
         },
       }
     }
+
     case actions.CREATE_TRAINING_PLAN__SUCCESS: {
-      return {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+      const allIds = Object.keys(trainingById)
+      const returnObj = {
         ...state,
         training: {
           ...state.training,
-          isFetching: false,
+          byId: trainingById,
+          allIds: allIds,
+          error: null,
         },
       }
+
+      return returnObj
     }
+
     case actions.CREATE_TRAINING_PLAN__ERROR: {
       return {
         ...state,

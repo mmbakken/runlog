@@ -1,10 +1,13 @@
 import React, { useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { DateTime } from 'luxon'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
-
-import { CreateTrainingRoute } from '../../constants/routes'
+import {
+  CreateTrainingRoute,
+  ViewTrainingPlanRoute,
+} from '../../constants/routes'
 
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -46,28 +49,51 @@ const AllTrainingPlans = () => {
           state.training.byId &&
           Object.values(state.training.byId).length > 0 && (
             <div className='w-full mb-4'>
-              {Object.keys(state.training.byId).map((id, index) => {
-                const training = state.training.byId[id]
-                return (
-                  <div
-                    key={index}
-                    className='w-full inline-flex border border-eggplant-600 mb-2'
-                  >
-                    <div className='px-4 py-2 border-r border-eggplant-600 '>
-                      {training.title}
+              {Object.values(state.training.byId)
+                .sort((planA, planB) => {
+                  if (planA.isActive && !planB.isActive) {
+                    return -1 // plan A first
+                  } else if (!planA.isActive && planB.isActive) {
+                    return 1 // plan b first
+                  }
+
+                  return (
+                    DateTime.fromISO(planA.startDate) -
+                    DateTime.fromISO(planB.startDate)
+                  )
+                })
+                .map((training, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className='w-full inline-flex border border-eggplant-600 mb-2'
+                    >
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        {training.title}
+                      </div>
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        {training.startDate}
+                      </div>
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        {training.endDate}
+                      </div>
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        {training.isActive ? 'Active' : ''}
+                      </div>
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        <button className='px-6 py-1 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'>
+                          <Link
+                            to={ViewTrainingPlanRoute.split(':')[0].concat(
+                              training._id
+                            )}
+                          >
+                            View
+                          </Link>
+                        </button>
+                      </div>
                     </div>
-                    <div className='px-4 py-2 border-r border-eggplant-600 '>
-                      {training.startDate}
-                    </div>
-                    <div className='px-4 py-2 border-r border-eggplant-600 '>
-                      {training.endDate}
-                    </div>
-                    <div className='px-4 py-2 border-r border-eggplant-600 '>
-                      {training.isActive ? 'Active' : ''}
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
             </div>
           )}
 

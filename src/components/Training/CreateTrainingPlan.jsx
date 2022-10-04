@@ -6,7 +6,6 @@ import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
-
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
 const CreateTrainingPlan = () => {
