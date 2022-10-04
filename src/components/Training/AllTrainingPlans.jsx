@@ -35,23 +35,32 @@ const AllTrainingPlans = () => {
   }, [])
 
   const onDeleteClick = (id) => {
-    dispatch({
-      type: actions.DELETE_TRAINING__START,
-    })
+    if (
+      window.confirm(
+        `Are you sure you want to delete the training plan "${state.training.byId[id].title}"? This action cannot be undone.`
+      )
+    ) {
+      dispatch({
+        type: actions.DELETE_TRAINING__START,
+      })
 
-    APIv1.delete(`/training/${id}`)
-      .then(() => {
-        dispatch({
-          type: actions.DELETE_TRAINING__SUCCESS,
-          id: id,
+      APIv1.delete(`/training/${id}`)
+        .then(() => {
+          dispatch({
+            type: actions.DELETE_TRAINING__SUCCESS,
+            id: id,
+          })
+
+          // TODO: This should be a toast so the user can see it when the route changes
+          console.log(`Deleted training plan with id ${id}`)
         })
-      })
-      .catch((error) => {
-        dispatch({
-          type: actions.DELETE_TRAINING__ERROR,
-          error: error,
+        .catch((error) => {
+          dispatch({
+            type: actions.DELETE_TRAINING__ERROR,
+            error: error,
+          })
         })
-      })
+    }
   }
 
   return (
