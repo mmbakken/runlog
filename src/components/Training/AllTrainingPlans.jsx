@@ -34,6 +34,26 @@ const AllTrainingPlans = () => {
       })
   }, [])
 
+  const onDeleteClick = (id) => {
+    dispatch({
+      type: actions.DELETE_TRAINING__START,
+    })
+
+    APIv1.delete(`/training/${id}`)
+      .then(() => {
+        dispatch({
+          type: actions.DELETE_TRAINING__SUCCESS,
+          id: id,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.DELETE_TRAINING__ERROR,
+          error: error,
+        })
+      })
+  }
+
   return (
     <div className='TrainingPage w-full px-4 pb-4'>
       <div className='w-full'>
@@ -72,10 +92,10 @@ const AllTrainingPlans = () => {
                         {training.title}
                       </div>
                       <div className='px-4 py-2 border-r border-eggplant-600 '>
-                        {training.startDate}
+                        {DateTime.fromISO(training.startDate).toLocaleString()}
                       </div>
                       <div className='px-4 py-2 border-r border-eggplant-600 '>
-                        {training.endDate}
+                        {DateTime.fromISO(training.endDate).toLocaleString()}
                       </div>
                       <div className='px-4 py-2 border-r border-eggplant-600 '>
                         {training.isActive ? 'Active' : ''}
@@ -89,6 +109,17 @@ const AllTrainingPlans = () => {
                           >
                             View
                           </Link>
+                        </button>
+                      </div>
+
+                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                        <button
+                          onClick={() => {
+                            onDeleteClick(training._id)
+                          }}
+                          className='px-6 py-1 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+                        >
+                          X
                         </button>
                       </div>
                     </div>

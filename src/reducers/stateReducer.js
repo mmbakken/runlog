@@ -285,6 +285,42 @@ const stateReducer = (state, action) => {
       }
     }
 
+    case actions.DELETE_TRAINING__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+
+    case actions.DELETE_TRAINING__SUCCESS: {
+      delete state.training.byId[action.id]
+
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: null,
+          byId: state.training.byId,
+          allIds: Object.keys(state.training.byId),
+        },
+      }
+    }
+
+    case actions.DELETE_TRAINING__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+
     default: {
       throw new Error(`No action of type: "${action.type}"`)
     }
