@@ -33,8 +33,8 @@ const AllTrainingPlans = () => {
 
   return (
     <div className='TrainingPage w-full px-4 pb-4'>
-      <div>
-        <h1 className='text-xl mb-4'>All Training Plans</h1>
+      <div className='w-full'>
+        <h1 className='text-2xl mb-4'>All Training Plans</h1>
 
         {state.training.isFetching && (
           <div>
@@ -45,12 +45,28 @@ const AllTrainingPlans = () => {
         {!state.training.isFetching &&
           state.training.byId &&
           Object.values(state.training.byId).length > 0 && (
-            <div className='mb-4'>
-              <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
-                {JSON.stringify(state.training.byId, null, 2)}
-              </pre>
-              {Object.keys(state.training.byId).map((index, id) => {
-                return <div key={index}>{state.training.byId[id]}</div>
+            <div className='w-full mb-4'>
+              {Object.keys(state.training.byId).map((id, index) => {
+                const training = state.training.byId[id]
+                return (
+                  <div
+                    key={index}
+                    className='w-full inline-flex border border-eggplant-600 mb-2'
+                  >
+                    <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      {training.title}
+                    </div>
+                    <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      {training.startDate}
+                    </div>
+                    <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      {training.endDate}
+                    </div>
+                    <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      {training.isActive ? 'Active' : ''}
+                    </div>
+                  </div>
+                )
               })}
             </div>
           )}
@@ -63,7 +79,10 @@ const AllTrainingPlans = () => {
       </div>
 
       <div>
-        <Link to={CreateTrainingRoute} className='underline hover:pointer'>
+        <Link
+          to={CreateTrainingRoute}
+          className='text-xl underline hover:pointer'
+        >
           New Training Plan
         </Link>
       </div>

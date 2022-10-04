@@ -26,8 +26,9 @@ module.exports = {
       },
       colors: {
         eggplant: {
-          700: '#7A2A46',
-          600: '#983457',
+          700: '#7A2A46', // active bg, focus outline
+          600: '#983457', // active bg + :hover state
+          300: '#A1687C', // :disabled state
         },
         offwhite: {
           25: '#FBF7F6',

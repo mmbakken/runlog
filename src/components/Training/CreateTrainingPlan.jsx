@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { StateContext } from '../../context/StateContext'
 import { AuthContext } from '../../context/AuthContext'
@@ -6,15 +7,18 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
 
+import { AllTrainingPlansRoute } from '../../constants/routes'
+
 const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
   const auth = useContext(AuthContext)[0]
   const now = useState(DateTime.local())[0]
+  const history = useHistory()
 
   const DEFAULT_WEEK_COUNT = 8 // Seems like a reasonable training plan length
   const DEFAULT_WEEK_STARTS_ON = 1 // Monday
   const DAYS_PER_WEEK = 7
-  const DEFAULT_TITLE = 'New Training Plan'
+  const DEFAULT_TITLE = ''
   const DEFAULT_START_DATE = nextUpcomingWeekStart(
     now.toISODate(),
     auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON
@@ -35,12 +39,24 @@ const CreateTrainingPlan = () => {
     timezone: now.zoneName,
     title: DEFAULT_TITLE,
     goal: '',
+    isActive: false,
   })
+
+  // Have the necessary fields been added?
+  const allowCreation =
+    newTrainingPlan.title != null &&
+    newTrainingPlan.title.length > 0 &&
+    newTrainingPlan.goal != null &&
+    newTrainingPlan.goal.length > 0 &&
+    newTrainingPlan.startDate != null &&
+    newTrainingPlan.startDateISO != null &&
+    newTrainingPlan.weekCount != null &&
+    newTrainingPlan.endDate != null &&
+    newTrainingPlan.endDateISO != null
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    // TODO: Convert the newTrainingPlan state into the values the API cares about
     const newPlan = {
       startDate: newTrainingPlan.startDateISO,
       endDate: newTrainingPlan.endDateISO,
@@ -48,25 +64,24 @@ const CreateTrainingPlan = () => {
       title: newTrainingPlan.title,
       goal: newTrainingPlan.goal,
       timezone: newTrainingPlan.timezone,
+      isActive: newTrainingPlan.isActive,
     }
 
     dispatch({
-      action: actions.CREATE_TRAINING_PLAN__START,
+      type: actions.CREATE_TRAINING_PLAN__START,
       plan: newPlan,
     })
 
     APIv1.post('/training', newPlan)
       .then((response) => {
-        console.log('Successful response!')
-        console.dir(response.data)
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__SUCCESS,
           plan: response.data,
         })
+
+        history.push(AllTrainingPlansRoute)
       })
       .catch((error) => {
-        console.error('Error')
-        console.dir(error)
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__ERROR,
           error: error,
@@ -135,44 +150,59 @@ const CreateTrainingPlan = () => {
     })
   }
 
+  // Handler for user toggling isActive checkbox
+  const toggleIsActive = () => {
+    setTrainingPlan({
+      ...newTrainingPlan,
+      isActive: !newTrainingPlan.isActive,
+    })
+  }
+
   return (
     <div className='TrainingPage w-full px-4 pb-4 space-y-4'>
-      <h1 className='text-xl'>New Training Plan</h1>
-      <form onSubmit={handleSubmit} className='space-y-2'>
-        <label>
-          Title
-          <input
-            type='text'
-            placeholder='What are you training for?'
-            value={newTrainingPlan.title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            className='block mt-1'
-          />
-        </label>
+      <h1 className='text-2xl'>New Training Plan</h1>
+      <form onSubmit={handleSubmit} className='w-full'>
+        <div className='w-full flex space-x-8 mt-4'>
+          <label className='w-full max-w-lg text-xl'>
+            Title
+            <input
+              type='text'
+              required
+              autoFocus
+              placeholder='What race are you training for?'
+              value={newTrainingPlan.title}
+              onChange={(e) => onTitleChange(e.target.value)}
+              className='text-base w-full rounded px-2 py-2 block mt-2 border border-gray-900'
+            />
+          </label>
+        </div>
 
-        <label>
-          Goal
-          <textarea
-            type='text'
-            placeholder='What do you want to achieve?'
-            value={newTrainingPlan.goal}
-            onChange={(e) => onGoalChange(e.target.value)}
-            className='block mt-1'
-          />
-        </label>
+        <div className='w-full flex space-x-8 mt-4'>
+          <label className='w-full max-w-lg text-xl'>
+            Goal
+            <textarea
+              type='text'
+              required
+              placeholder='What do you want to achieve?'
+              value={newTrainingPlan.goal}
+              onChange={(e) => onGoalChange(e.target.value)}
+              className='text-base w-full h-36 rounded px-2 py-2 block mt-2 border border-gray-900'
+            />
+          </label>
+        </div>
 
-        <div className='flex space-x-4'>
-          <label>
+        <div className='flex space-x-8 mt-4'>
+          <label className='text-xl'>
             Start Date
             <input
               type='date'
               value={newTrainingPlan.startDateISO}
               onChange={(e) => onDateChange(e.target.value)}
-              className='block mt-1'
+              className='text-base rounded px-2 py-2 block mt-2 border border-gray-900'
             />
           </label>
 
-          <label>
+          <label className='text-xl'>
             Weeks
             <input
               type='number'
@@ -180,24 +210,40 @@ const CreateTrainingPlan = () => {
               min='1'
               max='52'
               onChange={(e) => onWeekCountChange(e.target.value)}
-              className='block mt-1'
+              className='text-base rounded px-2 py-2 block mt-2 border border-gray-900'
             />
           </label>
 
-          <label>
+          <label className='text-xl'>
             End Date
             <input
               disabled
               type='date'
               value={newTrainingPlan.endDateISO}
-              className='block mt-1'
+              className='text-base rounded py-2 block mt-2'
+            />
+          </label>
+        </div>
+
+        <div className='text-xl flex space-x-8 mt-4'>
+          <label className='cursor-pointer'>
+            Active Plan
+            <span className='block text-base text-gray-500'>
+              Is this your current training plan?
+            </span>
+            <input
+              type='checkbox'
+              checked={newTrainingPlan.isActive}
+              onChange={() => toggleIsActive()}
+              className='text-base rounded h-8 w-8 px-2 py-2 block mt-3 cursor-pointer checked:bg-eggplant-600 border border-gray-300'
             />
           </label>
         </div>
 
         <button
-          className='px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition focus:outline-none'
+          className='text-xl mt-8 px-8 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
           type='submit'
+          disabled={!allowCreation}
         >
           Create
         </button>
