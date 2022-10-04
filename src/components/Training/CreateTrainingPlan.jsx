@@ -119,7 +119,7 @@ const CreateTrainingPlan = () => {
     }
 
     const newEndDate = newStartDate.plus({
-      days: DAYS_PER_WEEK * newTrainingPlan.weekCount,
+      days: DAYS_PER_WEEK * newTrainingPlan.weekCount - 1,
     })
 
     // TODO: If this happens it's likely bc the weekCount is not a number
