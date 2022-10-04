@@ -15,11 +15,15 @@ const AllTrainingPlans = () => {
   const id = location.pathname.split('/training/')[1]
 
   let optionMenuClasses =
-    'absolute left-8 top-0 space-y-1 border rounded border-gray-900 bg-offwhite-100'
+    'absolute left-8 top-0 space-y-1 border rounded border-gray-900 bg-offwhite-100 z-10'
+  let maskClasses =
+    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0'
   if (isOptionMenuVisible) {
     optionMenuClasses += ' block'
+    maskClasses += ' block'
   } else {
     optionMenuClasses += ' hidden'
+    maskClasses += ' hidden'
   }
 
   useEffect(() => {
@@ -101,6 +105,10 @@ const AllTrainingPlans = () => {
     setIsOptionMenuVisible(!isOptionMenuVisible)
   }
 
+  const onMaskClick = () => {
+    setIsOptionMenuVisible(false)
+  }
+
   return (
     <div className='TrainingPage w-full px-4 pb-4'>
       {state.training.isFetching && (
@@ -119,7 +127,7 @@ const AllTrainingPlans = () => {
               </h1>
               <div className='relative grow-0 shrink-0'>
                 <button
-                  className='text-sm px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
+                  className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
                   onClick={() => {
                     onMenuClick()
                   }}
@@ -165,6 +173,13 @@ const AllTrainingPlans = () => {
                     </li>
                   </ul>
                 </div>
+
+                <div
+                  className={maskClasses}
+                  onClick={() => {
+                    onMaskClick()
+                  }}
+                />
               </div>
             </div>
             <h2 className='mt-2 mb-4'>Goal: {state.training.byId[id].goal}</h2>
