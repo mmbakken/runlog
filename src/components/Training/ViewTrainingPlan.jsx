@@ -9,6 +9,7 @@ import { APIv1 } from '../../api'
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
 import TrainingCalendar from './TrainingCalendar'
+import articlize from '../../utils/articlize.js'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -21,7 +22,7 @@ const ViewTrainingPlan = () => {
   const training = state?.training?.byId[id]
   let dateRangeStr = ''
   if (training != null) {
-    dateRangeStr = `A ${
+    dateRangeStr = `${articlize(training.weeks.length, 'A', 'An')} ${
       training.weeks.length
     }-week plan from ${DateTime.fromISO(training.startDate, {
       zone: 'utc',

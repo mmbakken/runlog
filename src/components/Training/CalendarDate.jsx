@@ -5,12 +5,7 @@ import { DateTime } from 'luxon'
 // TODO: Workout category should determine cell color
 //import workoutCategoryColorMap from './workoutCategoryColorMap.js'
 
-const CalendarDate = ({
-  date,
-  className,
-  onDistanceEdit,
-  onWorkoutStrEdit,
-}) => {
+const CalendarDate = ({ date, className, onDateEdit }) => {
   const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' })
 
   // TODO: Display actual distance if any is present. Display plannedDistance otherwise.
@@ -29,7 +24,7 @@ const CalendarDate = ({
             className='text-center resize-none h-full w-full bg-transparent outline-none p-1'
             value={date.plannedDistance}
             onChange={(event) => {
-              onDistanceEdit(event.target.value, dt.toISODate())
+              onDateEdit('plannedDistance', event.target.value, dt.toISODate())
             }}
           />
         </div>
@@ -40,7 +35,7 @@ const CalendarDate = ({
           spellCheck={false}
           value={date.workout}
           onChange={(event) => {
-            onWorkoutStrEdit(event.target.value, dt.toISODate())
+            onDateEdit('workout', event.target.value, dt.toISODate())
           }}
         />
       </div>
@@ -57,9 +52,7 @@ CalendarDate.propTypes = {
     workout: PropTypes.string,
     workoutCategory: PropTypes.number,
   }).isRequired,
-  onDistanceEdit: PropTypes.func.isRequired,
-  onWorkoutStrEdit: PropTypes.func.isRequired,
-  // onWorkoutCategoryEdit: PropTypes.func.isRequired, // TODO: Design UX for changing category
+  onDateEdit: PropTypes.func.isRequired,
 }
 
 export default CalendarDate

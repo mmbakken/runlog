@@ -46,42 +46,14 @@ const TrainingCalendar = ({ training }) => {
   let columnJClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
-  const onDistanceEdit = (value, dateISO) => {
+  const onDateEdit = (field, value, dateISO) => {
     dispatch({
       type: actions.UPDATE_TRAINING_PLAN_DATE__START,
     })
 
     APIv1.put(`/training/${training._id}/date/${dateISO}`, {
       updates: {
-        plannedDistance: value,
-      },
-    })
-      .then((response) => {
-        dispatch({
-          type: actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS,
-          planId: training._id,
-          dateISO: dateISO,
-          date: response.data,
-        })
-      })
-      .catch((error) => {
-        dispatch({
-          type: actions.UPDATE_TRAINING_PLAN_DATE__ERROR,
-          error: error,
-        })
-      })
-  }
-
-  const onWorkoutStrEdit = (value, dateISO) => {
-    event.target.value
-
-    dispatch({
-      type: actions.UPDATE_TRAINING_PLAN_DATE__START,
-    })
-
-    APIv1.put(`/training/${training._id}/date/${dateISO}`, {
-      updates: {
-        workout: value,
+        [field]: value,
       },
     })
       .then((response) => {
@@ -127,44 +99,37 @@ const TrainingCalendar = ({ training }) => {
             <CalendarDate
               className={columnBClasses}
               date={training.dates[index * 7]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnCClasses}
               date={training.dates[index * 7 + 1]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnDClasses}
               date={training.dates[index * 7 + 2]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnEClasses}
               date={training.dates[index * 7 + 3]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnFClasses}
               date={training.dates[index * 7 + 4]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnGClasses}
               date={training.dates[index * 7 + 5]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <CalendarDate
               className={columnHClasses}
               date={training.dates[index * 7 + 6]}
-              onDistanceEdit={onDistanceEdit}
-              onWorkoutStrEdit={onWorkoutStrEdit}
+              onDateEdit={onDateEdit}
             />
             <div className={columnIClasses}>{week.actualDistance}</div>
             <div className={columnJClasses}>{week.percentChange || '–'}</div>
