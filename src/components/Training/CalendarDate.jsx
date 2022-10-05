@@ -12,10 +12,10 @@ const CalendarDate = ({ date, className }) => {
   return (
     <div className={className + ' bg-green-200'}>
       <div className='w-full flex'>
-        <div className='w-1/2 mx-auto py-2 border-b border-r border-gray-900'>
+        <div className='w-1/2 mx-auto py-1 border-b border-r border-gray-900'>
           {dt.toFormat('MM/dd')}
         </div>
-        <div className='w-1/2 mx-auto py-2 border-b border-gray-300'>
+        <div className='w-1/2 mx-auto py-1 border-b border-gray-300'>
           {dt.actualDistance || dt.plannedDistance || 0}
         </div>
       </div>

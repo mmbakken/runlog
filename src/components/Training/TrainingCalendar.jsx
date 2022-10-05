@@ -17,18 +17,28 @@ const TrainingCalendar = ({ training }) => {
   })
 
   let rowClasses =
-    'w-full flex grow-0 shrink-0 justify-center border-b border-l border-r border-gray-900'
+    'lg:w-full w-248 flex border-b border-l border-r border-gray-900'
 
-  let columnAClasses = 'w-16 text-center px-2 py-1 border-r border-gray-900'
-  let columnBClasses = 'w-40 text-center border-r border-gray-900'
-  let columnCClasses = 'w-40 text-center border-r border-gray-900'
-  let columnDClasses = 'w-40 text-center border-r border-gray-900'
-  let columnEClasses = 'w-40 text-center border-r border-gray-900'
-  let columnFClasses = 'w-40 text-center border-r border-gray-900'
-  let columnGClasses = 'w-40 text-center border-r border-gray-900'
-  let columnHClasses = 'w-40 text-center border-r border-gray-900'
-  let columnIClasses = 'w-16 text-center px-2 py-1 border-r border-gray-900'
-  let columnJClasses = 'w-16 text-center px-2 py-1'
+  let columnAClasses =
+    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
+  let columnBClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnCClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnDClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnEClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnFClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnGClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnHClasses =
+    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+  let columnIClasses =
+    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
+  let columnJClasses =
+    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
   return (
     <div className='w-full'>
