@@ -71,7 +71,7 @@ const TrainingCalendar = ({ training }) => {
   }
 
   return (
-    <div className='w-full text-sm lg:text-base'>
+    <div className='w-full text-sm lg:text-base z-0'>
       {training.weeks.map((week, index) => {
         let rows = []
         if (index === 0) {

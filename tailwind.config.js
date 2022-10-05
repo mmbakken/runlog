@@ -38,7 +38,7 @@ module.exports = {
           200: '#E9DFD8',
         },
         // Category colors
-        rest: '#DDDDDD',
+        rest: '#F6EEE9',
         long: '#8FCAF1',
         easy: '#9AC892',
         tempo: '#F8DE91',
