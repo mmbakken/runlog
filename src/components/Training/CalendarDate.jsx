@@ -24,8 +24,7 @@ const CalendarDate = ({
         <div className='w-1/2 mx-auto py-1 border-b border-gray-300'>
           <input
             type='number'
-            min={0}
-            max={1000}
+            min='0'
             step='1'
             className='text-center resize-none h-full w-full bg-transparent outline-none p-1'
             value={date.plannedDistance}
@@ -60,7 +59,7 @@ CalendarDate.propTypes = {
   }).isRequired,
   onDistanceEdit: PropTypes.func.isRequired,
   onWorkoutStrEdit: PropTypes.func.isRequired,
-  // onWorkoutCategoryEdit: PropTypes.func.isRequired, // TODO: Ahh fuck how do I do this
+  // onWorkoutCategoryEdit: PropTypes.func.isRequired, // TODO: Design UX for changing category
 }
 
 export default CalendarDate
