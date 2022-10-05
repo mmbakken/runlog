@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
+
+import { StateContext } from '../../context/StateContext'
+import actions from '../../reducers/actions'
+import { APIv1 } from '../../api'
 
 import CalendarDate from './CalendarDate'
 
 const TrainingCalendar = ({ training }) => {
+  const dispatch = useContext(StateContext)[1]
+
   training.weeks.sort((weekA, weekB) => {
     return (
       DateTime.fromISO(weekA.startDateISO) -
@@ -40,8 +46,62 @@ const TrainingCalendar = ({ training }) => {
   let columnJClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
+  const onDistanceEdit = (value, dateISO) => {
+    dispatch({
+      type: actions.UPDATE_TRAINING_PLAN_DATE__START,
+    })
+
+    APIv1.put(`/training/${training._id}/date/${dateISO}`, {
+      updates: {
+        plannedDistance: value,
+      },
+    })
+      .then((response) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS,
+          planId: training._id,
+          dateISO: dateISO,
+          date: response.data,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN_DATE__ERROR,
+          error: error,
+        })
+      })
+  }
+
+  const onWorkoutStrEdit = (value, dateISO) => {
+    event.target.value
+
+    dispatch({
+      type: actions.UPDATE_TRAINING_PLAN_DATE__START,
+    })
+
+    APIv1.put(`/training/${training._id}/date/${dateISO}`, {
+      updates: {
+        workout: value,
+      },
+    })
+      .then((response) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS,
+          planId: training._id,
+          dateISO: dateISO,
+          date: response.data,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN_DATE__ERROR,
+          error: error,
+        })
+      })
+  }
+
   return (
-    <div className='w-full'>
+    <div className='w-full text-sm lg:text-base'>
       {training.weeks.map((week, index) => {
         let rows = []
         if (index === 0) {
@@ -67,30 +127,44 @@ const TrainingCalendar = ({ training }) => {
             <CalendarDate
               className={columnBClasses}
               date={training.dates[index * 7]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnCClasses}
               date={training.dates[index * 7 + 1]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnDClasses}
               date={training.dates[index * 7 + 2]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnEClasses}
               date={training.dates[index * 7 + 3]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnFClasses}
               date={training.dates[index * 7 + 4]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnGClasses}
               date={training.dates[index * 7 + 5]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <CalendarDate
               className={columnHClasses}
               date={training.dates[index * 7 + 6]}
+              onDistanceEdit={onDistanceEdit}
+              onWorkoutStrEdit={onWorkoutStrEdit}
             />
             <div className={columnIClasses}>{week.actualDistance}</div>
             <div className={columnJClasses}>{week.percentChange || '–'}</div>
@@ -105,6 +179,7 @@ const TrainingCalendar = ({ training }) => {
 
 TrainingCalendar.propTypes = {
   training: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired, // Runlog: 'user._id'
     startDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
     endDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29

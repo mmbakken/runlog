@@ -10,7 +10,7 @@ import { AllTrainingPlansRoute } from '../../constants/routes'
 
 import TrainingCalendar from './TrainingCalendar'
 
-const AllTrainingPlans = () => {
+const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const location = useLocation()
@@ -217,4 +217,4 @@ const AllTrainingPlans = () => {
   )
 }
 
-export default AllTrainingPlans
+export default ViewTrainingPlan
