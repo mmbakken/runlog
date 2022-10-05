@@ -59,9 +59,7 @@ const TrainingCalendar = ({ training }) => {
       .then((response) => {
         dispatch({
           type: actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS,
-          planId: training._id,
-          dateISO: dateISO,
-          date: response.data,
+          plan: response.data,
         })
       })
       .catch((error) => {
@@ -131,7 +129,7 @@ const TrainingCalendar = ({ training }) => {
               date={training.dates[index * 7 + 6]}
               onDateEdit={onDateEdit}
             />
-            <div className={columnIClasses}>{week.actualDistance}</div>
+            <div className={columnIClasses}>{week.plannedDistance}</div>
             <div className={columnJClasses}>{week.percentChange || '–'}</div>
           </div>
         )

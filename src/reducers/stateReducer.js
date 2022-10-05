@@ -295,28 +295,9 @@ const stateReducer = (state, action) => {
     }
 
     case actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS: {
-      // Find the date in the training plan's date array and update it
-      const updatedDates = []
-      const dates = state.training.byId[action.planId].dates
-      let thisDate
-
-      for (let i = 0; i < dates.length; i++) {
-        thisDate = dates[i]
-
-        if (thisDate.dateISO.split('T')[0] === action.dateISO) {
-          updatedDates.push(action.date)
-        } else {
-          updatedDates.push(dates[i])
-        }
-      }
-
-      // Update training map
       const trainingById = {
         ...state.training.byId,
-        [action.planId]: {
-          ...state.training.byId[action.planId],
-          dates: updatedDates,
-        },
+        [action.plan._id]: action.plan,
       }
 
       return {

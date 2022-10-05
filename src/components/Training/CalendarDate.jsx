@@ -24,8 +24,6 @@ const CalendarDate = ({ date, className, onDateEdit }) => {
   }
   const classes = className + ' ' + categoryClassName[date.workoutCategory]
 
-  // TODO: Display actual distance if any is present. Display plannedDistance otherwise.
-
   return (
     <div className={classes}>
       <div className='w-full flex'>
