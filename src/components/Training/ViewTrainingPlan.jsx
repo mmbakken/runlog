@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import { useLocation, useHistory } from 'react-router-dom'
@@ -7,12 +8,27 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
+import TrainingCalendar from './TrainingCalendar'
+
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const location = useLocation()
   const history = useHistory()
   const id = location.pathname.split('/training/')[1]
+  const DEBUG = false
+
+  const training = state?.training?.byId[id]
+  let dateRangeStr = ''
+  if (training != null) {
+    dateRangeStr = `A ${
+      training.weeks.length
+    }-week plan from ${DateTime.fromISO(training.startDate, {
+      zone: 'utc',
+    }).toLocaleString()} to ${DateTime.fromISO(training.endDate, {
+      zone: 'utc',
+    }).toLocaleString()}`
+  }
 
   let optionMenuClasses =
     'absolute left-8 top-0 space-y-1 border rounded border-gray-900 bg-offwhite-100 z-10'
@@ -73,7 +89,7 @@ const AllTrainingPlans = () => {
   const onDeleteClick = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the training plan "${state.training.byId[id].title}"? This action cannot be undone.`
+        `Are you sure you want to delete the training plan "${training.title}"? This action cannot be undone.`
       )
     ) {
       dispatch({
@@ -117,80 +133,84 @@ const AllTrainingPlans = () => {
         </div>
       )}
 
-      {!state.training.isFetching &&
-        state.training.byId &&
-        state.training.byId[id] && (
-          <div className='w-full mb-4'>
-            <div className='flex space-x-4 items-center'>
-              <h1 className='shrink-1 text-2xl'>
-                {state.training.byId[id].title}
-              </h1>
-              <div className='relative grow-0 shrink-0'>
-                <button
-                  className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
-                  onClick={() => {
-                    onMenuClick()
-                  }}
-                >
-                  <FontAwesomeIcon icon={faEllipsisV} />
-                </button>
+      {!state.training.isFetching && state.training.byId && training && (
+        <div className='w-full mb-4'>
+          <div className='flex space-x-4 items-center'>
+            <h1 className='shrink-1 text-2xl'>{training.title}</h1>
 
-                <div className={optionMenuClasses}>
-                  <ul className='flex flex-col w-max space-y-1'>
-                    <li
-                      className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                      onClick={() => {
-                        onEditClick()
-                      }}
-                    >
-                      Edit plan
-                    </li>
-                    <li
-                      className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                      onClick={() => {
-                        onToggleIsActiveClick()
-                      }}
-                    >
-                      {state.training.byId[id].isActive
-                        ? 'Mark as plan as inactive'
-                        : 'Mark plan as active'}
-                    </li>
-                    <li
-                      className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                      onClick={() => {
-                        onDuplicateClick()
-                      }}
-                    >
-                      Duplicate plan
-                    </li>
-                    <li
-                      className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                      onClick={() => {
-                        onDeleteClick()
-                      }}
-                    >
-                      Delete plan
-                    </li>
-                  </ul>
-                </div>
+            <div className='relative grow-0 shrink-0'>
+              <button
+                className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
+                onClick={() => {
+                  onMenuClick()
+                }}
+              >
+                <FontAwesomeIcon icon={faEllipsisV} />
+              </button>
 
-                <div
-                  className={maskClasses}
-                  onClick={() => {
-                    onMaskClick()
-                  }}
-                />
+              <div className={optionMenuClasses}>
+                <ul className='flex flex-col w-max space-y-1'>
+                  <li
+                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                    onClick={() => {
+                      onEditClick()
+                    }}
+                  >
+                    Edit plan
+                  </li>
+                  <li
+                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                    onClick={() => {
+                      onToggleIsActiveClick()
+                    }}
+                  >
+                    {training.isActive
+                      ? 'Mark as plan as inactive'
+                      : 'Mark plan as active'}
+                  </li>
+                  <li
+                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                    onClick={() => {
+                      onDuplicateClick()
+                    }}
+                  >
+                    Duplicate plan
+                  </li>
+                  <li
+                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                    onClick={() => {
+                      onDeleteClick()
+                    }}
+                  >
+                    Delete plan
+                  </li>
+                </ul>
               </div>
+
+              <div
+                className={maskClasses}
+                onClick={() => {
+                  onMaskClick()
+                }}
+              />
             </div>
-            <h2 className='mt-2 mb-4'>Goal: {state.training.byId[id].goal}</h2>
-
-            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
-              {JSON.stringify(state.training.byId[id], null, 2)}
-            </pre>
           </div>
-        )}
 
-      {!state.training.isFetching && state.training.byId[id] == null && (
+          <h2 className='text-sm text-gray-500 mb-2'>{dateRangeStr}</h2>
+
+          <h2 className='mb-8'>Goal: {training.goal}</h2>
+
+          <TrainingCalendar training={training} />
+
+          {DEBUG && (
+            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+              {JSON.stringify(training, null, 2)}
+            </pre>
+          )}
+        </div>
+      )}
+
+      {!state.training.isFetching && training == null && (
         <div className='mb-4'>No training plan found with id {id}</div>
       )}
     </div>
