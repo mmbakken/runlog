@@ -23,7 +23,7 @@ const TrainingCalendar = ({ training }) => {
   })
 
   let rowClasses =
-    'lg:w-full w-248 flex border-b border-l border-r border-gray-900'
+    'lg:w-full w-248 flex border-b border-l border-r border-gray-900 bg-offwhite-100'
 
   let columnAClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'

@@ -2,16 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
-// TODO: Workout category should determine cell color
-//import workoutCategoryColorMap from './workoutCategoryColorMap.js'
-
 const CalendarDate = ({ date, className, onDateEdit }) => {
   const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+
+  // This list has to be in this file in order for Tailwind to generate the class names correctly
+  const categoryClassName = {
+    0: 'bg-rest',
+    1: 'bg-long',
+    2: 'bg-easy',
+    3: 'bg-tempo',
+    4: 'bg-intervals',
+    5: 'bg-repetitions',
+    6: 'bg-marathon',
+    7: 'bg-race',
+    8: 'bg-trail-run',
+    9: 'bg-hiking',
+    10: 'bg-spinning',
+    11: 'bg-downhill-skiing',
+    12: 'bg-backcountry-skiing',
+    13: 'bg-lifting',
+  }
+  const classes = className + ' ' + categoryClassName[date.workoutCategory]
 
   // TODO: Display actual distance if any is present. Display plannedDistance otherwise.
 
   return (
-    <div className={className + ' bg-green-200'}>
+    <div className={classes}>
       <div className='w-full flex'>
         <div className='w-1/2 mx-auto py-1 flex items-center justify-center border-b border-r border-gray-900'>
           {dt.toFormat('MM/dd')}

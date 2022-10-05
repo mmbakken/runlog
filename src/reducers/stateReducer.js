@@ -310,8 +310,6 @@ const stateReducer = (state, action) => {
         }
       }
 
-      console.dir(updatedDates)
-
       // Update training map
       const trainingById = {
         ...state.training.byId,
