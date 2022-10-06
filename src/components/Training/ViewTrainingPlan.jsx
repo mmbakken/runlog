@@ -21,13 +21,16 @@ const ViewTrainingPlan = () => {
   const DEBUG = false
 
   const training = state?.training?.byId[id]
-  let dateRangeStr = ''
+  let planDesc = ''
   if (training != null) {
-    dateRangeStr = `${articlize(training.weeks.length, 'A', 'An')} ${
-      training.weeks.length
-    }-week plan from ${DateTime.fromISO(training.startDate, {
-      zone: 'utc',
-    }).toLocaleString()} to ${DateTime.fromISO(training.endDate, {
+    planDesc = `${articlize(training.plannedDistance, 'A', 'An')} ${
+      training.plannedDistance
+    }-mile, ${training.weeks.length}-week training plan from ${DateTime.fromISO(
+      training.startDate,
+      {
+        zone: 'utc',
+      }
+    ).toLocaleString()} through ${DateTime.fromISO(training.endDate, {
       zone: 'utc',
     }).toLocaleString()}`
   }
@@ -210,9 +213,12 @@ const ViewTrainingPlan = () => {
                   />
                 </div>
               </div>
-              <div className='flex flex-col mb-2 text-sm'>
-                <h2 className='text-gray-500'>{dateRangeStr}</h2>
-                <h2 className='mt-2'>Goal: {training.goal}</h2>
+              <div className='flex flex-col text-sm'>
+                <h2 className='text-gray-500'>{planDesc}</h2>
+                <h2 className='mt-1'>Goal: {training.goal}</h2>
+                <h2 className='mt-1'>
+                  Mileage: {training.actualDistance} miles
+                </h2>
               </div>
             </div>
 
