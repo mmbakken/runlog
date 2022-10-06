@@ -285,6 +285,42 @@ const stateReducer = (state, action) => {
       }
     }
 
+    case actions.UPDATE_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          error: null,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN__SUCCESS: {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          byId: trainingById,
+          error: null,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          error: action.error,
+        },
+      }
+    }
+
     case actions.UPDATE_TRAINING_PLAN_DATE__START: {
       return {
         ...state,

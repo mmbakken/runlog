@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarOutline } from '@fortawesome/free-regular-svg-icons'
 import { useLocation, useHistory } from 'react-router-dom'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
@@ -80,9 +81,31 @@ const ViewTrainingPlan = () => {
   const onEditClick = () => {
     console.log('TODO onEditClick')
   }
-  const onToggleIsActiveClick = () => {
-    console.log('TODO onToggleIsActiveClick')
+
+  const onToggleIsActiveClick = (value) => {
+    dispatch({
+      type: actions.UPDATE_TRAINING_PLAN__START,
+    })
+
+    APIv1.put(`/training/${training._id}`, {
+      updates: {
+        isActive: value,
+      },
+    })
+      .then((response) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN__SUCCESS,
+          plan: response.data,
+        })
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.UPDATE_TRAINING_PLAN__ERROR,
+          error: error,
+        })
+      })
   }
+
   const onDuplicateClick = () => {
     console.log('TODO onDuplicateClick')
   }
@@ -136,70 +159,87 @@ const ViewTrainingPlan = () => {
 
       {!state.training.isFetching && state.training.byId && training && (
         <div className='w-full mb-4'>
-          <div className='flex space-x-4 items-center'>
-            <h1 className='shrink-1 text-2xl'>{training.title}</h1>
+          <div className='flex space-x-4 mb-8'>
+            <div className='basis-2/3 flex flex-col'>
+              <div className='flex items-center '>
+                <h1 className='text-2xl'>{training.title}</h1>
+                <div className='ml-4 relative grow-0 shrink-0'>
+                  <button
+                    className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
+                    onClick={() => {
+                      onMenuClick()
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEllipsisV} />
+                  </button>
 
-            <div className='relative grow-0 shrink-0'>
-              <button
-                className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
-                onClick={() => {
-                  onMenuClick()
-                }}
-              >
-                <FontAwesomeIcon icon={faEllipsisV} />
-              </button>
+                  <div className={optionMenuClasses}>
+                    <ul className='flex flex-col w-max'>
+                      <li
+                        className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                        onClick={() => {
+                          onEditClick()
+                        }}
+                      >
+                        Edit plan
+                      </li>
+                      <li
+                        className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                        onClick={() => {
+                          onDuplicateClick()
+                        }}
+                      >
+                        Duplicate plan
+                      </li>
+                      <li
+                        className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                        onClick={() => {
+                          onDeleteClick()
+                        }}
+                      >
+                        Delete plan
+                      </li>
+                    </ul>
+                  </div>
 
-              <div className={optionMenuClasses}>
-                <ul className='flex flex-col w-max'>
-                  <li
-                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                  <div
+                    className={maskClasses}
                     onClick={() => {
-                      onEditClick()
+                      onMaskClick()
                     }}
-                  >
-                    Edit plan
-                  </li>
-                  <li
-                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                    onClick={() => {
-                      onToggleIsActiveClick()
-                    }}
-                  >
-                    {training.isActive
-                      ? 'Mark as plan as inactive'
-                      : 'Mark plan as active'}
-                  </li>
-                  <li
-                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                    onClick={() => {
-                      onDuplicateClick()
-                    }}
-                  >
-                    Duplicate plan
-                  </li>
-                  <li
-                    className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                    onClick={() => {
-                      onDeleteClick()
-                    }}
-                  >
-                    Delete plan
-                  </li>
-                </ul>
+                  />
+                </div>
               </div>
+              <div className='flex flex-col mb-2 text-sm'>
+                <h2 className='text-gray-500'>{dateRangeStr}</h2>
+                <h2 className='mt-2'>Goal: {training.goal}</h2>
+              </div>
+            </div>
 
-              <div
-                className={maskClasses}
-                onClick={() => {
-                  onMaskClick()
-                }}
-              />
+            <div className='basis-1/3 text-sm text-right'>
+              {training.isActive ? (
+                <span
+                  className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
+                  onClick={() => {
+                    onToggleIsActiveClick(false)
+                  }}
+                >
+                  <FontAwesomeIcon className='mr-1' icon={faStar} />
+                  <span>Active Plan</span>
+                </span>
+              ) : (
+                <span
+                  className='bg-offwhite-100 border rounded border-gray-900 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
+                  onClick={() => {
+                    onToggleIsActiveClick(true)
+                  }}
+                >
+                  <FontAwesomeIcon className='mr-1' icon={faStarOutline} />
+                  <span>Inactive Plan</span>
+                </span>
+              )}
             </div>
           </div>
-
-          <h2 className='text-sm text-gray-500 mb-2'>{dateRangeStr}</h2>
-
-          <h2 className='mb-8'>Goal: {training.goal}</h2>
 
           <TrainingCalendar training={training} />
 

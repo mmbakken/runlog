@@ -6,7 +6,7 @@ const CalendarDate = ({ date, className, onDateEdit }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   let optionMenu = useRef(null)
   let optionMenuClasses =
-    'absolute left-32 top-0 text-left border rounded border-gray-900 bg-offwhite-100 z-20'
+    'absolute left-28 lg:left-36 top-0 text-left border rounded border-gray-900 bg-offwhite-100 z-20'
   let maskClasses =
     'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-10'
   if (isOptionMenuVisible) {
