@@ -80,6 +80,11 @@ const CalendarDate = ({ date, className, onDateEdit }) => {
     setIsOptionMenuVisible(false)
   }
 
+  // Ignore unless in edit mode. In edit mode, this toggles date selection. Date selection is exclusive.
+  const onDateClick = () => {
+    console.log('TODO onDateClick')
+  }
+
   return (
     <div
       className={`${className} ${
@@ -88,6 +93,7 @@ const CalendarDate = ({ date, className, onDateEdit }) => {
       onContextMenu={(e) => {
         onMenuClick(e)
       }}
+      onClick={() => onDateClick()}
     >
       <div className='w-full flex'>
         <div className='w-1/2 mx-auto py-1 flex items-center justify-center border-b border-r border-gray-900'>

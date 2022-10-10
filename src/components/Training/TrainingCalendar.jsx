@@ -70,6 +70,11 @@ const TrainingCalendar = ({ training }) => {
       })
   }
 
+  // Ignore unless in edit mode. Then, toggle the selection of this week
+  const onWeekClick = (weekIndex) => {
+    console.log(`TODO onWeekClick ${weekIndex}`)
+  }
+
   return (
     <div className='w-full text-sm lg:text-base z-0'>
       {training.weeks.map((week, index) => {
@@ -93,7 +98,9 @@ const TrainingCalendar = ({ training }) => {
 
         rows.push(
           <div key={index} className={rowClasses}>
-            <div className={columnAClasses}>{index + 1}</div>
+            <div className={columnAClasses} onClick={() => onWeekClick(index)}>
+              {index + 1}
+            </div>
             <CalendarDate
               className={columnBClasses}
               date={training.dates[index * 7]}
@@ -165,6 +172,9 @@ TrainingCalendar.propTypes = {
     // The journal is a section of the training plan where the user can add text comments about their
     // progress, specific workouts, injury status, etc.
     journal: PropTypes.array.isRequired,
+
+    // Fields added and used by ViewTrainingPlan component when in edit mode. Do not display these.
+    ui: PropTypes.object,
   }),
 }
 
