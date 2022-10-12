@@ -15,6 +15,9 @@ module.exports = {
       ],
     },
     extend: {
+      transitionProperty: {
+        'outline-width': 'outline-width',
+      },
       spacing: {
         // 1rem === 4 units
         120: '30rem',

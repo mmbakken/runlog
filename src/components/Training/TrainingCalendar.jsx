@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
@@ -10,6 +10,7 @@ import CalendarDate from './CalendarDate'
 
 const TrainingCalendar = ({ training }) => {
   const dispatch = useContext(StateContext)[1]
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
 
   training.weeks.sort((weekA, weekB) => {
     return (
@@ -22,25 +23,8 @@ const TrainingCalendar = ({ training }) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
 
-  let rowClasses =
-    'lg:w-full w-248 flex border-b border-l border-r border-gray-900 bg-offwhite-100'
-
   let columnAClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnBClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnCClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnDClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnEClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnFClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnGClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-  let columnHClasses =
-    'grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
   let columnIClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
   let columnJClasses =
@@ -72,7 +56,11 @@ const TrainingCalendar = ({ training }) => {
 
   // Ignore unless in edit mode. Then, toggle the selection of this week
   const onWeekClick = (weekIndex) => {
-    console.log(`TODO onWeekClick ${weekIndex}`)
+    if (selectedWeekIndex === weekIndex) {
+      setSelectedWeekIndex(null)
+    } else {
+      setSelectedWeekIndex(weekIndex)
+    }
   }
 
   return (
@@ -81,58 +69,146 @@ const TrainingCalendar = ({ training }) => {
         let rows = []
         if (index === 0) {
           rows.push(
-            <div key='header' className={rowClasses + ' border-t'}>
+            <div
+              key='header'
+              className='lg:w-full w-248 flex bg-offwhite-100 border-gray-900 border-t border-l border-r'
+            >
               <div className={columnAClasses}>Week</div>
-              <div className={columnBClasses + ' px-2 py-1'}>Monday</div>
-              <div className={columnCClasses + ' px-2 py-1'}>Tuesday</div>
-              <div className={columnDClasses + ' px-2 py-1'}>Wednesday</div>
-              <div className={columnEClasses + ' px-2 py-1'}>Thursday</div>
-              <div className={columnFClasses + ' px-2 py-1'}>Friday</div>
-              <div className={columnGClasses + ' px-2 py-1'}>Saturday</div>
-              <div className={columnHClasses + ' px-2 py-1'}>Sunday</div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Monday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Tuesday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Wednesday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Thursday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Friday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Saturday
+              </div>
+              <div
+                className={
+                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                }
+              >
+                Sunday
+              </div>
               <div className={columnIClasses}>Total</div>
               <div className={columnJClasses}>Diff</div>
             </div>
           )
         }
 
+        let weekRowClasses =
+          'relative lg:w-full w-248 flex bg-offwhite-100 border-r border-l transition-outline-width'
+        let weekCellClasses =
+          'cursor-pointer hover:bg-eggplant-700 hover:text-white hover:border-eggplant-700 transition'
+        let selectedWeekCellClasses =
+          'cursor-pointer bg-eggplant-700 border-eggplant-700 text-white hover:bg-eggplant-600 transition'
+
+        let isSelectedWeek = selectedWeekIndex === index
+
+        if (index === 0) {
+          weekRowClasses += ' border-t'
+        }
+
+        if (selectedWeekIndex === index) {
+          weekRowClasses +=
+            ' border-eggplant-700 border-t border-b outline outline-eggplant-700 z-10'
+        } else if (selectedWeekIndex - 1 === index) {
+          weekRowClasses += ' border-gray-900' // This is the row below the selected one
+        } else {
+          weekRowClasses += ' border-gray-900 border-b' // This is the row above the selected one
+        }
+
         rows.push(
-          <div key={index} className={rowClasses}>
-            <div className={columnAClasses} onClick={() => onWeekClick(index)}>
+          <div key={index} className={weekRowClasses}>
+            <div
+              className={
+                isSelectedWeek
+                  ? `${columnAClasses} ${selectedWeekCellClasses}`
+                  : `${columnAClasses} ${weekCellClasses}`
+              }
+              onClick={() => onWeekClick(index)}
+            >
               {index + 1}
             </div>
             <CalendarDate
-              className={columnBClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnCClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 1]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnDClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 2]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnEClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 3]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnFClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 4]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnGClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 5]}
               onDateEdit={onDateEdit}
             />
             <CalendarDate
-              className={columnHClasses}
+              className={
+                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+              }
               date={training.dates[index * 7 + 6]}
               onDateEdit={onDateEdit}
             />
