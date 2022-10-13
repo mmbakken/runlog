@@ -16,7 +16,10 @@ module.exports = {
     },
     extend: {
       transitionProperty: {
-        'outline-width': 'outline-width',
+        outline: 'outline-width, border-right',
+      },
+      outlineWidth: {
+        3: '3px',
       },
       spacing: {
         // 1rem === 4 units
@@ -40,21 +43,64 @@ module.exports = {
           100: '#F6EEE9',
           200: '#E9DFD8',
         },
+
         // Category colors
-        rest: '#F6EEE9',
-        long: '#C8DFEE',
-        easy: '#D1DECE',
-        tempo: '#FAEECA',
-        intervals: '#F5D1C2',
-        repetitions: '#EEB6B6',
-        marathon: '#FAEECA',
-        race: '#E89B9B',
-        'trail-run': '#FAEECA',
-        hiking: '#9AC892',
-        spinning: '#D8C8E4',
-        'downhill-skiing': '#D8C8E4',
-        'backcountry-skiing': '#D8C8E4',
-        lifting: '#D8C8E4',
+        rest: {
+          600: '#F6EEE9',
+          700: '#E9DFD8',
+        },
+        long: {
+          600: '#C8DFEE',
+          700: '#b1d1e7',
+        },
+        easy: {
+          600: '#D1DECE',
+          700: '#B9D6B0',
+        },
+        tempo: {
+          600: '#F5E9C6',
+          700: '#f8e5af',
+        },
+        intervals: {
+          600: '#F5D1C2',
+          700: '#f1bda7',
+        },
+        repetitions: {
+          600: '#EEB6B6',
+          700: '#e89d9d',
+        },
+        marathon: {
+          600: '#F5E9C6',
+          700: '#f8e5af',
+        },
+        race: {
+          600: '#E89B9B',
+          700: '#e38585',
+        },
+        'trail-run': {
+          600: '#F5E9C6',
+          700: '#f8e5af',
+        },
+        hiking: {
+          600: '#D1DECE',
+          700: '#B9D6B0',
+        },
+        spinning: {
+          600: '#D8C8E4',
+          700: '#D0BAE1',
+        },
+        'downhill-skiing': {
+          600: '#D8C8E4',
+          700: '#D0BAE1',
+        },
+        'backcountry-skiing': {
+          600: '#D8C8E4',
+          700: '#D0BAE1',
+        },
+        lifting: {
+          600: '#D8C8E4',
+          700: '#D0BAE1',
+        },
       },
     },
   },

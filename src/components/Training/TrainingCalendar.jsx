@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
@@ -8,9 +8,11 @@ import { APIv1 } from '../../api'
 
 import CalendarDate from './CalendarDate'
 
-const TrainingCalendar = ({ training }) => {
+const TrainingCalendar = ({ training, disableSelection }) => {
   const dispatch = useContext(StateContext)[1]
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
+  const [hoveringWeekIndex, setHoveringWeekIndex] = useState(null)
+  const [selectedDateISO, setSelectedDateISO] = useState(null)
 
   training.weeks.sort((weekA, weekB) => {
     return (
@@ -23,11 +25,11 @@ const TrainingCalendar = ({ training }) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
 
-  let columnAClasses =
+  let columnWeekClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnIClasses =
+  let columnTotalClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnJClasses =
+  let columnDiffClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
   const onDateEdit = (field, value, dateISO) => {
@@ -54,8 +56,21 @@ const TrainingCalendar = ({ training }) => {
       })
   }
 
-  // Ignore unless in edit mode. Then, toggle the selection of this week
+  useEffect(() => {
+    if (disableSelection) {
+      setSelectedWeekIndex(null)
+      setSelectedDateISO(null)
+      setHoveringWeekIndex(null)
+    }
+  }, [disableSelection])
+
   const onWeekClick = (weekIndex) => {
+    setSelectedDateISO(null)
+
+    if (disableSelection) {
+      return setSelectedWeekIndex(null)
+    }
+
     if (selectedWeekIndex === weekIndex) {
       setSelectedWeekIndex(null)
     } else {
@@ -63,17 +78,31 @@ const TrainingCalendar = ({ training }) => {
     }
   }
 
+  const onDateClick = (dateISO) => {
+    setSelectedWeekIndex(null)
+
+    if (disableSelection) {
+      return setSelectedDateISO(null)
+    }
+
+    if (selectedDateISO == dateISO) {
+      setSelectedDateISO(null)
+    } else {
+      setSelectedDateISO(dateISO)
+    }
+  }
+
   return (
     <div className='w-full text-sm lg:text-base z-0'>
-      {training.weeks.map((week, index) => {
+      {training.weeks.map((week, weekIndex) => {
         let rows = []
-        if (index === 0) {
+        if (weekIndex === 0) {
           rows.push(
             <div
               key='header'
               className='lg:w-full w-248 flex bg-offwhite-100 border-gray-900 border-t border-l border-r'
             >
-              <div className={columnAClasses}>Week</div>
+              <div className={columnWeekClasses}>Week</div>
               <div
                 className={
                   'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
@@ -123,97 +152,94 @@ const TrainingCalendar = ({ training }) => {
               >
                 Sunday
               </div>
-              <div className={columnIClasses}>Total</div>
-              <div className={columnJClasses}>Diff</div>
+              <div className={columnTotalClasses}>Total</div>
+              <div className={columnDiffClasses}>Diff</div>
             </div>
           )
         }
 
+        // Week selection UI
         let weekRowClasses =
-          'relative lg:w-full w-248 flex bg-offwhite-100 border-r border-l transition-outline-width'
-        let weekCellClasses =
-          'cursor-pointer hover:bg-eggplant-700 hover:text-white hover:border-eggplant-700 transition'
-        let selectedWeekCellClasses =
-          'cursor-pointer bg-eggplant-700 border-eggplant-700 text-white hover:bg-eggplant-600 transition'
+          'relative lg:w-full w-248 flex bg-offwhite-100 border-r border-l transition-outline'
 
-        let isSelectedWeek = selectedWeekIndex === index
+        const isSelectedWeek = selectedWeekIndex === weekIndex
+        const isHoveringWeek = hoveringWeekIndex === weekIndex
 
-        if (index === 0) {
+        if (weekIndex === 0) {
           weekRowClasses += ' border-t'
         }
 
-        if (selectedWeekIndex === index) {
+        let weekCellClasses = columnWeekClasses + ' transition'
+
+        if (!disableSelection) {
+          if (isSelectedWeek) {
+            weekCellClasses +=
+              ' cursor-pointer bg-eggplant-700 border-eggplant-700 text-white'
+
+            if (isHoveringWeek) {
+              weekCellClasses += ' bg-eggplant-600'
+            }
+          } else {
+            weekCellClasses += ' cursor-pointer'
+
+            if (isHoveringWeek) {
+              weekCellClasses +=
+                ' bg-eggplant-700 border-eggplant-700 text-white'
+            }
+          }
+        }
+
+        if (isSelectedWeek) {
           weekRowClasses +=
             ' border-eggplant-700 border-t border-b outline outline-eggplant-700 z-10'
-        } else if (selectedWeekIndex - 1 === index) {
+        } else if (selectedWeekIndex - 1 === weekIndex) {
           weekRowClasses += ' border-gray-900' // This is the row below the selected one
         } else {
           weekRowClasses += ' border-gray-900 border-b' // This is the row above the selected one
         }
 
+        // Date selection UI
+        const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
+
         rows.push(
-          <div key={index} className={weekRowClasses}>
+          <div key={weekIndex} className={weekRowClasses}>
             <div
-              className={
-                isSelectedWeek
-                  ? `${columnAClasses} ${selectedWeekCellClasses}`
-                  : `${columnAClasses} ${weekCellClasses}`
-              }
-              onClick={() => onWeekClick(index)}
+              className={weekCellClasses}
+              onClick={() => onWeekClick(weekIndex)}
+              onMouseEnter={() => setHoveringWeekIndex(weekIndex)}
+              onMouseLeave={() => setHoveringWeekIndex(null)}
             >
-              {index + 1}
+              {weekIndex + 1}
             </div>
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
+
+            {dateIndexes.map((dateIndex) => {
+              const date = training.dates[weekIndex * 7 + dateIndex]
+
+              // If date is selected, show selected UI
+              let dateCellClasses
+
+              if (date.dateISO.split('T')[0] === selectedDateISO) {
+                dateCellClasses =
+                  'relative grow-1 basis-48 grow-1 shrink-1 text-center outline outline-3 outline-eggplant-700 transition-outline z-10'
+              } else {
+                dateCellClasses =
+                  'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
               }
-              date={training.dates[index * 7]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 1]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 2]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 3]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 4]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 5]}
-              onDateEdit={onDateEdit}
-            />
-            <CalendarDate
-              className={
-                'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-              date={training.dates[index * 7 + 6]}
-              onDateEdit={onDateEdit}
-            />
-            <div className={columnIClasses}>{week.plannedDistance}</div>
-            <div className={columnJClasses}>{week.percentChange || '–'}</div>
+
+              return (
+                <CalendarDate
+                  key={dateIndex}
+                  className={dateCellClasses}
+                  date={date}
+                  onDateEdit={onDateEdit}
+                  onDateClick={onDateClick}
+                  disableSelection={disableSelection}
+                />
+              )
+            })}
+
+            <div className={columnTotalClasses}>{week.plannedDistance}</div>
+            <div className={columnDiffClasses}>{week.percentChange || '–'}</div>
           </div>
         )
 
@@ -252,6 +278,8 @@ TrainingCalendar.propTypes = {
     // Fields added and used by ViewTrainingPlan component when in edit mode. Do not display these.
     ui: PropTypes.object,
   }),
+
+  disableSelection: PropTypes.bool.isRequired, // Flag to deselect all weeks and dates and disallow selection
 }
 
 export default TrainingCalendar

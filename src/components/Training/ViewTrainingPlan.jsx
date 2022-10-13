@@ -614,7 +614,10 @@ const ViewTrainingPlan = () => {
             </div>
           )}
 
-          <TrainingCalendar training={isEditMode ? editedPlan : training} />
+          <TrainingCalendar
+            training={isEditMode ? editedPlan : training}
+            disableSelection={isEditMode}
+          />
 
           {DEBUG && (
             <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
