@@ -6,7 +6,9 @@ import { AuthContext } from '../context/AuthContext'
 
 import {
   HomeRoute,
-  CalendarRoute,
+  ViewTrainingPlanRoute,
+  CreateTrainingRoute,
+  AllTrainingPlansRoute,
   ListRoute,
   LoginRoute,
   AccountRoute,
@@ -28,8 +30,12 @@ const Navbar = () => {
   }
 
   // Set up the class names for each link item
-  const calendarClasses =
-    currentPath === CalendarRoute ? 'border-eggplant-700' : ''
+  const trainingClasses =
+    currentPath === ViewTrainingPlanRoute ||
+    currentPath === CreateTrainingRoute ||
+    currentPath === AllTrainingPlansRoute
+      ? 'border-eggplant-700'
+      : ''
   const listClasses = currentPath === ListRoute ? 'border-eggplant-700' : ''
   const loginClasses = currentPath === LoginRoute ? 'border-eggplant-700' : ''
   const accountClasses =
@@ -50,10 +56,10 @@ const Navbar = () => {
           <li
             className={
               'mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700 ' +
-              calendarClasses
+              trainingClasses
             }
           >
-            <Link to={CalendarRoute}>Calendar</Link>
+            <Link to={AllTrainingPlansRoute}>Training</Link>
           </li>
 
           <li

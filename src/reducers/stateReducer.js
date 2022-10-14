@@ -157,6 +157,241 @@ const stateReducer = (state, action) => {
       }
     }
 
+    ////////
+    // Training Plans GET actions
+    ////////
+
+    case actions.GET_ALL_TRAINING__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+
+    case actions.GET_ALL_TRAINING__SUCCESS: {
+      const ids = Object.keys(action.data)
+      let trainingById = {}
+
+      for (let i = 0; i < ids.length; i++) {
+        trainingById[ids[i]] = { ...action.data[ids[i]] }
+      }
+
+      const returnObj = {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          byId: trainingById, // Just replace all training objects with newly retrieved data
+          allIds: ids,
+          error: null,
+        },
+      }
+
+      return returnObj
+    }
+
+    case actions.GET_ALL_TRAINING__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+
+    case actions.GET_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+    case actions.GET_TRAINING_PLAN__SUCCESS: {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+
+      const allIds = Object.keys(trainingById)
+
+      const returnObj = {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          byId: trainingById, // Just replace all training objects with newly retrieved data
+          allIds: allIds,
+          error: null,
+        },
+      }
+
+      return returnObj
+    }
+
+    case actions.GET_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+
+    case actions.CREATE_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: true,
+        },
+      }
+    }
+
+    case actions.CREATE_TRAINING_PLAN__SUCCESS: {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+      const allIds = Object.keys(trainingById)
+      const returnObj = {
+        ...state,
+        training: {
+          ...state.training,
+          byId: trainingById,
+          allIds: allIds,
+          error: null,
+        },
+      }
+
+      return returnObj
+    }
+
+    case actions.CREATE_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          error: null,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN__SUCCESS: {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          byId: trainingById,
+          error: null,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          error: action.error,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN_DATE__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS: {
+      const trainingById = {
+        ...state.training.byId,
+        [action.plan._id]: action.plan,
+      }
+
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          byId: trainingById,
+          error: null,
+        },
+      }
+    }
+
+    case actions.UPDATE_TRAINING_PLAN_DATE__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          error: action.error,
+        },
+      }
+    }
+
+    case actions.DELETE_TRAINING__START: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+        },
+      }
+    }
+
+    case actions.DELETE_TRAINING__SUCCESS: {
+      delete state.training.byId[action.id]
+
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: null,
+          byId: state.training.byId,
+          allIds: Object.keys(state.training.byId),
+        },
+      }
+    }
+
+    case actions.DELETE_TRAINING__ERROR: {
+      return {
+        ...state,
+        training: {
+          ...state.training,
+          isFetching: false,
+          error: action.error,
+        },
+      }
+    }
+
     default: {
       throw new Error(`No action of type: "${action.type}"`)
     }

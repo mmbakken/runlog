@@ -316,7 +316,7 @@ const RunPage = () => {
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-2 p-2 w-full h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25 focus:outline-none'
+                className='text-base block mt-2 p-2 w-full h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={resultsFocusHandler}

@@ -17,6 +17,7 @@ const setAuthHeader = (token) => {
   APIv1.defaults.headers.post['Authorization'] = token
   APIv1.defaults.headers.put['Authorization'] = token
   APIv1.defaults.headers.get['Authorization'] = token
+  APIv1.defaults.headers.delete['Authorization'] = token
 }
 
 export { APIv1, setAuthHeader }
