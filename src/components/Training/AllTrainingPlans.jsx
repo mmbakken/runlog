@@ -1,9 +1,13 @@
-import React, { useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
+
 import {
   CreateTrainingRoute,
   ViewTrainingPlanRoute,
@@ -11,6 +15,10 @@ import {
 
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
+  const history = useHistory()
+
+  // Which row's option menu is visible?
+  const [optionMenuVisibleIndex, setOptionMenuVisibleIndex] = useState(null)
 
   // When this component is loaded, go get all of the training plans
   // TODO: Get the active one first, then get the rest of them second
@@ -33,6 +41,10 @@ const AllTrainingPlans = () => {
         })
       })
   }, [])
+
+  const onViewClick = (id) => {
+    history.push(ViewTrainingPlanRoute.split(':')[0].concat(id))
+  }
 
   const onDeleteClick = (id) => {
     if (
@@ -63,6 +75,14 @@ const AllTrainingPlans = () => {
     }
   }
 
+  const onMenuClick = (index) => {
+    setOptionMenuVisibleIndex(index)
+  }
+
+  const onMaskClick = () => {
+    setOptionMenuVisibleIndex(null)
+  }
+
   return (
     <div className='TrainingPage w-full px-4 pb-4'>
       <div className='w-full'>
@@ -77,7 +97,7 @@ const AllTrainingPlans = () => {
         {!state.training.isFetching &&
           state.training.byId &&
           Object.values(state.training.byId).length > 0 && (
-            <div className='w-full mb-4'>
+            <div className='w-full mb-4 grid grid-cols-plans-page gap-x-6 gap-y-2'>
               {Object.values(state.training.byId)
                 .sort((planA, planB) => {
                   if (planA.isActive && !planB.isActive) {
@@ -92,47 +112,111 @@ const AllTrainingPlans = () => {
                   )
                 })
                 .map((training, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className='w-full inline-flex border border-eggplant-600 mb-2'
-                    >
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
-                        {training.title}
+                  console.log(index)
+                  // Add a header row
+                  const rows = []
+                  if (index === 0) {
+                    rows.push(
+                      <div key='header' className='contents'>
+                        <div className=''>Title</div>
+                        <div className=''></div>
+                        <div className=''>Start Date</div>
+                        <div className=''>End Date</div>
+                        <div className=''>Weeks</div>
+                        <div className=''>Mileage</div>
+                        <div className=''>Planned</div>
+                        <div className=''></div>
                       </div>
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                    )
+                  }
+
+                  let optionMenuClasses =
+                    'absolute left-8 top-0 border rounded border-gray-900 bg-offwhite-100 z-50'
+                  let maskClasses =
+                    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-40'
+                  if (optionMenuVisibleIndex === index) {
+                    optionMenuClasses += ' block'
+                    maskClasses += ' block'
+                  } else {
+                    optionMenuClasses += ' hidden'
+                    maskClasses += ' hidden'
+                  }
+
+                  rows.push(
+                    <div key={index} className='contents'>
+                      <div>
+                        <span
+                          className='cursor-pointer hover:underline hover:text-eggplant-700'
+                          onClick={() => {
+                            onViewClick(training._id)
+                          }}
+                        >
+                          {training.title}
+                        </span>
+                      </div>
+                      <div className=''>
+                        {training.isActive ? (
+                          <div>
+                            <FontAwesomeIcon
+                              icon={faStar}
+                              className='mx-2 text-eggplant-700'
+                            />
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <div className=''>
                         {DateTime.fromISO(training.startDate).toLocaleString()}
                       </div>
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      <div className=''>
                         {DateTime.fromISO(training.endDate).toLocaleString()}
                       </div>
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
-                        {training.isActive ? 'Active' : ''}
-                      </div>
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
-                        <button className='px-6 py-1 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'>
-                          <Link
-                            to={ViewTrainingPlanRoute.split(':')[0].concat(
-                              training._id
-                            )}
-                          >
-                            View
-                          </Link>
-                        </button>
-                      </div>
-
-                      <div className='px-4 py-2 border-r border-eggplant-600 '>
+                      <div className='text-center'>{training.weeks.length}</div>
+                      <div className=''>{training.actualDistance} mi</div>
+                      <div className=''>{training.plannedDistance} mi</div>
+                      <div className='relative'>
                         <button
+                          className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
                           onClick={() => {
-                            onDeleteClick(training._id)
+                            onMenuClick(index)
                           }}
-                          className='px-6 py-1 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
                         >
-                          X
+                          <FontAwesomeIcon icon={faEllipsisV} />
                         </button>
+
+                        <div className={optionMenuClasses}>
+                          <ul className='flex flex-col w-max'>
+                            <li
+                              className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                              onClick={() => {
+                                onViewClick(training._id)
+                              }}
+                            >
+                              View plan
+                            </li>
+                            <li
+                              className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
+                              onClick={() => {
+                                onDeleteClick(training._id)
+                              }}
+                            >
+                              Delete plan
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div
+                          className={maskClasses}
+                          onClick={() => {
+                            onMaskClick()
+                          }}
+                        />
                       </div>
                     </div>
                   )
+
+                  return rows
                 })}
             </div>
           )}
@@ -145,12 +229,14 @@ const AllTrainingPlans = () => {
       </div>
 
       <div>
-        <Link
-          to={CreateTrainingRoute}
-          className='text-xl underline hover:pointer'
+        <button
+          className='text-lg mt-8 px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+          onClick={() => {
+            history.push(CreateTrainingRoute)
+          }}
         >
           New Training Plan
-        </Link>
+        </button>
       </div>
     </div>
   )

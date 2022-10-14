@@ -162,7 +162,7 @@ const CreateTrainingPlan = () => {
       <h1 className='text-2xl'>New Training Plan</h1>
       <form onSubmit={handleSubmit} className='w-full'>
         <div className='w-full flex space-x-8 mt-4'>
-          <label className='w-full max-w-lg text-xl'>
+          <label className='w-full max-w-lg text-lg'>
             Title
             <input
               type='text'
@@ -177,7 +177,7 @@ const CreateTrainingPlan = () => {
         </div>
 
         <div className='w-full flex space-x-8 mt-4'>
-          <label className='w-full max-w-lg text-xl'>
+          <label className='w-full max-w-lg text-lg'>
             Goal
             <textarea
               type='text'
@@ -191,7 +191,7 @@ const CreateTrainingPlan = () => {
         </div>
 
         <div className='flex space-x-8 mt-4'>
-          <label className='text-xl'>
+          <label className='text-lg'>
             Start Date
             <input
               type='date'
@@ -201,7 +201,7 @@ const CreateTrainingPlan = () => {
             />
           </label>
 
-          <label className='text-xl'>
+          <label className='text-lg'>
             Weeks
             <input
               type='number'
@@ -213,7 +213,7 @@ const CreateTrainingPlan = () => {
             />
           </label>
 
-          <label className='text-xl'>
+          <label className='text-lg'>
             End Date
             <input
               disabled
@@ -224,7 +224,7 @@ const CreateTrainingPlan = () => {
           </label>
         </div>
 
-        <div className='text-xl flex space-x-8 mt-4'>
+        <div className='text-lg flex space-x-8 mt-4'>
           <label className='cursor-pointer'>
             Active Plan
             <span className='block text-base text-gray-500'>
@@ -240,11 +240,11 @@ const CreateTrainingPlan = () => {
         </div>
 
         <button
-          className='text-xl mt-8 px-8 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+          className='text-lg mt-8 px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
           type='submit'
           disabled={!allowCreation}
         >
-          Create
+          Create Plan
         </button>
       </form>
     </div>
