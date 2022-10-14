@@ -14,9 +14,9 @@ const CalendarDate = ({
 
   let optionMenu = useRef(null)
   let optionMenuClasses =
-    'absolute left-28 lg:left-36 top-0 text-left border rounded border-gray-900 bg-offwhite-100 z-30'
+    'absolute left-28 lg:left-36 top-0 text-left border rounded border-gray-900 bg-offwhite-100 z-50'
   let maskClasses =
-    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-20'
+    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-40'
   if (isOptionMenuVisible) {
     optionMenuClasses += ' block'
     maskClasses += ' block'
@@ -147,7 +147,7 @@ const CalendarDate = ({
             type='number'
             min='0'
             step='1'
-            className='text-center resize-none h-full w-full bg-transparent outline-none p-1'
+            className='text-center resize-none h-full w-full bg-transparent outline-none p-1 cursor-default'
             value={date.plannedDistance}
             onFocus={(e) => {
               e.target.select()
@@ -160,7 +160,7 @@ const CalendarDate = ({
       </div>
       <div className='w-full h-32'>
         <textarea
-          className='text-xs lg:text-sm resize-none h-full w-full bg-transparent outline-none px-2 lg:px-3 py-1'
+          className='text-xs lg:text-sm resize-none h-full w-full bg-transparent outline-none px-2 lg:px-3 py-1 cursor-default'
           spellCheck={false}
           value={date.workout}
           onChange={(event) => {

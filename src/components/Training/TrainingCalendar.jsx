@@ -8,11 +8,18 @@ import { APIv1 } from '../../api'
 
 import CalendarDate from './CalendarDate'
 
-const TrainingCalendar = ({ training, disableSelection }) => {
+const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
   const [hoveringWeekIndex, setHoveringWeekIndex] = useState(null)
   const [selectedDateISO, setSelectedDateISO] = useState(null)
+  const [allowCopy, setAllowCopy] = useState(false)
+  const [allowPaste, setAllowPaste] = useState(false)
+  const [copiedDate, setCopiedDate] = useState(null)
+  const [copiedWeek, setCopiedWeek] = useState({
+    exists: false,
+    week: null, // Week object, copied from current training object
+  })
 
   training.weeks.sort((weekA, weekB) => {
     return (
@@ -31,6 +38,38 @@ const TrainingCalendar = ({ training, disableSelection }) => {
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
   let columnDiffClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
+
+  let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
+  let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
+
+  if (!disableSelection) {
+    if (allowCopy) {
+      copyBtnClasses +=
+        ' cursor-pointer bg-eggplant-700 text-white border-eggplant-700 hover:bg-eggplant-600'
+    } else {
+      copyBtnClasses += ' cursor-not-allowed bg-offwhite-100'
+    }
+
+    if (allowPaste) {
+      pasteBtnClasses +=
+        ' cursor-pointer bg-eggplant-700 text-white border-eggplant-700 hover:bg-eggplant-600'
+    } else {
+      pasteBtnClasses += ' cursor-not-allowed bg-offwhite-100'
+    }
+  }
+
+  let copyText = 'Copy'
+  let pasteText = 'Paste'
+
+  if (selectedWeekIndex != null) {
+    copyText += ' Week'
+    pasteText += ' Week'
+  }
+
+  if (selectedDateISO != null) {
+    copyText += ' Date'
+    pasteText += ' Date'
+  }
 
   const onDateEdit = (field, value, dateISO) => {
     dispatch({
@@ -56,14 +95,6 @@ const TrainingCalendar = ({ training, disableSelection }) => {
       })
   }
 
-  useEffect(() => {
-    if (disableSelection) {
-      setSelectedWeekIndex(null)
-      setSelectedDateISO(null)
-      setHoveringWeekIndex(null)
-    }
-  }, [disableSelection])
-
   const onWeekClick = (weekIndex) => {
     setSelectedDateISO(null)
 
@@ -73,8 +104,10 @@ const TrainingCalendar = ({ training, disableSelection }) => {
 
     if (selectedWeekIndex === weekIndex) {
       setSelectedWeekIndex(null)
+      setAllowCopy(false)
     } else {
       setSelectedWeekIndex(weekIndex)
+      setAllowCopy(true)
     }
   }
 
@@ -85,15 +118,345 @@ const TrainingCalendar = ({ training, disableSelection }) => {
       return setSelectedDateISO(null)
     }
 
-    if (selectedDateISO == dateISO) {
+    if (selectedDateISO === dateISO) {
       setSelectedDateISO(null)
+      setAllowCopy(false)
     } else {
       setSelectedDateISO(dateISO)
+      setAllowCopy(true)
     }
   }
 
+  const onCopyClick = () => {
+    if (!allowCopy) {
+      console.error('Attempted copy while allowCopy is false, aborting')
+      return
+    }
+
+    if (selectedWeekIndex != null) {
+      setCopiedWeek({
+        exists: true,
+        week: {
+          ...training.weeks[selectedWeekIndex],
+        },
+      })
+
+      // Only allow one copied item at a time, since they share buttons
+      setCopiedDate(null)
+
+      setAllowPaste(true)
+    } else if (selectedDateISO != null) {
+      const date = training.dates.find((dateObj) => {
+        return dateObj.dateISO.split('T')[0] === selectedDateISO
+      })
+
+      if (date == null) {
+        return console.error(
+          `Unable to find date with ISO: "${selectedDateISO}"`
+        )
+      }
+
+      setCopiedDate({
+        ...date,
+      })
+
+      // Only allow one copied item at a time, since they share buttons
+      setCopiedWeek({
+        exists: false,
+        week: null,
+      })
+
+      setAllowPaste(true)
+    }
+  }
+
+  const onPasteClick = () => {
+    if (!allowPaste) {
+      console.error('Cannot paste: Attempted paste while allowPaste is false')
+      return
+    }
+
+    if (copiedDate != null) {
+      if (selectedDateISO == null) {
+        return console.error(
+          'Cannot paste date: no date is selected to paste over'
+        )
+      }
+
+      const selectedDate = training.dates.find((dateObj) => {
+        return dateObj.dateISO.split('T')[0] === selectedDateISO
+      })
+
+      pasteDate(selectedDate, copiedDate, training.weeks, training.dates)
+    } else if (copiedWeek?.exists) {
+      // Make sure there is a week selected right now
+      if (selectedWeekIndex == null) {
+        return console.error(
+          'Cannot paste week: no week is selected to paste over'
+        )
+      }
+
+      const selectedWeek = training.weeks[selectedWeekIndex]
+
+      pasteWeek(selectedWeek, copiedWeek.week, training.weeks, training.dates)
+    } else {
+      return console.error(
+        'Cannot paste: No copied date or copied week exists to paste from'
+      )
+    }
+  }
+
+  // Updates the training plan by hitting the API with the changes from this copied date
+  const pasteDate = (selectedDate, copiedDate, currentWeeks, currentDates) => {
+    if (selectedDate == null) {
+      return console.error('Cannot paste date: selectedDate is required')
+    }
+
+    if (copiedDate == null) {
+      return console.error('Cannot paste date: copiedDate is required')
+    }
+
+    if (currentWeeks == null) {
+      return console.error('Cannot paste date: currentWeeks is required')
+    }
+
+    if (currentDates == null) {
+      return console.error('Cannot paste date: currentDates is required')
+    }
+
+    // Replace the selectedDate with the copiedDate in the return dates array
+    let updatedDates = []
+
+    for (let currentDate of currentDates) {
+      if (currentDate.dateISO === selectedDate.dateISO) {
+        updatedDates.push({
+          ...currentDate,
+          actualDistance: copiedDate.actualDistance,
+          plannedDistance: copiedDate.plannedDistance,
+          workout: copiedDate.workout,
+          workoutCategory: copiedDate.workoutCategory,
+        })
+      } else {
+        updatedDates.push({
+          ...currentDate,
+        })
+      }
+    }
+
+    // Replace the selectedDate's week object with the correct plannedDistance value
+    // Find the week the selected date belongs to
+    let newPlannedDistance = 0
+    const selectedDateDT = DateTime.fromISO(selectedDate.dateISO, {
+      zone: 'utc',
+    })
+
+    const selectedDateWeek = currentWeeks.find((week) => {
+      const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+      const nextWeekStartDT = weekStartDT.plus({ days: 7 })
+
+      if (weekStartDT <= selectedDateDT && selectedDateDT < nextWeekStartDT) {
+        // Calculate the plannedDistance for this week but use the copiedDate's distance instead for the selectedDate
+        for (let currentDate of currentDates) {
+          const currentDateDT = DateTime.fromISO(currentDate.dateISO, {
+            zone: 'utc',
+          })
+
+          // Is this date in the current week?
+          if (weekStartDT <= currentDateDT && currentDateDT < nextWeekStartDT) {
+            // Should we use the current date's value, or the copied dates?
+            if (currentDate.dateISO === selectedDate.dateISO) {
+              newPlannedDistance += copiedDate.plannedDistance
+            } else {
+              newPlannedDistance += currentDate.plannedDistance
+            }
+          }
+        }
+
+        return true
+      }
+
+      return false
+    })
+
+    let updatedWeeks = []
+    for (let currentWeek of currentWeeks) {
+      if (currentWeek.startDateISO === selectedDateWeek.startDateISO) {
+        updatedWeeks.push({
+          ...currentWeek,
+          plannedDistance: newPlannedDistance,
+        })
+      } else {
+        updatedWeeks.push({
+          ...currentWeek,
+        })
+      }
+    }
+
+    // Finally, update the training plan with the changes to dates and weeks arrays
+    updatePlan({
+      weeks: updatedWeeks,
+      dates: updatedDates,
+    })
+  }
+
+  // Updates the training plan by hitting the API with the changes from this copied week
+  const pasteWeek = (selectedWeek, copiedWeek, currentWeeks, currentDates) => {
+    if (selectedWeek == null) {
+      return console.error('Cannot paste week: selectedWeek is required')
+    }
+
+    if (copiedWeek == null) {
+      return console.error('Cannot paste week: copiedWeek is required')
+    }
+
+    if (currentWeeks == null) {
+      return console.error('Cannot paste week: currentWeeks is required')
+    }
+
+    if (currentDates == null) {
+      return console.error('Cannot paste week: currentDates is required')
+    }
+
+    // Which ISO dates are a part of the week that we're replacing?
+    const copyWeekStartDT = DateTime.fromISO(copiedWeek.startDateISO, {
+      zone: 'utc',
+    })
+    const selectedWeekStartDT = DateTime.fromISO(selectedWeek.startDateISO, {
+      zone: 'utc',
+    })
+    const weekOffsets = [0, 1, 2, 3, 4, 5, 6]
+
+    let copyWeekDates = []
+    let selectedWeekDates = []
+
+    for (let offset of weekOffsets) {
+      copyWeekDates.push(copyWeekStartDT.plus({ days: offset }).toISODate())
+      selectedWeekDates.push(
+        selectedWeekStartDT.plus({ days: offset }).toISODate()
+      )
+    }
+
+    // GENERATE AN UPDATED WEEKS ARRAY
+    // For each week in current weeks:
+    //   If the week matches the selected week, then change its values to the copied week
+    //   Else use the current week values
+    let updatedWeeks = []
+    for (let currentWeek of currentWeeks) {
+      if (currentWeek.startDateISO === selectedWeek.startDateISO) {
+        updatedWeeks.push({
+          ...currentWeek,
+          plannedDistance: copiedWeek.plannedDistance,
+          actualDistance: copiedWeek.actualDistance,
+          percentChange: copiedWeek.percentChange,
+        })
+      } else {
+        updatedWeeks.push({
+          ...currentWeek,
+        })
+      }
+    }
+
+    // GENERATE AN UPDATED DATES ARRAY
+    // For each date in current dates,
+    //   If the date is in the selectedDates array (it's in the selected week):
+    //     Find the date in the array that matches this
+    //   Else use the current date object
+    let updatedDates = []
+    for (let currentDate of currentDates) {
+      let foundDateIndex = selectedWeekDates.indexOf(
+        currentDate.dateISO.split('T')[0]
+      )
+
+      if (foundDateIndex >= 0) {
+        // Find the date object from the copied date with the same position in the week (same foundIndex)
+        const copiedDateAtFoundIndex = currentDates.find((dateObj) => {
+          return dateObj.dateISO.split('T')[0] === copyWeekDates[foundDateIndex]
+        })
+
+        // Replace the selected date values with the copied date values
+        updatedDates.push({
+          ...currentDate,
+          actualDistance: copiedDateAtFoundIndex.actualDistance,
+          plannedDistance: copiedDateAtFoundIndex.plannedDistance,
+          workout: copiedDateAtFoundIndex.workout,
+          workoutCategory: copiedDateAtFoundIndex.workoutCategory,
+        })
+      } else {
+        // The currentDate is not in the selected week, so we should use the current value
+        updatedDates.push({
+          ...currentDate,
+        })
+      }
+    }
+
+    // Finally, update the training plan with the changes to dates and weeks arrays
+    updatePlan({
+      weeks: updatedWeeks,
+      dates: updatedDates,
+    })
+  }
+
+  useEffect(() => {
+    if (disableSelection) {
+      setSelectedWeekIndex(null)
+      setSelectedDateISO(null)
+      setHoveringWeekIndex(null)
+      setAllowCopy(false)
+      setAllowPaste(false)
+      setCopiedDate(null)
+      setCopiedWeek({
+        exists: false,
+        week: null,
+      })
+    }
+  }, [disableSelection])
+
+  useEffect(() => {
+    // CMD+C or Ctrl+C => Copy shortcut
+    const handleCopyShortcut = (event) => {
+      if (event.keyCode === 67 && (event.metaKey || event.ctrlKey)) {
+        onCopyClick()
+      }
+    }
+
+    // CMD+V or Ctrl+V => Paste shortcut
+    const handlePasteShortcut = (event) => {
+      if (event.keyCode === 86 && (event.metaKey || event.ctrlKey)) {
+        onPasteClick()
+      }
+    }
+
+    window.addEventListener('keydown', handleCopyShortcut)
+    window.addEventListener('keydown', handlePasteShortcut)
+
+    // Unregister listeners on dismount
+    return () => {
+      window.removeEventListener('keydown', handleCopyShortcut)
+      window.removeEventListener('keydown', handlePasteShortcut)
+    }
+  }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
+
   return (
-    <div className='w-full text-sm lg:text-base z-0'>
+    <div className='w-full flex flex-col items-center justify-center text-sm lg:text-base z-0 mb-20'>
+      {!disableSelection && (
+        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-2 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
+          <button
+            className={copyBtnClasses}
+            disabled={!allowCopy}
+            onClick={() => onCopyClick()}
+          >
+            {copyText}
+          </button>
+          <button
+            className={pasteBtnClasses}
+            disabled={!allowPaste}
+            onClick={() => onPasteClick()}
+          >
+            {pasteText}
+          </button>
+        </div>
+      )}
+
       {training.weeks.map((week, weekIndex) => {
         let rows = []
         if (weekIndex === 0) {
@@ -280,6 +643,7 @@ TrainingCalendar.propTypes = {
   }),
 
   disableSelection: PropTypes.bool.isRequired, // Flag to deselect all weeks and dates and disallow selection
+  updatePlan: PropTypes.func.isRequired, // Callback to update the training plan in the database
 }
 
 export default TrainingCalendar

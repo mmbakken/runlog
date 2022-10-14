@@ -40,9 +40,9 @@ const ViewTrainingPlan = () => {
   }
 
   let optionMenuClasses =
-    'absolute left-8 top-0 border rounded border-gray-900 bg-offwhite-100 z-30'
+    'absolute left-8 top-0 border rounded border-gray-900 bg-offwhite-100 z-50'
   let maskClasses =
-    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-20'
+    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-40'
   if (isOptionMenuVisible) {
     optionMenuClasses += ' block'
     maskClasses += ' block'
@@ -616,6 +616,7 @@ const ViewTrainingPlan = () => {
 
           <TrainingCalendar
             training={isEditMode ? editedPlan : training}
+            updatePlan={updatePlan}
             disableSelection={isEditMode}
           />
 
