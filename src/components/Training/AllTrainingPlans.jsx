@@ -167,10 +167,14 @@ const AllTrainingPlans = () => {
                         )}
                       </div>
                       <div className=''>
-                        {DateTime.fromISO(training.startDate).toLocaleString()}
+                        {DateTime.fromISO(training.startDate, {
+                          zone: 'utc',
+                        }).toLocaleString()}
                       </div>
                       <div className=''>
-                        {DateTime.fromISO(training.endDate).toLocaleString()}
+                        {DateTime.fromISO(training.endDate, {
+                          zone: 'utc',
+                        }).toLocaleString()}
                       </div>
                       <div className='text-center'>{training.weeks.length}</div>
                       <div className=''>{training.actualDistance} mi</div>
