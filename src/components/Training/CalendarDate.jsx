@@ -137,6 +137,9 @@ const CalendarDate = ({
     setWorkoutTimeoutRef(
       setTimeout(() => {
         onDateEdit('workout', workoutText, dt.toISODate())
+
+        // Need to clear this after the API call so that when the date prop updates on e.g. copy/paste, it can be copied as the local variable.here
+        setWorkoutTimeoutRef(null)
       }, DEBOUNCE_TIME_IN_MS)
     )
   }, [workoutText])
