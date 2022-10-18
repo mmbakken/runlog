@@ -9,8 +9,12 @@ const CalendarDate = ({
   onDateClick,
   disableSelection,
 }) => {
+  const DEBOUNCE_TIME_IN_MS = 500
+
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const [workoutText, setWorkoutText] = useState('')
+  const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
 
   let optionMenu = useRef(null)
   let optionMenuClasses =
@@ -116,6 +120,27 @@ const CalendarDate = ({
     }
   }, [])
 
+  // Copy the date value to a local variable so we can seamlessly display changes to the UI without
+  // sending constant API requests whenever a character of text changes.
+  useEffect(() => {
+    if (workoutTimeoutRef == null) {
+      setWorkoutText(date == null || date.workout == null ? '' : date.workout)
+    }
+  }, [date])
+
+  // If the workout text changes in the text area, schedule an update to the API. Cancel any prior
+  // planned API call, if there was one.
+  useEffect(() => {
+    clearTimeout(workoutTimeoutRef)
+
+    // In X ms, unless it gets cancelled first, send an API call to save the workout text to the db
+    setWorkoutTimeoutRef(
+      setTimeout(() => {
+        onDateEdit('workout', workoutText, dt.toISODate())
+      }, DEBOUNCE_TIME_IN_MS)
+    )
+  }, [workoutText])
+
   const onMenuClick = (e) => {
     e.preventDefault()
     setIsOptionMenuVisible(true)
@@ -124,6 +149,10 @@ const CalendarDate = ({
 
   const onMaskClick = () => {
     setIsOptionMenuVisible(false)
+  }
+
+  const onWorkoutChange = (value) => {
+    setWorkoutText(value)
   }
 
   return (
@@ -162,9 +191,9 @@ const CalendarDate = ({
         <textarea
           className='text-xs lg:text-sm resize-none h-full w-full bg-transparent outline-none px-2 lg:px-3 py-1 cursor-default'
           spellCheck={false}
-          value={date.workout}
+          value={workoutText}
           onChange={(event) => {
-            onDateEdit('workout', event.target.value, dt.toISODate())
+            onWorkoutChange(event.target.value)
           }}
         />
       </div>
