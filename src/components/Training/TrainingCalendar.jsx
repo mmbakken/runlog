@@ -105,9 +105,16 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     if (selectedWeekIndex === weekIndex) {
       setSelectedWeekIndex(null)
       setAllowCopy(false)
+      setAllowPaste(false)
     } else {
       setSelectedWeekIndex(weekIndex)
       setAllowCopy(true)
+
+      if (copiedWeek.exists) {
+        setAllowPaste(true)
+      } else {
+        setAllowPaste(false)
+      }
     }
   }
 
@@ -115,15 +122,24 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     setSelectedWeekIndex(null)
 
     if (disableSelection) {
-      return setSelectedDateISO(null)
+      setSelectedDateISO(null)
+      setAllowPaste(false)
+      return
     }
 
     if (selectedDateISO === dateISO) {
       setSelectedDateISO(null)
       setAllowCopy(false)
+      setAllowPaste(false)
     } else {
       setSelectedDateISO(dateISO)
       setAllowCopy(true)
+
+      if (copiedDate == null) {
+        setAllowPaste(false)
+      } else {
+        setAllowPaste(true)
+      }
     }
   }
 
