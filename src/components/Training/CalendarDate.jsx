@@ -13,7 +13,7 @@ const CalendarDate = ({
 
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const [workoutText, setWorkoutText] = useState('')
+  const [workoutText, setWorkoutText] = useState(date?.workout) // UI state inherits from prop value
   const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
 
   let optionMenu = useRef(null)
@@ -120,30 +120,6 @@ const CalendarDate = ({
     }
   }, [])
 
-  // Copy the date value to a local variable so we can seamlessly display changes to the UI without
-  // sending constant API requests whenever a character of text changes.
-  useEffect(() => {
-    if (workoutTimeoutRef == null) {
-      setWorkoutText(date == null || date.workout == null ? '' : date.workout)
-    }
-  }, [date])
-
-  // If the workout text changes in the text area, schedule an update to the API. Cancel any prior
-  // planned API call, if there was one.
-  useEffect(() => {
-    clearTimeout(workoutTimeoutRef)
-
-    // In X ms, unless it gets cancelled first, send an API call to save the workout text to the db
-    setWorkoutTimeoutRef(
-      setTimeout(() => {
-        onDateEdit('workout', workoutText, dt.toISODate())
-
-        // Need to clear this after the API call so that when the date prop updates on e.g. copy/paste, it can be copied as the local variable.here
-        setWorkoutTimeoutRef(null)
-      }, DEBOUNCE_TIME_IN_MS)
-    )
-  }, [workoutText])
-
   const onMenuClick = (e) => {
     e.preventDefault()
     setIsOptionMenuVisible(true)
@@ -155,7 +131,18 @@ const CalendarDate = ({
   }
 
   const onWorkoutChange = (value) => {
+    // Update UI state right away
     setWorkoutText(value)
+
+    // Cancel any previously scheduled API call
+    clearTimeout(workoutTimeoutRef)
+
+    // In X ms, save this text to the API (unless we cancel it first and send another update)
+    setWorkoutTimeoutRef(
+      setTimeout(() => {
+        onDateEdit('workout', value, dt.toISODate())
+      }, DEBOUNCE_TIME_IN_MS)
+    )
   }
 
   return (
