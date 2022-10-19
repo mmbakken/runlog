@@ -13,8 +13,24 @@ const CalendarDate = ({
 
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+
+  // Set the UI-specific values for the editable fields
   const [workoutText, setWorkoutText] = useState(date?.workout) // UI state inherits from prop value
   const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
+
+  // How should this number be displayed?
+  let plannedDistanceUIValue = 0
+  if (
+    date != null &&
+    date.plannedDistance != null &&
+    date.plannedDistance != '' &&
+    typeof date.plannedDistance === 'number'
+  ) {
+    plannedDistanceUIValue = date.plannedDistance
+  }
+  const [plannedDistanceUI, setPlannedDistanceUI] = useState(
+    plannedDistanceUIValue
+  )
 
   let optionMenu = useRef(null)
   let optionMenuClasses =
@@ -130,6 +146,26 @@ const CalendarDate = ({
     setIsOptionMenuVisible(false)
   }
 
+  const onPlannedDistanceChange = (value) => {
+    let newValue = 0
+
+    if (value != null && value.length > 0) {
+      let integerStr = value.toString().split('.')[0]
+      let integer = parseInt(integerStr)
+      let decimalStr = value.toString().split('.')[1]
+      let decimal = parseInt(decimalStr)
+
+      newValue = integer
+
+      if (!isNaN(decimal)) {
+        newValue += parseFloat(`0.${decimalStr.substring(0, 2)}`)
+      }
+    }
+
+    setPlannedDistanceUI(newValue)
+    onDateEdit('plannedDistance', newValue, dt.toISODate())
+  }
+
   const onWorkoutChange = (value) => {
     // Update UI state right away
     setWorkoutText(value)
@@ -167,12 +203,12 @@ const CalendarDate = ({
             min='0'
             step='1'
             className='text-center resize-none h-full w-full bg-transparent outline-none p-1 cursor-default'
-            value={date.plannedDistance}
+            value={plannedDistanceUI}
             onFocus={(e) => {
               e.target.select()
             }}
             onChange={(event) => {
-              onDateEdit('plannedDistance', event.target.value, dt.toISODate())
+              onPlannedDistanceChange(event.target.value)
             }}
           />
         </div>
