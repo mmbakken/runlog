@@ -112,7 +112,6 @@ const AllTrainingPlans = () => {
                   )
                 })
                 .map((training, index) => {
-                  console.log(index)
                   // Add a header row
                   const rows = []
                   if (index === 0) {

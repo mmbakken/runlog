@@ -19,6 +19,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const [copiedWeek, setCopiedWeek] = useState({
     exists: false,
     week: null, // Week object, copied from current training object
+    dates: null, // Array of date objects, copied by value from current training plan value
   })
 
   training.weeks.sort((weekA, weekB) => {
@@ -105,9 +106,16 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     if (selectedWeekIndex === weekIndex) {
       setSelectedWeekIndex(null)
       setAllowCopy(false)
+      setAllowPaste(false)
     } else {
       setSelectedWeekIndex(weekIndex)
       setAllowCopy(true)
+
+      if (copiedWeek.exists) {
+        setAllowPaste(true)
+      } else {
+        setAllowPaste(false)
+      }
     }
   }
 
@@ -115,15 +123,24 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     setSelectedWeekIndex(null)
 
     if (disableSelection) {
-      return setSelectedDateISO(null)
+      setSelectedDateISO(null)
+      setAllowPaste(false)
+      return
     }
 
     if (selectedDateISO === dateISO) {
       setSelectedDateISO(null)
       setAllowCopy(false)
+      setAllowPaste(false)
     } else {
       setSelectedDateISO(dateISO)
       setAllowCopy(true)
+
+      if (copiedDate == null) {
+        setAllowPaste(false)
+      } else {
+        setAllowPaste(true)
+      }
     }
   }
 
@@ -134,11 +151,24 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     }
 
     if (selectedWeekIndex != null) {
+      // What dates are in this week?
+      const weekStartDT = DateTime.fromISO(
+        training.weeks[selectedWeekIndex].startDateISO,
+        { zone: 'utc' }
+      )
+      const weekEndDT = weekStartDT.plus({ days: 7 })
+      let thisDT
+      let weekDates = training.dates.filter((date) => {
+        thisDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+        return weekStartDT <= thisDT && thisDT < weekEndDT
+      })
+
       setCopiedWeek({
         exists: true,
         week: {
           ...training.weeks[selectedWeekIndex],
         },
+        dates: [...weekDates],
       })
 
       // Only allow one copied item at a time, since they share buttons
@@ -164,6 +194,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       setCopiedWeek({
         exists: false,
         week: null,
+        dates: null,
       })
 
       setAllowPaste(true)
@@ -198,7 +229,13 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
       const selectedWeek = training.weeks[selectedWeekIndex]
 
-      pasteWeek(selectedWeek, copiedWeek.week, training.weeks, training.dates)
+      pasteWeek(
+        selectedWeek,
+        copiedWeek.week,
+        copiedWeek.dates,
+        training.weeks,
+        training.dates
+      )
     } else {
       return console.error(
         'Cannot paste: No copied date or copied week exists to paste from'
@@ -300,7 +337,13 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }
 
   // Updates the training plan by hitting the API with the changes from this copied week
-  const pasteWeek = (selectedWeek, copiedWeek, currentWeeks, currentDates) => {
+  const pasteWeek = (
+    selectedWeek,
+    copiedWeek,
+    copiedDates,
+    currentWeeks,
+    currentDates
+  ) => {
     if (selectedWeek == null) {
       return console.error('Cannot paste week: selectedWeek is required')
     }
@@ -309,31 +352,16 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       return console.error('Cannot paste week: copiedWeek is required')
     }
 
+    if (copiedDates == null) {
+      return console.error('Cannot paste week: copiedDates is required')
+    }
+
     if (currentWeeks == null) {
       return console.error('Cannot paste week: currentWeeks is required')
     }
 
     if (currentDates == null) {
       return console.error('Cannot paste week: currentDates is required')
-    }
-
-    // Which ISO dates are a part of the week that we're replacing?
-    const copyWeekStartDT = DateTime.fromISO(copiedWeek.startDateISO, {
-      zone: 'utc',
-    })
-    const selectedWeekStartDT = DateTime.fromISO(selectedWeek.startDateISO, {
-      zone: 'utc',
-    })
-    const weekOffsets = [0, 1, 2, 3, 4, 5, 6]
-
-    let copyWeekDates = []
-    let selectedWeekDates = []
-
-    for (let offset of weekOffsets) {
-      copyWeekDates.push(copyWeekStartDT.plus({ days: offset }).toISODate())
-      selectedWeekDates.push(
-        selectedWeekStartDT.plus({ days: offset }).toISODate()
-      )
     }
 
     // GENERATE AN UPDATED WEEKS ARRAY
@@ -359,18 +387,40 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     // GENERATE AN UPDATED DATES ARRAY
     // For each date in current dates,
     //   If the date is in the selectedDates array (it's in the selected week):
-    //     Find the date in the array that matches this
+    //     Find the date in the copied dates array that matches this
     //   Else use the current date object
+
+    // Which ISO dates are we replacing?
+    const selectedWeekStartDT = DateTime.fromISO(selectedWeek.startDateISO, {
+      zone: 'utc',
+    })
+    const selectedWeekEndDT = selectedWeekStartDT.plus({ days: 7 })
+    let thisDT
+    let selectedWeekDates = currentDates.filter((date) => {
+      thisDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+      return selectedWeekStartDT <= thisDT && thisDT < selectedWeekEndDT
+    })
+
+    const selectedWeekISODates = selectedWeekDates.map((date) => {
+      return date.dateISO
+    })
+
+    // Which ISO dates are being copied from?
+    copiedDates.sort((dateA, dateB) => {
+      return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB)
+    })
+    const copiedWeekISODates = copiedDates.map((copiedDate) => {
+      return copiedDate.dateISO
+    })
+
     let updatedDates = []
     for (let currentDate of currentDates) {
-      let foundDateIndex = selectedWeekDates.indexOf(
-        currentDate.dateISO.split('T')[0]
-      )
+      let foundDateIndex = selectedWeekISODates.indexOf(currentDate.dateISO)
 
       if (foundDateIndex >= 0) {
         // Find the date object from the copied date with the same position in the week (same foundIndex)
-        const copiedDateAtFoundIndex = currentDates.find((dateObj) => {
-          return dateObj.dateISO.split('T')[0] === copyWeekDates[foundDateIndex]
+        const copiedDateAtFoundIndex = copiedDates.find((dateObj) => {
+          return dateObj.dateISO === copiedWeekISODates[foundDateIndex]
         })
 
         // Replace the selected date values with the copied date values
@@ -407,6 +457,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       setCopiedWeek({
         exists: false,
         week: null,
+        dates: null,
       })
     }
   }, [disableSelection])

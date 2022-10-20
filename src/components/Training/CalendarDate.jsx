@@ -9,8 +9,28 @@ const CalendarDate = ({
   onDateClick,
   disableSelection,
 }) => {
+  const DEBOUNCE_TIME_IN_MS = 500
+
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+
+  // Set the UI-specific values for the editable fields
+  const [workoutText, setWorkoutText] = useState(date?.workout) // UI state inherits from prop value
+  const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
+
+  // How should this number be displayed?
+  let plannedDistanceUIValue = 0
+  if (
+    date != null &&
+    date.plannedDistance != null &&
+    date.plannedDistance != '' &&
+    typeof date.plannedDistance === 'number'
+  ) {
+    plannedDistanceUIValue = date.plannedDistance
+  }
+  const [plannedDistanceUI, setPlannedDistanceUI] = useState(
+    plannedDistanceUIValue
+  )
 
   let optionMenu = useRef(null)
   let optionMenuClasses =
@@ -126,6 +146,41 @@ const CalendarDate = ({
     setIsOptionMenuVisible(false)
   }
 
+  const onPlannedDistanceChange = (value) => {
+    let newValue = 0
+
+    if (value != null && value.length > 0) {
+      let integerStr = value.toString().split('.')[0]
+      let integer = parseInt(integerStr)
+      let decimalStr = value.toString().split('.')[1]
+      let decimal = parseInt(decimalStr)
+
+      newValue = integer
+
+      if (!isNaN(decimal)) {
+        newValue += parseFloat(`0.${decimalStr.substring(0, 2)}`)
+      }
+    }
+
+    setPlannedDistanceUI(newValue)
+    onDateEdit('plannedDistance', newValue, dt.toISODate())
+  }
+
+  const onWorkoutChange = (value) => {
+    // Update UI state right away
+    setWorkoutText(value)
+
+    // Cancel any previously scheduled API call
+    clearTimeout(workoutTimeoutRef)
+
+    // In X ms, save this text to the API (unless we cancel it first and send another update)
+    setWorkoutTimeoutRef(
+      setTimeout(() => {
+        onDateEdit('workout', value, dt.toISODate())
+      }, DEBOUNCE_TIME_IN_MS)
+    )
+  }
+
   return (
     <div
       className={classes}
@@ -148,12 +203,12 @@ const CalendarDate = ({
             min='0'
             step='1'
             className='text-center resize-none h-full w-full bg-transparent outline-none p-1 cursor-default'
-            value={date.plannedDistance}
+            value={plannedDistanceUI}
             onFocus={(e) => {
               e.target.select()
             }}
             onChange={(event) => {
-              onDateEdit('plannedDistance', event.target.value, dt.toISODate())
+              onPlannedDistanceChange(event.target.value)
             }}
           />
         </div>
@@ -162,9 +217,9 @@ const CalendarDate = ({
         <textarea
           className='text-xs lg:text-sm resize-none h-full w-full bg-transparent outline-none px-2 lg:px-3 py-1 cursor-default'
           spellCheck={false}
-          value={date.workout}
+          value={workoutText}
           onChange={(event) => {
-            onDateEdit('workout', event.target.value, dt.toISODate())
+            onWorkoutChange(event.target.value)
           }}
         />
       </div>
