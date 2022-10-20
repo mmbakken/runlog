@@ -18,20 +18,6 @@ const CalendarDate = ({
   const [workoutText, setWorkoutText] = useState(date?.workout) // UI state inherits from prop value
   const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
 
-  // How should this number be displayed?
-  let plannedDistanceUIValue = 0
-  if (
-    date != null &&
-    date.plannedDistance != null &&
-    date.plannedDistance != '' &&
-    typeof date.plannedDistance === 'number'
-  ) {
-    plannedDistanceUIValue = date.plannedDistance
-  }
-  const [plannedDistanceUI, setPlannedDistanceUI] = useState(
-    plannedDistanceUIValue
-  )
-
   let optionMenu = useRef(null)
   let optionMenuClasses =
     'absolute left-28 lg:left-36 top-0 text-left border rounded border-gray-900 bg-offwhite-100 z-50'
@@ -135,6 +121,30 @@ const CalendarDate = ({
       window.removeEventListener('keydown', handleEscPress)
     }
   }, [])
+
+  // Returns the UI value to use for date.plannedDistance, or 0 if there is none.
+  const getPlannedDistanceUIValue = (date) => {
+    if (
+      date != null &&
+      date.plannedDistance != null &&
+      date.plannedDistance != '' &&
+      typeof date.plannedDistance === 'number'
+    ) {
+      return date.plannedDistance
+    }
+
+    return 0
+  }
+
+  const [plannedDistanceUI, setPlannedDistanceUI] = useState(
+    getPlannedDistanceUIValue(date)
+  )
+
+  useEffect(() => {
+    // If the date object changes, update the values of the editable fields immediately in the UI
+    setPlannedDistanceUI(getPlannedDistanceUIValue(date))
+    setWorkoutText(date?.workout)
+  }, [date])
 
   const onMenuClick = (e) => {
     e.preventDefault()
