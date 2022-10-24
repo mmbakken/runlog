@@ -1,12 +1,16 @@
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
+
 import { StateContext } from '../../context/StateContext'
 import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
+
 import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
 import { AllTrainingPlansRoute } from '../../constants/routes'
+
+import Checkbox from '../Forms/Checkbox'
 
 const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
@@ -225,16 +229,15 @@ const CreateTrainingPlan = () => {
         </div>
 
         <div className='text-lg flex space-x-8 mt-4'>
-          <label className='cursor-pointer'>
+          <label className='text-base block flex flex-col items-start'>
             Active Plan
             <span className='block text-base text-gray-500'>
               Is this your current training plan?
             </span>
-            <input
-              type='checkbox'
-              checked={newTrainingPlan.isActive}
+            <Checkbox
+              className='mt-2'
               onChange={() => toggleIsActive()}
-              className='text-base rounded h-8 w-8 px-2 py-2 block mt-3 cursor-pointer checked:bg-eggplant-600 border border-gray-300'
+              checked={newTrainingPlan.isActive}
             />
           </label>
         </div>

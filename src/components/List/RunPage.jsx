@@ -16,7 +16,7 @@ import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 
 // Components
-import Checkbox from './Checkbox'
+import Checkbox from '../Forms/Checkbox'
 
 const RunPage = () => {
   const DEBOUNCE_TIME_IN_MS = 500
