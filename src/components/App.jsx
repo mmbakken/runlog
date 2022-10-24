@@ -8,8 +8,8 @@ import HomePage from './HomePage'
 import AllTrainingPlans from './Training/AllTrainingPlans'
 import ViewTrainingPlan from './Training/ViewTrainingPlan'
 import CreateTrainingPlan from './Training/CreateTrainingPlan'
-import ListPage from './List/ListPage'
-import RunPage from './List/RunPage'
+import AllRuns from './Runs/AllRuns'
+import ViewRun from './Runs/ViewRun'
 import AccountPage from './User/AccountPage'
 
 import {
@@ -17,8 +17,8 @@ import {
   ViewTrainingPlanRoute,
   CreateTrainingRoute,
   AllTrainingPlansRoute,
-  ListRoute,
-  RunPageRoute,
+  AllRunsRoute,
+  ViewRunRoute,
   LoginRoute,
   AccountRoute,
 } from '../constants/routes'
@@ -50,12 +50,12 @@ const App = () => {
             <ViewTrainingPlan />
           </PrivateRoute>
 
-          <PrivateRoute exact path={ListRoute}>
-            <ListPage />
+          <PrivateRoute exact path={AllRunsRoute}>
+            <AllRuns />
           </PrivateRoute>
 
-          <PrivateRoute path={RunPageRoute}>
-            <RunPage />
+          <PrivateRoute path={ViewRunRoute}>
+            <ViewRun />
           </PrivateRoute>
 
           <PrivateRoute path={AccountRoute}>

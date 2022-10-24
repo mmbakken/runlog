@@ -9,7 +9,7 @@ import {
   ViewTrainingPlanRoute,
   CreateTrainingRoute,
   AllTrainingPlansRoute,
-  ListRoute,
+  AllRunsRoute,
   LoginRoute,
   AccountRoute,
 } from '../constants/routes'
@@ -36,7 +36,7 @@ const Navbar = () => {
     currentPath === AllTrainingPlansRoute
       ? 'border-eggplant-700'
       : ''
-  const listClasses = currentPath === ListRoute ? 'border-eggplant-700' : ''
+  const listClasses = currentPath === AllRunsRoute ? 'border-eggplant-700' : ''
   const loginClasses = currentPath === LoginRoute ? 'border-eggplant-700' : ''
   const accountClasses =
     currentPath === AccountRoute ? 'border-eggplant-700' : ''
@@ -68,7 +68,7 @@ const Navbar = () => {
               listClasses
             }
           >
-            <Link to={ListRoute}>Runs</Link>
+            <Link to={AllRunsRoute}>Runs</Link>
           </li>
 
           {auth.isLoggedIn && (

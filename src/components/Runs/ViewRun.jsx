@@ -16,9 +16,9 @@ import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 
 // Components
-import Checkbox from './Checkbox'
+import Checkbox from '../Forms/Checkbox'
 
-const RunPage = () => {
+const ViewRun = () => {
   const DEBOUNCE_TIME_IN_MS = 500
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
@@ -150,7 +150,7 @@ const RunPage = () => {
   }, [isChecked.strength, isChecked.stretch, isChecked.ice])
 
   if (run == null) {
-    return <div className='RunPage w-full'></div>
+    return <div className='ViewRun w-full'></div>
   }
 
   // Given a timezone string from Strava e.g. "(GMT-06:00) America/Chicago", returns a string that
@@ -237,7 +237,7 @@ const RunPage = () => {
   }
 
   return (
-    <div className='RunPage w-full px-4 pb-4 space-y-4'>
+    <div className='ViewRun w-full px-4 pb-4 space-y-4'>
       <header className='w-full'>
         {showTitleEditField && (
           <input
@@ -372,4 +372,4 @@ const RunPage = () => {
   )
 }
 
-export default RunPage
+export default ViewRun

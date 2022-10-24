@@ -398,6 +398,7 @@ const ViewTrainingPlan = () => {
 
       APIv1.delete(`/training/${id}`)
         .then(() => {
+          setIsOptionMenuVisible(false)
           dispatch({
             type: actions.DELETE_TRAINING__SUCCESS,
             id: id,
@@ -409,6 +410,7 @@ const ViewTrainingPlan = () => {
           history.push(AllTrainingPlansRoute)
         })
         .catch((error) => {
+          setIsOptionMenuVisible(false)
           dispatch({
             type: actions.DELETE_TRAINING__ERROR,
             error: error,

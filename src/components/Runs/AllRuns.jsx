@@ -25,7 +25,7 @@ const getInitialGroupByState = () => {
   return JSON.parse(localStorage.getItem('groupByDate'))
 }
 
-const ListPage = () => {
+const AllRuns = () => {
   const [stravaRuns, setStravaRuns] = useState()
   const auth = useContext(AuthContext)[0]
   const [state, dispatch] = useContext(StateContext)
@@ -38,7 +38,7 @@ const ListPage = () => {
     state.runs.byId === null ||
     state.dailyStats.byId === null
   ) {
-    return <div className='ListPage w-full px-4 pb-4'></div>
+    return <div className='AllRuns w-full px-4 pb-4'></div>
   }
 
   // When this component is loaded, go get the user's Runlog runs (all of them at once)
@@ -95,7 +95,7 @@ const ListPage = () => {
   }
 
   return (
-    <div className='ListPage w-full px-4 pb-4 space-y-4'>
+    <div className='AllRuns w-full px-4 pb-4 space-y-4'>
       <div>
         <label className='inline-flex items-center space-x-2'>
           <span>Group by date</span>
@@ -163,4 +163,4 @@ const ListPage = () => {
   )
 }
 
-export default ListPage
+export default AllRuns
