@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 import { Link } from 'react-router-dom'
 
-import { RunPageRoute } from '../../constants/routes'
+import { ViewRunRoute } from '../../constants/routes'
 
 // Unit formatting helper functions
 import formatMileage from '../../formatters/formatMileage'
 import showWeekDivider from '../../utils/showWeekDivider'
 
-// Given an array of run activities, displays the table content as expected for the ListPage
+// Given an array of run activities, displays as table content
 const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
   if (dailyStats == null || Object.keys(dailyStats).length === 0) {
     return null
@@ -68,7 +68,7 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
               className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
             >
               <Link
-                to={RunPageRoute.split(':')[0].concat(dailyStats.runIds[0])}
+                to={ViewRunRoute.split(':')[0].concat(dailyStats.runIds[0])}
               >
                 {dailyStats.title}
               </Link>
