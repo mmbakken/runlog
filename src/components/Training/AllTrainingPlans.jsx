@@ -13,6 +13,8 @@ import {
   ViewTrainingPlanRoute,
 } from '../../constants/routes'
 
+import formatMileage from '../../formatters/formatMileage.js'
+
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
   const history = useHistory()
@@ -176,8 +178,12 @@ const AllTrainingPlans = () => {
                         }).toLocaleString()}
                       </div>
                       <div className='text-center'>{training.weeks.length}</div>
-                      <div className=''>{training.actualDistance} mi</div>
-                      <div className=''>{training.plannedDistance} mi</div>
+                      <div className=''>
+                        {formatMileage(training.actualDistance)} mi
+                      </div>
+                      <div className=''>
+                        {formatMileage(training.plannedDistance)} mi
+                      </div>
                       <div className='relative'>
                         <button
                           className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
