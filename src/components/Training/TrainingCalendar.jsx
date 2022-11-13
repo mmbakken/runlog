@@ -8,6 +8,9 @@ import { APIv1 } from '../../api'
 
 import CalendarDate from './CalendarDate'
 
+import formatMileage from '../../formatters/formatMileage.js'
+import addFloats from '../../utils/addFloats.js'
+
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
@@ -28,6 +31,61 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       DateTime.fromISO(weekB.startDateISO)
     )
   })
+
+  // Calculate the display value for this week's mileage. It's a combination of its dates' planned
+  // and actual distance values.
+  let weekDisplayDistances = []
+  const nowLocalDT = DateTime.now()
+
+  // Today's local date, expressed as the same yyyy-mm-dd but in UTC at start of day. This is needed
+  // to properly compare abstract dates in the calendar with the user's understanding of the current
+  // ISO Date. Basically, it allows the user to edit planned mileage for current or future dates
+  // that are close to the week boundaries within the timezone offset range.
+  const startOfTodayUTC = nowLocalDT
+    .startOf('day')
+    .setZone('utc')
+    .startOf('day')
+  const todayISODate = startOfTodayUTC.toISODate()
+
+  for (let weekIndex = 0; weekIndex < training.weeks.length; weekIndex++) {
+    const week = training.weeks[weekIndex]
+    const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+    const weekEndDT = weekStartDT.plus({ days: 7 })
+
+    const weekISODates = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) => {
+      return weekStartDT.plus({ days: dayOffset }).toISODate()
+    })
+
+    let weekDistance = 0
+
+    // If this is the current week, we need to investigate its dates for their distances
+    if (weekISODates.indexOf(todayISODate) >= 0) {
+      // For each date in this week, sum the actualDistances.
+      // If no actualDistance, use plannedDistance. If no plannedDistance, use 0.
+      for (let date of training.dates) {
+        const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+
+        if (weekStartDT <= dateDT && dateDT < weekEndDT) {
+          let dateDistance = date.actualDistance
+
+          if (startOfTodayUTC < dateDT) {
+            dateDistance = date.plannedDistance
+          }
+
+          weekDistance = addFloats(weekDistance, dateDistance)
+        }
+      }
+    }
+
+    // Otherwise, this is either a past week or a future week
+    else if (weekStartDT < startOfTodayUTC) {
+      weekDistance = week.actualDistance // Past week
+    } else {
+      weekDistance = week.plannedDistance // Future week
+    }
+
+    weekDisplayDistances[weekIndex] = weekDistance
+  }
 
   training.dates.sort((dateA, dateB) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
@@ -612,7 +670,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           weekRowClasses += ' border-gray-900 border-b' // This is the row above the selected one
         }
 
-        // Date selection UI
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
 
         rows.push(
@@ -652,7 +709,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               )
             })}
 
-            <div className={columnTotalClasses}>{week.plannedDistance}</div>
+            <div className={columnTotalClasses}>
+              {formatMileage(weekDisplayDistances[weekIndex])}
+            </div>
             <div className={columnDiffClasses}>{week.percentChange || '–'}</div>
           </div>
         )
