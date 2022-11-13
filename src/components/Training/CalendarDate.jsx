@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
+import formatMileage from '../../formatters/formatMileage.js'
+
 const CalendarDate = ({
   date,
   className,
@@ -31,7 +33,19 @@ const CalendarDate = ({
     maskClasses += ' hidden'
   }
 
-  const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+  const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf('day')
+  const now = DateTime.now().startOf('day')
+
+  let isPastDate = dt < now
+  const isCurrentDate = now.toISODate() === dt.toISODate()
+  if (isCurrentDate) {
+    isPastDate = false
+  }
+
+  let showPlannedInput = true
+  if (isPastDate || (date.actualDistance > 0 && isCurrentDate)) {
+    showPlannedInput = false
+  }
 
   // This list has to be in this file in order for Tailwind to generate the class names correctly
   const categoryClassName = {
@@ -208,19 +222,27 @@ const CalendarDate = ({
           {dt.toFormat('MM/dd')}
         </div>
         <div className='w-1/2 mx-auto py-1 border-b border-gray-500'>
-          <input
-            type='number'
-            min='0'
-            step='1'
-            className='text-center resize-none h-full w-full bg-transparent outline-none p-1 cursor-default'
-            value={plannedDistanceUI}
-            onFocus={(e) => {
-              e.target.select()
-            }}
-            onChange={(event) => {
-              onPlannedDistanceChange(event.target.value)
-            }}
-          />
+          {showPlannedInput && (
+            <input
+              type='number'
+              min='0'
+              step='1'
+              className='text-center resize-none h-6 w-full bg-transparent outline-none cursor-default'
+              value={plannedDistanceUI}
+              onFocus={(e) => {
+                e.target.select()
+              }}
+              onChange={(event) => {
+                onPlannedDistanceChange(event.target.value)
+              }}
+            />
+          )}
+
+          {!showPlannedInput && (
+            <span className='block text-center h-6 w-full cursor-default'>
+              {formatMileage(date.actualDistance)}
+            </span>
+          )}
         </div>
       </div>
       <div className='w-full h-32'>

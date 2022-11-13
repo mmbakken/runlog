@@ -490,7 +490,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   return (
     <div className='w-full flex flex-col items-center justify-center text-sm lg:text-base z-0 mb-20'>
       {!disableSelection && (
-        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-2 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
+        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-4 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
