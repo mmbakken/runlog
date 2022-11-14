@@ -43,6 +43,7 @@ const CalendarDate = ({
   }
 
   let showPlannedInput = true
+
   if (isPastDate || (date.actualDistance > 0 && isCurrentDate)) {
     showPlannedInput = false
   }
@@ -239,7 +240,7 @@ const CalendarDate = ({
           )}
 
           {!showPlannedInput && (
-            <span className='block text-center h-6 w-full cursor-default'>
+            <span className='block text-center font-semibold h-6 w-full cursor-default'>
               {formatMileage(date.actualDistance)}
             </span>
           )}

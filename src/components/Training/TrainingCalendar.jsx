@@ -61,7 +61,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     // If this is the current week, we need to investigate its dates for their distances
     if (weekISODates.indexOf(todayISODate) >= 0) {
       // For each date in this week, sum the actualDistances.
-      // If no actualDistance, use plannedDistance. If no plannedDistance, use 0.
+      // If no actualDistance, use plannedDistanceMeters. If no plannedDistanceMeters, use 0.
       for (let date of training.dates) {
         const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
 
@@ -69,7 +69,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           let dateDistance = date.actualDistance
 
           if (startOfTodayUTC < dateDT) {
-            dateDistance = date.plannedDistance
+            dateDistance = date.plannedDistanceMeters
           }
 
           weekDistance = addFloats(weekDistance, dateDistance)
@@ -81,7 +81,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     else if (weekStartDT < startOfTodayUTC) {
       weekDistance = week.actualDistance // Past week
     } else {
-      weekDistance = week.plannedDistance // Future week
+      weekDistance = week.plannedDistanceMeters // Future week
     }
 
     weekDisplayDistances[weekIndex] = weekDistance
@@ -328,6 +328,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           ...currentDate,
           actualDistance: copiedDate.actualDistance,
           plannedDistance: copiedDate.plannedDistance,
+          plannedDistanceMeters: copiedDate.plannedDistanceMeters,
           workout: copiedDate.workout,
           workoutCategory: copiedDate.workoutCategory,
         })
