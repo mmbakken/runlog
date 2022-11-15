@@ -332,7 +332,11 @@ const ViewTrainingPlan = () => {
         additionalWeekIndex++
       ) {
         weeks.push({
-          startDateISO: editedPlan.ui.startDateISO,
+          startDateISO: DateTime.fromISO(editedPlan.ui.startDateISO)
+            .plus({
+              days: editedPlan.weeks.length * 7 + additionalWeekIndex * 7,
+            })
+            .toISODate(),
           actualDistance: 0, // TODO: This will suck to figure out. Will require an API call to run a query on what runs happened in each new week and their distance
           plannedDistance: 0,
           percentChange: 0, // TODO: Also must update when the actualDistance is calculated
