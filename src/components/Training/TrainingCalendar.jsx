@@ -9,6 +9,7 @@ import { APIv1 } from '../../api'
 import CalendarDate from './CalendarDate'
 
 import formatMileage from '../../formatters/formatMileage.js'
+import formatPercentDiff from '../../formatters/formatPercentDiff.js'
 import addFloats from '../../utils/addFloats.js'
 
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
@@ -35,6 +36,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   // Calculate the display value for this week's mileage. It's a combination of its dates' planned
   // and actual distance values.
   let weekDisplayDistances = []
+  let weekPercentDiff = ['–'] // null/NaN/Div-by-0 symbol
   const nowLocalDT = DateTime.now()
 
   // Today's local date, expressed as the same yyyy-mm-dd but in UTC at start of day. This is needed
@@ -89,6 +91,26 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     weekDisplayDistances[weekIndex] = weekDistance
   }
 
+  // Based on the display distances, calculate the % difference per week
+  // Always skip the first week - can't calculate % change without previous week
+  for (
+    let weekIndex = 1;
+    weekIndex < weekDisplayDistances.length;
+    weekIndex++
+  ) {
+    const weekDistance = weekDisplayDistances[weekIndex]
+    const prevWeekDistance = weekDisplayDistances[weekIndex - 1]
+
+    if (prevWeekDistance === 0) {
+      weekPercentDiff[weekIndex] = weekPercentDiff[0] // Always the null/NaN/Div-by-0 symbol
+    } else {
+      weekPercentDiff[weekIndex] =
+        Math.round(
+          ((weekDistance - prevWeekDistance) / prevWeekDistance) * 100 * 100
+        ) / 100
+    }
+  }
+
   training.dates.sort((dateA, dateB) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
@@ -96,9 +118,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   let columnWeekClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
   let columnTotalClasses =
-    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnDiffClasses =
-    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
+    'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
 
   let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
   let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
@@ -627,8 +647,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               >
                 Sunday
               </div>
-              <div className={columnTotalClasses}>Total</div>
-              <div className={columnDiffClasses}>Diff</div>
+              <div className={columnTotalClasses}>Mileage</div>
             </div>
           )
         }
@@ -713,9 +732,13 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
             })}
 
             <div className={columnTotalClasses}>
-              {formatMileage(weekDisplayDistances[weekIndex])}
+              <div className='text-lg mb-2'>
+                {formatMileage(weekDisplayDistances[weekIndex])}
+              </div>
+              <div className='text-sm text-gray-400'>
+                {formatPercentDiff(weekPercentDiff[weekIndex])}
+              </div>
             </div>
-            <div className={columnDiffClasses}>{week.percentChange || '–'}</div>
           </div>
         )
 

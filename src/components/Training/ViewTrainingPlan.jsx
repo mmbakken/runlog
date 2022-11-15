@@ -22,7 +22,7 @@ const ViewTrainingPlan = () => {
   const location = useLocation()
   const history = useHistory()
   const id = location.pathname.split('/training/')[1]
-  const DEBUG = true
+  const DEBUG = false
   const DAYS_PER_WEEK = 7
 
   const training = state?.training?.byId[id]
