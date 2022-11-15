@@ -118,7 +118,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   let columnWeekClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
   let columnTotalClasses =
-    'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
+    'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
   let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
   let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
