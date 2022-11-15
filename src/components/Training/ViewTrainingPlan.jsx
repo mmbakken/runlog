@@ -238,7 +238,9 @@ const ViewTrainingPlan = () => {
 
     // For each date between startDT and endDT (there may be none of these), add to the dates array
     let foundDates = training.dates.filter((date) => {
-      let existingDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+      let existingDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
+        'day'
+      )
       return newStartDT <= existingDT && existingDT <= newEndDT
     })
 
@@ -332,7 +334,11 @@ const ViewTrainingPlan = () => {
         additionalWeekIndex++
       ) {
         weeks.push({
-          startDateISO: editedPlan.ui.startDateISO,
+          startDateISO: DateTime.fromISO(editedPlan.ui.startDateISO)
+            .plus({
+              days: editedPlan.weeks.length * 7 + additionalWeekIndex * 7,
+            })
+            .toISODate(),
           actualDistance: 0, // TODO: This will suck to figure out. Will require an API call to run a query on what runs happened in each new week and their distance
           plannedDistance: 0,
           percentChange: 0, // TODO: Also must update when the actualDistance is calculated
@@ -402,9 +408,6 @@ const ViewTrainingPlan = () => {
             type: actions.DELETE_TRAINING__SUCCESS,
             id: id,
           })
-
-          // TODO: This should be a toast so the user can see it when the route changes
-          console.log(`Deleted training plan with id ${id}`)
 
           history.push(AllTrainingPlansRoute)
         })

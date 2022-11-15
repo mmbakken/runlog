@@ -733,10 +733,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
             <div className={columnTotalClasses}>
               <div className='text-lg mb-2'>
-                {formatMileage(weekDisplayDistances[weekIndex])}
+                {formatMileage(weekDisplayDistances[weekIndex] || 0)}
               </div>
               <div className='text-sm text-gray-400'>
-                {formatPercentDiff(weekPercentDiff[weekIndex])}
+                {formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
               </div>
             </div>
           </div>
