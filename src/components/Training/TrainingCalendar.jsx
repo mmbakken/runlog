@@ -63,7 +63,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       // For each date in this week, sum the actualDistances.
       // If no actualDistance, use plannedDistanceMeters. If no plannedDistanceMeters, use 0.
       for (let date of training.dates) {
-        const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+        const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
+          'day'
+        )
 
         if (weekStartDT <= dateDT && dateDT < weekEndDT) {
           let dateDistance = date.actualDistance
