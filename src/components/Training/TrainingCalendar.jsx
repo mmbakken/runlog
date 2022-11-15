@@ -72,8 +72,8 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         if (weekStartDT <= dateDT && dateDT < weekEndDT) {
           let dateDistance = date.actualDistance
 
-          if (startOfTodayUTC < dateDT) {
-            dateDistance = date.plannedDistanceMeters
+          if (startOfTodayUTC <= dateDT) {
+            dateDistance = dateDistance || date.plannedDistanceMeters
           }
 
           weekDistance = addFloats(weekDistance, dateDistance)
