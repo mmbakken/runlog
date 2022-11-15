@@ -8,6 +8,10 @@ import { APIv1 } from '../../api'
 
 import CalendarDate from './CalendarDate'
 
+import formatMileage from '../../formatters/formatMileage.js'
+import formatPercentDiff from '../../formatters/formatPercentDiff.js'
+import addFloats from '../../utils/addFloats.js'
+
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
@@ -29,6 +33,84 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     )
   })
 
+  // Calculate the display value for this week's mileage. It's a combination of its dates' planned
+  // and actual distance values.
+  let weekDisplayDistances = []
+  let weekPercentDiff = ['–'] // null/NaN/Div-by-0 symbol
+  const nowLocalDT = DateTime.now()
+
+  // Today's local date, expressed as the same yyyy-mm-dd but in UTC at start of day. This is needed
+  // to properly compare abstract dates in the calendar with the user's understanding of the current
+  // ISO Date. Basically, it allows the user to edit planned mileage for current or future dates
+  // that are close to the week boundaries within the timezone offset range.
+  const startOfTodayUTC = nowLocalDT
+    .startOf('day')
+    .setZone('utc')
+    .startOf('day')
+  const todayISODate = startOfTodayUTC.toISODate()
+
+  for (let weekIndex = 0; weekIndex < training.weeks.length; weekIndex++) {
+    const week = training.weeks[weekIndex]
+    const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+    const weekEndDT = weekStartDT.plus({ days: 7 })
+
+    const weekISODates = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) => {
+      return weekStartDT.plus({ days: dayOffset }).toISODate()
+    })
+
+    let weekDistance = 0
+
+    // If this is the current week, we need to investigate its dates for their distances
+    if (weekISODates.indexOf(todayISODate) >= 0) {
+      // For each date in this week, sum the actualDistances.
+      // If no actualDistance, use plannedDistanceMeters. If no plannedDistanceMeters, use 0.
+      for (let date of training.dates) {
+        const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
+          'day'
+        )
+
+        if (weekStartDT <= dateDT && dateDT < weekEndDT) {
+          let dateDistance = date.actualDistance
+
+          if (startOfTodayUTC < dateDT) {
+            dateDistance = date.plannedDistanceMeters
+          }
+
+          weekDistance = addFloats(weekDistance, dateDistance)
+        }
+      }
+    }
+
+    // Otherwise, this is either a past week or a future week
+    else if (weekStartDT < startOfTodayUTC) {
+      weekDistance = week.actualDistance // Past week
+    } else {
+      weekDistance = week.plannedDistanceMeters // Future week
+    }
+
+    weekDisplayDistances[weekIndex] = weekDistance
+  }
+
+  // Based on the display distances, calculate the % difference per week
+  // Always skip the first week - can't calculate % change without previous week
+  for (
+    let weekIndex = 1;
+    weekIndex < weekDisplayDistances.length;
+    weekIndex++
+  ) {
+    const weekDistance = weekDisplayDistances[weekIndex]
+    const prevWeekDistance = weekDisplayDistances[weekIndex - 1]
+
+    if (prevWeekDistance === 0) {
+      weekPercentDiff[weekIndex] = weekPercentDiff[0] // Always the null/NaN/Div-by-0 symbol
+    } else {
+      weekPercentDiff[weekIndex] =
+        Math.round(
+          ((weekDistance - prevWeekDistance) / prevWeekDistance) * 100 * 100
+        ) / 100
+    }
+  }
+
   training.dates.sort((dateA, dateB) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
@@ -36,9 +118,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   let columnWeekClasses =
     'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
   let columnTotalClasses =
-    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnDiffClasses =
-    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
+    'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
 
   let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
   let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
@@ -270,6 +350,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           ...currentDate,
           actualDistance: copiedDate.actualDistance,
           plannedDistance: copiedDate.plannedDistance,
+          plannedDistanceMeters: copiedDate.plannedDistanceMeters,
           workout: copiedDate.workout,
           workoutCategory: copiedDate.workoutCategory,
         })
@@ -490,7 +571,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   return (
     <div className='w-full flex flex-col items-center justify-center text-sm lg:text-base z-0 mb-20'>
       {!disableSelection && (
-        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-2 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
+        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-4 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
@@ -566,8 +647,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               >
                 Sunday
               </div>
-              <div className={columnTotalClasses}>Total</div>
-              <div className={columnDiffClasses}>Diff</div>
+              <div className={columnTotalClasses}>Mileage</div>
             </div>
           )
         }
@@ -612,7 +692,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           weekRowClasses += ' border-gray-900 border-b' // This is the row above the selected one
         }
 
-        // Date selection UI
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
 
         rows.push(
@@ -652,8 +731,14 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               )
             })}
 
-            <div className={columnTotalClasses}>{week.plannedDistance}</div>
-            <div className={columnDiffClasses}>{week.percentChange || '–'}</div>
+            <div className={columnTotalClasses}>
+              <div className='text-lg mb-2'>
+                {formatMileage(weekDisplayDistances[weekIndex])}
+              </div>
+              <div className='text-sm text-gray-400'>
+                {formatPercentDiff(weekPercentDiff[weekIndex])}
+              </div>
+            </div>
           </div>
         )
 

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV, faStar, faSave } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarOutline } from '@fortawesome/free-regular-svg-icons'
 import { useLocation, useHistory } from 'react-router-dom'
+
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
@@ -11,6 +12,7 @@ import { AllTrainingPlansRoute } from '../../constants/routes'
 
 import TrainingCalendar from './TrainingCalendar'
 import articlize from '../../utils/articlize.js'
+import formatMileage from '../../formatters/formatMileage.js'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -27,14 +29,11 @@ const ViewTrainingPlan = () => {
 
   let planDesc = ''
   if (training != null) {
-    planDesc = `${articlize(training.plannedDistance, 'A', 'An')} ${
-      training.plannedDistance
-    }-mile, ${training.weeks.length}-week training plan from ${DateTime.fromISO(
-      training.startDate,
-      {
-        zone: 'utc',
-      }
-    ).toLocaleString()} through ${DateTime.fromISO(training.endDate, {
+    planDesc = `${articlize(training.weeks.length, 'A', 'An')} ${
+      training.weeks.length
+    }-week training plan from ${DateTime.fromISO(training.startDate, {
+      zone: 'utc',
+    }).toLocaleString()} through ${DateTime.fromISO(training.endDate, {
       zone: 'utc',
     }).toLocaleString()}`
   }
@@ -560,7 +559,7 @@ const ViewTrainingPlan = () => {
                   <>
                     <h2 className='mt-1'>Goal: {training.goal}</h2>
                     <h2 className='mt-1'>
-                      Mileage: {training.actualDistance} miles
+                      Mileage: {formatMileage(training.actualDistance)} miles
                     </h2>
                   </>
                 )}
