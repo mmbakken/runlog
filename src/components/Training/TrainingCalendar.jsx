@@ -455,7 +455,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         updatedWeeks.push({
           ...currentWeek,
           plannedDistance: copiedWeek.plannedDistance,
-          actualDistance: copiedWeek.actualDistance,
           percentChange: copiedWeek.percentChange,
         })
       } else {
@@ -507,7 +506,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         // Replace the selected date values with the copied date values
         updatedDates.push({
           ...currentDate,
-          actualDistance: copiedDateAtFoundIndex.actualDistance,
           plannedDistance: copiedDateAtFoundIndex.plannedDistance,
           workout: copiedDateAtFoundIndex.workout,
           workoutCategory: copiedDateAtFoundIndex.workoutCategory,
