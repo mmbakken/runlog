@@ -238,7 +238,9 @@ const ViewTrainingPlan = () => {
 
     // For each date between startDT and endDT (there may be none of these), add to the dates array
     let foundDates = training.dates.filter((date) => {
-      let existingDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+      let existingDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
+        'day'
+      )
       return newStartDT <= existingDT && existingDT <= newEndDT
     })
 
@@ -406,9 +408,6 @@ const ViewTrainingPlan = () => {
             type: actions.DELETE_TRAINING__SUCCESS,
             id: id,
           })
-
-          // TODO: This should be a toast so the user can see it when the route changes
-          console.log(`Deleted training plan with id ${id}`)
 
           history.push(AllTrainingPlansRoute)
         })
