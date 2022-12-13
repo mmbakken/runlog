@@ -348,7 +348,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       if (currentDate.dateISO === selectedDate.dateISO) {
         updatedDates.push({
           ...currentDate,
-          actualDistance: copiedDate.actualDistance,
           plannedDistance: copiedDate.plannedDistance,
           plannedDistanceMeters: copiedDate.plannedDistanceMeters,
           workout: copiedDate.workout,
