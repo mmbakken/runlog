@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
-import { StateContext } from '../../context/StateContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
+import { StateContext } from '../../../context/StateContext'
+import actions from '../../../reducers/actions'
+import { APIv1 } from '../../../api'
 
 import CalendarDate from './CalendarDate'
 
-import formatMileage from '../../formatters/formatMileage.js'
-import formatPercentDiff from '../../formatters/formatPercentDiff.js'
-import addFloats from '../../utils/addFloats.js'
+import formatMileage from '../../../formatters/formatMileage.js'
+import formatPercentDiff from '../../../formatters/formatPercentDiff.js'
+import addFloats from '../../../utils/addFloats.js'
 
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]

@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
-import formatMileage from '../../formatters/formatMileage.js'
+import WorkoutTextInput from './WorkoutTextInput'
+
+import formatMileage from '../../../formatters/formatMileage.js'
 
 const CalendarDate = ({
   date,
@@ -11,14 +13,8 @@ const CalendarDate = ({
   onDateClick,
   disableSelection,
 }) => {
-  const DEBOUNCE_TIME_IN_MS = 500
-
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-
-  // Set the UI-specific values for the editable fields
-  const [workoutText, setWorkoutText] = useState(date?.workout) // UI state inherits from prop value
-  const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
 
   let optionMenu = useRef(null)
   let optionMenuClasses =
@@ -158,7 +154,6 @@ const CalendarDate = ({
   useEffect(() => {
     // If the date object changes, update the values of the editable fields immediately in the UI
     setPlannedDistanceUI(getPlannedDistanceUIValue(date))
-    setWorkoutText(date?.workout)
   }, [date])
 
   const onMenuClick = (e) => {
@@ -189,21 +184,6 @@ const CalendarDate = ({
 
     setPlannedDistanceUI(newValue)
     onDateEdit('plannedDistance', newValue, dt.toISODate())
-  }
-
-  const onWorkoutChange = (value) => {
-    // Update UI state right away
-    setWorkoutText(value)
-
-    // Cancel any previously scheduled API call
-    clearTimeout(workoutTimeoutRef)
-
-    // In X ms, save this text to the API (unless we cancel it first and send another update)
-    setWorkoutTimeoutRef(
-      setTimeout(() => {
-        onDateEdit('workout', value, dt.toISODate())
-      }, DEBOUNCE_TIME_IN_MS)
-    )
   }
 
   return (
@@ -246,16 +226,13 @@ const CalendarDate = ({
           )}
         </div>
       </div>
-      <div className='w-full h-32'>
-        <textarea
-          className='text-xs lg:text-sm resize-none h-full w-full bg-transparent outline-none px-2 lg:px-3 py-1 cursor-default'
-          spellCheck={false}
-          value={workoutText}
-          onChange={(event) => {
-            onWorkoutChange(event.target.value)
-          }}
-        />
-      </div>
+
+      <WorkoutTextInput
+        text={date.workout}
+        onChange={(value) => {
+          onDateEdit('workout', value, dt.toISODate())
+        }}
+      />
 
       <div className={optionMenuClasses} ref={optionMenu}>
         <ul className='flex flex-col w-max'>
