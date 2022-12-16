@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
 import WorkoutTextInput from './WorkoutTextInput'
+import PlannedDistanceInput from './PlannedDistanceInput'
 
 import formatMileage from '../../../formatters/formatMileage.js'
 
@@ -133,29 +134,6 @@ const CalendarDate = ({
     }
   }, [])
 
-  // Returns the UI value to use for date.plannedDistance, or 0 if there is none.
-  const getPlannedDistanceUIValue = (date) => {
-    if (
-      date != null &&
-      date.plannedDistance != null &&
-      date.plannedDistance != '' &&
-      typeof date.plannedDistance === 'number'
-    ) {
-      return date.plannedDistance
-    }
-
-    return 0
-  }
-
-  const [plannedDistanceUI, setPlannedDistanceUI] = useState(
-    getPlannedDistanceUIValue(date)
-  )
-
-  useEffect(() => {
-    // If the date object changes, update the values of the editable fields immediately in the UI
-    setPlannedDistanceUI(getPlannedDistanceUIValue(date))
-  }, [date])
-
   const onMenuClick = (e) => {
     e.preventDefault()
     setIsOptionMenuVisible(true)
@@ -164,26 +142,6 @@ const CalendarDate = ({
 
   const onMaskClick = () => {
     setIsOptionMenuVisible(false)
-  }
-
-  const onPlannedDistanceChange = (value) => {
-    let newValue = 0
-
-    if (value != null && value.length > 0) {
-      let integerStr = value.toString().split('.')[0]
-      let integer = parseInt(integerStr)
-      let decimalStr = value.toString().split('.')[1]
-      let decimal = parseInt(decimalStr)
-
-      newValue = integer
-
-      if (!isNaN(decimal)) {
-        newValue += parseFloat(`0.${decimalStr.substring(0, 2)}`)
-      }
-    }
-
-    setPlannedDistanceUI(newValue)
-    onDateEdit('plannedDistance', newValue, dt.toISODate())
   }
 
   return (
@@ -204,18 +162,11 @@ const CalendarDate = ({
         </div>
         <div className='w-1/2 mx-auto py-1 border-b border-gray-500'>
           {showPlannedInput && (
-            <input
-              type='number'
-              min='0'
-              step='1'
-              className='text-center resize-none h-6 w-full bg-transparent outline-none cursor-default'
-              value={plannedDistanceUI}
-              onFocus={(e) => {
-                e.target.select()
-              }}
-              onChange={(event) => {
-                onPlannedDistanceChange(event.target.value)
-              }}
+            <PlannedDistanceInput
+              distance={date.plannedDistance}
+              onChange={(value) =>
+                onDateEdit('plannedDistance', value, dt.toISODate())
+              }
             />
           )}
 
