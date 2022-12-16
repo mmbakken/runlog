@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
+
 import actions from '../reducers/actions'
 import { AuthContext } from '../context/AuthContext'
+
+import HamburgerMenu from './HamburgerMenu'
 
 import {
   HomeRoute,
@@ -42,8 +45,10 @@ const Navbar = () => {
     currentPath === AccountRoute ? 'border-eggplant-700' : ''
 
   return (
-    <nav className='Navbar mb-4 mt-2'>
-      <div className='flex justify-between text-lg'>
+    <nav className='Navbar py-4'>
+      <HamburgerMenu logout={logout} isLoggedIn={auth.isLoggedIn} />
+
+      <div className='hidden sm:flex justify-between text-lg'>
         <ul className='inline-flex items-center space-x-4 '>
           <li>
             <Link to={HomeRoute}>
