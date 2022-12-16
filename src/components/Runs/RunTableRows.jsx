@@ -49,7 +49,9 @@ const RunTableRows = ({ runs, isLoading }) => {
     return (
       <>
         <div key={rowIndex} className='RunTableRows table-row contents'>
-          <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
+          <div
+            className={`${tableCellClasses} ml-4 pr-2 sm:pr-4 md:pr-8 lg:pr-12`}
+          >
             {DateTime.fromISO(run.startDate).toLocaleString({
               weekday: 'long',
               month: 'numeric',
@@ -58,34 +60,34 @@ const RunTableRows = ({ runs, isLoading }) => {
             })}
           </div>
           <div
-            className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+            className={`${tableCellClasses} pr-2 sm:pr-4 md:pr-8 lg:pr-12 hover:underline`}
           >
             <Link to={ViewRunRoute.split(':')[0].concat(run._id)}>
               {run.title}
             </Link>
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatMileage(run.distance)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatDuration(run.time)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatPace(run.averageSpeed)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {Math.round(run.averageHeartRate)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12 pl-4`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12 mr-4`}
           >
             {run.maxHeartRate}
           </div>
