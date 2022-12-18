@@ -286,24 +286,24 @@ const ViewRun = () => {
       {state.runs.isFetching && <p>Loading...</p>}
 
       {!state.runs.isFetching && (
-        <section className='flex flex-col items-start space-y-4'>
-          <div className='flex p-4 border border-gray-900 bg-offwhite-25 text-xl space-x-6'>
-            <div>
+        <section className='w-screen-xs flex flex-col items-start space-y-6 '>
+          <div className='w-full sm:w-auto flex justify-between items-center p-4 border border-gray-900 bg-offwhite-25 text-xl'>
+            <div className='flex flex-col items-center mr-4'>
               <div>{formatMileage(run.distance)}</div>
               <div className='text-base text-gray-600'>miles</div>
             </div>
 
-            <div>
+            <div className='flex flex-col items-center mr-4'>
               <div>{formatDuration(run.time)}</div>
               <div className='text-base text-gray-600'>time</div>
             </div>
 
-            <div>
+            <div className='flex flex-col items-center mr-4'>
               <div>{formatPace(run.averageSpeed)}</div>
               <div className='text-base text-gray-600'>pace</div>
             </div>
 
-            <div>
+            <div className='flex flex-col items-center'>
               <div>
                 {Math.round(run.averageHeartRate)} / {run.maxHeartRate}
               </div>
@@ -311,12 +311,12 @@ const ViewRun = () => {
             </div>
           </div>
 
-          <div className='w-160'>
+          <div className='w-full max-w-screen-sm'>
             <label className='w-full text-xl block'>
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-2 p-2 w-full h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25'
+                className='text-base block mt-3 p-2 w-full h-60 sm:h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={resultsFocusHandler}
@@ -326,45 +326,36 @@ const ViewRun = () => {
             </label>
           </div>
 
-          <div className='flex flex-row space-x-8'>
-            <label className='text-xl block flex flex-col items-center'>
-              Stretched
-              <Checkbox
-                className='mt-2'
-                onChange={() => onCheckboxChange('stretch')}
-                checked={isChecked.stretch}
-              />
-            </label>
+          <div className=''>
+            <span className='text-xl block'>Habits</span>
+            <div className='flex flex-col space-y-4 mt-3'>
+              <label className='text-lg flex items-center'>
+                <Checkbox
+                  className='mr-3'
+                  onChange={() => onCheckboxChange('stretch')}
+                  checked={isChecked.stretch}
+                />
+                Stretched
+              </label>
 
-            <label className='text-xl block flex flex-col items-center'>
-              Strength
-              <Checkbox
-                className='mt-2'
-                onChange={() => onCheckboxChange('strength')}
-                checked={isChecked.strength}
-              />
-            </label>
+              <label className='text-lg flex items-center'>
+                <Checkbox
+                  className='mr-3'
+                  onChange={() => onCheckboxChange('strength')}
+                  checked={isChecked.strength}
+                />
+                Strength
+              </label>
 
-            <label className='text-xl block flex flex-col items-center'>
-              Iced
-              <Checkbox
-                className='mt-2'
-                onChange={() => onCheckboxChange('ice')}
-                checked={isChecked.ice}
-              />
-            </label>
-          </div>
-
-          <div>
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`https://connect.garmin.com/modern/activity/${run.stravaExternalId.substring(
-                12
-              )}`}
-            >
-              View on Garmin
-            </a>
+              <label className='text-lg flex items-center'>
+                <Checkbox
+                  className='mr-3'
+                  onChange={() => onCheckboxChange('ice')}
+                  checked={isChecked.ice}
+                />
+                Iced
+              </label>
+            </div>
           </div>
         </section>
       )}
