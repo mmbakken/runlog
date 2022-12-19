@@ -9,7 +9,9 @@ import formatMileage from '../../../formatters/formatMileage.js'
 
 const CalendarDate = ({
   date,
-  className,
+  isSelectedDate,
+  isSelectedWeek,
+  isLastRow,
   onDateEdit,
   onDateClick,
   disableSelection,
@@ -98,9 +100,28 @@ const CalendarDate = ({
   ]
 
   let dateBoxClasses =
-    'w-1/2 mx-auto py-1 flex items-center justify-center border-b border-r border-gray-900 select-none'
+    'w-18 px-3 py-1 flex items-center align-center border-r border-gray-900 select-none '
 
-  let classes = className + ' relative '
+  // If date is selected, show selected UI
+  let classes
+
+  if (isSelectedDate) {
+    classes =
+      'relative grow-1 basis-40 shrink-0 text-center outline outline-3 outline-eggplant-700 transition-outline z-10 '
+  } else {
+    classes =
+      'relative grow-1 basis-40 shrink-0 text-center border-b border-r border-gray-900 '
+  }
+
+  if (isSelectedWeek) {
+    classes +=
+      ' border-t-eggplant-700 border-b-3 border-t-2 border-b-eggplant-700 z-10 '
+  }
+
+  if (isLastRow) {
+    classes += ' border-b '
+  }
+
   if (disableSelection) {
     classes += categoryClassName[date.workoutCategory]
   } else {
@@ -151,7 +172,7 @@ const CalendarDate = ({
         onMenuClick(e)
       }}
     >
-      <div className='w-full flex'>
+      <div className='w-full flex items-center justify-between border-b border-gray-500'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -160,7 +181,7 @@ const CalendarDate = ({
         >
           {dt.toFormat('MM/dd')}
         </div>
-        <div className='w-1/2 mx-auto py-1 border-b border-gray-500'>
+        <div className='w-16 px-3 py-1'>
           {showPlannedInput && (
             <PlannedDistanceInput
               distance={date.plannedDistance}
@@ -191,7 +212,7 @@ const CalendarDate = ({
             const isActiveCategory = date.workoutCategory === index
             const optionClasses = `${
               isActiveCategory ? 'bg-eggplant-700 text-white ' : ''
-            } px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition`
+            } px-3 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition`
 
             return (
               <li
@@ -221,7 +242,9 @@ const CalendarDate = ({
 }
 
 CalendarDate.propTypes = {
-  className: PropTypes.string,
+  isSelectedDate: PropTypes.bool.isRequired,
+  isSelectedWeek: PropTypes.bool.isRequired,
+  isLastRow: PropTypes.bool.isRequired,
   date: PropTypes.shape({
     dateISO: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
     actualDistance: PropTypes.number, // will often be null

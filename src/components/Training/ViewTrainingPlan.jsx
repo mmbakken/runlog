@@ -430,7 +430,7 @@ const ViewTrainingPlan = () => {
   }
 
   return (
-    <div className='TrainingPage w-full px-4 pb-4'>
+    <div className='TrainingPage w-full pb-4'>
       {state.training.isFetching && (
         <div>
           <span>Loading...</span>
@@ -439,7 +439,7 @@ const ViewTrainingPlan = () => {
 
       {!state.training.isFetching && state.training.byId && training && (
         <div className='w-full mb-4'>
-          <div className='flex space-x-4 mb-4'>
+          <div className='flex space-x-4 px-4 mb-4'>
             <div className='basis-2/3 flex flex-col'>
               <div className='flex items-center '>
                 {isEditMode ? (

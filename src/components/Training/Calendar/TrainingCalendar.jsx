@@ -115,11 +115,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
 
-  let columnWeekClasses =
-    'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-r border-gray-900'
-  let columnTotalClasses =
-    'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1'
-
   let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
   let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
 
@@ -566,7 +561,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='w-full flex flex-col items-center justify-center text-sm lg:text-base z-0 mb-20'>
+    <div className='w-auto whitespace-nowrap flex flex-col items-center justify-center z-0 px-4 mb-20'>
       {!disableSelection && (
         <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-4 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
           <button
@@ -590,103 +585,100 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let rows = []
         if (weekIndex === 0) {
           rows.push(
-            <div
-              key='header'
-              className='lg:w-full w-248 flex bg-offwhite-100 border-gray-900 border-t border-l border-r'
-            >
-              <div className={columnWeekClasses}>Week</div>
+            <div key='header' className='w-full flex border-gray-900'>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-l border-t border-b border-r border-gray-900 bg-offwhite-100'
+                }
+              >
+                Week
+              </div>
+              <div
+                className={
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Monday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Tuesday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Wednesday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Thursday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Friday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Saturday
               </div>
               <div
                 className={
-                  'basis-48 grow-1 shrink-1 text-center border-r border-gray-900 px-2 py-1'
+                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
                 }
               >
                 Sunday
               </div>
-              <div className={columnTotalClasses}>Mileage</div>
+              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-t border-b border-r border-gray-900 bg-offwhite-100'>
+                Mileage
+              </div>
             </div>
           )
         }
 
         // Week selection UI
-        let weekRowClasses =
-          'relative lg:w-full w-248 flex bg-offwhite-100 border-r border-l transition-outline'
+        let weekRowClasses = 'relative w-full flex transition-outline'
+
+        let mileageCellClasses =
+          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-b border-r bg-offwhite-100'
 
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
 
-        if (weekIndex === 0) {
-          weekRowClasses += ' border-t'
-        }
-
-        let weekCellClasses = columnWeekClasses + ' transition'
+        let weekCellClasses =
+          'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-l border-r border-b border-gray-900 transition'
 
         if (!disableSelection) {
           if (isSelectedWeek) {
             weekCellClasses +=
               ' cursor-pointer bg-eggplant-700 border-eggplant-700 text-white'
-
+            mileageCellClasses +=
+              ' border-eggplant-700 border-t-2 border-b-3 border-r-3'
             if (isHoveringWeek) {
               weekCellClasses += ' bg-eggplant-600'
             }
           } else {
-            weekCellClasses += ' cursor-pointer'
+            weekCellClasses += ' bg-offwhite-100 cursor-pointer'
+            mileageCellClasses += ' border-gray-700'
 
             if (isHoveringWeek) {
               weekCellClasses +=
                 ' bg-eggplant-700 border-eggplant-700 text-white'
             }
           }
-        }
-
-        if (isSelectedWeek) {
-          weekRowClasses +=
-            ' border-eggplant-700 border-t border-b outline outline-eggplant-700 z-10'
-        } else if (selectedWeekIndex - 1 === weekIndex) {
-          weekRowClasses += ' border-gray-900' // This is the row below the selected one
-        } else {
-          weekRowClasses += ' border-gray-900 border-b' // This is the row above the selected one
         }
 
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
@@ -705,21 +697,14 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
             {dateIndexes.map((dateIndex) => {
               const date = training.dates[weekIndex * 7 + dateIndex]
 
-              // If date is selected, show selected UI
-              let dateCellClasses
-
-              if (date.dateISO.split('T')[0] === selectedDateISO) {
-                dateCellClasses =
-                  'relative grow-1 basis-48 grow-1 shrink-1 text-center outline outline-3 outline-eggplant-700 transition-outline z-10'
-              } else {
-                dateCellClasses =
-                  'relative grow-1 basis-48 grow-1 shrink-1 text-center border-r border-gray-900'
-              }
-
               return (
                 <CalendarDate
                   key={dateIndex}
-                  className={dateCellClasses}
+                  isSelectedDate={
+                    date.dateISO.split('T')[0] === selectedDateISO
+                  }
+                  isSelectedWeek={isSelectedWeek}
+                  isLastRow={weekIndex + 1 === training.weeks.length}
                   date={date}
                   onDateEdit={onDateEdit}
                   onDateClick={onDateClick}
@@ -728,7 +713,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               )
             })}
 
-            <div className={columnTotalClasses}>
+            <div className={mileageCellClasses}>
               <div className='text-lg mb-2'>
                 {formatMileage(weekDisplayDistances[weekIndex] || 0)}
               </div>
@@ -736,6 +721,8 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
                 {formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
               </div>
             </div>
+
+            <div className='w-4 shrink-0'>&nbsp;</div>
           </div>
         )
 

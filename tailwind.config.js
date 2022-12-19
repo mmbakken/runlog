@@ -18,6 +18,12 @@ module.exports = {
       transitionProperty: {
         outline: 'outline-width, border-right',
       },
+      width: {
+        18: '4.5rem',
+      },
+      borderWidth: {
+        3: '3px',
+      },
       outlineWidth: {
         3: '3px',
       },
