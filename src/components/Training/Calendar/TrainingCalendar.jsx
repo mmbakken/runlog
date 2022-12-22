@@ -561,7 +561,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='w-auto whitespace-nowrap flex flex-col items-center justify-center z-0 px-4 mb-20'>
+    <div className='flex flex-col items-center justify-center z-0 px-4 mb-20'>
       {!disableSelection && (
         <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-4 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
           <button
@@ -653,7 +653,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let weekRowClasses = 'relative w-full flex transition-outline'
 
         let mileageCellClasses =
-          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-b border-r bg-offwhite-100'
+          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-b border-r border-gray-900 bg-offwhite-100'
 
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
