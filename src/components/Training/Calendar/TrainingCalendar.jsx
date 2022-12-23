@@ -650,16 +650,16 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         }
 
         // Week selection UI
-        let weekRowClasses = 'relative w-full flex transition-outline'
+        let weekRowClasses = 'relative w-full flex'
 
         let mileageCellClasses =
-          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-b border-r border-gray-900 bg-offwhite-100'
+          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-b border-r bg-offwhite-100'
 
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
 
         let weekCellClasses =
-          'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-l border-r border-b border-gray-900 transition'
+          'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-l border-r border-b transition transition-border'
 
         if (!disableSelection) {
           if (isSelectedWeek) {
@@ -671,7 +671,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               weekCellClasses += ' bg-eggplant-600'
             }
           } else {
-            weekCellClasses += ' bg-offwhite-100 cursor-pointer'
+            weekCellClasses += ' border-gray-900 bg-offwhite-100 cursor-pointer'
             mileageCellClasses += ' border-gray-700'
 
             if (isHoveringWeek) {
@@ -722,6 +722,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               </div>
             </div>
 
+            {/* This is extra whitespace acting as right-padding. */}
             <div className='w-4 shrink-0'>&nbsp;</div>
           </div>
         )

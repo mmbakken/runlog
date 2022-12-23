@@ -17,6 +17,7 @@ module.exports = {
     extend: {
       transitionProperty: {
         outline: 'outline-width, border-right',
+        border: 'border-width',
       },
       width: {
         18: '4.5rem',
