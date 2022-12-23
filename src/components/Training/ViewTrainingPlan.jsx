@@ -10,7 +10,7 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
-import TrainingCalendar from './TrainingCalendar'
+import TrainingCalendar from './Calendar/TrainingCalendar'
 import articlize from '../../utils/articlize.js'
 import formatMileage from '../../formatters/formatMileage.js'
 
@@ -430,7 +430,7 @@ const ViewTrainingPlan = () => {
   }
 
   return (
-    <div className='TrainingPage w-full px-4 pb-4'>
+    <div className='TrainingPage w-full pb-4'>
       {state.training.isFetching && (
         <div>
           <span>Loading...</span>
@@ -438,10 +438,10 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && state.training.byId && training && (
-        <div className='w-full mb-4'>
-          <div className='flex space-x-4 mb-4'>
+        <div className='w-full mb-4 h-auto'>
+          <div className='flex space-x-4 px-4 mb-4'>
             <div className='basis-2/3 flex flex-col'>
-              <div className='flex items-center '>
+              <div className='flex items-center'>
                 {isEditMode ? (
                   <label className='w-full max-w-lg text-lg'>
                     Title
@@ -543,7 +543,7 @@ const ViewTrainingPlan = () => {
                     </label>
                   </div>
                 ) : (
-                  <h2 className='text-sm text-gray-500'>{planDesc}</h2>
+                  <h2 className='text-sm text-gray-500 mt-1'>{planDesc}</h2>
                 )}
 
                 {isEditMode ? (
@@ -560,8 +560,8 @@ const ViewTrainingPlan = () => {
                   </label>
                 ) : (
                   <>
-                    <h2 className='mt-1'>Goal: {training.goal}</h2>
-                    <h2 className='mt-1'>
+                    <h2 className='mt-2'>Goal: {training.goal}</h2>
+                    <h2 className='mt-2'>
                       Mileage: {formatMileage(training.actualDistance)} miles
                     </h2>
                   </>
@@ -595,7 +595,7 @@ const ViewTrainingPlan = () => {
           </div>
 
           {isEditMode && (
-            <div className='flex justify-between mb-4'>
+            <div className='flex justify-between px-4 mb-4'>
               <div className='inline-block space-x-2'>
                 <button
                   className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'

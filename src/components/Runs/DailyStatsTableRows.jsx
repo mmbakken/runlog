@@ -43,7 +43,9 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
     return (
       <>
         <div key={rowIndex} className='DailyStatsTableRows table-row contents'>
-          <div className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12`}>
+          <div
+            className={`${tableCellClasses} ml-4 pr-2 sm:pr-4 md:pr-8 lg:pr-12`}
+          >
             {date.toLocaleString({
               weekday: 'long',
               month: 'numeric',
@@ -54,7 +56,7 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
 
           {hasMultipleRuns && (
             <div
-              className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline cursor-pointer`}
+              className={`${tableCellClasses} pr-2 sm:pr-4 md:pr-8 lg:pr-12 hover:underline cursor-pointer`}
               onClick={() => {
                 console.log('TODO: Show/hide runs for this date')
               }}
@@ -65,7 +67,7 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
 
           {!hasMultipleRuns && (
             <div
-              className={`${tableCellClasses} pr-4 md:pr-8 lg:pr-12 hover:underline`}
+              className={`${tableCellClasses} pr-2 sm:pr-4 md:pr-8 lg:pr-12 hover:underline`}
             >
               <Link
                 to={ViewRunRoute.split(':')[0].concat(dailyStats.runIds[0])}
@@ -76,17 +78,17 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
           )}
 
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatMileage(dailyStats.distance)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+            className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatMileage(dailyStats.weeklyDistance)}
           </div>
           <div
-            className={`${tableCellClasses} justify-self-end pl-4 md:pl-8 lg:pl-12`}
+            className={`${tableCellClasses} mr-4 justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
             {formatMileage(dailyStats.sevenDayDistance)}
           </div>

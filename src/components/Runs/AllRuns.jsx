@@ -95,8 +95,8 @@ const AllRuns = () => {
   }
 
   return (
-    <div className='AllRuns w-full px-4 pb-4 space-y-4'>
-      <div>
+    <div className='AllRuns w-full pb-4 space-y-4 overflow-auto w-full'>
+      <div className='mx-4'>
         <label className='inline-flex items-center space-x-2'>
           <span>Group by date</span>
           <Switch
@@ -116,7 +116,7 @@ const AllRuns = () => {
       </div>
 
       {groupByDate && (
-        <section className='grid grid-cols-daily-stats-page'>
+        <section className='overflow-scroll grid grid-cols-daily-stats-page'>
           <DailyStatsTableHeaders />
           <DailyStatsTableRows
             dailyStats={state.dailyStats.byId}
@@ -126,7 +126,7 @@ const AllRuns = () => {
       )}
 
       {!groupByDate && (
-        <section className='grid grid-cols-runs-page'>
+        <section className='overflow-scroll grid grid-cols-runs-page'>
           <RunTableHeaders />
           <RunTableRows
             runs={state.runs.byId}
@@ -137,7 +137,7 @@ const AllRuns = () => {
 
       {hasStravaAccount && (
         <>
-          <section className='space-y-2'>
+          <section className='mx-4 space-y-2'>
             <div>
               <h2 className='text-lg'>Recent Strava Runs</h2>
 
