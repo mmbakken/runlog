@@ -2,8 +2,8 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div className='HomePage px-4 pb-4'>
-      <header>
+    <div className='HomePage pb-4'>
+      <header className='px-4'>
         <h1>
           Better planning and logging tools for runners. No spreadsheets
           allowed.
