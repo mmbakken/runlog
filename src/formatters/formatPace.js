@@ -9,6 +9,14 @@ import {
 
 // Convert meters per second into minutes per mile, as a string to display to humans.
 const formatPace = (speedInMetersPerSecond) => {
+  if (
+    speedInMetersPerSecond == null ||
+    Number.isNaN(speedInMetersPerSecond) ||
+    speedInMetersPerSecond === 0
+  ) {
+    return '–'
+  }
+
   // Solve for x, given speed:
   //
   // 26.8224 min/mi       x min/mi             26.8224 min/mi

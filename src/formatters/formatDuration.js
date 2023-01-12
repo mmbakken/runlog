@@ -1,7 +1,7 @@
 import { Duration } from 'luxon'
 
 // Given a number of seconds, returns a string representing the duration of a run.
-const formatTime = (timeInSeconds) => {
+const formatDuration = (timeInSeconds) => {
   const duration = Duration.fromMillis(timeInSeconds * 1000)
 
   if (duration.as('hours') >= 1) {
@@ -11,4 +11,4 @@ const formatTime = (timeInSeconds) => {
   }
 }
 
-export default formatTime
+export default formatDuration

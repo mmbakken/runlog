@@ -9,6 +9,7 @@ import { ViewRunRoute } from '../../constants/routes'
 import formatMileage from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
+import formatHeartRate from '../../formatters/formatHeartRate'
 import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays as table content
@@ -84,12 +85,12 @@ const RunTableRows = ({ runs, isLoading }) => {
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
-            {Math.round(run.averageHeartRate)}
+            {formatHeartRate(run.averageHeartRate)}
           </div>
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12 mr-4`}
           >
-            {run.maxHeartRate}
+            {formatHeartRate(run.maxHeartRate)}
           </div>
         </div>
 

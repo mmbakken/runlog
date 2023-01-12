@@ -14,6 +14,7 @@ import { APIv1 } from '../../api'
 import formatMileage from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
+import formatHeartRate from '../../formatters/formatHeartRate'
 
 // Components
 import Checkbox from '../Forms/Checkbox'
@@ -287,28 +288,31 @@ const ViewRun = () => {
 
       {!state.runs.isFetching && (
         <section className='w-screen-xs flex flex-col items-start space-y-6 '>
-          <div className='w-full sm:w-auto flex justify-between items-center p-4 border border-gray-900 bg-offwhite-25 text-xl'>
-            <div className='flex flex-col items-center mr-4'>
+          <div className='w-full sm:w-auto flex justify-between items-center space-x-4 p-4 border border-gray-900 bg-offwhite-25 text-xl'>
+            <div className='flex flex-col items-center'>
               <div>{formatMileage(run.distance)}</div>
               <div className='text-base text-gray-600'>miles</div>
             </div>
 
-            <div className='flex flex-col items-center mr-4'>
+            <div className='flex flex-col items-center'>
               <div>{formatDuration(run.time)}</div>
               <div className='text-base text-gray-600'>time</div>
             </div>
 
-            <div className='flex flex-col items-center mr-4'>
+            <div className='flex flex-col items-center'>
               <div>{formatPace(run.averageSpeed)}</div>
               <div className='text-base text-gray-600'>pace</div>
             </div>
 
-            <div className='flex flex-col items-center'>
-              <div>
-                {Math.round(run.averageHeartRate)} / {run.maxHeartRate}
+            {run.hasHeartRate && (
+              <div className='flex flex-col items-center'>
+                <div>
+                  {formatHeartRate(run.averageHeartRate)} /{' '}
+                  {formatHeartRate(run.maxHeartRate)}
+                </div>
+                <div className='text-base text-gray-600'>heart rate</div>
               </div>
-              <div className='text-base text-gray-600'>heart rate</div>
-            </div>
+            )}
           </div>
 
           <div className='w-full max-w-screen-sm'>
