@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import WorkoutTextInput from './WorkoutTextInput'
 import PlannedDistanceInput from './PlannedDistanceInput'
 
-import formatMileage from '../../../formatters/formatMileage.js'
+import { formatActualMileage } from '../../../formatters/formatMileage.js'
 
 const CalendarDate = ({
   date,
@@ -193,7 +193,7 @@ const CalendarDate = ({
 
           {!showPlannedInput && (
             <span className='block text-center font-semibold h-6 w-full cursor-default'>
-              {formatMileage(date.actualDistance)}
+              {formatActualMileage(date.actualDistance)}
             </span>
           )}
         </div>

@@ -8,7 +8,7 @@ import { APIv1 } from '../../../api'
 
 import CalendarDate from './CalendarDate'
 
-import formatMileage from '../../../formatters/formatMileage.js'
+import { formatActualMileage } from '../../../formatters/formatMileage.js'
 import formatPercentDiff from '../../../formatters/formatPercentDiff.js'
 import addFloats from '../../../utils/addFloats.js'
 
@@ -715,7 +715,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
             <div className={mileageCellClasses}>
               <div className='text-lg mb-2'>
-                {formatMileage(weekDisplayDistances[weekIndex] || 0)}
+                {formatActualMileage(weekDisplayDistances[weekIndex] || 0)}
               </div>
               <div className='text-sm text-gray-400'>
                 {formatPercentDiff(weekPercentDiff[weekIndex] || 0)}

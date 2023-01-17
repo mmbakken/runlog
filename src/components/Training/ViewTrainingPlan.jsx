@@ -12,7 +12,7 @@ import { AllTrainingPlansRoute } from '../../constants/routes'
 
 import TrainingCalendar from './Calendar/TrainingCalendar'
 import articlize from '../../utils/articlize.js'
-import formatMileage from '../../formatters/formatMileage.js'
+import { formatActualMileage } from '../../formatters/formatMileage.js'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -562,7 +562,8 @@ const ViewTrainingPlan = () => {
                   <>
                     <h2 className='mt-2'>Goal: {training.goal}</h2>
                     <h2 className='mt-2'>
-                      Mileage: {formatMileage(training.actualDistance)} miles
+                      Mileage: {formatActualMileage(training.actualDistance)}{' '}
+                      miles
                     </h2>
                   </>
                 )}
