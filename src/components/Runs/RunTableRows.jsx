@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ViewRunRoute } from '../../constants/routes'
 
 // Unit formatting helper functions
-import formatMileage from '../../formatters/formatMileage'
+import { formatActualMileage } from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 import formatHeartRate from '../../formatters/formatHeartRate'
@@ -70,7 +70,7 @@ const RunTableRows = ({ runs, isLoading }) => {
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
-            {formatMileage(run.distance)}
+            {formatActualMileage(run.distance)}
           </div>
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ViewRunRoute } from '../../constants/routes'
 
 // Unit formatting helper functions
-import formatMileage from '../../formatters/formatMileage'
+import { formatActualMileage } from '../../formatters/formatMileage'
 import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays as table content
@@ -80,17 +80,17 @@ const DailyStatsTableRows = ({ dailyStats, isLoading }) => {
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
-            {formatMileage(dailyStats.distance)}
+            {formatActualMileage(dailyStats.distance)}
           </div>
           <div
             className={`${tableCellClasses} justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
-            {formatMileage(dailyStats.weeklyDistance)}
+            {formatActualMileage(dailyStats.weeklyDistance)}
           </div>
           <div
             className={`${tableCellClasses} mr-4 justify-self-end pl-2 sm:pl-4 md:pl-8 lg:pl-12`}
           >
-            {formatMileage(dailyStats.sevenDayDistance)}
+            {formatActualMileage(dailyStats.sevenDayDistance)}
           </div>
         </div>
 

@@ -11,7 +11,7 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
 // Unit formatting helper functions
-import formatMileage from '../../formatters/formatMileage'
+import { formatActualMileage } from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 import formatHeartRate from '../../formatters/formatHeartRate'
@@ -290,7 +290,7 @@ const ViewRun = () => {
         <section className='w-screen-xs flex flex-col items-start space-y-6 '>
           <div className='w-full sm:w-auto flex justify-between items-center space-x-4 p-4 border border-gray-900 bg-offwhite-25 text-xl'>
             <div className='flex flex-col items-center'>
-              <div>{formatMileage(run.distance)}</div>
+              <div>{formatActualMileage(run.distance)}</div>
               <div className='text-base text-gray-600'>miles</div>
             </div>
 
