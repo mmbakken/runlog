@@ -35,7 +35,6 @@ module.exports = {
         248: '62rem', // screen-lg, minus 1rem each side for padding
       },
       gridTemplateColumns: {
-        'daily-stats-page': 'repeat(5, minmax(auto, max-content))',
         'runs-page': 'repeat(7, minmax(auto, max-content))',
         'plans-page': 'repeat(8, minmax(auto, max-content))',
       },
