@@ -3,7 +3,8 @@ export default {
     byId: {},
     isFetching: false,
     error: null,
-    isSendingEdit: false, // TODO: maybe namespcae this by run id?
+    isSendingEdit: false, // TODO: This isn't used anywhere
+    isDeleting: false,
   },
 
   dailyStats: {

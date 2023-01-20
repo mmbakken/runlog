@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+
+import { toast } from 'react-toastify'
+
+import { useParams, useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import reverse from 'reverse-geocode'
 
@@ -9,6 +12,8 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
+
+import { AllRunsRoute } from '../../constants/routes'
 
 // Unit formatting helper functions
 import { formatActualMileage } from '../../formatters/formatMileage'
@@ -21,6 +26,7 @@ import Checkbox from '../Forms/Checkbox'
 
 const ViewRun = () => {
   const DEBOUNCE_TIME_IN_MS = 500
+  const history = useHistory()
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
   const run = state.runs.byId[params.runId]
@@ -59,6 +65,51 @@ const ViewRun = () => {
         dispatch({
           type: actions.EDIT_RUN__ERROR,
           error: error,
+        })
+      })
+  }
+
+  const deleteRun = () => {
+    dispatch({
+      type: actions.DELETE_RUN__START,
+      runId: params.runId,
+    })
+
+    APIv1.delete(`/runs/${params.runId}`)
+      .then(() => {
+        dispatch({
+          type: actions.DELETE_RUN__SUCCESS,
+          runId: params.runId,
+        })
+
+        toast.success('Run deleted', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        })
+
+        history.push(AllRunsRoute)
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.DELETE_RUN__ERROR,
+          error: error,
+        })
+
+        toast.error('Error deleting run. Please try again later.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
         })
       })
   }
@@ -237,6 +288,18 @@ const ViewRun = () => {
     }
   }
 
+  const handleDeleteButtonClick = (event) => {
+    event.preventDefault()
+
+    if (
+      confirm(
+        'Are you sure you want to delete this run? This action is permanent.'
+      )
+    ) {
+      deleteRun()
+    }
+  }
+
   return (
     <div className='ViewRun w-full px-4 pb-4 space-y-4'>
       <header className='w-full'>
@@ -330,7 +393,7 @@ const ViewRun = () => {
             </label>
           </div>
 
-          <div className=''>
+          <div>
             <span className='text-xl block'>Habits</span>
             <div className='flex flex-col space-y-4 mt-3'>
               <label className='text-lg flex items-center'>
@@ -359,6 +422,32 @@ const ViewRun = () => {
                 />
                 Iced
               </label>
+            </div>
+          </div>
+
+          <div>
+            <span className='text-xl block'>Actions</span>
+            <div className='mt-4 flex flex-col space-y-4'>
+              {run.stravaActivityId != null ? (
+                <button className='px-4 py-2 text-white border rounded border-eggplant-700 bg-eggplant-700 hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'>
+                  <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={`https://www.strava.com/activities/${run.stravaActivityId}`}
+                  >
+                    View on Strava
+                  </a>
+                </button>
+              ) : null}
+
+              <button
+                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+                onClick={(e) => {
+                  handleDeleteButtonClick(e)
+                }}
+              >
+                Delete Run
+              </button>
             </div>
           </div>
         </section>
