@@ -76,7 +76,9 @@ const AllRuns = () => {
 
             <button
               className='px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition focus:outline-none'
-              onClick={setStravaRuns(getRecentStravaRuns)}
+              onClick={() => {
+                setStravaRuns(getRecentStravaRuns)
+              }}
             >
               Get Strava Runs
             </button>
