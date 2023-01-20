@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -68,13 +69,32 @@ const AllTrainingPlans = () => {
             id: id,
           })
 
-          // TODO: This should be a toast so the user can see it when the route changes
-          console.log(`Deleted training plan with id ${id}`)
+          toast.success('Training plan deleted.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          })
         })
         .catch((error) => {
           dispatch({
             type: actions.DELETE_TRAINING__ERROR,
             error: error,
+          })
+
+          toast.error('Error deleting training plan. Please try again later.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
           })
         })
     }
