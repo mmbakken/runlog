@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { toast } from 'react-toastify'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV, faStar, faSave } from '@fortawesome/free-solid-svg-icons'
@@ -409,6 +410,17 @@ const ViewTrainingPlan = () => {
             id: id,
           })
 
+          toast.success('Training plan deleted.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          })
+
           history.push(AllTrainingPlansRoute)
         })
         .catch((error) => {
@@ -416,6 +428,17 @@ const ViewTrainingPlan = () => {
           dispatch({
             type: actions.DELETE_TRAINING__ERROR,
             error: error,
+          })
+
+          toast.error('Error deleting training plan. Please try again later.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
           })
         })
     }
