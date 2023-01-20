@@ -101,11 +101,16 @@ const ViewRun = () => {
           error: error,
         })
 
-        // TODO: Use a toast for this
-        console.error(error)
-        alert(
-          'Something went wrong while deleting this run, please try again later.'
-        )
+        toast.error('Error deleting run. Please try again later.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        })
       })
   }
 
