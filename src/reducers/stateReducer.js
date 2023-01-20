@@ -120,6 +120,48 @@ const stateReducer = (state, action) => {
       }
     }
 
+    case actions.DELETE_RUN__START: {
+      return {
+        ...state,
+        runs: {
+          ...state.runs,
+          isDeleting: true,
+        },
+      }
+    }
+
+    case actions.DELETE_RUN__SUCCESS: {
+      const newRuns = {}
+
+      // Copy the map of the current state's run objects, except the deleted run
+      for (let runId of Object.keys(state.runs)) {
+        if (runId !== action.runId) {
+          newRuns[runId] = state.runs.byId[runId]
+        }
+      }
+
+      return {
+        ...state,
+        runs: {
+          ...state.runs,
+          byId: newRuns,
+          error: null,
+          isDeleting: false,
+        },
+      }
+    }
+
+    case actions.DELETE_RUN__ERROR: {
+      return {
+        ...state,
+        runs: {
+          ...state.runs,
+          error: action.error,
+          isDeleting: false,
+        },
+      }
+    }
+
     ////////
     // Daily Stats GET actions
     ////////

@@ -634,7 +634,7 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && training == null && (
-        <div className='mb-4'>No training plan found with id {id}</div>
+        <div className='px-4 mb-4'>No training plan found with id {id}</div>
       )}
     </div>
   )

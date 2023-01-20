@@ -1,9 +1,15 @@
 import React from 'react'
+
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import '../styles/toast.css'
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './Auth/PrivateRoute'
+import StravaTokenHandler from './Auth/StravaTokenHandler'
+
 import Navbar from './Navbar'
 import LoginPage from './Auth/LoginPage'
-import StravaTokenHandler from './Auth/StravaTokenHandler'
 import HomePage from './HomePage'
 import AllTrainingPlans from './Training/AllTrainingPlans'
 import ViewTrainingPlan from './Training/ViewTrainingPlan'
@@ -26,6 +32,19 @@ import {
 const App = () => {
   return (
     <div className='font-sans text-gray-900 h-full w-full min-w-[350px] max-w-screen-2xl mx-auto'>
+      <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+
       <Router>
         <Navbar />
 
