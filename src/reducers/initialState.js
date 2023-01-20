@@ -7,12 +7,6 @@ export default {
     isDeleting: false,
   },
 
-  dailyStats: {
-    byId: {},
-    isFetching: false,
-    error: null,
-  },
-
   training: {
     byId: {},
     isFetching: false,
