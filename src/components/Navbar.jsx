@@ -9,8 +9,6 @@ import HamburgerMenu from './HamburgerMenu'
 
 import {
   HomeRoute,
-  ViewTrainingPlanRoute,
-  CreateTrainingRoute,
   AllTrainingPlansRoute,
   AllRunsRoute,
   LoginRoute,
@@ -32,19 +30,17 @@ const Navbar = () => {
     history.push(HomeRoute)
   }
 
+  const routeBasePath = currentPath.substr(1).split('/')[0]
+
   // Set up the class names for each link item
   const trainingClasses =
-    currentPath === ViewTrainingPlanRoute ||
-    currentPath === CreateTrainingRoute ||
-    currentPath === AllTrainingPlansRoute
-      ? 'border-eggplant-700'
-      : 'border-transparent'
-  const listClasses =
-    currentPath === AllRunsRoute ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === 'training' ? 'border-eggplant-700' : 'border-transparent'
+  const runsClasses =
+    routeBasePath === 'runs' ? 'border-eggplant-700' : 'border-transparent'
   const loginClasses =
-    currentPath === LoginRoute ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === 'login' ? 'border-eggplant-700' : 'border-transparent'
   const accountClasses =
-    currentPath === AccountRoute ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === 'account' ? 'border-eggplant-700' : 'border-transparent'
 
   return (
     <nav className='Navbar py-4'>
@@ -71,7 +67,7 @@ const Navbar = () => {
 
           <li
             className={
-              listClasses +
+              runsClasses +
               ' mt-2 leading-snug border-b-2 hover:border-eggplant-700'
             }
           >
@@ -95,7 +91,7 @@ const Navbar = () => {
             <li
               className={
                 loginClasses +
-                ' mt-2 leading-snug border-b-2 hover:border-eggplant-700'
+                ' mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700'
               }
             >
               <Link to={LoginRoute}>Login</Link>
@@ -103,7 +99,7 @@ const Navbar = () => {
           )}
 
           {auth.isLoggedIn && (
-            <li className='cursor-pointer mt-2 leading-snug border-b-2 hover:border-eggplant-700'>
+            <li className='cursor-pointer mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700'>
               <a onClick={logout}>Logout</a>
             </li>
           )}
