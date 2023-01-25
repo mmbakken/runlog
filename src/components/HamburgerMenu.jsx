@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +15,7 @@ import {
 
 const HamburgerMenu = ({ isLoggedIn, logout }) => {
   const history = useHistory()
+  const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
 
   const onMenuClick = () => {
@@ -30,6 +31,10 @@ const HamburgerMenu = ({ isLoggedIn, logout }) => {
     setIsOpen(false)
     logout()
   }
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [location])
 
   return (
     <div className='sm:hidden flex w-full'>
