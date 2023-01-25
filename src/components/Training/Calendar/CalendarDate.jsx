@@ -166,12 +166,7 @@ const CalendarDate = ({
   }
 
   return (
-    <div
-      className={classes}
-      onContextMenu={(e) => {
-        onMenuClick(e)
-      }}
-    >
+    <div className={classes}>
       <div className='w-full flex items-center justify-between border-b border-gray-500'>
         <div
           className={dateBoxClasses}
@@ -203,6 +198,9 @@ const CalendarDate = ({
         text={date.workout}
         onChange={(value) => {
           onDateEdit('workout', value, dt.toISODate())
+        }}
+        onContextMenu={(e) => {
+          onMenuClick(e)
         }}
       />
 

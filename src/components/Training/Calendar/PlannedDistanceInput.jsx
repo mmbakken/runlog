@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+// Returns the UI value to use for date.plannedDistance, or 0 if there is none.
+const getPlannedDistanceUIValue = (distance) => {
+  if (distance != null && distance != '' && typeof distance === 'number') {
+    return distance
+  }
+
+  return 0
+}
+
 const PlannedDistanceInput = ({ distance, onChange }) => {
   const DEBOUNCE_TIME_IN_MS = 1000
 
   const [plannedDistanceUI, setPlannedDistanceUI] = useState(0)
   const [distanceTimeoutRef, setDistanceTimeoutRef] = useState(null)
-
-  // Returns the UI value to use for date.plannedDistance, or 0 if there is none.
-  const getPlannedDistanceUIValue = (distance) => {
-    if (distance != null && distance != '' && typeof distance === 'number') {
-      return distance
-    }
-
-    return 0
-  }
 
   useEffect(() => {
     if (distanceTimeoutRef == null) {
@@ -25,8 +25,6 @@ const PlannedDistanceInput = ({ distance, onChange }) => {
   // Helper function to limit decimal places and format desired distance appropriately
   const getCleanDistance = (value) => {
     let cleanDistance = 0
-
-    console.log(value)
 
     if (value != null && value.length > 0) {
       let integerStr = value.toString().split('.')[0]
@@ -74,6 +72,7 @@ const PlannedDistanceInput = ({ distance, onChange }) => {
       onChange={(event) => {
         onDistanceChange(event.target.value)
       }}
+      onContextMenu={(event) => event.preventDefault()}
     />
   )
 }
