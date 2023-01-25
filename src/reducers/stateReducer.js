@@ -7,6 +7,8 @@ const stateReducer = (state, action) => {
         ...state,
         runs: {
           ...state.runs,
+          byId: state.runs.byId,
+          error: null,
           isFetching: true,
         },
       }
@@ -45,22 +47,18 @@ const stateReducer = (state, action) => {
     }
 
     case actions.GET_RUN__SUCCESS: {
-      const newRuns = {}
+      // Deep copy the map of the current state's run objects.
+      const newRunsById = JSON.parse(JSON.stringify(state.runs.byId))
 
-      // Copy the map of the current state's run objects.
-      for (let runId of Object.keys(state.runs)) {
-        newRuns[runId] = action.run
-      }
-
-      // Always overwrite this run object in the cloned map
-      newRuns[action.run._id] = action.run
+      // Overwrite the newly fetched run object in the new map
+      newRunsById[action.run._id] = action.run
 
       return {
         ...state,
         runs: {
           ...state.runs,
           isFetching: false,
-          byId: newRuns,
+          byId: newRunsById,
           error: null,
         },
       }

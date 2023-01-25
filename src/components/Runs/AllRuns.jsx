@@ -30,17 +30,16 @@ const AllRuns = () => {
       })
   }, [])
 
-  if (state == null || state.runs === null || state.runs.byId === null) {
-    return null
-  }
-
   return (
     <div className='AllRuns w-full pb-4 space-y-4 overflow-auto w-full'>
       <h1 className='mx-4 text-2xl'>All Runs</h1>
 
       <section className='overflow-scroll grid grid-cols-runs-page'>
         <RunTableHeaders />
-        <RunTableBody runs={state.runs.byId} isLoading={state.runs.isLoading} />
+        <RunTableBody
+          runs={state.runs.byId}
+          isLoading={state.runs.isFetching}
+        />
       </section>
     </div>
   )
