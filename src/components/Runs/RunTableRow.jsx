@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DateTime } from 'luxon'
 import { Link } from 'react-router-dom'
 
 import { ViewRunRoute } from '../../constants/routes'
@@ -10,6 +9,8 @@ import { formatActualMileage } from '../../formatters/formatMileage'
 import formatPace from '../../formatters/formatPace'
 import formatDuration from '../../formatters/formatDuration'
 import formatHeartRate from '../../formatters/formatHeartRate'
+import formatWeekday from '../../formatters/formatWeekday'
+import formatDate from '../../formatters/formatDate'
 
 const RunTableRow = ({ run, showBottomBorder }) => {
   if (run == null) {
@@ -20,13 +21,11 @@ const RunTableRow = ({ run, showBottomBorder }) => {
 
   return (
     <div className='RunTableRow table-row contents'>
-      <div className={`${tableCellClasses} ml-4 pr-2 sm:pr-4 md:pr-8 lg:pr-12`}>
-        {DateTime.fromISO(run.startDate).toLocaleString({
-          weekday: 'long',
-          month: 'numeric',
-          day: 'numeric',
-          year: '2-digit',
-        })}
+      <div className={`${tableCellClasses} ml-4`}>
+        {formatWeekday(run.startDate)}
+      </div>
+      <div className={`${tableCellClasses} ml-2 pr-2 sm:pr-4 md:pr-8 lg:pr-12`}>
+        {formatDate(run.startDate)}
       </div>
       <div
         className={`${tableCellClasses} pr-2 sm:pr-4 md:pr-8 lg:pr-12 hover:underline`}
@@ -60,7 +59,7 @@ const RunTableRow = ({ run, showBottomBorder }) => {
       </div>
 
       {showBottomBorder && (
-        <div className='table-row col-span-7 pt-1 mb-1 mx-4 border-b border-eggplant-700' />
+        <div className='table-row col-span-8 pt-1 mb-1 mx-4 border-b border-eggplant-700' />
       )}
     </div>
   )

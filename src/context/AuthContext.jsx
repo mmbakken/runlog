@@ -56,7 +56,10 @@ export const AuthContextProvider = (props) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={[auth, authDispatch]}>
+    <AuthContext.Provider
+      value={[auth, authDispatch]}
+      displayName='Auth Context'
+    >
       {props.children}
     </AuthContext.Provider>
   )

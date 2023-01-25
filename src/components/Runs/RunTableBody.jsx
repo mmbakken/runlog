@@ -8,12 +8,12 @@ import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays as table content
 const RunTableBody = ({ runs, isLoading }) => {
-  if (runs == null || Object.keys(runs).length === 0) {
-    return null
+  if (isLoading) {
+    return <div className='w-full mx-4'>Loading...</div>
   }
 
-  if (isLoading) {
-    return <div className='w-full'>Loading...</div>
+  if (runs == null || Object.keys(runs).length === 0) {
+    return null
   }
 
   const sortedRuns = Object.values(runs).sort((a, b) => {
