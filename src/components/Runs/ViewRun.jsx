@@ -396,30 +396,33 @@ const ViewRun = () => {
           <div>
             <span className='text-xl block'>Habits</span>
             <div className='flex flex-col space-y-4 mt-3'>
-              <label className='text-lg flex items-center'>
-                <Checkbox
-                  className='mr-3'
-                  onChange={() => onCheckboxChange('stretch')}
-                  checked={isChecked.stretch}
-                />
+              <label
+                className='text-lg flex items-center cursor-pointer'
+                onClick={() => {
+                  onCheckboxChange('stretch')
+                }}
+              >
+                <Checkbox className='mr-3' checked={isChecked.stretch} />
                 Stretched
               </label>
 
-              <label className='text-lg flex items-center'>
-                <Checkbox
-                  className='mr-3'
-                  onChange={() => onCheckboxChange('strength')}
-                  checked={isChecked.strength}
-                />
+              <label
+                className='text-lg flex items-center cursor-pointer'
+                onClick={() => {
+                  onCheckboxChange('strength')
+                }}
+              >
+                <Checkbox className='mr-3' checked={isChecked.strength} />
                 Strength
               </label>
 
-              <label className='text-lg flex items-center'>
-                <Checkbox
-                  className='mr-3'
-                  onChange={() => onCheckboxChange('ice')}
-                  checked={isChecked.ice}
-                />
+              <label
+                className='text-lg flex items-center cursor-pointer'
+                onClick={() => {
+                  onCheckboxChange('ice')
+                }}
+              >
+                <Checkbox className='mr-3' checked={isChecked.ice} />
                 Iced
               </label>
             </div>
