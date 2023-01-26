@@ -30,10 +30,10 @@ const redirectToStravaAuthPage = (userId) => {
 }
 
 // Tell Runlog API to talk to Strava and get the most recent run activities
-const getRecentStravaRuns = () => {
+const getRecentStravaRuns = (setStravaRuns) => {
   APIv1.get('/strava/runs')
     .then((response) => {
-      return response.data
+      setStravaRuns(response.data)
     })
     .catch((error) => {
       console.error(error)
@@ -61,7 +61,7 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
           <button
             className='px-4 py-2 text-white border border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition focus:outline-none'
             onClick={() => {
-              setStravaRuns(getRecentStravaRuns(userId))
+              getRecentStravaRuns(setStravaRuns)
             }}
           >
             {stravaRuns?.length > 0 ? 'Refresh' : 'Get Recent Strava Runs'}
