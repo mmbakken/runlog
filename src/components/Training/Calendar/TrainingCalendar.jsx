@@ -115,8 +115,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
 
-  let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
-  let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
+  let copyBtnClasses =
+    'border border-gray-900 rounded-lg px-2 py-1 transition whitespace-nowrap'
+  let pasteBtnClasses =
+    'border border-gray-900 rounded-lg px-2 py-1 transition whitespace-nowrap'
 
   if (!disableSelection) {
     if (allowCopy) {
@@ -566,7 +568,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   return (
     <div className='TrainingCalendar flex flex-col z-0 px-4 pb-12 w-[1536px]'>
       {!disableSelection && showCopyPasteBox ? (
-        <div className='fixed left-1/2 bottom-4 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-offwhite-100 border rounded border-gray-900 drop-shadow-lg px-4 py-2'>
+        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-offwhite-100 border rounded border-gray-900 drop-shadow-lg px-4 py-2'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}

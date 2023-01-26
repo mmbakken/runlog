@@ -93,6 +93,9 @@ const CalendarDate = ({
   let dateBoxClasses =
     'w-18 px-2 py-1 flex items-center align-center border-r border-gray-900 select-none'
 
+  let categoryButtonClasses =
+    'w-full flex align-center items-center justify-between text-center py-1 border-b border-gray-900 border-opacity-30 text-sm text-gray-700 px-2'
+
   // If date is selected, show selected UI
   let classes
 
@@ -115,7 +118,10 @@ const CalendarDate = ({
 
   if (disableSelection) {
     classes += categoryClassName[date.workoutCategory]
+    categoryButtonClasses += ' cursor-default'
   } else {
+    categoryButtonClasses += ' cursor-pointer'
+
     if (isHovering) {
       classes += categoryClassNameHover[date.workoutCategory]
       dateBoxClasses += ' cursor-pointer'
@@ -170,7 +176,7 @@ const CalendarDate = ({
 
       <div className='w-full relative'>
         <button
-          className='w-full flex align-center items-center justify-between text-center py-1 border-b border-gray-900 border-opacity-30 text-sm text-gray-700 px-2'
+          className={categoryButtonClasses}
           onClick={(e) => {
             onMenuClick(e)
           }}
