@@ -86,7 +86,7 @@ const CalendarDate = ({
 
   if (isSelectedDate) {
     classes =
-      'basis-56 grow-1 shrink-1 text-center outline outline-3 outline-eggplant-700 transition-outline z-10 '
+      'basis-56 grow-1 shrink-1 text-center outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
   } else {
     classes =
       'basis-56 grow-1 shrink-1 text-center border-b border-r border-gray-900 '
