@@ -663,30 +663,30 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let mileageCellClasses =
           'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-b border-r bg-offwhite-100'
 
+        let weekCellClasses =
+          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-l border-r border-b transition'
+
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
 
-        let weekCellClasses =
-          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-l border-r border-b transition transition-border'
-
         if (!disableSelection) {
-          if (isSelectedWeek) {
-            weekCellClasses +=
-              ' cursor-pointer bg-eggplant-700 border-eggplant-700 text-white'
-            mileageCellClasses +=
-              ' border-eggplant-700 border-t-2 border-b-3 border-r-3'
-            if (isHoveringWeek) {
-              weekCellClasses += ' bg-eggplant-600'
-            }
-          } else {
-            weekCellClasses += ' bg-offwhite-100 cursor-pointer'
-            mileageCellClasses += ' border-gray-700'
+          weekCellClasses += ' cursor-pointer'
+        }
 
-            if (isHoveringWeek) {
-              weekCellClasses +=
-                ' bg-eggplant-700 border-eggplant-700 text-white'
-            }
-          }
+        if (!disableSelection && isSelectedWeek) {
+          weekRowClasses +=
+            ' outline outline-3 outline-eggplant-700 transition-outline drop-shadow z-10'
+          mileageCellClasses +=
+            ' border-eggplant-700 border-b-transparent border-r-transparent'
+          weekCellClasses +=
+            ' text-white border-eggplant-700 border-b-transparent border-l-transparent'
+          weekCellClasses += isHoveringWeek
+            ? ' bg-eggplant-600'
+            : ' bg-eggplant-700'
+        }
+
+        if (!disableSelection && !isSelectedWeek && isHoveringWeek) {
+          weekCellClasses += ' bg-eggplant-700 border-eggplant-700 text-white'
         }
 
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]

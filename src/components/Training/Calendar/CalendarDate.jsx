@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
@@ -7,7 +7,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
 import WorkoutTextInput from './WorkoutTextInput'
 import PlannedDistanceInput from './PlannedDistanceInput'
-import OptionsMenu from '../../UI/OptionsMenu'
+import CategoryOptionsMenu from './CategoryOptionsMenu'
 
 import { formatActualMileage } from '../../../formatters/formatMileage.js'
 
@@ -22,6 +22,7 @@ const CalendarDate = ({
 }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const categoryMenuButtonRef = useRef(null)
 
   const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf('day')
   const now = DateTime.now().startOf('day')
@@ -70,7 +71,7 @@ const CalendarDate = ({
     'Long',
     'Marathon',
     'Tempo',
-    'Vo2max',
+    'VO₂max',
     'Race',
     'Cross Training',
   ]
@@ -79,7 +80,7 @@ const CalendarDate = ({
     'w-18 px-2 py-1 flex items-center align-center border-r border-gray-900 select-none'
 
   let categoryButtonClasses =
-    'w-full flex align-center items-center justify-between text-center py-1 border-b border-gray-900 border-opacity-30 text-sm text-gray-700 px-2'
+    'w-full flex align-center items-center justify-between text-center py-1 border-b border-gray-900 border-opacity-30 text-sm text-gray-700 px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
 
   // If date is selected, show selected UI
   let classes
@@ -93,8 +94,7 @@ const CalendarDate = ({
   }
 
   if (isSelectedWeek) {
-    classes +=
-      ' border-t-eggplant-700 border-b-3 border-t-2 border-b-eggplant-700 '
+    classes += ' border-t-eggplant-700 border-b-transparent '
   }
 
   if (isLastRow) {
@@ -124,7 +124,7 @@ const CalendarDate = ({
   const onMenuClick = (e) => {
     if (!disableSelection) {
       e.preventDefault()
-      setIsOptionMenuVisible(true)
+      setIsOptionMenuVisible(!isOptionMenuVisible)
     }
   }
 
@@ -161,6 +161,7 @@ const CalendarDate = ({
 
       <div className='w-full relative'>
         <button
+          ref={categoryMenuButtonRef}
           className={categoryButtonClasses}
           onClick={(e) => {
             onMenuClick(e)
@@ -172,33 +173,19 @@ const CalendarDate = ({
           </span>
         </button>
 
-        <OptionsMenu
+        <CategoryOptionsMenu
           isVisible={isOptionMenuVisible}
+          options={categoryNames}
+          activeOption={date.workoutCategory}
+          buttonRef={categoryMenuButtonRef}
           hide={() => {
             setIsOptionMenuVisible(false)
           }}
-        >
-          {categoryNames.map((categoryName, index) => {
-            const isActiveCategory = date.workoutCategory === index
-            const optionClasses = `${
-              isActiveCategory ? 'bg-eggplant-700 text-white ' : ''
-            } w-full text-sm px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition`
-
-            return (
-              <li
-                key={index}
-                tabIndex='0'
-                className={optionClasses}
-                onClick={() => {
-                  setIsOptionMenuVisible(false)
-                  onDateEdit('workoutCategory', index, dt.toISODate())
-                }}
-              >
-                {categoryName}
-              </li>
-            )
-          })}
-        </OptionsMenu>
+          onSelect={(index) => {
+            setIsOptionMenuVisible(false)
+            onDateEdit('workoutCategory', index, dt.toISODate())
+          }}
+        />
       </div>
 
       <WorkoutTextInput

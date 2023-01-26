@@ -26,6 +26,5 @@
 
   *:focus-visible {
     outline-color: #983457; /* eggplant-700 */
-    outline-offset: 4px;
   }
 }
