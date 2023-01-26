@@ -47,7 +47,7 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
     <div className='mx-4'>
       <h2 className='text-lg mb-2'>Strava Account</h2>
 
-      {!hasStravaAccount ? (
+      {hasStravaAccount ? (
         <section className='text-base space-y-2'>
           {stravaRuns?.length > 0 ? (
             <div>
