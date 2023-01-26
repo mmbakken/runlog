@@ -2,8 +2,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import { toast } from 'react-toastify'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV, faStar, faSave } from '@fortawesome/free-solid-svg-icons'
-import { faStar as faStarOutline } from '@fortawesome/free-regular-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import {
+  faStar as faStarOutline,
+  faEdit,
+  faTrashCan,
+  faSave,
+} from '@fortawesome/free-regular-svg-icons'
 import { useLocation, useHistory } from 'react-router-dom'
 
 import { StateContext } from '../../context/StateContext'
@@ -17,7 +22,6 @@ import { formatActualMileage } from '../../formatters/formatMileage.js'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
-  const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [editedPlan, setEditedPlan] = useState(null)
   const location = useLocation()
@@ -34,21 +38,13 @@ const ViewTrainingPlan = () => {
       training.weeks.length
     }-week training plan from ${DateTime.fromISO(training.startDate, {
       zone: 'utc',
-    }).toLocaleString()} through ${DateTime.fromISO(training.endDate, {
+    }).toLocaleString({
+      month: 'numeric',
+      day: 'numeric',
+      year: '2-digit',
+    })} through ${DateTime.fromISO(training.endDate, {
       zone: 'utc',
-    }).toLocaleString()}`
-  }
-
-  let optionMenuClasses =
-    'absolute left-8 top-0 border rounded border-gray-900 bg-offwhite-100 z-50'
-  let maskClasses =
-    'fixed w-screen h-screen bg-gray-900 opacity-10 left-0 top-0 z-40'
-  if (isOptionMenuVisible) {
-    optionMenuClasses += ' block'
-    maskClasses += ' block'
-  } else {
-    optionMenuClasses += ' hidden'
-    maskClasses += ' hidden'
+    }).toLocaleString({ month: 'numeric', day: 'numeric', year: '2-digit' })}`
   }
 
   // Get this training plan
@@ -96,22 +92,6 @@ const ViewTrainingPlan = () => {
     }
   }, [state.training.byId[id]])
 
-  // Allow user to hide the option menu with ESC key or a click outside of the menu
-  useEffect(() => {
-    const handleEscPress = (event) => {
-      if (event.keyCode === 27) {
-        setIsOptionMenuVisible(false)
-      }
-    }
-
-    window.addEventListener('keydown', handleEscPress)
-
-    // Unregister listeners on dismount
-    return () => {
-      window.removeEventListener('keydown', handleEscPress)
-    }
-  }, [])
-
   // Save plan to the db (overwrites all fields)
   const updatePlan = (updates) => {
     dispatch({
@@ -136,7 +116,6 @@ const ViewTrainingPlan = () => {
   }
 
   const onEditModeClick = () => {
-    setIsOptionMenuVisible(false)
     setIsEditMode(true)
     setEditedPlan({
       ...state.training.byId[id],
@@ -178,7 +157,6 @@ const ViewTrainingPlan = () => {
         'Are you sure you want to cancel your changes to this training plan? This action cannot be undone.'
       )
     ) {
-      setIsOptionMenuVisible(false)
       setIsEditMode(false)
 
       // Reset changes made while editing
@@ -381,15 +359,10 @@ const ViewTrainingPlan = () => {
     })
   }
 
-  // TODO: should I only allow edits to this if in edit mode?
   const onToggleIsActiveClick = (value) => {
     updatePlan({
       isActive: value,
     })
-  }
-
-  const onDuplicateClick = () => {
-    console.log('TODO onDuplicateClick')
   }
 
   const onDeleteClick = () => {
@@ -404,7 +377,6 @@ const ViewTrainingPlan = () => {
 
       APIv1.delete(`/training/${id}`)
         .then(() => {
-          setIsOptionMenuVisible(false)
           dispatch({
             type: actions.DELETE_TRAINING__SUCCESS,
             id: id,
@@ -424,7 +396,6 @@ const ViewTrainingPlan = () => {
           history.push(AllTrainingPlansRoute)
         })
         .catch((error) => {
-          setIsOptionMenuVisible(false)
           dispatch({
             type: actions.DELETE_TRAINING__ERROR,
             error: error,
@@ -444,14 +415,6 @@ const ViewTrainingPlan = () => {
     }
   }
 
-  const onMenuClick = () => {
-    setIsOptionMenuVisible(!isOptionMenuVisible)
-  }
-
-  const onMaskClick = () => {
-    setIsOptionMenuVisible(false)
-  }
-
   return (
     <div className='TrainingPage w-full pb-4'>
       {state.training.isFetching && (
@@ -462,9 +425,9 @@ const ViewTrainingPlan = () => {
 
       {!state.training.isFetching && state.training.byId && training && (
         <div className='w-full mb-4 h-auto'>
-          <div className='flex space-x-4 px-4 mb-4'>
-            <div className='basis-2/3 flex flex-col'>
-              <div className='flex items-center'>
+          <div className='w-full flex space-x-4 px-4 mb-4'>
+            <div className='w-full flex flex-col'>
+              <div className='w-full flex items-center align-center'>
                 {isEditMode ? (
                   <label className='w-full max-w-lg text-lg'>
                     Title
@@ -480,59 +443,34 @@ const ViewTrainingPlan = () => {
                 ) : (
                   <>
                     <h1 className='text-2xl'>{training.title}</h1>
-                    <div className='ml-4 relative grow-0 shrink-0'>
-                      <button
-                        className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
-                        onClick={() => {
-                          onMenuClick()
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEllipsisV} />
-                      </button>
-
-                      <div className={optionMenuClasses}>
-                        <ul className='flex flex-col w-max'>
-                          <li
-                            className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                            onClick={() => {
-                              onEditModeClick()
-                            }}
-                          >
-                            Edit plan
-                          </li>
-                          <li
-                            className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                            onClick={() => {
-                              onDuplicateClick()
-                            }}
-                          >
-                            Duplicate plan
-                          </li>
-                          <li
-                            className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                            onClick={() => {
-                              onDeleteClick()
-                            }}
-                          >
-                            Delete plan
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div
-                        className={maskClasses}
-                        onClick={() => {
-                          onMaskClick()
-                        }}
-                      />
+                    <div className='text-xl ml-2'>
+                      {training.isActive ? (
+                        <span
+                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer'
+                          onClick={() => {
+                            onToggleIsActiveClick(false)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faStar} />
+                        </span>
+                      ) : (
+                        <span
+                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer'
+                          onClick={() => {
+                            onToggleIsActiveClick(true)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faStarOutline} />
+                        </span>
+                      )}
                     </div>
                   </>
                 )}
               </div>
 
-              <div className='flex flex-col'>
+              <div className='w-full flex flex-col'>
                 {isEditMode ? (
-                  <div className='flex space-x-8 mt-4 mb-2'>
+                  <div className='w-full flex space-x-4 sm:space-x-8 mt-4 mb-2'>
                     <label className='text-lg'>
                       Start Date
                       <input
@@ -572,13 +510,13 @@ const ViewTrainingPlan = () => {
                 {isEditMode ? (
                   <label className='w-full max-w-lg text-lg'>
                     Goal
-                    <input
+                    <textarea
                       type='text'
                       required
                       placeholder='What do you want to achieve?'
                       value={editedPlan.goal}
                       onChange={(e) => onGoalChange(e.target.value)}
-                      className='text-base w-full rounded px-2 py-2 block mt-1 border border-gray-900'
+                      className='text-base w-full h-24 rounded px-2 py-2 block mt-1 border border-gray-900'
                     />
                   </label>
                 ) : (
@@ -592,43 +530,19 @@ const ViewTrainingPlan = () => {
                 )}
               </div>
             </div>
-
-            <div className='basis-1/3 text-sm text-right mt-1'>
-              {training.isActive ? (
-                <span
-                  className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
-                  onClick={() => {
-                    onToggleIsActiveClick(false)
-                  }}
-                >
-                  <FontAwesomeIcon className='mr-1' icon={faStar} />
-                  <span>Active Plan</span>
-                </span>
-              ) : (
-                <span
-                  className='bg-offwhite-100 border rounded border-gray-900 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
-                  onClick={() => {
-                    onToggleIsActiveClick(true)
-                  }}
-                >
-                  <FontAwesomeIcon className='mr-1' icon={faStarOutline} />
-                  <span>Inactive Plan</span>
-                </span>
-              )}
-            </div>
           </div>
 
-          {isEditMode && (
-            <div className='flex justify-between px-4 mb-4'>
-              <div className='inline-block space-x-2'>
+          {isEditMode ? (
+            <div className='flex justify-between px-4 mb-8'>
+              <div className='inline-block space-x-4'>
                 <button
-                  className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
+                  className='px-4 py-2 text-white border rounded border-eggplant-700 bg-eggplant-700 hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
                   onClick={() => {
                     onSaveEditsClick()
                   }}
                 >
-                  <FontAwesomeIcon className='mr-2' icon={faSave} />
-                  <span>Save Edits</span>
+                  <span>Save</span>
+                  <FontAwesomeIcon className='ml-2' icon={faSave} />
                 </button>
                 <span
                   className='hover:underline cursor-pointer'
@@ -639,6 +553,28 @@ const ViewTrainingPlan = () => {
                   Cancel
                 </span>
               </div>
+            </div>
+          ) : (
+            <div className='flex space-x-4 px-4 mb-4'>
+              <button
+                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+                onClick={() => {
+                  onEditModeClick()
+                }}
+              >
+                <span>Edit</span>
+                <FontAwesomeIcon className='ml-2' icon={faEdit} />
+              </button>
+
+              <button
+                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+                onClick={() => {
+                  onDeleteClick()
+                }}
+              >
+                <span>Delete</span>
+                <FontAwesomeIcon className='ml-2' icon={faTrashCan} />
+              </button>
             </div>
           )}
 

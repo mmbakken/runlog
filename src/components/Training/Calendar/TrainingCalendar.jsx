@@ -115,8 +115,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     return DateTime.fromISO(dateA.dateISO) - DateTime.fromISO(dateB.dateISO)
   })
 
-  let copyBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
-  let pasteBtnClasses = 'border border-gray-900 rounded-lg px-2 py-1 transition'
+  let copyBtnClasses =
+    'border border-gray-900 rounded-lg px-2 py-1 transition whitespace-nowrap'
+  let pasteBtnClasses =
+    'border border-gray-900 rounded-lg px-2 py-1 transition whitespace-nowrap'
 
   if (!disableSelection) {
     if (allowCopy) {
@@ -146,6 +148,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     copyText += ' Date'
     pasteText += ' Date'
   }
+
+  const showCopyPasteBox =
+    selectedWeekIndex !== null || selectedDateISO !== null
 
   const onDateEdit = (field, value, dateISO) => {
     dispatch({
@@ -561,9 +566,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='flex flex-col items-center justify-center z-0 px-4 mb-20'>
-      {!disableSelection && (
-        <div className='flex fixed bottom-4 drop-shadow-xl z-30 mb-2 space-x-4 text-sm bg-offwhite-100 border rounded border-gray-900 px-4 py-3'>
+    <div className='TrainingCalendar flex flex-col z-0 px-4 pb-12 w-[1536px]'>
+      {!disableSelection && showCopyPasteBox ? (
+        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-offwhite-100 border rounded border-gray-900 drop-shadow-lg px-4 py-2'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
@@ -579,71 +584,74 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
             {pasteText}
           </button>
         </div>
-      )}
+      ) : null}
 
       {training.weeks.map((week, weekIndex) => {
         let rows = []
         if (weekIndex === 0) {
           rows.push(
-            <div key='header' className='w-full flex border-gray-900'>
+            <div
+              key='header'
+              className='w-full sticky top-0 z-10 flex border-gray-900'
+            >
               <div
                 className={
-                  'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-l border-t border-b border-r border-gray-900 bg-offwhite-100'
+                  'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-l border-t border-b border-r border-gray-900 bg-offwhite-100'
                 }
               >
                 Week
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Monday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Tuesday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Wednesday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Thursday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Friday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Saturday
               </div>
               <div
                 className={
-                  'basis-40 grow-1 shrink-0 text-center border-t border-b border-r border-gray-900 px-2 py-1 bg-offwhite-100'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-gray-900 px-2 py-2 bg-offwhite-100'
                 }
               >
                 Sunday
               </div>
-              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 border-t border-b border-r border-gray-900 bg-offwhite-100'>
-                Mileage
+              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-gray-900 bg-offwhite-100'>
+                Total
               </div>
             </div>
           )
@@ -655,30 +663,30 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let mileageCellClasses =
           'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-b border-r bg-offwhite-100'
 
+        let weekCellClasses =
+          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-l border-r border-b transition'
+
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
 
-        let weekCellClasses =
-          'w-16 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-offwhite-100 border-gray-900 border-l border-r border-b transition transition-border'
-
         if (!disableSelection) {
-          if (isSelectedWeek) {
-            weekCellClasses +=
-              ' cursor-pointer bg-eggplant-700 border-eggplant-700 text-white'
-            mileageCellClasses +=
-              ' border-eggplant-700 border-t-2 border-b-3 border-r-3'
-            if (isHoveringWeek) {
-              weekCellClasses += ' bg-eggplant-600'
-            }
-          } else {
-            weekCellClasses += ' bg-offwhite-100 cursor-pointer'
-            mileageCellClasses += ' border-gray-700'
+          weekCellClasses += ' cursor-pointer'
+        }
 
-            if (isHoveringWeek) {
-              weekCellClasses +=
-                ' bg-eggplant-700 border-eggplant-700 text-white'
-            }
-          }
+        if (!disableSelection && isSelectedWeek) {
+          weekRowClasses +=
+            ' outline outline-3 outline-eggplant-700 transition-outline drop-shadow z-10'
+          mileageCellClasses +=
+            ' border-eggplant-700 border-b-transparent border-r-transparent'
+          weekCellClasses +=
+            ' text-white border-eggplant-700 border-b-transparent border-l-transparent'
+          weekCellClasses += isHoveringWeek
+            ? ' bg-eggplant-600'
+            : ' bg-eggplant-700'
+        }
+
+        if (!disableSelection && !isSelectedWeek && isHoveringWeek) {
+          weekCellClasses += ' bg-eggplant-700 border-eggplant-700 text-white'
         }
 
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
@@ -691,7 +699,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               onMouseEnter={() => setHoveringWeekIndex(weekIndex)}
               onMouseLeave={() => setHoveringWeekIndex(null)}
             >
-              {weekIndex + 1}
+              <span className='-rotate-90 origin-center'>
+                {`Week ${weekIndex + 1}`}
+              </span>
             </div>
 
             {dateIndexes.map((dateIndex) => {
@@ -721,9 +731,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
                 {formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
               </div>
             </div>
-
-            {/* This is extra whitespace acting as right-padding. */}
-            <div className='w-4 shrink-0'>&nbsp;</div>
           </div>
         )
 

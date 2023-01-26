@@ -53,60 +53,40 @@ module.exports = {
 
         // Category colors
         rest: {
-          600: '#F6EEE9',
+          600: '#F6EEE9', // offwhite
           700: '#E9DFD8',
         },
-        long: {
-          600: '#C8DFEE',
-          700: '#b1d1e7',
+        recovery: {
+          600: '#DECAEC', // purple
+          700: '#D6C0E6',
         },
         easy: {
-          600: '#D1DECE',
+          600: '#C8DFEE', // blue
+          700: '#b1d1e7',
+        },
+        long: {
+          600: '#D1DECE', // green
           700: '#B9D6B0',
-        },
-        tempo: {
-          600: '#F5E9C6',
-          700: '#f8e5af',
-        },
-        intervals: {
-          600: '#F5D1C2',
-          700: '#f1bda7',
-        },
-        repetitions: {
-          600: '#EEB6B6',
-          700: '#e89d9d',
         },
         marathon: {
-          600: '#F5E9C6',
+          600: '#F5E9C6', // yellow
           700: '#f8e5af',
+        },
+        tempo: {
+          600: '#F5D1C2', // orange
+          700: '#f1bda7',
+        },
+        vo2max: {
+          600: '#EEB6B6', // red
+          700: '#e89d9d',
         },
         race: {
-          600: '#E89B9B',
+          600: '#E89B9B', // dark red
           700: '#e38585',
         },
-        'trail-run': {
-          600: '#F5E9C6',
-          700: '#f8e5af',
-        },
-        hiking: {
-          600: '#D1DECE',
-          700: '#B9D6B0',
-        },
-        spinning: {
-          600: '#D8C8E4',
-          700: '#D0BAE1',
-        },
-        'downhill-skiing': {
-          600: '#D8C8E4',
-          700: '#D0BAE1',
-        },
-        'backcountry-skiing': {
-          600: '#D8C8E4',
-          700: '#D0BAE1',
-        },
-        lifting: {
-          600: '#D8C8E4',
-          700: '#D0BAE1',
+        'cross-training': {
+          600: '#F8D6ED', // pink
+          700: '#F6CBE8',
         },
       },
     },
