@@ -381,15 +381,10 @@ const ViewTrainingPlan = () => {
     })
   }
 
-  // TODO: should I only allow edits to this if in edit mode?
   const onToggleIsActiveClick = (value) => {
     updatePlan({
       isActive: value,
     })
-  }
-
-  const onDuplicateClick = () => {
-    console.log('TODO onDuplicateClick')
   }
 
   const onDeleteClick = () => {
@@ -463,7 +458,7 @@ const ViewTrainingPlan = () => {
       {!state.training.isFetching && state.training.byId && training && (
         <div className='w-full mb-4 h-auto'>
           <div className='flex space-x-4 px-4 mb-4'>
-            <div className='basis-2/3 flex flex-col'>
+            <div className='flex flex-col'>
               <div className='flex items-center'>
                 {isEditMode ? (
                   <label className='w-full max-w-lg text-lg'>
@@ -480,7 +475,29 @@ const ViewTrainingPlan = () => {
                 ) : (
                   <>
                     <h1 className='text-2xl'>{training.title}</h1>
-                    <div className='ml-4 relative grow-0 shrink-0'>
+                    <div>
+                      {training.isActive ? (
+                        <span
+                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer mx-2 my-1'
+                          onClick={() => {
+                            onToggleIsActiveClick(false)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faStar} />
+                        </span>
+                      ) : (
+                        <span
+                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer mx-2 my-1'
+                          onClick={() => {
+                            onToggleIsActiveClick(true)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faStarOutline} />
+                        </span>
+                      )}
+                    </div>
+
+                    <div className='ml-2 relative grow-0 shrink-0'>
                       <button
                         className='text-xs px-2 py-1 border border-gray-700 rounded bg-offwhite-100 hover:bg-offwhite-200 transition cursor-pointer'
                         onClick={() => {
@@ -499,14 +516,6 @@ const ViewTrainingPlan = () => {
                             }}
                           >
                             Edit plan
-                          </li>
-                          <li
-                            className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
-                            onClick={() => {
-                              onDuplicateClick()
-                            }}
-                          >
-                            Duplicate plan
                           </li>
                           <li
                             className='px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition'
@@ -592,34 +601,10 @@ const ViewTrainingPlan = () => {
                 )}
               </div>
             </div>
-
-            <div className='basis-1/3 text-sm text-right mt-1'>
-              {training.isActive ? (
-                <span
-                  className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
-                  onClick={() => {
-                    onToggleIsActiveClick(false)
-                  }}
-                >
-                  <FontAwesomeIcon className='mr-1' icon={faStar} />
-                  <span>Active Plan</span>
-                </span>
-              ) : (
-                <span
-                  className='bg-offwhite-100 border rounded border-gray-900 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
-                  onClick={() => {
-                    onToggleIsActiveClick(true)
-                  }}
-                >
-                  <FontAwesomeIcon className='mr-1' icon={faStarOutline} />
-                  <span>Inactive Plan</span>
-                </span>
-              )}
-            </div>
           </div>
 
           {isEditMode && (
-            <div className='flex justify-between px-4 mb-4'>
+            <div className='flex justify-between px-4 mb-8'>
               <div className='inline-block space-x-2'>
                 <button
                   className='bg-offwhite-100 border rounded border-eggplant-700 text-eggplant-700 hover:bg-eggplant-600 hover:text-white transition cursor-pointer px-2 py-1'
