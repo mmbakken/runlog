@@ -590,7 +590,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let rows = []
         if (weekIndex === 0) {
           rows.push(
-            <div key='header' className='w-full flex border-gray-900 text-lg'>
+            <div
+              key='header'
+              className='w-full sticky top-0 z-10 flex border-gray-900'
+            >
               <div
                 className={
                   'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-l border-t border-b border-r border-gray-900 bg-offwhite-100'
