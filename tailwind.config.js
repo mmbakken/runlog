@@ -36,7 +36,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         'runs-page': 'repeat(8, minmax(auto, max-content))',
-        'plans-page': 'repeat(8, minmax(auto, max-content))',
+        'plans-page': 'repeat(7, minmax(auto, max-content))',
       },
       colors: {
         eggplant: {
