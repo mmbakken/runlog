@@ -36,7 +36,7 @@ const OptionsMenu = ({
   }, [])
 
   let menuClasses =
-    'absolute left-0 w-full font-normal text-base text-left drop-shadow-lg border rounded-b border-gray-900 bg-offwhite-100 z-50'
+    'absolute left-0 w-full font-normal text-base text-left drop-shadow-lg border rounded-b border-neutral-500 bg-neutral-700 z-50'
 
   menuClasses += isVisible ? ' block' : ' hidden'
 
@@ -46,8 +46,8 @@ const OptionsMenu = ({
         {options.map((categoryName, index) => {
           const isActiveCategory = activeOption === index
           const optionClasses = `${
-            isActiveCategory ? 'bg-eggplant-700 text-white ' : ''
-          } w-full text-sm px-2 py-1 hover:bg-eggplant-600 hover:text-white cursor-pointer transition`
+            isActiveCategory ? 'bg-eggplant-700 text-neutral-200 ' : ''
+          } w-full text-sm px-2 py-1 hover:bg-eggplant-600 cursor-pointer transition`
 
           return (
             <li

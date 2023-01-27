@@ -41,19 +41,7 @@ const CalendarDate = ({
 
   // This list has to be in this file in order for Tailwind to generate the class names correctly
   const categoryClassName = {
-    0: 'bg-rest-600',
-    1: 'bg-recovery-600',
-    2: 'bg-easy-600',
-    3: 'bg-long-600',
-    4: 'bg-marathon-600',
-    5: 'bg-tempo-600',
-    6: 'bg-vo2max-600',
-    7: 'bg-race-600',
-    8: 'bg-cross-training-600',
-  }
-
-  const categoryClassNameHover = {
-    0: 'bg-rest-700',
+    0: 'bg-rest-800',
     1: 'bg-recovery-700',
     2: 'bg-easy-700',
     3: 'bg-long-700',
@@ -62,6 +50,18 @@ const CalendarDate = ({
     6: 'bg-vo2max-700',
     7: 'bg-race-700',
     8: 'bg-cross-training-700',
+  }
+
+  const categoryClassNameHover = {
+    0: 'bg-rest-700',
+    1: 'bg-recovery-600',
+    2: 'bg-easy-600',
+    3: 'bg-long-600',
+    4: 'bg-marathon-600',
+    5: 'bg-tempo-600',
+    6: 'bg-vo2max-600',
+    7: 'bg-race-600',
+    8: 'bg-cross-training-600',
   }
 
   const categoryNames = [
@@ -76,21 +76,19 @@ const CalendarDate = ({
     'Cross Training',
   ]
 
+  let classes = 'basis-56 grow-1 shrink-1 text-center opacity-90'
+
   let dateBoxClasses =
-    'w-18 px-2 py-1 flex items-center align-center border-r border-gray-900 select-none'
+    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-500 select-none'
 
   let categoryButtonClasses =
-    'w-full flex align-center items-center justify-between text-center py-1 border-b border-gray-900 border-opacity-30 text-sm text-gray-700 px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
-
-  // If date is selected, show selected UI
-  let classes
+    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-500 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
 
   if (isSelectedDate) {
-    classes =
-      'basis-56 grow-1 shrink-1 text-center outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
+    classes +=
+      ' outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
   } else {
-    classes =
-      'basis-56 grow-1 shrink-1 text-center border-b border-r border-gray-900 '
+    classes += ' border-b border-r border-neutral-500 '
   }
 
   if (isSelectedWeek) {
@@ -130,7 +128,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='w-full flex justify-between border-b border-gray-900 border-opacity-60'>
+      <div className='w-full flex justify-between border-b border-neutral-500 border-opacity-60'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}

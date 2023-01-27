@@ -1,6 +1,6 @@
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: true, // or 'media' or 'class'
   theme: {
     fontFamily: {
       heading: ['Train One', 'Quicksand', 'sans-serif'],
@@ -44,49 +44,46 @@ module.exports = {
           600: '#983457', // active bg + :hover state
           300: '#A1687C', // :disabled state
         },
-        offwhite: {
-          25: '#FBF7F6',
-          50: '#faf6f4',
-          100: '#F6EEE9',
-          200: '#E9DFD8',
-        },
 
         // Category colors
+        // Cool
         rest: {
-          600: '#F6EEE9', // offwhite
-          700: '#E9DFD8',
-        },
-        recovery: {
-          600: '#DECAEC', // purple
-          700: '#D6C0E6',
-        },
-        easy: {
-          600: '#C8DFEE', // blue
-          700: '#b1d1e7',
-        },
-        long: {
-          600: '#D1DECE', // green
-          700: '#B9D6B0',
-        },
-        marathon: {
-          600: '#F5E9C6', // yellow
-          700: '#f8e5af',
-        },
-        tempo: {
-          600: '#F5D1C2', // orange
-          700: '#f1bda7',
-        },
-        vo2max: {
-          600: '#EEB6B6', // red
-          700: '#e89d9d',
-        },
-        race: {
-          600: '#E89B9B', // dark red
-          700: '#e38585',
+          800: '#262626', // neutral-800
+          700: '#333333',
         },
         'cross-training': {
-          600: '#F8D6ED', // pink
-          700: '#F6CBE8',
+          700: '#1782a2', // light blue
+          600: '#157794', // light blue
+        },
+        recovery: {
+          700: '#2d6d92', // blue
+          600: '#296485', // blue
+        },
+        easy: {
+          700: '#455d88', // deep blue
+          600: '#3f557c', // deep blue
+        },
+        long: {
+          700: '#5b4c7c', // purple
+          600: '#544672', // purple
+        },
+
+        // Warm
+        marathon: {
+          700: '#733d71', // eggplant
+          600: '#693767', // eggplant
+        },
+        tempo: {
+          700: '#892b64', // fuschia
+          600: '#7d285b', // fuschia
+        },
+        vo2max: {
+          700: '#9f1a58', // red-purple
+          600: '#921851', // red-purple
+        },
+        race: {
+          700: '#b6094b', // bright red
+          600: '#a70845', // bright red
         },
       },
     },

@@ -11,6 +11,7 @@ import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
 import Checkbox from '../Forms/Checkbox'
+import Button from '../UI/Button'
 
 const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
@@ -175,7 +176,7 @@ const CreateTrainingPlan = () => {
               placeholder='What race are you training for?'
               value={newTrainingPlan.title}
               onChange={(e) => onTitleChange(e.target.value)}
-              className='text-base w-full rounded px-2 py-2 block mt-2 border border-gray-900'
+              className='text-base w-full rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
             />
           </label>
         </div>
@@ -189,7 +190,7 @@ const CreateTrainingPlan = () => {
               placeholder='What do you want to achieve?'
               value={newTrainingPlan.goal}
               onChange={(e) => onGoalChange(e.target.value)}
-              className='text-base w-full h-36 rounded px-2 py-2 block mt-2 border border-gray-900'
+              className='text-base w-full h-36 rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
             />
           </label>
         </div>
@@ -201,7 +202,7 @@ const CreateTrainingPlan = () => {
               type='date'
               value={newTrainingPlan.startDateISO}
               onChange={(e) => onDateChange(e.target.value)}
-              className='text-base rounded px-2 py-2 block mt-2 border border-gray-900'
+              className='text-base rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
             />
           </label>
 
@@ -213,7 +214,7 @@ const CreateTrainingPlan = () => {
               min='1'
               max='52'
               onChange={(e) => onWeekCountChange(e.target.value)}
-              className='text-base rounded px-2 py-2 block mt-2 border border-gray-900'
+              className='text-base rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
             />
           </label>
 
@@ -223,7 +224,7 @@ const CreateTrainingPlan = () => {
               disabled
               type='date'
               value={newTrainingPlan.endDateISO}
-              className='text-base rounded py-2 block mt-2'
+              className='text-base rounded py-2 block mt-2 bg-transparent'
             />
           </label>
         </div>
@@ -231,7 +232,7 @@ const CreateTrainingPlan = () => {
         <div className='text-lg flex space-x-8 mt-4'>
           <label className='text-base block flex flex-col items-start'>
             Active Plan
-            <span className='block text-base text-gray-500'>
+            <span className='block text-base text-neutral-500'>
               Is this your current training plan?
             </span>
             <Checkbox
@@ -242,13 +243,11 @@ const CreateTrainingPlan = () => {
           </label>
         </div>
 
-        <button
-          className='text-lg mt-8 px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
-          type='submit'
-          disabled={!allowCreation}
-        >
-          Create Plan
-        </button>
+        <div className='mt-6'>
+          <Button type='primary' disabled={!allowCreation}>
+            Create Plan
+          </Button>
+        </div>
       </form>
     </div>
   )

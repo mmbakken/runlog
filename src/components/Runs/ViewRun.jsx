@@ -23,6 +23,7 @@ import formatHeartRate from '../../formatters/formatHeartRate'
 
 // Components
 import Checkbox from '../Forms/Checkbox'
+import Button from '../UI/Button'
 
 const ViewRun = () => {
   const DEBOUNCE_TIME_IN_MS = 500
@@ -83,7 +84,7 @@ const ViewRun = () => {
         })
 
         toast.success('Run deleted', {
-          position: 'top-right',
+          position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -102,7 +103,7 @@ const ViewRun = () => {
         })
 
         toast.error('Error deleting run. Please try again later.', {
-          position: 'top-right',
+          position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -337,7 +338,7 @@ const ViewRun = () => {
           </h1>
         )}
 
-        <h2 className='text-gray-500'>
+        <h2 className='text-neutral-500'>
           {generateSubheader(
             run.startDate,
             run.timezone,
@@ -351,20 +352,20 @@ const ViewRun = () => {
 
       {!state.runs.isFetching && (
         <section className='w-screen-xs flex flex-col items-start space-y-6 '>
-          <div className='w-full sm:w-auto flex justify-between items-center space-x-4 p-4 border border-gray-900 bg-offwhite-25 text-xl'>
+          <div className='w-full sm:w-auto flex justify-between items-center space-x-4 p-4 border border-neutral-500 bg-neutral-25 text-xl'>
             <div className='flex flex-col items-center'>
               <div>{formatActualMileage(run.distance)}</div>
-              <div className='text-base text-gray-600'>miles</div>
+              <div className='text-base text-neutral-400'>miles</div>
             </div>
 
             <div className='flex flex-col items-center'>
               <div>{formatDuration(run.time)}</div>
-              <div className='text-base text-gray-600'>time</div>
+              <div className='text-base text-neutral-400'>time</div>
             </div>
 
             <div className='flex flex-col items-center'>
               <div>{formatPace(run.averageSpeed)}</div>
-              <div className='text-base text-gray-600'>pace</div>
+              <div className='text-base text-neutral-400'>pace</div>
             </div>
 
             {run.hasHeartRate && (
@@ -373,7 +374,7 @@ const ViewRun = () => {
                   {formatHeartRate(run.averageHeartRate)} /{' '}
                   {formatHeartRate(run.maxHeartRate)}
                 </div>
-                <div className='text-base text-gray-600'>heart rate</div>
+                <div className='text-base text-neutral-400'>heart rate</div>
               </div>
             )}
           </div>
@@ -383,7 +384,7 @@ const ViewRun = () => {
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-3 p-2 w-full h-60 sm:h-48 max-h-120 overflow-scroll border rounded border-gray-900 bg-offwhite-25'
+                className='text-base block mt-3 p-2 w-full h-60 sm:h-48 max-h-120 overflow-scroll border rounded border-neutral-200 bg-neutral-800'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={resultsFocusHandler}
@@ -432,7 +433,7 @@ const ViewRun = () => {
             <span className='text-xl block'>Actions</span>
             <div className='mt-4 flex flex-col space-y-4'>
               {run.stravaActivityId != null ? (
-                <button className='px-4 py-2 text-white border rounded border-eggplant-700 bg-eggplant-700 hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'>
+                <Button type='primary'>
                   <a
                     target='_blank'
                     rel='noopener noreferrer'
@@ -440,17 +441,17 @@ const ViewRun = () => {
                   >
                     View on Strava
                   </a>
-                </button>
+                </Button>
               ) : null}
 
-              <button
-                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+              <Button
+                type='secondary'
                 onClick={(e) => {
                   handleDeleteButtonClick(e)
                 }}
               >
                 Delete Run
-              </button>
+              </Button>
             </div>
           </div>
         </section>

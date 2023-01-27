@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { APIv1 } from '../../api'
 
+import Button from '../UI/Button'
+
 const redirectToStravaAuthPage = (userId) => {
   const stravaClientId = '60410'
   let stravaRedirectURI = encodeURIComponent(
@@ -52,31 +54,31 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
           {stravaRuns?.length > 0 ? (
             <div>
               <h2>Recent Runs</h2>
-              <pre className='font-mono text-sm w-full sm:w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+              <pre className='font-mono text-sm w-full sm:w-120 max-h-120 min-h-16 border bg-neutral-800 border-neutral-500 rounded overflow-scroll break-words px-2 py-1'>
                 {JSON.stringify(stravaRuns, null, 2)}
               </pre>
             </div>
           ) : null}
 
-          <button
-            className='px-4 py-2 text-white border border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition focus:outline-none'
+          <Button
+            type='primary'
             onClick={() => {
               getRecentStravaRuns(setStravaRuns)
             }}
           >
             {stravaRuns?.length > 0 ? 'Refresh' : 'Get Recent Strava Runs'}
-          </button>
+          </Button>
         </section>
       ) : (
         <section className='text-base space-y-2'>
-          <button
-            className='px-4 py-2 border text-white border-gray-900 rounded bg-eggplant-700 hover:bg-eggplant-600 transition'
+          <Button
+            type='primary'
             onClick={() => {
               redirectToStravaAuthPage(userId)
             }}
           >
             Link Strava Account
-          </button>
+          </Button>
         </section>
       )}
     </div>
