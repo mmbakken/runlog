@@ -42,19 +42,27 @@ const Navbar = () => {
   const accountClasses =
     routeBasePath === 'account' ? 'border-eggplant-700' : 'border-transparent'
 
+  const isHomeRoute = routeBasePath === ''
+
   return (
     <nav className='Navbar py-4'>
-      <HamburgerMenu logout={logout} isLoggedIn={auth.isLoggedIn} />
+      <HamburgerMenu
+        logout={logout}
+        isLoggedIn={auth.isLoggedIn}
+        isHomeRoute={isHomeRoute}
+      />
 
       <div className='hidden sm:flex justify-between text-lg'>
         <ul className='inline-flex items-center space-x-4 '>
-          <li>
-            <Link to={HomeRoute}>
-              <header>
-                <h1 className='font-heading px-4 pb-2 text-4xl'>runlog</h1>
-              </header>
-            </Link>
-          </li>
+          {isHomeRoute ? null : (
+            <li>
+              <Link to={HomeRoute}>
+                <header>
+                  <h1 className='font-heading px-4 pb-2 text-4xl'>runlog</h1>
+                </header>
+              </Link>
+            </li>
+          )}
 
           <li
             className={
