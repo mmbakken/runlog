@@ -17,6 +17,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null)
   const [hoveringWeekIndex, setHoveringWeekIndex] = useState(null)
   const [selectedDateISO, setSelectedDateISO] = useState(null)
+  const [focusWeekIndex, setFocusWeekIndex] = useState(null)
   const [allowCopy, setAllowCopy] = useState(false)
   const [allowPaste, setAllowPaste] = useState(false)
   const [copiedDate, setCopiedDate] = useState(null)
@@ -592,7 +593,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           rows.push(
             <div
               key='header'
-              className='w-full sticky top-0 z-10 flex border-neutral-500'
+              className='w-full sticky top-0 z-30 flex border-neutral-500'
             >
               <div
                 className={
@@ -668,6 +669,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
+        const isFocusWeek = focusWeekIndex === weekIndex
 
         if (!disableSelection) {
           weekCellClasses += ' cursor-pointer'
@@ -689,6 +691,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           weekCellClasses += ' bg-eggplant-700 border-eggplant-700'
         }
 
+        if (isFocusWeek) {
+          weekRowClasses += ' z-20'
+        }
+
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
 
         rows.push(
@@ -699,7 +705,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               onMouseEnter={() => setHoveringWeekIndex(weekIndex)}
               onMouseLeave={() => setHoveringWeekIndex(null)}
             >
-              <span className='-rotate-90 origin-center'>
+              <span className='-rotate-90 origin-center whitespace-nowrap'>
                 {`Week ${weekIndex + 1}`}
               </span>
             </div>
@@ -719,6 +725,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
                   onDateEdit={onDateEdit}
                   onDateClick={onDateClick}
                   disableSelection={disableSelection}
+                  setIsFocusing={() => {
+                    setFocusWeekIndex(weekIndex)
+                  }}
                 />
               )
             })}

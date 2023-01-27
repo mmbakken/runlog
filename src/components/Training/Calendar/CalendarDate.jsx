@@ -19,6 +19,7 @@ const CalendarDate = ({
   onDateEdit,
   onDateClick,
   disableSelection,
+  setIsFocusing,
 }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
@@ -79,16 +80,16 @@ const CalendarDate = ({
   let classes = 'basis-56 grow-1 shrink-1 text-center opacity-90'
 
   let dateBoxClasses =
-    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-500 select-none'
+    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
 
   let categoryButtonClasses =
-    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-500 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
+    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-400 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
 
   if (isSelectedDate) {
     classes +=
       ' outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
   } else {
-    classes += ' border-b border-r border-neutral-500 '
+    classes += ' border-b border-r border-neutral-400 '
   }
 
   if (isSelectedWeek) {
@@ -121,6 +122,7 @@ const CalendarDate = ({
 
   const onMenuClick = (e) => {
     if (!disableSelection) {
+      setIsFocusing()
       e.preventDefault()
       setIsOptionMenuVisible(!isOptionMenuVisible)
     }
@@ -128,7 +130,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='w-full flex justify-between border-b border-neutral-500 border-opacity-60'>
+      <div className='w-full flex justify-between border-b border-neutral-400 border-opacity-60'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -209,6 +211,7 @@ CalendarDate.propTypes = {
   }).isRequired,
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
+  setIsFocusing: PropTypes.func.isRequired,
   disableSelection: PropTypes.bool.isRequired,
 }
 
