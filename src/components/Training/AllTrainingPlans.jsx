@@ -83,14 +83,12 @@ const AllTrainingPlans = () => {
                 if (index === 0) {
                   rows.push(
                     <div key='header' className='contents'>
-                      <div className=''>Title</div>
-                      <div className=''></div>
-                      <div className=''>Start Date</div>
-                      <div className=''>End Date</div>
-                      <div className=''>Weeks</div>
-                      <div className=''>Mileage</div>
-                      <div className=''>Planned</div>
-                      <div className=''></div>
+                      <div className='col-span-2'>Title</div>
+                      <div>Start Date</div>
+                      <div>End Date</div>
+                      <div>Weeks</div>
+                      <div>Mileage</div>
+                      <div>Planned</div>
                     </div>
                   )
                 }
@@ -107,7 +105,7 @@ const AllTrainingPlans = () => {
                         {training.title}
                       </span>
                     </div>
-                    <div className=''>
+                    <div>
                       {training.isActive ? (
                         <div>
                           <FontAwesomeIcon
@@ -119,21 +117,19 @@ const AllTrainingPlans = () => {
                         ''
                       )}
                     </div>
-                    <div className=''>
+                    <div>
                       {DateTime.fromISO(training.startDate, {
                         zone: 'utc',
                       }).toLocaleString()}
                     </div>
-                    <div className=''>
+                    <div>
                       {DateTime.fromISO(training.endDate, {
                         zone: 'utc',
                       }).toLocaleString()}
                     </div>
                     <div className='text-center'>{training.weeks.length}</div>
-                    <div className=''>
-                      {formatActualMileage(training.actualDistance)} mi
-                    </div>
-                    <div className=''>
+                    <div>{formatActualMileage(training.actualDistance)} mi</div>
+                    <div>
                       {formatPlannedMileage(training.plannedDistance)} mi
                     </div>
                   </div>
