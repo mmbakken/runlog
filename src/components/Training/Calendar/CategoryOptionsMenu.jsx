@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import useOutsideClickHandler from '../../UI/useOutsideClickHandler'
@@ -10,14 +10,13 @@ const OptionsMenu = ({
   options,
   onSelect,
   activeOption,
-  buttonRef,
+  containerRef,
 }) => {
   if (!isVisible) {
     return null
   }
 
-  const menuRef = useRef(null)
-  useOutsideClickHandler([menuRef, buttonRef], hide)
+  useOutsideClickHandler(containerRef, hide)
 
   useEffect(() => {
     // Allow user to hide the option menu with ESC key or a click outside of the menu
@@ -41,7 +40,7 @@ const OptionsMenu = ({
   menuClasses += isVisible ? ' block' : ' hidden'
 
   return (
-    <div ref={menuRef} className={menuClasses}>
+    <div className={menuClasses}>
       <ul className='w-full flex flex-col'>
         {options.map((categoryName, index) => {
           const isActiveCategory = activeOption === index
@@ -73,7 +72,7 @@ OptionsMenu.propTypes = {
   options: PropTypes.array,
   onSelect: PropTypes.func,
   activeOption: PropTypes.number,
-  buttonRef: PropTypes.node,
+  containerRef: PropTypes.any,
 }
 
 export default OptionsMenu

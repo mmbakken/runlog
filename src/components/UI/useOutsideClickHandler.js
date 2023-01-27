@@ -1,24 +1,23 @@
 import { useEffect } from 'react'
 
 // Hook that calls the callback function if you click anywhere outside of the ref
-function useOutsideClickHandler(refs, callback) {
+function useOutsideClickHandler(ref, callback) {
   useEffect(() => {
     const handleClick = (event) => {
-      for (let ref of refs) {
-        if (ref?.current.contains(event.target)) {
-          return // Click was inside a ref, do not execute callback
-        }
-      }
+      if (!ref?.current.contains(event.target)) {
+        callback()
 
-      callback()
+        // Menu will be closed, but since the ref is to the button container, we need to remove the
+        // click handler here (the container ref will never be null). This can probably be improved.
+        document.removeEventListener('mousedown', handleClick)
+      }
     }
 
-    // Bind the event listener and clean it up when done
     document.addEventListener('mousedown', handleClick)
     return () => {
       document.removeEventListener('mousedown', handleClick)
     }
-  }, [refs])
+  }, [ref, callback])
 }
 
 export default useOutsideClickHandler

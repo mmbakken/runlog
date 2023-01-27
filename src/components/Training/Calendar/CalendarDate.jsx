@@ -20,10 +20,11 @@ const CalendarDate = ({
   onDateClick,
   disableSelection,
   setIsFocusing,
+  onMenuOpen,
 }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const categoryMenuButtonRef = useRef(null)
+  const containerRef = useRef(null)
 
   const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf('day')
   const now = DateTime.now().startOf('day')
@@ -159,12 +160,12 @@ const CalendarDate = ({
         </div>
       </div>
 
-      <div className='w-full relative'>
+      <div className='w-full relative' ref={containerRef}>
         <button
-          ref={categoryMenuButtonRef}
           className={categoryButtonClasses}
           onClick={(e) => {
             onMenuClick(e)
+            onMenuOpen()
           }}
         >
           <span>{categoryNames[date.workoutCategory]}</span>
@@ -177,7 +178,7 @@ const CalendarDate = ({
           isVisible={isOptionMenuVisible}
           options={categoryNames}
           activeOption={date.workoutCategory}
-          buttonRef={categoryMenuButtonRef}
+          containerRef={containerRef}
           hide={() => {
             setIsOptionMenuVisible(false)
           }}
@@ -212,6 +213,7 @@ CalendarDate.propTypes = {
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
   setIsFocusing: PropTypes.func.isRequired,
+  onMenuOpen: PropTypes.func.isRequired,
   disableSelection: PropTypes.bool.isRequired,
 }
 

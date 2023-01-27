@@ -179,6 +179,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
   const onWeekClick = (weekIndex) => {
     setSelectedDateISO(null)
+    setFocusWeekIndex(weekIndex)
 
     if (disableSelection) {
       return setSelectedWeekIndex(null)
@@ -720,6 +721,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
                     date.dateISO.split('T')[0] === selectedDateISO
                   }
                   isSelectedWeek={isSelectedWeek}
+                  onMenuOpen={() => {
+                    setSelectedWeekIndex(null)
+                    setSelectedDateISO(null)
+                  }}
                   isLastRow={weekIndex + 1 === training.weeks.length}
                   date={date}
                   onDateEdit={onDateEdit}
