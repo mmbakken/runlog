@@ -16,9 +16,11 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import { AllTrainingPlansRoute } from '../../constants/routes'
 
-import TrainingCalendar from './Calendar/TrainingCalendar'
 import articlize from '../../utils/articlize.js'
 import { formatActualMileage } from '../../formatters/formatMileage.js'
+
+import TrainingCalendar from './Calendar/TrainingCalendar'
+import Button from '../UI/Button'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -383,7 +385,7 @@ const ViewTrainingPlan = () => {
           })
 
           toast.success('Training plan deleted.', {
-            position: 'top-right',
+            position: 'bottom-center',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -402,7 +404,7 @@ const ViewTrainingPlan = () => {
           })
 
           toast.error('Error deleting training plan. Please try again later.', {
-            position: 'top-right',
+            position: 'bottom-center',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -437,16 +439,16 @@ const ViewTrainingPlan = () => {
                       placeholder='What race are you training for?'
                       value={editedPlan.title}
                       onChange={(e) => onTitleChange(e.target.value)}
-                      className='text-base w-full rounded px-2 py-2 block mt-2 border border-gray-900'
+                      className='text-base w-full rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
                     />
                   </label>
                 ) : (
                   <>
                     <h1 className='text-2xl'>{training.title}</h1>
-                    <div className='text-xl ml-2'>
+                    <div className='text-xl ml-4'>
                       {training.isActive ? (
                         <span
-                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer'
+                          className='bg-transparent text-eggplant-700 transition cursor-pointer'
                           onClick={() => {
                             onToggleIsActiveClick(false)
                           }}
@@ -455,7 +457,7 @@ const ViewTrainingPlan = () => {
                         </span>
                       ) : (
                         <span
-                          className='bg-offwhite-100 text-eggplant-700 transition cursor-pointer'
+                          className='bg-transparent text-eggplant-700 transition cursor-pointer'
                           onClick={() => {
                             onToggleIsActiveClick(true)
                           }}
@@ -470,14 +472,14 @@ const ViewTrainingPlan = () => {
 
               <div className='w-full flex flex-col'>
                 {isEditMode ? (
-                  <div className='w-full flex space-x-4 sm:space-x-8 mt-4 mb-2'>
+                  <div className='w-full flex space-x-4 sm:space-x-8 mt-4'>
                     <label className='text-lg'>
                       Start Date
                       <input
                         type='date'
                         value={editedPlan.ui.startDateISO}
                         onChange={(e) => onDateChange(e.target.value)}
-                        className='text-base rounded px-2 py-2 block mt-1 border border-gray-900'
+                        className='text-base rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
                       />
                     </label>
 
@@ -489,7 +491,7 @@ const ViewTrainingPlan = () => {
                         min='1'
                         max='52'
                         onChange={(e) => onWeekCountChange(e.target.value)}
-                        className='text-base text-center rounded px-2 py-2 block mt-1 border border-gray-900'
+                        className='text-base text-center rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
                       />
                     </label>
 
@@ -499,16 +501,16 @@ const ViewTrainingPlan = () => {
                         disabled
                         type='date'
                         value={editedPlan.ui.endDateISO}
-                        className='text-base rounded py-2 block mt-1'
+                        className='text-base rounded py-2 block mt-1 bg-transparent'
                       />
                     </label>
                   </div>
                 ) : (
-                  <h2 className='text-sm text-gray-500 mt-1'>{planDesc}</h2>
+                  <h2 className='text-sm opacity-60 mt-1'>{planDesc}</h2>
                 )}
 
                 {isEditMode ? (
-                  <label className='w-full max-w-lg text-lg'>
+                  <label className='w-full max-w-lg text-lg mt-4'>
                     Goal
                     <textarea
                       type='text'
@@ -516,7 +518,7 @@ const ViewTrainingPlan = () => {
                       placeholder='What do you want to achieve?'
                       value={editedPlan.goal}
                       onChange={(e) => onGoalChange(e.target.value)}
-                      className='text-base w-full h-24 rounded px-2 py-2 block mt-1 border border-gray-900'
+                      className='text-base w-full h-24 rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
                     />
                   </label>
                 ) : (
@@ -533,48 +535,48 @@ const ViewTrainingPlan = () => {
           </div>
 
           {isEditMode ? (
-            <div className='flex justify-between px-4 mb-8'>
+            <div className='flex justify-between px-4 mt-4 mb-8'>
               <div className='inline-block space-x-4'>
-                <button
-                  className='px-4 py-2 text-white border rounded border-eggplant-700 bg-eggplant-700 hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+                <Button
+                  type='primary'
                   onClick={() => {
                     onSaveEditsClick()
                   }}
                 >
                   <span>Save</span>
                   <FontAwesomeIcon className='ml-2' icon={faSave} />
-                </button>
-                <span
-                  className='hover:underline cursor-pointer'
+                </Button>
+                <Button
+                  type='secondary'
                   onClick={() => {
                     onCancelEditsClick()
                   }}
                 >
                   Cancel
-                </span>
+                </Button>
               </div>
             </div>
           ) : (
             <div className='flex space-x-4 px-4 mb-4'>
-              <button
-                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+              <Button
+                type='secondary'
                 onClick={() => {
                   onEditModeClick()
                 }}
               >
                 <span>Edit</span>
                 <FontAwesomeIcon className='ml-2' icon={faEdit} />
-              </button>
+              </Button>
 
-              <button
-                className='text-sm px-4 py-2 text-eggplant-700 border rounded border-eggplant-700 bg-offwhite-100 hover:text-white hover:border-eggplant-600 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300'
+              <Button
+                type='secondary'
                 onClick={() => {
                   onDeleteClick()
                 }}
               >
                 <span>Delete</span>
                 <FontAwesomeIcon className='ml-2' icon={faTrashCan} />
-              </button>
+              </Button>
             </div>
           )}
 
@@ -585,7 +587,7 @@ const ViewTrainingPlan = () => {
           />
 
           {DEBUG && (
-            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-gray-900 rounded overflow-scroll break-words px-2 py-1'>
+            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-neutral-500 rounded overflow-scroll break-words px-2 py-1'>
               {JSON.stringify(training, null, 2)}
             </pre>
           )}

@@ -6,7 +6,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 // Simple component for displaying table headers
 const Checkbox = ({ className, checked, onChange }) => {
-  let checkClasses = 'text-base text-gray-600'
+  let checkClasses = 'text-neutral-200'
 
   if (!checked) {
     checkClasses += ' opacity-0'
@@ -14,7 +14,7 @@ const Checkbox = ({ className, checked, onChange }) => {
 
   return (
     <div
-      className={`${className} p-1 flex items-center justify-center text-xs cursor-pointer border rounded border-solid border-gray-600 bg-offwhite-25`}
+      className={`${className} p-1 flex items-center justify-center text-xs cursor-pointer border rounded border-neutral-300 bg-neutral-800`}
       onClick={onChange}
     >
       <FontAwesomeIcon className={checkClasses} icon={faCheck} />
