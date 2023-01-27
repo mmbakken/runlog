@@ -569,7 +569,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   return (
     <div className='TrainingCalendar flex flex-col z-0 px-4 pb-12 w-[1536px]'>
       {!disableSelection && showCopyPasteBox ? (
-        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-neutral-800 border rounded border-neutral-500 drop-shadow-lg px-4 py-2'>
+        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-neutral-800 border rounded border-neutral-400 drop-shadow-lg px-4 py-2'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
@@ -593,65 +593,65 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           rows.push(
             <div
               key='header'
-              className='w-full sticky top-0 z-30 flex border-neutral-500'
+              className='w-full sticky top-0 z-30 flex border-neutral-400'
             >
               <div
                 className={
-                  'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-l border-t border-b border-r border-neutral-500 bg-neutral-800'
+                  'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-l border-t border-b border-r border-neutral-400 bg-neutral-800'
                 }
               >
                 Week
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Monday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Tuesday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Wednesday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Thursday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Friday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Saturday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-500 px-2 py-2 bg-neutral-800'
+                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Sunday
               </div>
-              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-neutral-500 bg-neutral-800'>
+              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-neutral-400 bg-neutral-800'>
                 Total
               </div>
             </div>
@@ -662,10 +662,10 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let weekRowClasses = 'relative w-full flex'
 
         let mileageCellClasses =
-          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-500 border-b border-r bg-neutral-800'
+          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-b border-r bg-neutral-800'
 
         let weekCellClasses =
-          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-500 border-l border-r border-b transition'
+          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-l border-r border-b transition'
 
         const isSelectedWeek = selectedWeekIndex === weekIndex
         const isHoveringWeek = hoveringWeekIndex === weekIndex
