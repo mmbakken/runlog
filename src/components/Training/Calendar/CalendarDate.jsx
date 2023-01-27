@@ -19,10 +19,12 @@ const CalendarDate = ({
   onDateEdit,
   onDateClick,
   disableSelection,
+  setIsFocusing,
+  onMenuOpen,
 }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const categoryMenuButtonRef = useRef(null)
+  const containerRef = useRef(null)
 
   const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf('day')
   const now = DateTime.now().startOf('day')
@@ -79,16 +81,16 @@ const CalendarDate = ({
   let classes = 'basis-56 grow-1 shrink-1 text-center opacity-90'
 
   let dateBoxClasses =
-    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-500 select-none'
+    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
 
   let categoryButtonClasses =
-    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-500 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
+    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-400 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
 
   if (isSelectedDate) {
     classes +=
       ' outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
   } else {
-    classes += ' border-b border-r border-neutral-500 '
+    classes += ' border-b border-r border-neutral-400 '
   }
 
   if (isSelectedWeek) {
@@ -121,6 +123,7 @@ const CalendarDate = ({
 
   const onMenuClick = (e) => {
     if (!disableSelection) {
+      setIsFocusing()
       e.preventDefault()
       setIsOptionMenuVisible(!isOptionMenuVisible)
     }
@@ -128,7 +131,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='w-full flex justify-between border-b border-neutral-500 border-opacity-60'>
+      <div className='w-full flex justify-between border-b border-neutral-400 border-opacity-60'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -157,12 +160,12 @@ const CalendarDate = ({
         </div>
       </div>
 
-      <div className='w-full relative'>
+      <div className='w-full relative' ref={containerRef}>
         <button
-          ref={categoryMenuButtonRef}
           className={categoryButtonClasses}
           onClick={(e) => {
             onMenuClick(e)
+            onMenuOpen()
           }}
         >
           <span>{categoryNames[date.workoutCategory]}</span>
@@ -175,7 +178,7 @@ const CalendarDate = ({
           isVisible={isOptionMenuVisible}
           options={categoryNames}
           activeOption={date.workoutCategory}
-          buttonRef={categoryMenuButtonRef}
+          containerRef={containerRef}
           hide={() => {
             setIsOptionMenuVisible(false)
           }}
@@ -209,6 +212,8 @@ CalendarDate.propTypes = {
   }).isRequired,
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
+  setIsFocusing: PropTypes.func.isRequired,
+  onMenuOpen: PropTypes.func.isRequired,
   disableSelection: PropTypes.bool.isRequired,
 }
 
