@@ -41,27 +41,27 @@ const CalendarDate = ({
 
   // This list has to be in this file in order for Tailwind to generate the class names correctly
   const categoryClassName = {
-    0: 'bg-rest-900',
-    1: 'bg-recovery-900',
-    2: 'bg-easy-900',
-    3: 'bg-long-900',
-    4: 'bg-marathon-900',
-    5: 'bg-tempo-900',
-    6: 'bg-vo2max-900',
-    7: 'bg-race-900',
-    8: 'bg-cross-training-900',
+    0: 'bg-rest-800',
+    1: 'bg-recovery-700',
+    2: 'bg-easy-700',
+    3: 'bg-long-700',
+    4: 'bg-marathon-700',
+    5: 'bg-tempo-700',
+    6: 'bg-vo2max-700',
+    7: 'bg-race-700',
+    8: 'bg-cross-training-700',
   }
 
   const categoryClassNameHover = {
-    0: 'bg-rest-800',
-    1: 'bg-recovery-800',
-    2: 'bg-easy-800',
-    3: 'bg-long-800',
-    4: 'bg-marathon-800',
-    5: 'bg-tempo-800',
-    6: 'bg-vo2max-800',
-    7: 'bg-race-800',
-    8: 'bg-cross-training-800',
+    0: 'bg-rest-700',
+    1: 'bg-recovery-600',
+    2: 'bg-easy-600',
+    3: 'bg-long-600',
+    4: 'bg-marathon-600',
+    5: 'bg-tempo-600',
+    6: 'bg-vo2max-600',
+    7: 'bg-race-600',
+    8: 'bg-cross-training-600',
   }
 
   const categoryNames = [
@@ -76,21 +76,19 @@ const CalendarDate = ({
     'Cross Training',
   ]
 
+  let classes = 'basis-56 grow-1 shrink-1 text-center opacity-90'
+
   let dateBoxClasses =
     'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-500 select-none'
 
   let categoryButtonClasses =
     'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-500 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
 
-  // If date is selected, show selected UI
-  let classes
-
   if (isSelectedDate) {
-    classes =
-      'basis-56 grow-1 shrink-1 text-center outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
+    classes +=
+      ' outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
   } else {
-    classes =
-      'basis-56 grow-1 shrink-1 text-center border-b border-r border-neutral-500 '
+    classes += ' border-b border-r border-neutral-500 '
   }
 
   if (isSelectedWeek) {

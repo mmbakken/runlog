@@ -686,8 +686,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         }
 
         if (!disableSelection && !isSelectedWeek && isHoveringWeek) {
-          weekCellClasses +=
-            ' bg-eggplant-700 border-eggplant-700 text-neutral-200/70'
+          weekCellClasses += ' bg-eggplant-700 border-eggplant-700'
         }
 
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
