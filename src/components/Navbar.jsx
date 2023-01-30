@@ -33,7 +33,7 @@ const Navbar = () => {
   const routeBasePath = currentPath.substr(1).split('/')[0]
 
   // Set up the class names for each link item
-  const trainingClasses =
+  let trainingClasses =
     routeBasePath === 'training' ? 'border-eggplant-700' : 'border-transparent'
   const runsClasses =
     routeBasePath === 'runs' ? 'border-eggplant-700' : 'border-transparent'
@@ -44,8 +44,12 @@ const Navbar = () => {
 
   const isHomeRoute = routeBasePath === ''
 
+  if (isHomeRoute) {
+    trainingClasses += ' ml-4'
+  }
+
   return (
-    <nav className='Navbar py-4'>
+    <nav className='Navbar py-4 h-20'>
       <HamburgerMenu
         logout={logout}
         isLoggedIn={auth.isLoggedIn}

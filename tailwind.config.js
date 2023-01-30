@@ -32,6 +32,7 @@ module.exports = {
         // 1rem === 4 units
         120: '30rem',
         160: '40rem',
+        200: '50rem',
         248: '62rem', // screen-lg, minus 1rem each side for padding
       },
       gridTemplateColumns: {

@@ -6,7 +6,7 @@ import allRunsImg from '../img/allRuns.png'
 const HomePage = () => {
   return (
     <div className='HomePage -mt-12'>
-      <header className='flex flex-col justify-center h-screen sm:max-h-160 mx-4 pt-32 pb-48 text-center border-b border-neutral-500'>
+      <header className='flex flex-col justify-center h-200 max-h-screen mx-4 pt-32 pb-48 text-center border-b border-neutral-500'>
         <h1 className='text-8xl font-heading mt-12 mb-12'>runlog</h1>
         <p className='text-xl mb-4'>
           Better run training and tracking tools – no more spreadsheets.
