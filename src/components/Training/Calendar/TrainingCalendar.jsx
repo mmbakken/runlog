@@ -203,6 +203,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
   const onDateClick = (dateISO) => {
     setSelectedWeekIndex(null)
+    setFocusWeekIndex(null)
 
     if (disableSelection) {
       setSelectedDateISO(null)
