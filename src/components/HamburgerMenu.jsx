@@ -36,36 +36,32 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
     setIsOpen(false)
   }, [location])
 
+  // When the menu is open, do not allow scrolling on covered page
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset'
+  }, [isOpen])
+
   return (
-    <div className='fixed bg-neutral-800 sm:hidden flex w-full'>
-      <div className='flex relative items-center space-x-2'>
+    <div className='flex w-full h-full sm:hidden bg-transparent'>
+      <div className='flex relative items-center space-x-2 cursor-pointer'>
         <span onClick={onMenuClick} className='px-4'>
           {isOpen && (
-            <FontAwesomeIcon
-              className='text-2xl w-6 cursor-pointer'
-              icon={faTimes}
-            />
+            <FontAwesomeIcon className='text-2xl mt-1 w-6' icon={faTimes} />
           )}
 
           {!isOpen && (
-            <FontAwesomeIcon
-              className='text-2xl w-6 cursor-pointer'
-              icon={faBars}
-            />
+            <FontAwesomeIcon className='text-2xl mt-1 w-6' icon={faBars} />
           )}
         </span>
 
         {!isHomeRoute || isOpen ? (
-          <span
-            className='cursor-pointer'
+          <header
             onClick={() => {
               onLinkClick(HomeRoute)
             }}
           >
-            <header>
-              <h1 className='font-heading pb-2 text-4xl'>runlog</h1>
-            </header>
-          </span>
+            <h1 className='font-heading pb-2 text-4xl'>runlog</h1>
+          </header>
         ) : null}
       </div>
 
