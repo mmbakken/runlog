@@ -570,7 +570,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   return (
     <div className='TrainingCalendar flex flex-col z-0 px-4 pb-12 w-[1536px]'>
       {!disableSelection && showCopyPasteBox ? (
-        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center space-x-4 bg-neutral-800 border rounded border-neutral-400 drop-shadow-lg px-4 py-2'>
+        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex justify-center space-x-4 bg-neutral-800 border rounded border-neutral-400 drop-shadow-lg px-4 py-2'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
