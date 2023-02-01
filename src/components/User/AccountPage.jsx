@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+
+import Gear from './Gear'
 import StravaAccount from './StravaAccount'
 
 const AccountPage = () => {
@@ -10,10 +12,7 @@ const AccountPage = () => {
     <div className='AccountPage pb-4 space-y-4'>
       <header className='mx-4'>
         <h1 className='text-2xl mb-2'>Account Settings</h1>
-        <p>
-          View your user settings and manage your Fitbit and Strava
-          authorization.
-        </p>
+        <p>View your user settings and manage your Strava authorization.</p>
       </header>
 
       <div className='mx-4'>
@@ -22,6 +21,8 @@ const AccountPage = () => {
           {JSON.stringify(auth.user, null, 2)}
         </pre>
       </div>
+
+      <Gear user={auth.user.gear} />
 
       <StravaAccount
         userId={auth?.user?.id}
