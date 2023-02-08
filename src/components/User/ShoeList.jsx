@@ -125,11 +125,11 @@ const ShoeList = ({ shoes }) => {
   return (
     <div>
       {shoes && shoes.length > 0 ? (
-        <div className='grid grid-cols-shoe-list gap-x-8 mb-4'>
-          <div className='mb-2'>Title</div>
-          <div className='mb-2'>Distance</div>
-          <div className='mb-2'>Runs</div>
-          <div className='mb-2'>Actions</div>
+        <div className='grid grid-cols-shoe-list gap-x-8 gap-y-2 mb-4'>
+          <div>Title</div>
+          <div>Distance</div>
+          <div>Runs</div>
+          <div>Actions</div>
 
           {shoes.map((shoe, index) => {
             return (
@@ -139,13 +139,13 @@ const ShoeList = ({ shoes }) => {
                 <div>{shoe.runIds.length}</div>
                 <div>
                   <Button
-                    type='secondary'
+                    type='inline'
                     onClick={() => {
                       deleteShoe(shoe._id)
                     }}
                   >
-                    <span className='text-xs mr-2'>Delete</span>
-                    <FontAwesomeIcon className='text-xs' icon={faTrashCan} />
+                    <span className='mr-2'>Delete</span>
+                    <FontAwesomeIcon className='' icon={faTrashCan} />
                   </Button>
                 </div>
               </div>
