@@ -1,397 +1,48 @@
 import actions from './actions'
+import runsReducer from './runsReducer'
+import trainingReducer from './trainingReducer'
 
 const stateReducer = (state, action) => {
   switch (action.type) {
-    case actions.GET_ALL_RUNS__START: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          byId: state.runs.byId,
-          error: null,
-          isFetching: true,
-        },
-      }
-    }
-
-    case actions.GET_ALL_RUNS__SUCCESS: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isFetching: false,
-          byId: action.runs,
-          error: null,
-        },
-      }
-    }
-
-    case actions.GET_ALL_RUNS__ERROR: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isFetching: false,
-        },
-      }
-    }
-
-    case actions.GET_RUN__START: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isFetching: true,
-        },
-      }
-    }
-
-    case actions.GET_RUN__SUCCESS: {
-      // Deep copy the map of the current state's run objects.
-      const newRunsById = JSON.parse(JSON.stringify(state.runs.byId))
-
-      // Overwrite the newly fetched run object in the new map
-      newRunsById[action.run._id] = action.run
-
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isFetching: false,
-          byId: newRunsById,
-          error: null,
-        },
-      }
-    }
-
-    case actions.GET_RUN__ERROR: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isFetching: false,
-          error: action.error,
-        },
-      }
-    }
-
-    case actions.EDIT_RUN__START: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isSendingEdit: true,
-        },
-      }
-    }
-
-    case actions.EDIT_RUN__SUCCESS: {
-      const newRuns = {}
-
-      // Copy the map of the current state's run objects.
-      for (let runId of Object.keys(state.runs)) {
-        newRuns[runId] = action.run
-      }
-
-      // Always overwrite this run object in the cloned map
-      newRuns[action.run._id] = action.run
-
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          byId: newRuns,
-          error: null,
-          isSendingEdit: false,
-        },
-      }
-    }
-
-    case actions.EDIT_RUN__ERROR: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          error: action.error,
-          isSendingEdit: false,
-        },
-      }
-    }
-
-    case actions.DELETE_RUN__START: {
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          isDeleting: true,
-        },
-      }
-    }
-
-    case actions.DELETE_RUN__SUCCESS: {
-      const newRuns = {}
-
-      // Copy the map of the current state's run objects, except the deleted run
-      for (let runId of Object.keys(state.runs)) {
-        if (runId !== action.runId) {
-          newRuns[runId] = state.runs.byId[runId]
-        }
-      }
-
-      return {
-        ...state,
-        runs: {
-          ...state.runs,
-          byId: newRuns,
-          error: null,
-          isDeleting: false,
-        },
-      }
-    }
-
+    case actions.GET_ALL_RUNS__START:
+    case actions.GET_ALL_RUNS__SUCCESS:
+    case actions.GET_ALL_RUNS__ERROR:
+    case actions.GET_RUN__START:
+    case actions.GET_RUN__SUCCESS:
+    case actions.GET_RUN__ERROR:
+    case actions.EDIT_RUN__START:
+    case actions.EDIT_RUN__SUCCESS:
+    case actions.EDIT_RUN__ERROR:
+    case actions.DELETE_RUN__START:
+    case actions.DELETE_RUN__SUCCESS:
     case actions.DELETE_RUN__ERROR: {
       return {
         ...state,
-        runs: {
-          ...state.runs,
-          error: action.error,
-          isDeleting: false,
-        },
+        runs: runsReducer(state.runs, action),
       }
     }
 
-    ////////
-    // Training Plans GET actions
-    ////////
-
-    case actions.GET_ALL_TRAINING__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: true,
-        },
-      }
-    }
-
-    case actions.GET_ALL_TRAINING__SUCCESS: {
-      const ids = Object.keys(action.data)
-      let trainingById = {}
-
-      for (let i = 0; i < ids.length; i++) {
-        trainingById[ids[i]] = { ...action.data[ids[i]] }
-      }
-
-      const returnObj = {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          byId: trainingById, // Just replace all training objects with newly retrieved data
-          allIds: ids,
-          error: null,
-        },
-      }
-
-      return returnObj
-    }
-
-    case actions.GET_ALL_TRAINING__ERROR: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          error: action.error,
-        },
-      }
-    }
-
-    case actions.GET_TRAINING_PLAN__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: true,
-        },
-      }
-    }
-    case actions.GET_TRAINING_PLAN__SUCCESS: {
-      const trainingById = {
-        ...state.training.byId,
-        [action.plan._id]: action.plan,
-      }
-
-      const allIds = Object.keys(trainingById)
-
-      const returnObj = {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          byId: trainingById, // Just replace all training objects with newly retrieved data
-          allIds: allIds,
-          error: null,
-        },
-      }
-
-      return returnObj
-    }
-
-    case actions.GET_TRAINING_PLAN__ERROR: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          error: action.error,
-        },
-      }
-    }
-
-    case actions.CREATE_TRAINING_PLAN__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: true,
-        },
-      }
-    }
-
-    case actions.CREATE_TRAINING_PLAN__SUCCESS: {
-      const trainingById = {
-        ...state.training.byId,
-        [action.plan._id]: action.plan,
-      }
-      const allIds = Object.keys(trainingById)
-      const returnObj = {
-        ...state,
-        training: {
-          ...state.training,
-          byId: trainingById,
-          allIds: allIds,
-          error: null,
-        },
-      }
-
-      return returnObj
-    }
-
-    case actions.CREATE_TRAINING_PLAN__ERROR: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          error: null,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN__SUCCESS: {
-      const trainingById = {
-        ...state.training.byId,
-        [action.plan._id]: action.plan,
-      }
-
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          byId: trainingById,
-          error: null,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN__ERROR: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          error: action.error,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN_DATE__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS: {
-      const trainingById = {
-        ...state.training.byId,
-        [action.plan._id]: action.plan,
-      }
-
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          byId: trainingById,
-          error: null,
-        },
-      }
-    }
-
-    case actions.UPDATE_TRAINING_PLAN_DATE__ERROR: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          error: action.error,
-        },
-      }
-    }
-
-    case actions.DELETE_TRAINING__START: {
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-        },
-      }
-    }
-
-    case actions.DELETE_TRAINING__SUCCESS: {
-      delete state.training.byId[action.id]
-
-      return {
-        ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          error: null,
-          byId: state.training.byId,
-          allIds: Object.keys(state.training.byId),
-        },
-      }
-    }
-
+    case actions.GET_ALL_TRAINING__START:
+    case actions.GET_ALL_TRAINING__SUCCESS:
+    case actions.GET_ALL_TRAINING__ERROR:
+    case actions.GET_TRAINING_PLAN__START:
+    case actions.GET_TRAINING_PLAN__SUCCESS:
+    case actions.GET_TRAINING_PLAN__ERROR:
+    case actions.CREATE_TRAINING_PLAN__START:
+    case actions.CREATE_TRAINING_PLAN__SUCCESS:
+    case actions.CREATE_TRAINING_PLAN__ERROR:
+    case actions.UPDATE_TRAINING_PLAN__START:
+    case actions.UPDATE_TRAINING_PLAN__SUCCESS:
+    case actions.UPDATE_TRAINING_PLAN__ERROR:
+    case actions.UPDATE_TRAINING_PLAN_DATE__START:
+    case actions.UPDATE_TRAINING_PLAN_DATE__SUCCESS:
+    case actions.UPDATE_TRAINING_PLAN_DATE__ERROR:
+    case actions.DELETE_TRAINING__START:
+    case actions.DELETE_TRAINING__SUCCESS:
     case actions.DELETE_TRAINING__ERROR: {
       return {
         ...state,
-        training: {
-          ...state.training,
-          isFetching: false,
-          error: action.error,
-        },
+        training: trainingReducer(state.training, action),
       }
     }
 

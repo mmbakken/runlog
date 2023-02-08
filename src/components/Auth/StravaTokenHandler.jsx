@@ -12,10 +12,6 @@ const StravaTokenHandler = () => {
   // exchange_token?state=&code=a2cc22fecae427b4e1cfc39cbb4e41d1977a5e12&scope=read
   const query = new URLSearchParams(useLocation().search)
 
-  console.dir(useLocation())
-  console.dir(useLocation().search)
-  console.dir(query)
-
   // Send the user's Strava access code to the backend so we can exchange it for a token
   // pair and start making requests to Strava's API.
   const code = query.get('code')
@@ -33,10 +29,7 @@ const StravaTokenHandler = () => {
     console.error(
       'Something went wrong while parsing the Strava code after redirect'
     )
-
-    console.dir(code)
-    console.dir(scope)
-    console.dir(userId)
+    return null
   }
 
   useEffect(() => {
