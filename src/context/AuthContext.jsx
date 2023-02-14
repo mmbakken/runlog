@@ -13,6 +13,7 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: false,
     isLoggingIn: false,
     checkingJWT: true,
+    error: null,
   }
 
   const [auth, authDispatch] = useReducer(authReducer, initialState)

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import { StateContext } from '../../context/StateContext'
+import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
@@ -24,12 +25,14 @@ import formatHeartRate from '../../formatters/formatHeartRate'
 // Components
 import Checkbox from '../Forms/Checkbox'
 import Button from '../UI/Button'
+import Dropdown from '../UI/Dropdown'
 
 const ViewRun = () => {
   const DEBOUNCE_TIME_IN_MS = 500
   const history = useHistory()
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
+  const authState = useContext(AuthContext)[0]
   const run = state.runs.byId[params.runId]
 
   const [allowResultsEdits, setAllowResultsEdits] = useState(false)
@@ -338,14 +341,14 @@ const ViewRun = () => {
           </h1>
         )}
 
-        <h2 className='text-neutral-500'>
+        <p className='text-neutral-500'>
           {generateSubheader(
             run.startDate,
             run.timezone,
             run.startLatitude,
             run.startLongitude
           )}
-        </h2>
+        </p>
       </header>
 
       {state.runs.isFetching && <p>Loading...</p>}
@@ -394,8 +397,20 @@ const ViewRun = () => {
             </label>
           </div>
 
+          <div className='w-full sm:w-80'>
+            <h2 className='text-xl block mb-3'>Shoes</h2>
+            <Dropdown
+              selectedId={run.shoeId}
+              options={authState?.user?.gear?.shoes}
+              onSelect={(shoeId) => {
+                updateRun({ updates: { shoeId: shoeId } })
+              }}
+              placeholder='Select shoes'
+            />
+          </div>
+
           <div>
-            <span className='text-xl block'>Habits</span>
+            <h2 className='text-xl block'>Habits</h2>
             <div className='flex flex-col space-y-4 mt-3'>
               <label
                 className='text-lg flex items-center cursor-pointer'
@@ -430,7 +445,7 @@ const ViewRun = () => {
           </div>
 
           <div>
-            <span className='text-xl block'>Actions</span>
+            <h2 className='text-xl block'>Actions</h2>
             <div className='mt-4 flex flex-col space-y-4'>
               {run.stravaActivityId != null ? (
                 <Button type='primary'>

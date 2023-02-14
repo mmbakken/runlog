@@ -10,6 +10,8 @@ const Button = ({ type, onClick, children }) => {
       'px-4 py-2 text-neutral-200 border rounded border-neutral-300 bg-eggplant-700 hover:bg-eggplant-600 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300',
     secondary:
       'text-sm px-4 py-2 text-neutral-200 border rounded border-neutral-500 bg-neutral-800 hover:bg-neutral-700 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300',
+    inline:
+      'text-xs px-2 py-1 text-neutral-200 border rounded border-neutral-500 bg-neutral-800 hover:bg-neutral-700 transition cursor-pointer disabled:cursor-not-allowed disabled:bg-eggplant-300 disabled:border-eggplant-300',
   }
 
   return (
