@@ -80,7 +80,7 @@ const CreateTrainingPlan = () => {
       .then((response) => {
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__SUCCESS,
-          plan: response.data,
+          plan: response.data.plan,
         })
 
         history.push(AllTrainingPlansRoute)

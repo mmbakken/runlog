@@ -32,4 +32,10 @@ Button.propTypes = {
   children: PropTypes.node,
 }
 
+Button.defaultProps = {
+  onClick: () => {
+    return null
+  },
+}
+
 export default Button
