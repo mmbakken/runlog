@@ -34,7 +34,7 @@ export const AuthContextProvider = (props) => {
       })
 
       // Go get the full user information
-      APIv1.get(`/users/${user.id}`)
+      APIv1.get(`/users/${user._id}`)
         .then((response) => {
           // Then save the user info to auth state
           authDispatch({

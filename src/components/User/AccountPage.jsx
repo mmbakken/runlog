@@ -18,7 +18,7 @@ const AccountPage = () => {
       <Gear gear={auth.user.gear} />
 
       <StravaAccount
-        userId={auth?.user?.id}
+        userId={auth?.user?._id}
         hasStravaAccount={hasStravaAccount}
       />
 
