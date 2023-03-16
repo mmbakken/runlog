@@ -606,54 +606,54 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Monday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Tuesday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Wednesday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Thursday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Friday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Saturday
               </div>
               <div
                 className={
-                  'basis-56 grow-1 shrink-1 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
                 }
               >
                 Sunday
               </div>
-              <div className='w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-neutral-400 bg-neutral-800'>
+              <div className='w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-neutral-400 bg-neutral-800'>
                 Total
               </div>
             </div>
@@ -664,7 +664,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         let weekRowClasses = 'relative w-full flex'
 
         let mileageCellClasses =
-          'w-24 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-b border-r bg-neutral-800'
+          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-b border-r bg-neutral-800'
 
         let weekCellClasses =
           'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-l border-r border-b transition'

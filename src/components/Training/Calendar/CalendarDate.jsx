@@ -78,10 +78,10 @@ const CalendarDate = ({
     'Cross Training',
   ]
 
-  let classes = 'basis-56 grow-1 shrink-1 text-center opacity-90'
+  let classes = 'w-48 shrink-0 text-center opacity-90'
 
   let dateBoxClasses =
-    'w-18 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
+    'w-16 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
 
   let categoryButtonClasses =
     'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-400 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
@@ -144,7 +144,7 @@ const CalendarDate = ({
           })}
         </div>
 
-        <div className='px-2 py-1 text-right cursor-default'>
+        <div className='w-32 px-2 py-1 text-right cursor-default'>
           {showPlannedInput ? (
             <PlannedDistanceInput
               distance={date.plannedDistance}
