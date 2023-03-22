@@ -1,4 +1,5 @@
 import actions from './actions'
+import initialState from './initialState'
 import runsReducer from './runsReducer'
 import trainingReducer from './trainingReducer'
 
@@ -43,6 +44,13 @@ const stateReducer = (state, action) => {
       return {
         ...state,
         training: trainingReducer(state.training, action),
+      }
+    }
+
+    case actions.LOGOUT: {
+      return {
+        ...state,
+        ...initialState,
       }
     }
 
