@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import actions from '../reducers/actions'
 import { AuthContext } from '../context/AuthContext'
+import { StateContext } from '../context/StateContext'
 
 import HamburgerMenu from './HamburgerMenu'
 
@@ -20,11 +21,15 @@ const Navbar = () => {
   const currentPath = location.pathname
   const history = useHistory()
   const [auth, authDispatch] = useContext(AuthContext)
+  const stateDispatch = useContext(StateContext)[1]
 
   // Delete the user token and reset auth state
   const logout = () => {
     localStorage.removeItem('token')
     authDispatch({
+      type: actions.LOGOUT,
+    })
+    stateDispatch({
       type: actions.LOGOUT,
     })
     history.push(HomeRoute)
