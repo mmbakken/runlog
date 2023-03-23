@@ -148,6 +148,7 @@ const CalendarDate = ({
           plannedDistance={date.plannedDistance}
           actualDistance={date.actualDistance}
           showPlannedInput={showPlannedInput}
+          runIds={date.runIds}
         />
       </div>
 
@@ -200,6 +201,7 @@ CalendarDate.propTypes = {
     plannedDistance: PropTypes.number, // sometimes null, usually a number though
     workout: PropTypes.string,
     workoutCategory: PropTypes.number,
+    runIds: PropTypes.array,
   }).isRequired,
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
