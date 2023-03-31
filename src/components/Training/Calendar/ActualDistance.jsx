@@ -13,7 +13,7 @@ const ActualDistance = ({ isoDate, distance, runIds }) => {
 
   if (distance > 0) {
     return (
-      <span className='h-6 cursor-pointer hover:text-semibold hover:bg-eggplant-600 transition'>
+      <span className='h-6 cursor-pointer hover:underline'>
         <a
           target='_blank'
           rel='noopener noreferrer'
