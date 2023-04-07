@@ -6,10 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
 import WorkoutTextInput from './WorkoutTextInput'
-import PlannedDistanceInput from './PlannedDistanceInput'
 import CategoryOptionsMenu from './CategoryOptionsMenu'
-
-import { formatActualMileage } from '../../../formatters/formatMileage.js'
+import DateDistance from './DateDistance'
 
 const CalendarDate = ({
   date,
@@ -144,20 +142,14 @@ const CalendarDate = ({
           })}
         </div>
 
-        <div className='w-32 px-2 py-1 text-right cursor-default'>
-          {showPlannedInput ? (
-            <PlannedDistanceInput
-              distance={date.plannedDistance}
-              onChange={(value) =>
-                onDateEdit('plannedDistance', value, dt.toISODate())
-              }
-            />
-          ) : (
-            <span className='h-6 cursor-default'>
-              {formatActualMileage(date.actualDistance)}
-            </span>
-          )}
-        </div>
+        <DateDistance
+          isoDate={dt.toISODate()}
+          onDateEdit={onDateEdit}
+          plannedDistance={date.plannedDistance}
+          actualDistance={date.actualDistance}
+          showPlannedInput={showPlannedInput}
+          runIds={date.runIds}
+        />
       </div>
 
       <div className='w-full relative' ref={containerRef}>
@@ -209,6 +201,7 @@ CalendarDate.propTypes = {
     plannedDistance: PropTypes.number, // sometimes null, usually a number though
     workout: PropTypes.string,
     workoutCategory: PropTypes.number,
+    runIds: PropTypes.array,
   }).isRequired,
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
