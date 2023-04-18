@@ -79,8 +79,7 @@ const runsReducer = (state, action) => {
         ...state,
         isFetching: false,
         byId: action.runs,
-        filteredIds: Object.keys(action.runs),
-        filters: initialState.runs.filters,
+        filteredIds: getFilteredRunIds(action.runs, state.filters),
         error: null,
       }
     }
@@ -176,6 +175,7 @@ const runsReducer = (state, action) => {
       return {
         ...state,
         byId: newRuns,
+        filteredIds: getFilteredRunIds(newRuns, state.filters),
         error: null,
         isDeleting: false,
       }
