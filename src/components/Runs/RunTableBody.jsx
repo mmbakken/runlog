@@ -7,16 +7,28 @@ import RunTableRow from './RunTableRow'
 import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays as table content
-const RunTableBody = ({ runs, isLoading }) => {
+const RunTableBody = ({ runsById, filteredIds, isLoading }) => {
   if (isLoading) {
     return <div className='w-full mx-4'>Loading...</div>
   }
 
-  if (runs == null || Object.keys(runs).length === 0) {
+  if (
+    runsById == null ||
+    Object.keys(runsById).length === 0 ||
+    filteredIds == null ||
+    filteredIds.length === 0
+  ) {
     return null
   }
 
-  const sortedRuns = Object.values(runs).sort((a, b) => {
+  let filteredRunsById = {}
+  for (let run of Object.values(runsById)) {
+    if (filteredIds.includes(run._id)) {
+      filteredRunsById[run._id] = run
+    }
+  }
+
+  const sortedRuns = Object.values(filteredRunsById).sort((a, b) => {
     return a.startDate < b.startDate ? 1 : -1
   })
 
@@ -45,7 +57,8 @@ const RunTableBody = ({ runs, isLoading }) => {
 }
 
 RunTableBody.propTypes = {
-  runs: PropTypes.object,
+  runsById: PropTypes.object,
+  filteredIds: PropTypes.array,
   isLoading: PropTypes.bool,
 }
 
