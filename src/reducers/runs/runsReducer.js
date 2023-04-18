@@ -1,67 +1,7 @@
-import { DateTime } from 'luxon'
-import actions from './actions'
-import initialState from './initialState'
+import actions from '../actions'
+import initialState from '../initialState'
 
-// Given the runs by their id mapping and a filter object,
-// Returns an array of run._id strings that pass the filters.
-const getFilteredRunIds = (runsById, filters) => {
-  const filteredRunIds = []
-
-  for (let runId of Object.keys(runsById)) {
-    let run = runsById[runId]
-
-    // If this run passes the filters, include it in the results array
-    if (passesDateFilter(run, filters.startDate, filters.endDate)) {
-      filteredRunIds.push(runId)
-    }
-  }
-
-  return filteredRunIds
-}
-
-// Given a run object and a startDate and endDate as Luxon DateTime objects,
-// Returns true iff the run starts between the startDate and endDate.
-const passesDateFilter = (run, startDate, endDate) => {
-  const startDT = DateTime.fromISO(startDate)
-  const endDT = DateTime.fromISO(endDate)
-
-  // Neither defined means it passes!
-  if (!startDT.isValid && !endDT.isValid) {
-    return true
-  }
-
-  // UX decision: User must select startDate before endDate (can't only select an endDate)
-  if (!startDT.isValid && endDT.isValid) {
-    throw new Error(
-      'Error in passesFilter: endDate filter must have a startDate filter value!'
-    )
-  }
-
-  if (run == null) {
-    throw new Error('Error in passesFilter: run is required.')
-  }
-
-  const tz = run.timezone.split(' ')[1]
-  const runDT = DateTime.fromISO(run.startDate, { zone: tz })
-
-  if (!runDT.isValid) {
-    throw new Error(
-      'Error in passesFilter: run.startDate must be a valid date.'
-    )
-  }
-
-  // Both defined => run must be between
-  if (startDT.isValid && endDT.isValid) {
-    return startDT <= runDT && runDT <= endDT
-  }
-
-  // Start date defined => exact date match
-  if (startDT.isValid && !endDT.isValid) {
-    return startDT.toISODate() === runDT.toISODate()
-  }
-
-  return true
-}
+import { getFilteredRunIds } from './runFilters'
 
 const runsReducer = (state, action) => {
   switch (action.type) {
@@ -189,6 +129,10 @@ const runsReducer = (state, action) => {
       }
     }
 
+    /*
+        RUN FILTER ACTIONS
+    */
+
     case actions.SET_RUN_FILTERS__START_DATE: {
       const newFilters = {
         ...state.filters,
@@ -221,6 +165,57 @@ const runsReducer = (state, action) => {
         ...state.filters,
         startDate: initialState.runs.filters.startDate,
         endDate: initialState.runs.filters.endDate,
+      }
+
+      return {
+        ...state,
+        filteredIds: getFilteredRunIds(state.byId, newFilters),
+        filters: newFilters,
+      }
+    }
+
+    case actions.SET_RUN_FILTERS__DISTANCE_MATCH_TYPE: {
+      const newFilters = {
+        ...state.filters,
+        distance: {
+          ...state.filters.distance,
+          matchType: action.matchType,
+
+          // UX: Reset the maxValue any time this changes to keep it from limiting the value field
+          maxValue: initialState.runs.filters.distance.maxValue,
+        },
+      }
+
+      return {
+        ...state,
+        filteredIds: getFilteredRunIds(state.byId, newFilters),
+        filters: newFilters,
+      }
+    }
+
+    case actions.SET_RUN_FILTERS__DISTANCE_VALUE: {
+      const newFilters = {
+        ...state.filters,
+        distance: {
+          ...state.filters.distance,
+          value: action.value,
+        },
+      }
+
+      return {
+        ...state,
+        filteredIds: getFilteredRunIds(state.byId, newFilters),
+        filters: newFilters,
+      }
+    }
+
+    case actions.SET_RUN_FILTERS__DISTANCE_MAX_VALUE: {
+      const newFilters = {
+        ...state.filters,
+        distance: {
+          ...state.filters.distance,
+          maxValue: action.maxValue,
+        },
       }
 
       return {

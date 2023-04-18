@@ -1,16 +1,7 @@
+import initialRunsState from './runs/initialRunsState'
+
 export default {
-  runs: {
-    byId: {},
-    filteredIds: [],
-    filters: {
-      startDate: '',
-      endDate: '',
-    },
-    isFetching: false,
-    error: null,
-    isSendingEdit: false, // TODO: This isn't used anywhere
-    isDeleting: false,
-  },
+  runs: initialRunsState,
 
   training: {
     byId: {},

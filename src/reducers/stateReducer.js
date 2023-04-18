@@ -1,6 +1,6 @@
 import actions from './actions'
 import initialState from './initialState'
-import runsReducer from './runsReducer'
+import runsReducer from './runs/runsReducer'
 import trainingReducer from './trainingReducer'
 
 const stateReducer = (state, action) => {
@@ -19,7 +19,10 @@ const stateReducer = (state, action) => {
     case actions.DELETE_RUN__ERROR:
     case actions.SET_RUN_FILTERS__START_DATE:
     case actions.SET_RUN_FILTERS__END_DATE:
-    case actions.CLEAR_RUN_FILTERS__START_DATE: {
+    case actions.CLEAR_RUN_FILTERS__START_DATE:
+    case actions.SET_RUN_FILTERS__DISTANCE_MATCH_TYPE:
+    case actions.SET_RUN_FILTERS__DISTANCE_VALUE:
+    case actions.SET_RUN_FILTERS__DISTANCE_MAX_VALUE: {
       return {
         ...state,
         runs: runsReducer(state.runs, action),

@@ -56,8 +56,6 @@ const AllRuns = () => {
 
   return (
     <div className='AllRuns w-full pb-4 space-y-4 overflow-auto w-full'>
-      <h1 className='mx-4 text-2xl'>All Runs</h1>
-
       <RunFilters />
 
       <section className='overflow-scroll grid grid-cols-runs-page'>
