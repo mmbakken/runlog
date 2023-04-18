@@ -160,20 +160,6 @@ const runsReducer = (state, action) => {
       }
     }
 
-    case actions.CLEAR_RUN_FILTERS__START_DATE: {
-      const newFilters = {
-        ...state.filters,
-        startDate: initialState.runs.filters.startDate,
-        endDate: initialState.runs.filters.endDate,
-      }
-
-      return {
-        ...state,
-        filteredIds: getFilteredRunIds(state.byId, newFilters),
-        filters: newFilters,
-      }
-    }
-
     case actions.SET_RUN_FILTERS__DISTANCE_MATCH_TYPE: {
       const newFilters = {
         ...state.filters,
@@ -222,6 +208,28 @@ const runsReducer = (state, action) => {
         ...state,
         filteredIds: getFilteredRunIds(state.byId, newFilters),
         filters: newFilters,
+      }
+    }
+
+    case actions.CLEAR_RUN_FILTERS__START_DATE: {
+      const newFilters = {
+        ...state.filters,
+        startDate: initialState.runs.filters.startDate,
+        endDate: initialState.runs.filters.endDate,
+      }
+
+      return {
+        ...state,
+        filteredIds: getFilteredRunIds(state.byId, newFilters),
+        filters: newFilters,
+      }
+    }
+
+    case actions.CLEAR_RUN_FILTERS__ALL: {
+      return {
+        ...state,
+        filteredIds: getFilteredRunIds(state.byId, initialState.runs.filters),
+        filters: initialState.runs.filters,
       }
     }
 

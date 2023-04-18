@@ -19,10 +19,11 @@ const stateReducer = (state, action) => {
     case actions.DELETE_RUN__ERROR:
     case actions.SET_RUN_FILTERS__START_DATE:
     case actions.SET_RUN_FILTERS__END_DATE:
-    case actions.CLEAR_RUN_FILTERS__START_DATE:
     case actions.SET_RUN_FILTERS__DISTANCE_MATCH_TYPE:
     case actions.SET_RUN_FILTERS__DISTANCE_VALUE:
-    case actions.SET_RUN_FILTERS__DISTANCE_MAX_VALUE: {
+    case actions.SET_RUN_FILTERS__DISTANCE_MAX_VALUE:
+    case actions.CLEAR_RUN_FILTERS__START_DATE:
+    case actions.CLEAR_RUN_FILTERS__ALL: {
       return {
         ...state,
         runs: runsReducer(state.runs, action),

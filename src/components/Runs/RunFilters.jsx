@@ -3,6 +3,8 @@ import { DateTime } from 'luxon'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 
+import Button from '../UI/Button'
+
 const RunFilters = () => {
   const [state, dispatch] = useContext(StateContext)
   const todayISODate = DateTime.local().toISODate()
@@ -72,9 +74,15 @@ const RunFilters = () => {
     })
   }
 
+  const onResetButtonClick = () => {
+    dispatch({
+      type: actions.CLEAR_RUN_FILTERS__ALL,
+    })
+  }
+
   return (
     <div className='RunFilters mx-4 pb-2 space-y-4 w-auto'>
-      <div className='flex space-x-6'>
+      <div className='flex space-x-6 items-center'>
         <label className='text-base'>
           Start Date
           <input
@@ -82,7 +90,7 @@ const RunFilters = () => {
             max={todayISODate}
             value={state.runs.filters.startDate}
             onChange={(e) => onDateChange(e.target.value, true)}
-            className='w-36 text-sm rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+            className='h-10 w-36 text-sm rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
           />
         </label>
 
@@ -104,7 +112,7 @@ const RunFilters = () => {
           Distance
           <div className='flex space-x-2 items-center justify-center mt-2'>
             <select
-              className='w-28 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
+              className='h-10 w-28 mr-2 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
               value={state.runs.filters.distance.matchType}
               onChange={(e) => onDistanceMatchTypeChange(e.target.value)}
             >
@@ -120,7 +128,7 @@ const RunFilters = () => {
               max={maxMinDistanceValue}
               value={state.runs.filters.distance.value}
               onChange={(e) => onDistanceChange(e.target.value, false)}
-              className='w-12 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
+              className='h-10 w-10 text-sm text-center rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
             />
             {state.runs.filters.distance.matchType === 'Between' ? null : (
               <span className=''>miles</span>
@@ -135,13 +143,19 @@ const RunFilters = () => {
                   max='100'
                   value={state.runs.filters.distance.maxValue}
                   onChange={(e) => onDistanceChange(e.target.value, true)}
-                  className='w-12 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
+                  className='h-10 w-10 text-sm text-center rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
                 />
                 <span className=''>miles</span>
               </>
             ) : null}
           </div>
         </label>
+
+        <div className='mt-8'>
+          <Button onClick={onResetButtonClick} type='inline' className='h-12'>
+            Reset Filters
+          </Button>
+        </div>
       </div>
     </div>
   )
