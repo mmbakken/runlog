@@ -82,8 +82,8 @@ const RunFilters = () => {
 
   return (
     <div className='RunFilters mb-2 md:mb-4 pb-2 space-y-4 w-full flex flex-col md:flex-row'>
-      <div className='w-full md:w-auto flex flex-col md:flex-row md:space-x-4 items-center'>
-        <div className='w-full md:w-auto flex'>
+      <div className='w-full md:w-auto flex flex-col md:flex-row md:align-center items-center'>
+        <div className='w-full md:w-auto md:mt-0 flex'>
           <label className='text-sm md:text-base mx-4'>
             Start Date
             <input
@@ -110,10 +110,10 @@ const RunFilters = () => {
           )}
         </div>
 
-        <div className='w-full mt-2 md:mt-0 md:w-auto'>
-          <label className='text-sm md:text-base mx-4'>
+        <div className='w-full mt-2 md:w-auto md:mt-0 md:w-auto flex'>
+          <label className='text-sm md:text-base mx-4 md:mx-0'>
             Distance
-            <div className='flex mx-4 items-center mt-1 md:mt-2'>
+            <div className='flex items-center mt-1 md:mt-2'>
               <select
                 className='h-10 w-28 mr-4 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
                 value={state.runs.filters.distance.matchType}
@@ -155,7 +155,7 @@ const RunFilters = () => {
           </label>
         </div>
 
-        <div className='mx-4 self-start'>
+        <div className='mx-4 mt-4 self-start md:mt-8 md:self-center'>
           <Button onClick={onResetButtonClick} type='inline'>
             Reset Filters
           </Button>
