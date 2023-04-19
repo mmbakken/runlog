@@ -15,4 +15,18 @@ const formatDate = (date) => {
   })
 }
 
-export default formatDate
+// Given a date string, returns a string representing the date in locally common numeric format.
+const formatDateShort = (date) => {
+  const dt = DateTime.fromISO(date)
+
+  if (!dt.isValid) {
+    return '–'
+  }
+
+  return dt.toLocaleString({
+    month: 'numeric',
+    day: 'numeric',
+  })
+}
+
+export { formatDate, formatDateShort }

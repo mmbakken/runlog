@@ -3,7 +3,7 @@ import React from 'react'
 // Simple component for displaying table headers
 const RunTableHeaders = () => {
   return (
-    <div className='RunTableHeaders contents'>
+    <div className='RunTableHeaders hidden sm:contents'>
       <div className='whitespace-nowrap ml-4 pb-1 col-span-2'>Date</div>
       <div className='whitespace-nowrap pr-2 sm:pr-4 pb-1'>Title</div>
       <div className='whitespace-nowrap justify-self-end pl-2 sm:pl-4 pb-1'>
