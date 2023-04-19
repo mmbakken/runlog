@@ -81,78 +81,82 @@ const RunFilters = () => {
   }
 
   return (
-    <div className='RunFilters mx-4 pb-2 space-y-4 w-auto'>
-      <div className='flex space-x-6 items-center'>
-        <label className='text-base'>
-          Start Date
-          <input
-            type='date'
-            max={todayISODate}
-            value={state.runs.filters.startDate}
-            onChange={(e) => onDateChange(e.target.value, true)}
-            className='h-10 w-36 text-sm rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
-          />
-        </label>
-
-        {state.runs.filters.startDate === '' ? null : (
-          <label className='text-base'>
-            End Date
+    <div className='RunFilters mb-2 md:mb-4 pb-2 space-y-4 w-full flex flex-col md:flex-row'>
+      <div className='w-full md:w-auto flex flex-col md:flex-row md:space-x-4 items-center'>
+        <div className='w-full md:w-auto flex'>
+          <label className='text-sm md:text-base mx-4'>
+            Start Date
             <input
               type='date'
-              value={state.runs.filters.endDate}
-              min={state.runs.filters.startDate}
               max={todayISODate}
-              onChange={(e) => onDateChange(e.target.value, false)}
-              className='w-36 text-sm rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+              value={state.runs.filters.startDate}
+              onChange={(e) => onDateChange(e.target.value, true)}
+              className='h-10 w-36 text-sm rounded px-2 py-2 block mt-1 md:mt-2 border border-neutral-200 bg-neutral-800'
             />
           </label>
-        )}
 
-        <label className='text-base'>
-          Distance
-          <div className='flex space-x-2 items-center justify-center mt-2'>
-            <select
-              className='h-10 w-28 mr-2 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
-              value={state.runs.filters.distance.matchType}
-              onChange={(e) => onDistanceMatchTypeChange(e.target.value)}
-            >
-              <option>Between</option>
-              <option>Less Than</option>
-              <option>More Than</option>
-              <option>Exactly</option>
-            </select>
+          {state.runs.filters.startDate === '' ? null : (
+            <label className='text-sm md:text-base mr-4'>
+              End Date
+              <input
+                type='date'
+                value={state.runs.filters.endDate}
+                min={state.runs.filters.startDate}
+                max={todayISODate}
+                onChange={(e) => onDateChange(e.target.value, false)}
+                className='w-36 text-sm rounded px-2 py-2 block mt-1 md:mt-2 border border-neutral-200 bg-neutral-800'
+              />
+            </label>
+          )}
+        </div>
 
-            <input
-              type='number'
-              min='0'
-              max={maxMinDistanceValue}
-              value={state.runs.filters.distance.value}
-              onChange={(e) => onDistanceChange(e.target.value, false)}
-              className='h-10 w-10 text-sm text-center rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
-            />
-            {state.runs.filters.distance.matchType === 'Between' ? null : (
-              <span className=''>miles</span>
-            )}
+        <div className='w-full mt-2 md:mt-0 md:w-auto'>
+          <label className='text-sm md:text-base mx-4'>
+            Distance
+            <div className='flex mx-4 items-center mt-1 md:mt-2'>
+              <select
+                className='h-10 w-28 mr-4 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
+                value={state.runs.filters.distance.matchType}
+                onChange={(e) => onDistanceMatchTypeChange(e.target.value)}
+              >
+                <option>Between</option>
+                <option>Less Than</option>
+                <option>More Than</option>
+                <option>Exactly</option>
+              </select>
 
-            {state.runs.filters.distance.matchType === 'Between' ? (
-              <>
-                <span>and</span>
-                <input
-                  type='number'
-                  min={minMaxDistanceValue}
-                  max='100'
-                  value={state.runs.filters.distance.maxValue}
-                  onChange={(e) => onDistanceChange(e.target.value, true)}
-                  className='h-10 w-10 text-sm text-center rounded px-2 py-2 block border border-neutral-200 bg-neutral-800'
-                />
+              <input
+                type='number'
+                min='0'
+                max={maxMinDistanceValue}
+                value={state.runs.filters.distance.value}
+                onChange={(e) => onDistanceChange(e.target.value, false)}
+                className='h-10 w-10 text-sm text-center rounded mr-2 px-2 py-2 block border border-neutral-200 bg-neutral-800'
+              />
+              {state.runs.filters.distance.matchType === 'Between' ? null : (
                 <span className=''>miles</span>
-              </>
-            ) : null}
-          </div>
-        </label>
+              )}
 
-        <div className='mt-8'>
-          <Button onClick={onResetButtonClick} type='inline' className='h-12'>
+              {state.runs.filters.distance.matchType === 'Between' ? (
+                <>
+                  <span>and</span>
+                  <input
+                    type='number'
+                    min={minMaxDistanceValue}
+                    max='100'
+                    value={state.runs.filters.distance.maxValue}
+                    onChange={(e) => onDistanceChange(e.target.value, true)}
+                    className='h-10 w-10 text-sm text-center rounded mx-2 px-2 py-2 block border border-neutral-200 bg-neutral-800'
+                  />
+                  <span className=''>miles</span>
+                </>
+              ) : null}
+            </div>
+          </label>
+        </div>
+
+        <div className='mx-4 self-start'>
+          <Button onClick={onResetButtonClick} type='inline'>
             Reset Filters
           </Button>
         </div>
