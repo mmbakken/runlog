@@ -7,9 +7,9 @@ const ActualDistance = ({ isoDate, distance, runIds }) => {
   // Go to run's page if only one run today. Otherwise, go to AllRuns page with a filter param.
   const url = new URL(window.location)
 
-  let route = null
+  let route
 
-  if (runIds == null) {
+  if (runIds == null || runIds.length === 0) {
     route = null
   } else if (runIds.length === 1) {
     route = ViewRunRoute.replace(':runId', runIds[0])
