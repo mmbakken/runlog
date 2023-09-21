@@ -6,21 +6,31 @@ import { formatActualMileage } from '../../../formatters/formatMileage'
 const ActualDistance = ({ isoDate, distance, runIds }) => {
   // Go to run's page if only one run today. Otherwise, go to AllRuns page with a filter param.
   const url = new URL(window.location)
-  let route = ViewRunRoute.replace(':runId', runIds[0])
-  if (runIds.length > 1) {
+
+  let route = null
+
+  if (runIds == null) {
+    route = null
+  } else if (runIds.length === 1) {
+    route = ViewRunRoute.replace(':runId', runIds[0])
+  } else {
     route = `${AllRunsRoute}?date=${isoDate}`
   }
 
   if (distance > 0) {
     return (
       <span className='h-6 cursor-pointer hover:underline'>
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={`${url.origin}${route}`}
-        >
-          {formatActualMileage(distance)}
-        </a>
+        {route ? (
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={`${url.origin}${route}`}
+          >
+            {formatActualMileage(distance)}
+          </a>
+        ) : (
+          <span>{formatActualMileage(distance)}</span>
+        )}
       </span>
     )
   } else {
