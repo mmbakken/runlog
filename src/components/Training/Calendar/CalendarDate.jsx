@@ -76,7 +76,7 @@ const CalendarDate = ({
     'Cross Training',
   ]
 
-  let classes = 'w-48 shrink-0 text-center opacity-90'
+  let classes = 'w-48 shrink-0 text-center'
 
   let dateBoxClasses =
     'w-16 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
