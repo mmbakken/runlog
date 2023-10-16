@@ -4,14 +4,12 @@ import PropTypes from 'prop-types'
 const WorkoutTextInput = ({ text, onChange }) => {
   const DEBOUNCE_TIME_IN_MS = 1000
 
-  // Debouncing input requires a UI-specific value
-  const [workoutText, setWorkoutText] = useState('')
+  const [workoutText, setWorkoutText] = useState(text)
   const [workoutTimeoutRef, setWorkoutTimeoutRef] = useState(null)
 
+  // Update the input value with the given value. E.g. From copy/pasting date
   useEffect(() => {
-    if (workoutTimeoutRef == null) {
-      setWorkoutText(text == null ? '' : text)
-    }
+    onWorkoutChange(text)
   }, [text])
 
   const onWorkoutChange = (value) => {
