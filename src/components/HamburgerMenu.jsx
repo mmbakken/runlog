@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,10 +11,10 @@ import {
   AllRunsRoute,
   LoginRoute,
   AccountRoute,
-} from '../constants/routes'
+} from 'app/routes'
 
 const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -23,7 +23,7 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
   }
 
   const onLinkClick = (route) => {
-    history.push(route)
+    navigate(route)
     setIsOpen(false)
   }
 

@@ -1,6 +1,6 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: true, // or 'media' or 'class'
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
   theme: {
     fontFamily: {
       heading: ['Train One', 'Quicksand', 'sans-serif'],
@@ -97,3 +97,4 @@ module.exports = {
   },
   plugins: [],
 }
+

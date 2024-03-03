@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 
 import { toast } from 'react-toastify'
 
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import reverse from 'reverse-geocode'
 
@@ -14,7 +14,7 @@ import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
-import { AllRunsRoute } from '../../constants/routes'
+import { AllRunsRoute } from 'app/routes'
 
 // Unit formatting helper functions
 import { formatActualMileage } from '../../formatters/formatMileage'
@@ -29,7 +29,7 @@ import Dropdown from '../UI/Dropdown'
 
 const ViewRun = () => {
   const DEBOUNCE_TIME_IN_MS = 500
-  const history = useHistory()
+  const navigate = useNavigate()
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
   const authState = useContext(AuthContext)[0]
@@ -97,7 +97,7 @@ const ViewRun = () => {
           theme: 'light',
         })
 
-        history.push(AllRunsRoute)
+        navigate(AllRunsRoute)
       })
       .catch((error) => {
         dispatch({

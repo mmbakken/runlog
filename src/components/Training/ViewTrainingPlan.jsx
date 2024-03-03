@@ -9,12 +9,12 @@ import {
   faTrashCan,
   faSave,
 } from '@fortawesome/free-regular-svg-icons'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
-import { AllTrainingPlansRoute } from '../../constants/routes'
+import { AllTrainingPlansRoute } from 'app/routes'
 
 import articlize from '../../utils/articlize.js'
 import { formatActualMileage } from '../../formatters/formatMileage.js'
@@ -27,7 +27,7 @@ const ViewTrainingPlan = () => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [editedPlan, setEditedPlan] = useState(null)
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const id = location.pathname.split('/training/')[1]
   const DEBUG = false
   const DAYS_PER_WEEK = 7
@@ -395,7 +395,7 @@ const ViewTrainingPlan = () => {
             theme: 'light',
           })
 
-          history.push(AllTrainingPlansRoute)
+          navigate(AllTrainingPlansRoute)
         })
         .catch((error) => {
           dispatch({

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let url = 'https://www.runlog.dev/api'
 
-if (process.env.REACT_APP_ENV === 'dev') {
+if (import.meta.env.DEV) {
   url = 'http://localhost:4000/api'
 }
 

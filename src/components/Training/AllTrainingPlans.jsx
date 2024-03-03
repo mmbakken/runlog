@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -8,10 +8,7 @@ import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
-import {
-  CreateTrainingRoute,
-  ViewTrainingPlanRoute,
-} from '../../constants/routes'
+import { CreateTrainingRoute, ViewTrainingPlanRoute } from 'app/routes'
 
 import {
   formatActualMileage,
@@ -22,7 +19,7 @@ import Button from '../UI/Button'
 
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   // When this component is loaded, go get all of the training plans
   // TODO: Get the active one first, then get the rest of them second
@@ -47,7 +44,7 @@ const AllTrainingPlans = () => {
   }, [])
 
   const onViewClick = (id) => {
-    history.push(ViewTrainingPlanRoute.split(':')[0].concat(id))
+    navigate(ViewTrainingPlanRoute.split(':')[0].concat(id))
   }
 
   return (
@@ -151,7 +148,7 @@ const AllTrainingPlans = () => {
         <Button
           type='primary'
           onClick={() => {
-            history.push(CreateTrainingRoute)
+            navigate(CreateTrainingRoute)
           }}
         >
           New Training Plan

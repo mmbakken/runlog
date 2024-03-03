@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import actions from '../reducers/actions'
 import { AuthContext } from '../context/AuthContext'
@@ -14,12 +14,12 @@ import {
   AllRunsRoute,
   LoginRoute,
   AccountRoute,
-} from '../constants/routes'
+} from 'app/routes'
 
 const Navbar = () => {
   const location = useLocation()
   const currentPath = location.pathname
-  const history = useHistory()
+  const navigate = useNavigate()
   const [auth, authDispatch] = useContext(AuthContext)
   const stateDispatch = useContext(StateContext)[1]
 
@@ -32,7 +32,7 @@ const Navbar = () => {
     stateDispatch({
       type: actions.LOGOUT,
     })
-    history.push(HomeRoute)
+    navigate(HomeRoute)
   }
 
   const routeBasePath = currentPath.substr(1).split('/')[0]

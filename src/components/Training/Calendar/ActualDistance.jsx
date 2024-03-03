@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AllRunsRoute, ViewRunRoute } from '../../../constants/routes'
+import { AllRunsRoute, ViewRunRoute } from 'app/routes'
 import { formatActualMileage } from '../../../formatters/formatMileage'
 
 const ActualDistance = ({ isoDate, distance, runIds }) => {

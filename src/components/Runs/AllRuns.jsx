@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
@@ -12,7 +12,7 @@ import RunTableBody from './RunTableBody'
 const AllRuns = () => {
   const [state, dispatch] = useContext(StateContext)
   const location = useLocation()
-  const history = useHistory()
+  const naviagte = useNavigate()
 
   // When this component is loaded, go get the user's Runlog runs (all of them at once)
   useEffect(() => {
@@ -49,7 +49,7 @@ const AllRuns = () => {
           startDate: dt.toISODate(),
         })
 
-        history.replace(`${location.pathname}`)
+        naviagte(`${location.pathname}`, { replace: true })
       }
     }
   }, [location])

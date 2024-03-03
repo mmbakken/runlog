@@ -17,7 +17,7 @@ const redirectToStravaAuthPage = (userId) => {
     return
   }
 
-  if (process.env.REACT_APP_ENV === 'dev') {
+  if (import.meta.env.DEV) {
     stravaRedirectURI = encodeURIComponent(
       'http://localhost:3000/exchange_token'
     )

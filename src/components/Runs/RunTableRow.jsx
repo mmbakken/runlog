@@ -1,8 +1,8 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { ViewRunRoute } from '../../constants/routes'
+import { ViewRunRoute } from 'app/routes'
 
 // Unit formatting helper functions
 import { formatActualMileage } from '../../formatters/formatMileage'
@@ -13,14 +13,14 @@ import formatWeekday from '../../formatters/formatWeekday'
 import { formatDate, formatDateShort } from '../../formatters/formatDate'
 
 const RunTableRow = ({ run, showBottomBorder }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   if (run == null) {
     return null
   }
 
   const onRowClick = (runId) => {
-    history.push(ViewRunRoute.split(':')[0].concat(runId))
+    navigate(ViewRunRoute.split(':')[0].concat(runId))
   }
 
   return (

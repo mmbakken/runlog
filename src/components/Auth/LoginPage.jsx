@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import actions from '../../reducers/actions'
 import { AuthContext } from '../../context/AuthContext'
 import { APIv1, setAuthHeader } from '../../api'
-import { HomeRoute } from '../../constants/routes'
+import { HomeRoute } from 'app/routes'
 import Button from '../UI/Button'
 
 const LoginPage = () => {
   const authDispatch = useContext(AuthContext)[1]
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
 
   // Send API call to log the user in with their email and password
@@ -43,7 +43,7 @@ const LoginPage = () => {
           from = location.state.from.pathname
         }
 
-        history.push(from)
+        navigate(from)
       })
       .catch((error) => {
         console.error(error)
