@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
 
 import { StateContext } from '../../context/StateContext'
@@ -8,7 +8,7 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
 import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
-import { AllTrainingPlansRoute } from '../../constants/routes'
+import { AllTrainingPlansRoute } from 'app/routes'
 
 import Checkbox from '../Forms/Checkbox'
 import Button from '../UI/Button'
@@ -17,7 +17,7 @@ const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
   const auth = useContext(AuthContext)[0]
   const now = useState(DateTime.local())[0]
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const DEFAULT_WEEK_COUNT = 8 // Seems like a reasonable training plan length
   const DEFAULT_WEEK_STARTS_ON = 1 // Monday
@@ -83,7 +83,7 @@ const CreateTrainingPlan = () => {
           plan: response.data.plan,
         })
 
-        history.push(AllTrainingPlansRoute)
+        navigate(AllTrainingPlansRoute)
       })
       .catch((error) => {
         dispatch({

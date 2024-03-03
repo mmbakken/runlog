@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
-import { useLocation, Redirect } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { useLocation, Navigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
-import { AccountRoute } from '../../constants/routes'
+import { AccountRoute } from 'app/routes'
 
 const StravaTokenHandler = () => {
   const authDispatch = useContext(AuthContext)[1]
@@ -65,7 +65,7 @@ const StravaTokenHandler = () => {
   }, [])
 
   return (
-    <Redirect
+    <Navigate
       to={{
         pathname: AccountRoute,
       }}

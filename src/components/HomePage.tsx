@@ -1,7 +1,5 @@
-import React from 'react'
-
-import trainingImg from '../img/trainingCalendar.png'
-import allRunsImg from '../img/allRuns.png'
+import trainingImg from 'app/assets/trainingCalendar.png'
+import allRunsImg from 'app/assets/allRuns.png'
 
 const HomePage = () => {
   return (
