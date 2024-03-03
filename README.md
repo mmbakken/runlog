@@ -1,37 +1,20 @@
 # Runlog
 
-TODO: Update this Readme.
-TODO: Follow below instructions.
+Runlog is a journaling and planning tool to help you get the most out of your training. Runlog first connects your Strava account via OAuth, then it pulls in run data from the Strava API after they have been uploaded.
 
----
+Running this app locally requires running the [Runlog API](https://github.com/mmbakken/runlog-api) to serve data to the front end and to connect your user account to Strava.
 
-## React + TypeScript + Vite
+This project is hosted at runlog.dev. Public sign-up is unavailable at this time. Please contact me on Github if you're interested in signing up for an account.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
 
-Currently, two official plugins are available:
+Clone this repo.
+Clone the Runlog API repo and follow instructions for running that app.
+See Runlog API scripts for seeding the local database.
+Run `$ yarn dev` from the project directory.
+Navigate to `localhost:3000`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Deployment
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Test out the front end as if this is a production environment with `$ yarn preview`.
+Build the project files with `$ yarn build`.
