@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { toast } from 'react-toastify'
 
 import { useParams, useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
-import reverse from 'reverse-geocode'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
@@ -217,26 +216,6 @@ const ViewRun = () => {
     return stravaTimezoneString.split(' ')[1]
   }
 
-  // Given some run data, returns a string to use as the subheader for this page.
-  const generateSubheader = (runStartTime, timezone, lat, lng) => {
-    const dateTime = DateTime.fromISO(runStartTime, {
-      zone: stravaTimezoneToTZ(timezone),
-    }).toLocaleString(DateTime.DATETIME_FULL)
-
-    // NB: This only works for locations in the US. It's gonna give terrible data otherwise.
-    const location = reverse.lookup(lat, lng, 'us')
-
-    if (
-      location == null ||
-      location.city == null ||
-      location.state_abbr == null
-    ) {
-      return dateTime
-    }
-
-    return `${dateTime} in ${location.city}, ${location.state_abbr}`
-  }
-
   const onResultsChange = (event) => {
     // TODO: Debounced API call to update the value of the results field
     setResultsText(event.target.value)
@@ -342,12 +321,9 @@ const ViewRun = () => {
         )}
 
         <p className='text-neutral-500'>
-          {generateSubheader(
-            run.startDate,
-            run.timezone,
-            run.startLatitude,
-            run.startLongitude
-          )}
+          {DateTime.fromISO(run.startDate, {
+            zone: stravaTimezoneToTZ(run.timezone),
+          }).toLocaleString(DateTime.DATETIME_FULL)}
         </p>
       </header>
 
