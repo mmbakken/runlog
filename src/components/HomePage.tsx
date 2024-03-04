@@ -1,26 +1,38 @@
 import trainingImg from 'app/assets/trainingCalendar.png'
 import allRunsImg from 'app/assets/allRuns.png'
+import stravaLogoPoweredBy from 'app/assets/stravaLogoPoweredBy.svg'
 
 const HomePage = () => {
   return (
     <div className='HomePage -mt-12'>
-      <header className='flex flex-col justify-center h-200 max-h-screen mx-4 pt-32 pb-48 text-center border-b border-neutral-500'>
-        <h1 className='text-8xl font-heading mt-12 mb-12'>runlog</h1>
-        <p className='text-xl mb-4'>
-          Better run training and tracking tools – no more spreadsheets.
-        </p>
-        <p className='font-mono'>
-          [ by{' '}
-          <a
-            target='_blank'
-            rel='noopener noreferrer'
-            href='https://github.com/mmbakken'
-            className='hover:underline'
-          >
-            @mmbakken
-          </a>
-          &nbsp;]
-        </p>
+      <header className='flex flex-col justify-between items-center h-200 max-h-screen mx-4 pt-32 pb-8 text-center border-b border-neutral-500'>
+        <div className='flex flex-col gap-4 '>
+          <h1 className='text-8xl font-heading mt-12 mb-12'>runlog</h1>
+          <p className='text-2xl'>
+            Better run training and tracking tools – no more spreadsheets.
+          </p>
+          <p className='text-xl'>
+            Created by{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://github.com/mmbakken'
+              className='hover:underline'
+            >
+              @mmbakken
+            </a>
+          </p>
+        </div>
+
+        <div>
+          <p>
+            <img
+              className='h-16'
+              src={stravaLogoPoweredBy}
+              alt='Powered by Strava API logo.'
+            />
+          </p>
+        </div>
       </header>
 
       <section className='py-16 mx-4 flex flex-col sm:flex-row justify-between items-center space-y-4 md:space-x-24'>
