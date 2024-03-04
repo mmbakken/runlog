@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { APIv1 } from '../../api'
 
 import Button from '../UI/Button'
+import stravaConnectWithButton from 'app/assets/stravaConnectWithButton.svg'
 
 const redirectToStravaAuthPage = (userId) => {
   const stravaClientId = '60410'
@@ -71,14 +72,14 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
         </section>
       ) : (
         <section className='text-base space-y-2'>
-          <Button
-            type='primary'
+          <button
+            className=''
             onClick={() => {
               redirectToStravaAuthPage(userId)
             }}
           >
-            Link Strava Account
-          </Button>
+            <img alt='Connect with Strava' src={stravaConnectWithButton} />
+          </button>
         </section>
       )}
     </div>

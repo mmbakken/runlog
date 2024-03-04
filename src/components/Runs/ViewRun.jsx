@@ -446,17 +446,16 @@ const ViewRun = () => {
 
           <div>
             <h2 className='text-xl block'>Actions</h2>
-            <div className='mt-4 flex flex-col space-y-4'>
+            <div className='mt-4 flex flex-col space-y-4 text-lg'>
               {run.stravaActivityId != null ? (
-                <Button type='primary'>
-                  <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={`https://www.strava.com/activities/${run.stravaActivityId}`}
-                  >
-                    View on Strava
-                  </a>
-                </Button>
+                <a
+                  className='font-bold cursor-pointer hover:underline'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href={`https://www.strava.com/activities/${run.stravaActivityId}`}
+                >
+                  View on Strava
+                </a>
               ) : null}
 
               <Button
