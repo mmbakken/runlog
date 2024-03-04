@@ -50,21 +50,24 @@ const ViewRun = () => {
   const [showTitleEditField, setShowTitleEditField] = useState(false)
   const [runTitle, setRunTitle] = useState('')
 
+  const hasLocation =
+    run.startLocation && run.startLocation != '' && run.startLocation != null
+
   // Calls the API endpoint to push changes to the database, and updates the state context if the
   // update is successful. Failure will result in the error object being saved to the global state.
-  const updateRun = (updates) => {
+  const updateRun = updates => {
     dispatch({
       type: actions.EDIT_RUN__START,
     })
 
     APIv1.put(`/runs/${params.runId}`, updates)
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: actions.EDIT_RUN__SUCCESS,
           run: response.data,
         })
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch({
           type: actions.EDIT_RUN__ERROR,
           error: error,
@@ -98,7 +101,7 @@ const ViewRun = () => {
 
         navigate(AllRunsRoute)
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch({
           type: actions.DELETE_RUN__ERROR,
           error: error,
@@ -124,13 +127,13 @@ const ViewRun = () => {
     })
 
     APIv1.get(`/runs/${params.runId}`)
-      .then((response) => {
+      .then(response => {
         dispatch({
           type: actions.GET_RUN__SUCCESS,
           run: response.data,
         })
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch({
           type: actions.GET_RUN__ERROR,
           error: error,
@@ -212,11 +215,11 @@ const ViewRun = () => {
   // that is Luxon-compatible e.g. "America/Chicago".
   // See: https://moment.github.io/luxon/docs/manual/zones.html#creating-datetimes-in-a-zone
   // Also: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  const stravaTimezoneToTZ = (stravaTimezoneString) => {
+  const stravaTimezoneToTZ = stravaTimezoneString => {
     return stravaTimezoneString.split(' ')[1]
   }
 
-  const onResultsChange = (event) => {
+  const onResultsChange = event => {
     // TODO: Debounced API call to update the value of the results field
     setResultsText(event.target.value)
   }
@@ -227,7 +230,7 @@ const ViewRun = () => {
   }
 
   // When the user presses ESC, unfocus the results textarea
-  const resultsKeyDownHandler = (event) => {
+  const resultsKeyDownHandler = event => {
     if (event.key === 'Escape') {
       document.activeElement.blur()
       event.preventDefault()
@@ -235,7 +238,7 @@ const ViewRun = () => {
   }
 
   // When a checkbox changes state, this function is called and the local component state changes
-  const onCheckboxChange = (checkboxId) => {
+  const onCheckboxChange = checkboxId => {
     setIsChecked({
       ...isChecked,
       [checkboxId]: !isChecked[checkboxId], // flip it
@@ -260,18 +263,18 @@ const ViewRun = () => {
     setShowTitleEditField(false)
   }
 
-  const onTitleChange = (event) => {
+  const onTitleChange = event => {
     setRunTitle(event.target.value)
   }
 
-  const titleKeyDownHandler = (event) => {
+  const titleKeyDownHandler = event => {
     if (event.key === 'Escape' || event.key === 'Enter') {
       document.activeElement.blur()
       event.preventDefault()
     }
   }
 
-  const handleDeleteButtonClick = (event) => {
+  const handleDeleteButtonClick = event => {
     event.preventDefault()
 
     if (
@@ -320,10 +323,19 @@ const ViewRun = () => {
           </h1>
         )}
 
-        <p className='text-neutral-500'>
-          {DateTime.fromISO(run.startDate, {
-            zone: stravaTimezoneToTZ(run.timezone),
-          }).toLocaleString(DateTime.DATETIME_FULL)}
+        <p className='text-neutral-500 flex space-x-1'>
+          <span>
+            {DateTime.fromISO(run.startDate, {
+              zone: stravaTimezoneToTZ(run.timezone),
+            }).toLocaleString(DateTime.DATETIME_FULL)}
+          </span>
+
+          {hasLocation ? (
+            <>
+              <span>in</span>
+              <span>{run.startLocation}</span>
+            </>
+          ) : null}
         </p>
       </header>
 
@@ -378,7 +390,7 @@ const ViewRun = () => {
             <Dropdown
               selectedId={run.shoeId}
               options={authState?.user?.gear?.shoes}
-              onSelect={(shoeId) => {
+              onSelect={shoeId => {
                 updateRun({ updates: { shoeId: shoeId } })
               }}
               placeholder='Select shoes'
@@ -436,7 +448,7 @@ const ViewRun = () => {
 
               <Button
                 type='secondary'
-                onClick={(e) => {
+                onClick={e => {
                   handleDeleteButtonClick(e)
                 }}
               >
