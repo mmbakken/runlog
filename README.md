@@ -16,5 +16,4 @@ Navigate to `localhost:3000`.
 
 ## Deployment
 
-Test out the front end as if this is a production environment with `$ yarn preview`.
-Build the project files with `$ yarn build`.
+Test out the front end build with `$ yarn build` and then serve it locally with `$ yarn preview`.
