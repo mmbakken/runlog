@@ -51,7 +51,10 @@ const ViewRun = () => {
   const [runTitle, setRunTitle] = useState('')
 
   const hasLocation =
-    run.startLocation && run.startLocation != '' && run.startLocation != null
+    run &&
+    run.startLocation &&
+    run.startLocation != '' &&
+    run.startLocation != null
 
   // Calls the API endpoint to push changes to the database, and updates the state context if the
   // update is successful. Failure will result in the error object being saved to the global state.
