@@ -5,14 +5,14 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/',
   resolve: {
     alias: {
       app: path.resolve(__dirname, './src'),
       components: path.resolve(__dirname, './src/components'),
       styles: path.resolve(__dirname, './src/styles'),
-      utils: path.resolve(__dirname, './src/utils')
-    }
+      utils: path.resolve(__dirname, './src/utils'),
+    },
   },
   plugins: [
     react(),
@@ -22,5 +22,5 @@ export default defineConfig({
   ],
   server: {
     port: 3000,
-  }
+  },
 })
