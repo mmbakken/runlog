@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
-import Gear from './Gear'
+import Shoes from './Shoes'
 import StravaAccount from './StravaAccount'
 
 const AccountPage = () => {
@@ -15,7 +15,7 @@ const AccountPage = () => {
         <p>View your user settings and manage your Strava authorization.</p>
       </header>
 
-      <Gear gear={auth.user.gear} />
+      <Shoes />
 
       <StravaAccount
         userId={auth?.user?._id}

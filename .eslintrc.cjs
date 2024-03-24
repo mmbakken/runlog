@@ -32,6 +32,10 @@ module.exports = {
       ],
       files: ['./**/*.{ts,tsx}'],
     },
+    {
+      files: ['*.js', '*.jsx'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    },
   ],
   settings: {
     react: {

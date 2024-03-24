@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import { StateContext } from '../../context/StateContext'
-import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
@@ -26,12 +25,12 @@ import Checkbox from '../Forms/Checkbox'
 import Button from '../UI/Button'
 import Dropdown from '../UI/Dropdown'
 
+const DEBOUNCE_TIME_IN_MS = 500
+
 const ViewRun = () => {
-  const DEBOUNCE_TIME_IN_MS = 500
   const navigate = useNavigate()
   const params = useParams()
   const [state, dispatch] = useContext(StateContext)
-  const authState = useContext(AuthContext)[0]
   const run = state.runs.byId[params.runId]
 
   const [allowResultsEdits, setAllowResultsEdits] = useState(false)
@@ -56,8 +55,9 @@ const ViewRun = () => {
     run.startLocation != '' &&
     run.startLocation != null
 
-  // Calls the API endpoint to push changes to the database, and updates the state context if the
-  // update is successful. Failure will result in the error object being saved to the global state.
+  // Calls the API endpoint to push changes to the database, and updates the
+  // state context if the update is successful. Failure will result in the error
+  // object being saved to the global state.
   const updateRun = updates => {
     dispatch({
       type: actions.EDIT_RUN__START,
@@ -209,6 +209,29 @@ const ViewRun = () => {
       })
     }
   }, [isChecked.strength, isChecked.stretch, isChecked.ice])
+
+  // When this component is loaded, go get the user's shoes.
+  useEffect(() => {
+    if (!dispatch) return
+
+    dispatch({
+      type: actions.GET_ALL_SHOES__START,
+    })
+
+    APIv1.get('/shoes')
+      .then(response => {
+        dispatch({
+          type: actions.GET_ALL_SHOES__SUCCESS,
+          shoes: response.data,
+        })
+      })
+      .catch(error => {
+        dispatch({
+          type: actions.GET_ALL_SHOES__ERROR,
+          error: error,
+        })
+      })
+  }, [dispatch])
 
   if (run == null) {
     return <div className='ViewRun w-full'></div>
@@ -392,7 +415,7 @@ const ViewRun = () => {
             <h2 className='text-xl block mb-3'>Shoes</h2>
             <Dropdown
               selectedId={run.shoeId}
-              options={authState?.user?.gear?.shoes}
+              options={Object.values(state?.shoes.byId)}
               onSelect={shoeId => {
                 updateRun({ updates: { shoeId: shoeId } })
               }}

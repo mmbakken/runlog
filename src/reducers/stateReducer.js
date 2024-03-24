@@ -1,6 +1,7 @@
 import actions from './actions'
 import initialState from './initialState'
 import runsReducer from './runs/runsReducer'
+import shoesReducer from './shoesReducer'
 import trainingReducer from './trainingReducer'
 
 const stateReducer = (state, action) => {
@@ -27,6 +28,21 @@ const stateReducer = (state, action) => {
       return {
         ...state,
         runs: runsReducer(state.runs, action),
+      }
+    }
+
+    case actions.GET_ALL_SHOES__START:
+    case actions.GET_ALL_SHOES__SUCCESS:
+    case actions.GET_ALL_SHOES__ERROR:
+    case actions.CREATE_SHOES__START:
+    case actions.CREATE_SHOES__SUCCESS:
+    case actions.CREATE_SHOES__ERROR:
+    case actions.DELETE_SHOES__START:
+    case actions.DELETE_SHOES__SUCCESS:
+    case actions.DELETE_SHOES__ERROR: {
+      return {
+        ...state,
+        shoes: shoesReducer(state.shoes, action),
       }
     }
 

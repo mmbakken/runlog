@@ -29,25 +29,6 @@ const userReducer = (state, action) => {
       }
     }
 
-    case actions.CREATE_USER_GEAR__START: {
-      return state
-    }
-
-    case actions.CREATE_USER_GEAR__SUCCESS: {
-      return {
-        ...state,
-        user: action.user,
-        error: null,
-      }
-    }
-
-    case actions.CREATE_USER_GEAR__ERROR: {
-      return {
-        ...state,
-        error: action.error,
-      }
-    }
-
     case actions.DELETE_USER_GEAR__START: {
       return state
     }
