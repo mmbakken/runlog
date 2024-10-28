@@ -17,13 +17,13 @@ const Shoes = () => {
     })
 
     APIv1.get('/shoes')
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: actions.GET_ALL_SHOES__SUCCESS,
           shoes: response.data,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: actions.GET_ALL_SHOES__ERROR,
           error: error,
@@ -34,7 +34,7 @@ const Shoes = () => {
   return (
     <div className='space-y-4'>
       <section className='mx-4'>
-        <h2 className='text-lg mb-2'>Shoes</h2>
+        <h2 className='mb-2 text-lg'>Shoes</h2>
         <p className='mb-4'>Add new shoes here and track their mileage.</p>
         <ShoeList shoes={state.shoes.byId} />
       </section>

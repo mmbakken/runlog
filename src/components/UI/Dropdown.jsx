@@ -11,7 +11,7 @@ const DEFAULT_PLACEHOLDER = 'Select an option...'
 const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  let selectedOption = options.find(option => {
+  let selectedOption = options.find((option) => {
     return option._id === selectedId
   })
 
@@ -26,7 +26,7 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
 
   selectorClasses += isOpen ? ' rounded-t' : ' rounded'
 
-  const onSelectedOption = id => {
+  const onSelectedOption = (id) => {
     setIsOpen(false)
     onSelect(id) // Callback
   }
@@ -42,12 +42,12 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
         <span>
           {selectedId == null ? placeholderText : selectedOption?.title}
         </span>
-        <FontAwesomeIcon className={'inline-block ml-2'} icon={faChevronDown} />
+        <FontAwesomeIcon className={'ml-2 inline-block'} icon={faChevronDown} />
       </div>
 
       {isOpen ? (
         <div className={optionsClasses}>
-          {options.map(option => {
+          {options.map((option) => {
             return (
               <DropdownOption
                 key={option._id}

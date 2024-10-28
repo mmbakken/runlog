@@ -81,22 +81,22 @@ const RunFilters = () => {
   }
 
   return (
-    <div className='RunFilters mb-2 md:mb-4 pb-2 space-y-4 w-full flex flex-col md:flex-row'>
-      <div className='w-full md:w-auto flex flex-col md:flex-row md:align-center items-center'>
-        <div className='w-full md:w-auto md:mt-0 flex'>
-          <label className='text-sm md:text-base mx-4'>
+    <div className='RunFilters mb-2 flex w-full flex-col space-y-4 pb-2 md:mb-4 md:flex-row'>
+      <div className='md:align-center flex w-full flex-col items-center md:w-auto md:flex-row'>
+        <div className='flex w-full md:mt-0 md:w-auto'>
+          <label className='mx-4 text-sm md:text-base'>
             Start Date
             <input
               type='date'
               max={todayISODate}
               value={state.runs.filters.startDate}
               onChange={(e) => onDateChange(e.target.value, true)}
-              className='h-10 w-36 text-sm rounded px-2 py-2 block mt-1 md:mt-2 border border-neutral-200 bg-neutral-800'
+              className='mt-1 block h-10 w-36 rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-sm md:mt-2'
             />
           </label>
 
           {state.runs.filters.startDate === '' ? null : (
-            <label className='text-sm md:text-base mr-4'>
+            <label className='mr-4 text-sm md:text-base'>
               End Date
               <input
                 type='date'
@@ -104,18 +104,18 @@ const RunFilters = () => {
                 min={state.runs.filters.startDate}
                 max={todayISODate}
                 onChange={(e) => onDateChange(e.target.value, false)}
-                className='w-36 text-sm rounded px-2 py-2 block mt-1 md:mt-2 border border-neutral-200 bg-neutral-800'
+                className='mt-1 block w-36 rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-sm md:mt-2'
               />
             </label>
           )}
         </div>
 
-        <div className='w-full mt-2 md:w-auto md:mt-0 md:w-auto flex'>
-          <label className='text-sm md:text-base mx-4 md:mx-0'>
+        <div className='mt-2 flex w-full md:mt-0 md:w-auto'>
+          <label className='mx-4 text-sm md:mx-0 md:text-base'>
             Distance
-            <div className='flex items-center mt-1 md:mt-2'>
+            <div className='mt-1 flex items-center md:mt-2'>
               <select
-                className='h-10 w-28 mr-4 text-sm rounded px-2 py-2 block border border-neutral-200 bg-neutral-800 cursor-pointer'
+                className='mr-4 block h-10 w-28 cursor-pointer rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-sm'
                 value={state.runs.filters.distance.matchType}
                 onChange={(e) => onDistanceMatchTypeChange(e.target.value)}
               >
@@ -131,7 +131,7 @@ const RunFilters = () => {
                 max={maxMinDistanceValue}
                 value={state.runs.filters.distance.value}
                 onChange={(e) => onDistanceChange(e.target.value, false)}
-                className='h-10 w-10 text-sm text-center rounded mr-2 px-2 py-2 block border border-neutral-200 bg-neutral-800'
+                className='mr-2 block h-10 w-10 rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-center text-sm'
               />
               {state.runs.filters.distance.matchType === 'Between' ? null : (
                 <span className=''>miles</span>
@@ -146,7 +146,7 @@ const RunFilters = () => {
                     max='100'
                     value={state.runs.filters.distance.maxValue}
                     onChange={(e) => onDistanceChange(e.target.value, true)}
-                    className='h-10 w-10 text-sm text-center rounded mx-2 px-2 py-2 block border border-neutral-200 bg-neutral-800'
+                    className='mx-2 block h-10 w-10 rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-center text-sm'
                   />
                   <span className=''>miles</span>
                 </>

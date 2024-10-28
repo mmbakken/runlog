@@ -64,7 +64,7 @@ const PlannedDistanceInput = ({ distance, onChange }) => {
       type='number'
       min='0'
       step='1'
-      className='text-right resize-none h-6 w-full bg-transparent outline-none cursor-default'
+      className='h-6 w-full cursor-default resize-none bg-transparent text-right outline-none'
       value={plannedDistanceUI.toString()}
       onFocus={(e) => {
         e.target.select()

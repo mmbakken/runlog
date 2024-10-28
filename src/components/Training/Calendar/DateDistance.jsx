@@ -12,7 +12,7 @@ const DateDistance = ({
   runIds,
 }) => {
   return (
-    <div className='w-32 px-2 py-1 text-right cursor-default'>
+    <div className='w-32 cursor-default px-2 py-1 text-right'>
       {showPlannedInput ? (
         <PlannedDistanceInput
           distance={plannedDistance}

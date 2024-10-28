@@ -9,7 +9,7 @@ import showWeekDivider from '../../utils/showWeekDivider'
 // Given an array of run activities, displays as table content
 const RunTableBody = ({ runsById, filteredIds, isLoading }) => {
   if (isLoading) {
-    return <div className='w-full mx-4'>Loading...</div>
+    return <div className='mx-4 w-full'>Loading...</div>
   }
 
   if (

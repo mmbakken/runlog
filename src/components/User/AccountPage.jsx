@@ -9,9 +9,9 @@ const AccountPage = () => {
   const hasStravaAccount = auth.user && auth.user.hasStravaAuth
 
   return (
-    <div className='AccountPage pb-4 space-y-8'>
+    <div className='AccountPage space-y-8 pb-4'>
       <header className='mx-4'>
-        <h1 className='text-2xl mb-2'>Account Settings</h1>
+        <h1 className='mb-2 text-2xl'>Account Settings</h1>
         <p>View your user settings and manage your Strava authorization.</p>
       </header>
 
@@ -23,8 +23,8 @@ const AccountPage = () => {
       />
 
       <div className='mx-4'>
-        <h2 className='text-lg mb-4'>Runlog Account</h2>
-        <pre className='font-mono text-sm w-full sm:w-120 max-h-120 min-h-16 border bg-neutral-800 border-neutral-500 rounded overflow-scroll break-words px-2 py-1'>
+        <h2 className='mb-4 text-lg'>Runlog Account</h2>
+        <pre className='max-h-120 min-h-16 w-full overflow-scroll break-words rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
           {JSON.stringify(auth.user, null, 2)}
         </pre>
       </div>

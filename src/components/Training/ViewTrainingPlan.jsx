@@ -426,10 +426,10 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && state.training.byId && training && (
-        <div className='w-full mb-4 h-auto'>
-          <div className='w-full flex space-x-4 px-4 mb-4'>
-            <div className='w-full flex flex-col'>
-              <div className='w-full flex items-center align-center'>
+        <div className='mb-4 h-auto w-full'>
+          <div className='mb-4 flex w-full space-x-4 px-4'>
+            <div className='flex w-full flex-col'>
+              <div className='align-center flex w-full items-center'>
                 {isEditMode ? (
                   <label className='w-full max-w-lg text-lg'>
                     Title
@@ -439,16 +439,16 @@ const ViewTrainingPlan = () => {
                       placeholder='What race are you training for?'
                       value={editedPlan.title}
                       onChange={(e) => onTitleChange(e.target.value)}
-                      className='text-base w-full rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+                      className='mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
                     />
                   </label>
                 ) : (
                   <>
                     <h1 className='text-2xl'>{training.title}</h1>
-                    <div className='text-xl ml-4'>
+                    <div className='ml-4 text-xl'>
                       {training.isActive ? (
                         <span
-                          className='bg-transparent text-eggplant-700 transition cursor-pointer'
+                          className='cursor-pointer bg-transparent text-eggplant-700 transition'
                           onClick={() => {
                             onToggleIsActiveClick(false)
                           }}
@@ -457,7 +457,7 @@ const ViewTrainingPlan = () => {
                         </span>
                       ) : (
                         <span
-                          className='bg-transparent text-eggplant-700 transition cursor-pointer'
+                          className='cursor-pointer bg-transparent text-eggplant-700 transition'
                           onClick={() => {
                             onToggleIsActiveClick(true)
                           }}
@@ -470,16 +470,16 @@ const ViewTrainingPlan = () => {
                 )}
               </div>
 
-              <div className='w-full flex flex-col'>
+              <div className='flex w-full flex-col'>
                 {isEditMode ? (
-                  <div className='w-full flex space-x-4 sm:space-x-8 mt-4'>
+                  <div className='mt-4 flex w-full space-x-4 sm:space-x-8'>
                     <label className='text-lg'>
                       Start Date
                       <input
                         type='date'
                         value={editedPlan.ui.startDateISO}
                         onChange={(e) => onDateChange(e.target.value)}
-                        className='text-base rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
+                        className='mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
                       />
                     </label>
 
@@ -491,7 +491,7 @@ const ViewTrainingPlan = () => {
                         min='1'
                         max='52'
                         onChange={(e) => onWeekCountChange(e.target.value)}
-                        className='text-base text-center rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
+                        className='mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-center text-base'
                       />
                     </label>
 
@@ -501,16 +501,16 @@ const ViewTrainingPlan = () => {
                         disabled
                         type='date'
                         value={editedPlan.ui.endDateISO}
-                        className='text-base rounded py-2 block mt-1 bg-transparent'
+                        className='mt-1 block rounded bg-transparent py-2 text-base'
                       />
                     </label>
                   </div>
                 ) : (
-                  <h2 className='text-sm opacity-60 mt-1'>{planDesc}</h2>
+                  <h2 className='mt-1 text-sm opacity-60'>{planDesc}</h2>
                 )}
 
                 {isEditMode ? (
-                  <label className='w-full max-w-lg text-lg mt-4'>
+                  <label className='mt-4 w-full max-w-lg text-lg'>
                     Goal
                     <textarea
                       type='text'
@@ -518,7 +518,7 @@ const ViewTrainingPlan = () => {
                       placeholder='What do you want to achieve?'
                       value={editedPlan.goal}
                       onChange={(e) => onGoalChange(e.target.value)}
-                      className='text-base w-full h-24 rounded px-2 py-2 block mt-1 border border-neutral-200 bg-neutral-800'
+                      className='mt-1 block h-24 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
                     />
                   </label>
                 ) : (
@@ -535,7 +535,7 @@ const ViewTrainingPlan = () => {
           </div>
 
           {isEditMode ? (
-            <div className='flex justify-between px-4 mt-4 mb-8'>
+            <div className='mb-8 mt-4 flex justify-between px-4'>
               <div className='inline-block space-x-4'>
                 <Button
                   type='primary'
@@ -557,7 +557,7 @@ const ViewTrainingPlan = () => {
               </div>
             </div>
           ) : (
-            <div className='flex space-x-4 px-4 mb-4'>
+            <div className='mb-4 flex space-x-4 px-4'>
               <Button
                 type='secondary'
                 onClick={() => {
@@ -587,7 +587,7 @@ const ViewTrainingPlan = () => {
           />
 
           {DEBUG && (
-            <pre className='font-mono text-sm w-120 max-h-120 min-h-16 border bg-gray-100 border-neutral-500 rounded overflow-scroll break-words px-2 py-1'>
+            <pre className='max-h-120 min-h-16 w-120 overflow-scroll break-words rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm'>
               {JSON.stringify(training, null, 2)}
             </pre>
           )}
@@ -595,7 +595,7 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && training == null && (
-        <div className='px-4 mb-4'>No training plan found with id {id}</div>
+        <div className='mb-4 px-4'>No training plan found with id {id}</div>
       )}
     </div>
   )

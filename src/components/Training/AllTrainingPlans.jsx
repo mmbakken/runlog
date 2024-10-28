@@ -50,7 +50,7 @@ const AllTrainingPlans = () => {
   return (
     <div className='TrainingPage w-full px-4 pb-4'>
       <div className='w-full'>
-        <h1 className='text-2xl mb-4'>All Training Plans</h1>
+        <h1 className='mb-4 text-2xl'>All Training Plans</h1>
 
         {state.training.isFetching ? (
           <div>
@@ -60,7 +60,7 @@ const AllTrainingPlans = () => {
 
         {state.training.byId &&
         Object.values(state.training.byId).length > 0 ? (
-          <div className='w-full mb-6 grid grid-cols-plans-page gap-x-6 gap-y-2'>
+          <div className='mb-6 grid w-full grid-cols-plans-page gap-x-6 gap-y-2'>
             {Object.values(state.training.byId)
               .sort((planA, planB) => {
                 if (planA.isActive && !planB.isActive) {

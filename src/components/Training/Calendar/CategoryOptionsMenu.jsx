@@ -41,7 +41,7 @@ const OptionsMenu = ({
 
   return (
     <div className={menuClasses}>
-      <ul className='w-full flex flex-col'>
+      <ul className='flex w-full flex-col'>
         {options.map((categoryName, index) => {
           const isActiveCategory = activeOption === index
           const optionClasses = `${

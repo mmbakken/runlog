@@ -54,20 +54,20 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='Navbar py-4 h-20'>
+    <nav className='Navbar h-20 py-4'>
       <HamburgerMenu
         logout={logout}
         isLoggedIn={auth.isLoggedIn}
         isHomeRoute={isHomeRoute}
       />
 
-      <div className='hidden sm:flex justify-between text-lg'>
-        <ul className='inline-flex items-center space-x-4 '>
+      <div className='hidden justify-between text-lg sm:flex'>
+        <ul className='inline-flex items-center space-x-4'>
           {isHomeRoute ? null : (
             <li>
               <Link to={HomeRoute}>
                 <header>
-                  <h1 className='font-heading px-4 pb-2 text-4xl'>runlog</h1>
+                  <h1 className='px-4 pb-2 font-heading text-4xl'>runlog</h1>
                 </header>
               </Link>
             </li>
@@ -76,7 +76,7 @@ const Navbar = () => {
           <li
             className={
               trainingClasses +
-              ' mt-2 leading-snug border-b-2 hover:border-eggplant-700'
+              ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
             }
           >
             <Link to={AllTrainingPlansRoute}>Training</Link>
@@ -85,7 +85,7 @@ const Navbar = () => {
           <li
             className={
               runsClasses +
-              ' mt-2 leading-snug border-b-2 hover:border-eggplant-700'
+              ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
             }
           >
             <Link to={AllRunsRoute}>Runs</Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
             <li
               className={
                 accountClasses +
-                ' mt-2 leading-snug border-b-2 hover:border-eggplant-700'
+                ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
               }
             >
               <Link to={AccountRoute}>Account</Link>
@@ -103,12 +103,12 @@ const Navbar = () => {
           )}
         </ul>
 
-        <ul className='inline-flex items-center space-x-4 mr-4'>
+        <ul className='mr-4 inline-flex items-center space-x-4'>
           {!auth.isLoggedIn && (
             <li
               className={
                 loginClasses +
-                ' mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700'
+                ' mt-2 border-b-2 border-transparent leading-snug hover:border-eggplant-700'
               }
             >
               <Link to={LoginRoute}>Login</Link>
@@ -116,7 +116,7 @@ const Navbar = () => {
           )}
 
           {auth.isLoggedIn && (
-            <li className='cursor-pointer mt-2 leading-snug border-b-2 border-transparent hover:border-eggplant-700'>
+            <li className='mt-2 cursor-pointer border-b-2 border-transparent leading-snug hover:border-eggplant-700'>
               <a onClick={logout}>Logout</a>
             </li>
           )}

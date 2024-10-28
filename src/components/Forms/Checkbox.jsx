@@ -14,7 +14,7 @@ const Checkbox = ({ className, checked, onChange }) => {
 
   return (
     <div
-      className={`${className} p-1 flex items-center justify-center text-xs cursor-pointer border rounded border-neutral-300 bg-neutral-800`}
+      className={`${className} flex cursor-pointer items-center justify-center rounded border border-neutral-300 bg-neutral-800 p-1 text-xs`}
       onClick={onChange}
     >
       <FontAwesomeIcon className={checkClasses} icon={faCheck} />
