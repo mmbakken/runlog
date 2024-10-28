@@ -43,13 +43,7 @@ const authReducer = (state, action) => {
 
     case actions.GET_USER__START:
     case actions.GET_USER__SUCCESS:
-    case actions.GET_USER__ERROR:
-    case actions.CREATE_USER_GEAR__START:
-    case actions.CREATE_USER_GEAR__SUCCESS:
-    case actions.CREATE_USER_GEAR__ERROR:
-    case actions.DELETE_USER_GEAR__START:
-    case actions.DELETE_USER_GEAR__SUCCESS:
-    case actions.DELETE_USER_GEAR__ERROR: {
+    case actions.GET_USER__ERROR: {
       return {
         ...state,
         ...userReducer(state.user, action),

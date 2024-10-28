@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react'
-import PropTypes from 'prop-types'
+import { useState, useContext } from 'react'
 import { toast } from 'react-toastify'
 
-import { AuthContext } from '../../context/AuthContext'
+import { StateContext } from '../../context/StateContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
@@ -15,9 +14,9 @@ import Button from '../UI/Button'
 
 const ShoeList = ({ shoes }) => {
   const [newShoeName, setNewShoeName] = useState('')
-  const dispatch = useContext(AuthContext)[1]
+  const dispatch = useContext(StateContext)[1]
 
-  const onNewShoeSubmit = (e) => {
+  const onNewShoeSubmit = e => {
     e.preventDefault()
 
     const newShoe = {
@@ -25,14 +24,14 @@ const ShoeList = ({ shoes }) => {
     }
 
     dispatch({
-      type: actions.CREATE_USER_GEAR__START,
+      type: actions.CREATE_SHOES__START,
     })
 
-    APIv1.post('/user/gear/shoes', newShoe)
-      .then((response) => {
+    APIv1.post('/shoes', newShoe)
+      .then(response => {
         dispatch({
-          type: actions.CREATE_USER_GEAR__SUCCESS,
-          user: response.data,
+          type: actions.CREATE_SHOES__SUCCESS,
+          shoe: response.data,
         })
 
         toast.success('Shoes saved successfully.', {
@@ -46,12 +45,12 @@ const ShoeList = ({ shoes }) => {
           theme: 'light',
         })
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error while adding a new shoe:')
         console.dir(error)
 
         dispatch({
-          type: actions.DELETE_USER_GEAR__ERROR,
+          type: actions.CREATE_SHOES__ERROR,
           error: error,
         })
 
@@ -71,21 +70,21 @@ const ShoeList = ({ shoes }) => {
       })
   }
 
-  const deleteShoe = (shoeId) => {
+  const deleteShoe = shoeId => {
     if (
       confirm(
         'Are you sure you want to delete this shoe? This action cannot be undone.'
       )
     ) {
       dispatch({
-        type: actions.DELETE_USER_GEAR__START,
+        type: actions.DELETE_SHOES__START,
       })
 
-      APIv1.delete(`/user/gear/shoes/${shoeId}`)
-        .then((response) => {
+      APIv1.delete(`/shoes/${shoeId}`)
+        .then(response => {
           dispatch({
-            type: actions.DELETE_USER_GEAR__SUCCESS,
-            user: response.data,
+            type: actions.DELETE_SHOES__SUCCESS,
+            shoe: response.data,
           })
 
           toast.success('Shoes deleted.', {
@@ -99,12 +98,12 @@ const ShoeList = ({ shoes }) => {
             theme: 'light',
           })
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error while deleting shoes:')
           console.dir(error)
 
           dispatch({
-            type: actions.CREATE_USER_GEAR__ERROR,
+            type: actions.DELETE_SHOES__ERROR,
             error: error,
           })
 
@@ -124,24 +123,26 @@ const ShoeList = ({ shoes }) => {
 
   return (
     <div>
-      {shoes && shoes.length > 0 ? (
+      {shoes != null ? (
         <div className='grid grid-cols-shoe-list gap-x-8 gap-y-2 mb-4'>
           <div>Title</div>
           <div>Distance</div>
           <div>Runs</div>
           <div>Actions</div>
 
-          {shoes.map((shoe, index) => {
+          {Object.keys(shoes).map((shoeId, index) => {
+            const shoe = shoes[shoeId]
+
             return (
               <div key={`shoe-${index}`} className='contents'>
-                <div>{shoe.title}</div>
-                <div>{formatActualMileage(shoe.distance)} mi</div>
-                <div>{shoe.runIds.length}</div>
+                <div>{shoe?.title}</div>
+                <div>{formatActualMileage(shoe?.distance)} mi</div>
+                <div>{shoe?.runIds?.length}</div>
                 <div>
                   <Button
                     type='inline'
                     onClick={() => {
-                      deleteShoe(shoe._id)
+                      deleteShoe(shoe?._id)
                     }}
                   >
                     <span className='mr-2'>Delete</span>
@@ -156,7 +157,7 @@ const ShoeList = ({ shoes }) => {
 
       <form
         className='mb-4'
-        onSubmit={(e) => {
+        onSubmit={e => {
           onNewShoeSubmit(e)
         }}
       >
@@ -165,7 +166,7 @@ const ShoeList = ({ shoes }) => {
           type='text'
           placeholder='e.g. Green Mizunos'
           value={newShoeName}
-          onChange={(e) => {
+          onChange={e => {
             setNewShoeName(e.target.value)
           }}
         />
@@ -173,7 +174,7 @@ const ShoeList = ({ shoes }) => {
         <Button
           type='primary'
           role='submit'
-          onClick={(e) => {
+          onClick={e => {
             onNewShoeSubmit(e)
           }}
         >
@@ -182,10 +183,6 @@ const ShoeList = ({ shoes }) => {
       </form>
     </div>
   )
-}
-
-ShoeList.propTypes = {
-  shoes: PropTypes.array,
 }
 
 export default ShoeList
