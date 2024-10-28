@@ -5,9 +5,9 @@ import stravaLogoPoweredBy from 'app/assets/stravaLogoPoweredBy.svg'
 const HomePage = () => {
   return (
     <div className='HomePage -mt-12'>
-      <header className='flex flex-col justify-between items-center h-200 max-h-screen mx-4 pt-32 pb-8 text-center border-b border-neutral-500'>
-        <div className='flex flex-col gap-4 '>
-          <h1 className='text-8xl font-heading mt-12 mb-12'>runlog</h1>
+      <header className='mx-4 flex h-200 max-h-screen flex-col items-center justify-between border-b border-neutral-500 pb-8 pt-32 text-center'>
+        <div className='flex flex-col gap-4'>
+          <h1 className='mb-12 mt-12 font-heading text-8xl'>runlog</h1>
           <p className='text-2xl'>
             Better run training and tracking tools – no more spreadsheets.
           </p>
@@ -35,19 +35,19 @@ const HomePage = () => {
         </div>
       </header>
 
-      <section className='py-16 mx-4 flex flex-col sm:flex-row justify-between items-center space-y-4 md:space-x-24'>
+      <section className='mx-4 flex flex-col items-center justify-between space-y-4 py-16 sm:flex-row md:space-x-24'>
         <div className='basis-2/3'>
           <img
-            className='border rounded-lg mb-8 sm:mb-0'
+            className='mb-8 rounded-lg border sm:mb-0'
             src={trainingImg}
             alt='A calendar component showing many recent workouts'
           />
         </div>
 
         <div className='basis-1/3'>
-          <h2 className='text-3xl mb-4'>Training Calendar</h2>
+          <h2 className='mb-4 text-3xl'>Training Calendar</h2>
 
-          <ul className='text-xl space-y-4'>
+          <ul className='space-y-4 text-xl'>
             <li>
               <p>Plan your weekly training over months.</p>
             </li>
@@ -70,11 +70,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className='py-16 mx-4 flex flex-col-reverse sm:flex-row justify-between items-center space-y-4 md:space-x-24 border-b border-neutral-500'>
+      <section className='mx-4 flex flex-col-reverse items-center justify-between space-y-4 border-b border-neutral-500 py-16 sm:flex-row md:space-x-24'>
         <div className='basis-1/3'>
-          <h2 className='text-3xl mb-4'>Run Tracking</h2>
+          <h2 className='mb-4 text-3xl'>Run Tracking</h2>
 
-          <ul className='text-xl space-y-4'>
+          <ul className='space-y-4 text-xl'>
             <li>
               <p>View all of your recent runs in one simple list.</p>
             </li>
@@ -95,7 +95,7 @@ const HomePage = () => {
 
         <div className='basis-2/3'>
           <img
-            className='border rounded-lg mb-8 sm:mb-0'
+            className='mb-8 rounded-lg border sm:mb-0'
             src={allRunsImg}
             alt='A calendar component showing many recent workouts'
           />

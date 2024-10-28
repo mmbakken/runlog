@@ -26,13 +26,13 @@ const RunTableRow = ({ run, showBottomBorder }) => {
   return (
     <>
       <div
-        className='RunTableRow sm:contents sm:mx-0 max-h-60 cursor-pointer mt-2 mx-4 flex items-center border rounded border-neutral-600 bg-neutral-800'
+        className='RunTableRow mx-4 mt-2 flex max-h-60 cursor-pointer items-center rounded border border-neutral-600 bg-neutral-800 sm:mx-0 sm:contents'
         onClick={() => {
           onRowClick(run._id)
         }}
       >
         {/* Narrow UI. Uses flex layout. */}
-        <div className='sm:hidden grow-0 shrink-0 w-12 flex flex-col items-center text-xs py-2'>
+        <div className='flex w-12 shrink-0 grow-0 flex-col items-center py-2 text-xs sm:hidden'>
           <div className='flex items-center'>
             {formatWeekday(run.startDate)}
           </div>
@@ -41,11 +41,11 @@ const RunTableRow = ({ run, showBottomBorder }) => {
           </div>
         </div>
 
-        <div className='sm:hidden grow shrink px-4 py-2 border-l border-r border-neutral-600 text-lg'>
+        <div className='shrink grow border-l border-r border-neutral-600 px-4 py-2 text-lg sm:hidden'>
           {run.title}
         </div>
 
-        <div className='sm:hidden space-y-1 grow-0 shrink-0 w-20 flex flex-col items-center py-2 text-sm'>
+        <div className='flex w-20 shrink-0 grow-0 flex-col items-center space-y-1 py-2 text-sm sm:hidden'>
           <div className='flex items-center'>
             {formatActualMileage(run.distance)} mi
           </div>
@@ -56,44 +56,44 @@ const RunTableRow = ({ run, showBottomBorder }) => {
         </div>
 
         {/* Wide UI. Uses grid layout. */}
-        <div className='hidden sm:flex hover:underline py-1 items-center ml-4'>
+        <div className='ml-4 hidden items-center py-1 hover:underline sm:flex'>
           {formatWeekday(run.startDate)}
         </div>
-        <div className='hidden sm:flex hover:underline py-1 items-center ml-2 pr-2 pr-4 md:pr-8'>
+        <div className='ml-2 hidden items-center py-1 pr-2 pr-4 hover:underline sm:flex md:pr-8'>
           {formatDate(run.startDate)}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center pr-2 pr-4 md:pr-8'>
+        <div className='hidden items-center py-1 pr-2 pr-4 hover:underline sm:flex md:pr-8'>
           {run.title}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center justify-self-end pl-2 pl-4 md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
           {formatActualMileage(run.distance)}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center justify-self-end pl-2 pl-4 md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
           {formatDuration(run.time)}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center justify-self-end pl-2 pl-4 md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
           {formatPace(run.averageSpeed)}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center justify-self-end pl-2 pl-4 md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
           {formatHeartRate(run.averageHeartRate)}
         </div>
 
-        <div className='hidden sm:flex hover:underline py-1 items-center justify-self-end pl-2 pl-4 md:pl-8 mr-4'>
+        <div className='mr-4 hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
           {formatHeartRate(run.maxHeartRate)}
         </div>
 
         {showBottomBorder && (
-          <div className='hidden sm:flex hover:underline col-span-8 pt-1 mb-1 mx-4 border-b border-eggplant-700' />
+          <div className='col-span-8 mx-4 mb-1 hidden border-b border-eggplant-700 pt-1 hover:underline sm:flex' />
         )}
       </div>
 
       {showBottomBorder && (
-        <div className='sm:hidden flex pt-1 mt-2 mb-3 mx-4 border-b-2 border-eggplant-700' />
+        <div className='mx-4 mb-3 mt-2 flex border-b-2 border-eggplant-700 pt-1 sm:hidden' />
       )}
     </>
   )

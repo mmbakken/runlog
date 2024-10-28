@@ -163,10 +163,10 @@ const CreateTrainingPlan = () => {
   }
 
   return (
-    <div className='TrainingPage w-full px-4 pb-4 space-y-4'>
+    <div className='TrainingPage w-full space-y-4 px-4 pb-4'>
       <h1 className='text-2xl'>New Training Plan</h1>
       <form onSubmit={handleSubmit} className='w-full'>
-        <div className='w-full flex space-x-8 mt-4'>
+        <div className='mt-4 flex w-full space-x-8'>
           <label className='w-full max-w-lg text-lg'>
             Title
             <input
@@ -176,12 +176,12 @@ const CreateTrainingPlan = () => {
               placeholder='What race are you training for?'
               value={newTrainingPlan.title}
               onChange={(e) => onTitleChange(e.target.value)}
-              className='text-base w-full rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+              className='mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
             />
           </label>
         </div>
 
-        <div className='w-full flex space-x-8 mt-4'>
+        <div className='mt-4 flex w-full space-x-8'>
           <label className='w-full max-w-lg text-lg'>
             Goal
             <textarea
@@ -190,19 +190,19 @@ const CreateTrainingPlan = () => {
               placeholder='What do you want to achieve?'
               value={newTrainingPlan.goal}
               onChange={(e) => onGoalChange(e.target.value)}
-              className='text-base w-full h-36 rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+              className='mt-2 block h-36 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
             />
           </label>
         </div>
 
-        <div className='flex space-x-8 mt-4'>
+        <div className='mt-4 flex space-x-8'>
           <label className='text-lg'>
             Start Date
             <input
               type='date'
               value={newTrainingPlan.startDateISO}
               onChange={(e) => onDateChange(e.target.value)}
-              className='text-base rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+              className='mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
             />
           </label>
 
@@ -214,7 +214,7 @@ const CreateTrainingPlan = () => {
               min='1'
               max='52'
               onChange={(e) => onWeekCountChange(e.target.value)}
-              className='text-base rounded px-2 py-2 block mt-2 border border-neutral-200 bg-neutral-800'
+              className='mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
             />
           </label>
 
@@ -224,13 +224,13 @@ const CreateTrainingPlan = () => {
               disabled
               type='date'
               value={newTrainingPlan.endDateISO}
-              className='text-base rounded py-2 block mt-2 bg-transparent'
+              className='mt-2 block rounded bg-transparent py-2 text-base'
             />
           </label>
         </div>
 
-        <div className='text-lg flex space-x-8 mt-4'>
-          <label className='text-base block flex flex-col items-start'>
+        <div className='mt-4 flex space-x-8 text-lg'>
+          <label className='block flex flex-col items-start text-base'>
             Active Plan
             <span className='block text-base text-neutral-500'>
               Is this your current training plan?

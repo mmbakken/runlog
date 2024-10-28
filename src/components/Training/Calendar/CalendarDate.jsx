@@ -129,7 +129,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='w-full flex justify-between border-b border-neutral-400 border-opacity-60'>
+      <div className='flex w-full justify-between border-b border-neutral-400 border-opacity-60'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -152,7 +152,7 @@ const CalendarDate = ({
         />
       </div>
 
-      <div className='w-full relative' ref={containerRef}>
+      <div className='relative w-full' ref={containerRef}>
         <button
           className={categoryButtonClasses}
           onClick={(e) => {
@@ -161,7 +161,7 @@ const CalendarDate = ({
           }}
         >
           <span>{categoryNames[date.workoutCategory]}</span>
-          <span className='text-xs cursor-pointer'>
+          <span className='cursor-pointer text-xs'>
             <FontAwesomeIcon icon={faAngleDown} />
           </span>
         </button>

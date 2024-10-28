@@ -569,9 +569,9 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='TrainingCalendar flex flex-col z-0 px-4 pb-12 w-[1536px]'>
+    <div className='TrainingCalendar z-0 flex w-[1536px] flex-col px-4 pb-12'>
       {!disableSelection && showCopyPasteBox ? (
-        <div className='fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex justify-center space-x-4 bg-neutral-800 border rounded border-neutral-400 drop-shadow-lg px-4 py-2'>
+        <div className='fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 justify-center space-x-4 rounded border border-neutral-400 bg-neutral-800 px-4 py-2 drop-shadow-lg'>
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
@@ -595,65 +595,65 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
           rows.push(
             <div
               key='header'
-              className='w-full sticky top-0 z-30 flex border-neutral-400'
+              className='sticky top-0 z-30 flex w-full border-neutral-400'
             >
               <div
                 className={
-                  'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-l border-t border-b border-r border-neutral-400 bg-neutral-800'
+                  'flex w-20 shrink-0 grow-0 flex-col items-center items-stretch justify-center border-b border-l border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Week
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Monday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Tuesday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Wednesday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Thursday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Friday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Saturday
               </div>
               <div
                 className={
-                  'w-48 shrink-0 text-center border-t border-b border-r border-neutral-400 px-2 py-2 bg-neutral-800'
+                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
                 }
               >
                 Sunday
               </div>
-              <div className='w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-2 border-t border-b border-r border-neutral-400 bg-neutral-800'>
+              <div className='flex w-20 shrink-0 grow-0 flex-col items-center items-stretch justify-center border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'>
                 Total
               </div>
             </div>
@@ -707,7 +707,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
               onMouseEnter={() => setHoveringWeekIndex(weekIndex)}
               onMouseLeave={() => setHoveringWeekIndex(null)}
             >
-              <span className='-rotate-90 origin-center whitespace-nowrap'>
+              <span className='origin-center -rotate-90 whitespace-nowrap'>
                 {`Week ${weekIndex + 1}`}
               </span>
             </div>
@@ -739,7 +739,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
             })}
 
             <div className={mileageCellClasses}>
-              <div className='text-lg mb-2'>
+              <div className='mb-2 text-lg'>
                 {formatActualMileage(weekDisplayDistances[weekIndex] || 0)}
               </div>
               <div className='text-sm text-gray-400'>

@@ -48,14 +48,14 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
 
   return (
     <div className='mx-4'>
-      <h2 className='text-lg mb-2'>Strava Account</h2>
+      <h2 className='mb-2 text-lg'>Strava Account</h2>
 
       {hasStravaAccount ? (
-        <section className='text-base space-y-2'>
+        <section className='space-y-2 text-base'>
           {stravaRuns?.length > 0 ? (
             <div>
               <h2>Recent Runs</h2>
-              <pre className='font-mono text-sm w-full sm:w-120 max-h-120 min-h-16 border bg-neutral-800 border-neutral-500 rounded overflow-scroll break-words px-2 py-1'>
+              <pre className='max-h-120 min-h-16 w-full overflow-scroll break-words rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
                 {JSON.stringify(stravaRuns, null, 2)}
               </pre>
             </div>
@@ -71,7 +71,7 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
           </Button>
         </section>
       ) : (
-        <section className='text-base space-y-2'>
+        <section className='space-y-2 text-base'>
           <button
             className=''
             onClick={() => {

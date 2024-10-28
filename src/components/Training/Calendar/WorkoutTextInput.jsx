@@ -28,9 +28,9 @@ const WorkoutTextInput = ({ text, onChange }) => {
   }
 
   return (
-    <div className='w-full h-28'>
+    <div className='h-28 w-full'>
       <textarea
-        className='text-sm resize-none h-full w-full bg-transparent outline-none px-2 py-1 cursor-default'
+        className='h-full w-full cursor-default resize-none bg-transparent px-2 py-1 text-sm outline-none'
         spellCheck={false}
         value={workoutText}
         onChange={(event) => {

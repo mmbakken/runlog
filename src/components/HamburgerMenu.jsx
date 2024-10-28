@@ -42,15 +42,15 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
   }, [isOpen])
 
   return (
-    <div className='flex w-full h-full sm:hidden bg-transparent'>
-      <div className='flex relative items-center space-x-2 cursor-pointer'>
+    <div className='flex h-full w-full bg-transparent sm:hidden'>
+      <div className='relative flex cursor-pointer items-center space-x-2'>
         <span onClick={onMenuClick} className='px-4'>
           {isOpen && (
-            <FontAwesomeIcon className='text-2xl mt-1 w-6' icon={faTimes} />
+            <FontAwesomeIcon className='mt-1 w-6 text-2xl' icon={faTimes} />
           )}
 
           {!isOpen && (
-            <FontAwesomeIcon className='text-2xl mt-1 w-6' icon={faBars} />
+            <FontAwesomeIcon className='mt-1 w-6 text-2xl' icon={faBars} />
           )}
         </span>
 
@@ -60,13 +60,13 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
               onLinkClick(HomeRoute)
             }}
           >
-            <h1 className='font-heading pb-2 text-4xl'>runlog</h1>
+            <h1 className='pb-2 font-heading text-4xl'>runlog</h1>
           </header>
         ) : null}
       </div>
 
       {isOpen && (
-        <ul className='z-50 flex flex-col fixed top-20 bottom-0 left-0 right-0 text-lg bg-neutral-800 border-t-2 border-eggplant-700'>
+        <ul className='fixed bottom-0 left-0 right-0 top-20 z-50 flex flex-col border-t-2 border-eggplant-700 bg-neutral-800 text-lg'>
           <li
             className={'cursor-pointer border-b border-gray-300 px-4 py-4'}
             onClick={() => {

@@ -58,19 +58,19 @@ const ViewRun = () => {
   // Calls the API endpoint to push changes to the database, and updates the
   // state context if the update is successful. Failure will result in the error
   // object being saved to the global state.
-  const updateRun = updates => {
+  const updateRun = (updates) => {
     dispatch({
       type: actions.EDIT_RUN__START,
     })
 
     APIv1.put(`/runs/${params.runId}`, updates)
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: actions.EDIT_RUN__SUCCESS,
           run: response.data,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: actions.EDIT_RUN__ERROR,
           error: error,
@@ -104,7 +104,7 @@ const ViewRun = () => {
 
         navigate(AllRunsRoute)
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: actions.DELETE_RUN__ERROR,
           error: error,
@@ -130,13 +130,13 @@ const ViewRun = () => {
     })
 
     APIv1.get(`/runs/${params.runId}`)
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: actions.GET_RUN__SUCCESS,
           run: response.data,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: actions.GET_RUN__ERROR,
           error: error,
@@ -219,13 +219,13 @@ const ViewRun = () => {
     })
 
     APIv1.get('/shoes')
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: actions.GET_ALL_SHOES__SUCCESS,
           shoes: response.data,
         })
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: actions.GET_ALL_SHOES__ERROR,
           error: error,
@@ -241,11 +241,11 @@ const ViewRun = () => {
   // that is Luxon-compatible e.g. "America/Chicago".
   // See: https://moment.github.io/luxon/docs/manual/zones.html#creating-datetimes-in-a-zone
   // Also: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  const stravaTimezoneToTZ = stravaTimezoneString => {
+  const stravaTimezoneToTZ = (stravaTimezoneString) => {
     return stravaTimezoneString.split(' ')[1]
   }
 
-  const onResultsChange = event => {
+  const onResultsChange = (event) => {
     // TODO: Debounced API call to update the value of the results field
     setResultsText(event.target.value)
   }
@@ -256,7 +256,7 @@ const ViewRun = () => {
   }
 
   // When the user presses ESC, unfocus the results textarea
-  const resultsKeyDownHandler = event => {
+  const resultsKeyDownHandler = (event) => {
     if (event.key === 'Escape') {
       document.activeElement.blur()
       event.preventDefault()
@@ -264,7 +264,7 @@ const ViewRun = () => {
   }
 
   // When a checkbox changes state, this function is called and the local component state changes
-  const onCheckboxChange = checkboxId => {
+  const onCheckboxChange = (checkboxId) => {
     setIsChecked({
       ...isChecked,
       [checkboxId]: !isChecked[checkboxId], // flip it
@@ -289,18 +289,18 @@ const ViewRun = () => {
     setShowTitleEditField(false)
   }
 
-  const onTitleChange = event => {
+  const onTitleChange = (event) => {
     setRunTitle(event.target.value)
   }
 
-  const titleKeyDownHandler = event => {
+  const titleKeyDownHandler = (event) => {
     if (event.key === 'Escape' || event.key === 'Enter') {
       document.activeElement.blur()
       event.preventDefault()
     }
   }
 
-  const handleDeleteButtonClick = event => {
+  const handleDeleteButtonClick = (event) => {
     event.preventDefault()
 
     if (
@@ -313,11 +313,11 @@ const ViewRun = () => {
   }
 
   return (
-    <div className='ViewRun w-full px-4 pb-4 space-y-4'>
+    <div className='ViewRun w-full space-y-4 px-4 pb-4'>
       <header className='w-full'>
         {showTitleEditField && (
           <input
-            className='text-2xl px-2 py-1 max-w-full'
+            className='max-w-full px-2 py-1 text-2xl'
             type='text'
             value={runTitle}
             onChange={onTitleChange}
@@ -335,13 +335,13 @@ const ViewRun = () => {
               onMouseLeave={onTitleMouseLeave}
               onClick={onTitleClick}
               className={`text-2xl ${
-                isHoveringTitle ? 'underline cursor-pointer' : ''
+                isHoveringTitle ? 'cursor-pointer underline' : ''
               }`}
             >
               {runTitle}
               {isHoveringTitle && (
                 <FontAwesomeIcon
-                  className={'inline-block ml-2'}
+                  className={'ml-2 inline-block'}
                   icon={faEdit}
                 />
               )}
@@ -349,7 +349,7 @@ const ViewRun = () => {
           </h1>
         )}
 
-        <p className='text-neutral-500 flex space-x-1'>
+        <p className='flex space-x-1 text-neutral-500'>
           <span>
             {DateTime.fromISO(run.startDate, {
               zone: stravaTimezoneToTZ(run.timezone),
@@ -368,8 +368,8 @@ const ViewRun = () => {
       {state.runs.isFetching && <p>Loading...</p>}
 
       {!state.runs.isFetching && (
-        <section className='w-screen-xs flex flex-col items-start space-y-6 '>
-          <div className='w-full sm:w-auto flex justify-between items-center space-x-4 p-4 border border-neutral-500 bg-neutral-25 text-xl'>
+        <section className='w-screen-xs flex flex-col items-start space-y-6'>
+          <div className='bg-neutral-25 flex w-full items-center justify-between space-x-4 border border-neutral-500 p-4 text-xl sm:w-auto'>
             <div className='flex flex-col items-center'>
               <div>{formatActualMileage(run.distance)}</div>
               <div className='text-base text-neutral-400'>miles</div>
@@ -397,11 +397,11 @@ const ViewRun = () => {
           </div>
 
           <div className='w-full max-w-screen-sm'>
-            <label className='w-full text-xl block'>
+            <label className='block w-full text-xl'>
               Results
               <textarea
                 tabIndex='0'
-                className='text-base block mt-3 p-2 w-full h-60 sm:h-48 max-h-120 overflow-scroll border rounded border-neutral-200 bg-neutral-800'
+                className='mt-3 block h-60 max-h-120 w-full overflow-scroll rounded border border-neutral-200 bg-neutral-800 p-2 text-base sm:h-48'
                 placeholder='How was your run?'
                 value={resultsText}
                 onFocus={resultsFocusHandler}
@@ -412,11 +412,11 @@ const ViewRun = () => {
           </div>
 
           <div className='w-full sm:w-80'>
-            <h2 className='text-xl block mb-3'>Shoes</h2>
+            <h2 className='mb-3 block text-xl'>Shoes</h2>
             <Dropdown
               selectedId={run.shoeId}
               options={Object.values(state?.shoes.byId)}
-              onSelect={shoeId => {
+              onSelect={(shoeId) => {
                 updateRun({ updates: { shoeId: shoeId } })
               }}
               placeholder='Select shoes'
@@ -424,10 +424,10 @@ const ViewRun = () => {
           </div>
 
           <div>
-            <h2 className='text-xl block'>Habits</h2>
-            <div className='flex flex-col space-y-4 mt-3'>
+            <h2 className='block text-xl'>Habits</h2>
+            <div className='mt-3 flex flex-col space-y-4'>
               <label
-                className='text-lg flex items-center cursor-pointer'
+                className='flex cursor-pointer items-center text-lg'
                 onClick={() => {
                   onCheckboxChange('stretch')
                 }}
@@ -437,7 +437,7 @@ const ViewRun = () => {
               </label>
 
               <label
-                className='text-lg flex items-center cursor-pointer'
+                className='flex cursor-pointer items-center text-lg'
                 onClick={() => {
                   onCheckboxChange('strength')
                 }}
@@ -447,7 +447,7 @@ const ViewRun = () => {
               </label>
 
               <label
-                className='text-lg flex items-center cursor-pointer'
+                className='flex cursor-pointer items-center text-lg'
                 onClick={() => {
                   onCheckboxChange('ice')
                 }}
@@ -459,11 +459,11 @@ const ViewRun = () => {
           </div>
 
           <div>
-            <h2 className='text-xl block'>Actions</h2>
+            <h2 className='block text-xl'>Actions</h2>
             <div className='mt-4 flex flex-col space-y-4 text-lg'>
               {run.stravaActivityId != null ? (
                 <a
-                  className='font-bold cursor-pointer hover:underline'
+                  className='cursor-pointer font-bold hover:underline'
                   target='_blank'
                   rel='noopener noreferrer'
                   href={`https://www.strava.com/activities/${run.stravaActivityId}`}
@@ -474,7 +474,7 @@ const ViewRun = () => {
 
               <Button
                 type='secondary'
-                onClick={e => {
+                onClick={(e) => {
                   handleDeleteButtonClick(e)
                 }}
               >

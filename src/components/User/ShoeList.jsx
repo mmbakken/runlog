@@ -16,7 +16,7 @@ const ShoeList = ({ shoes }) => {
   const [newShoeName, setNewShoeName] = useState('')
   const dispatch = useContext(StateContext)[1]
 
-  const onNewShoeSubmit = e => {
+  const onNewShoeSubmit = (e) => {
     e.preventDefault()
 
     const newShoe = {
@@ -28,7 +28,7 @@ const ShoeList = ({ shoes }) => {
     })
 
     APIv1.post('/shoes', newShoe)
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: actions.CREATE_SHOES__SUCCESS,
           shoe: response.data,
@@ -45,7 +45,7 @@ const ShoeList = ({ shoes }) => {
           theme: 'light',
         })
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error while adding a new shoe:')
         console.dir(error)
 
@@ -70,7 +70,7 @@ const ShoeList = ({ shoes }) => {
       })
   }
 
-  const deleteShoe = shoeId => {
+  const deleteShoe = (shoeId) => {
     if (
       confirm(
         'Are you sure you want to delete this shoe? This action cannot be undone.'
@@ -81,7 +81,7 @@ const ShoeList = ({ shoes }) => {
       })
 
       APIv1.delete(`/shoes/${shoeId}`)
-        .then(response => {
+        .then((response) => {
           dispatch({
             type: actions.DELETE_SHOES__SUCCESS,
             shoe: response.data,
@@ -98,7 +98,7 @@ const ShoeList = ({ shoes }) => {
             theme: 'light',
           })
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error while deleting shoes:')
           console.dir(error)
 
@@ -124,7 +124,7 @@ const ShoeList = ({ shoes }) => {
   return (
     <div>
       {shoes != null ? (
-        <div className='grid grid-cols-shoe-list gap-x-8 gap-y-2 mb-4'>
+        <div className='mb-4 grid grid-cols-shoe-list gap-x-8 gap-y-2'>
           <div>Title</div>
           <div>Distance</div>
           <div>Runs</div>
@@ -157,16 +157,16 @@ const ShoeList = ({ shoes }) => {
 
       <form
         className='mb-4'
-        onSubmit={e => {
+        onSubmit={(e) => {
           onNewShoeSubmit(e)
         }}
       >
         <input
-          className='px-4 py-2 border rounded mr-4'
+          className='mr-4 rounded border px-4 py-2'
           type='text'
           placeholder='e.g. Green Mizunos'
           value={newShoeName}
-          onChange={e => {
+          onChange={(e) => {
             setNewShoeName(e.target.value)
           }}
         />
@@ -174,7 +174,7 @@ const ShoeList = ({ shoes }) => {
         <Button
           type='primary'
           role='submit'
-          onClick={e => {
+          onClick={(e) => {
             onNewShoeSubmit(e)
           }}
         >
