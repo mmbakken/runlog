@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 
@@ -6,7 +6,8 @@ import { StateContext } from '../../../context/StateContext'
 import actions from '../../../reducers/actions'
 import { APIv1 } from '../../../api'
 
-import CalendarDate from './CalendarDate'
+import CalendarHeaderRow from './CalendarHeaderRow'
+import CalendarWeekRow from './CalendarWeekRow'
 
 import { formatActualMileage } from '../../../formatters/formatMileage.js'
 import formatPercentDiff from '../../../formatters/formatPercentDiff.js'
@@ -543,6 +544,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     }
   }, [disableSelection])
 
+  // Handle keyboard shortcut event listeners for copy and paste actions.
   useEffect(() => {
     // CMD+C or Ctrl+C => Copy shortcut
     const handleCopyShortcut = (event) => {
@@ -561,7 +563,6 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     window.addEventListener('keydown', handleCopyShortcut)
     window.addEventListener('keydown', handlePasteShortcut)
 
-    // Unregister listeners on dismount
     return () => {
       window.removeEventListener('keydown', handleCopyShortcut)
       window.removeEventListener('keydown', handlePasteShortcut)
@@ -569,7 +570,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='TrainingCalendar z-0 flex w-[1536px] flex-col px-4 pb-12'>
+    <div className='z-0 flex w-[1536px] flex-col px-4 pb-12'>
       {!disableSelection && showCopyPasteBox ? (
         <div className='fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 justify-center space-x-4 rounded border border-neutral-400 bg-neutral-800 px-4 py-2 drop-shadow-lg'>
           <button
@@ -589,167 +590,47 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         </div>
       ) : null}
 
+      <CalendarHeaderRow />
+
       {training.weeks.map((week, weekIndex) => {
-        let rows = []
-        if (weekIndex === 0) {
-          rows.push(
-            <div
-              key='header'
-              className='sticky top-0 z-30 flex w-full border-neutral-400'
-            >
-              <div
-                className={
-                  'flex w-20 shrink-0 grow-0 flex-col items-center items-stretch justify-center border-b border-l border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Week
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Monday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Tuesday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Wednesday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Thursday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Friday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Saturday
-              </div>
-              <div
-                className={
-                  'w-48 shrink-0 border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'
-                }
-              >
-                Sunday
-              </div>
-              <div className='flex w-20 shrink-0 grow-0 flex-col items-center items-stretch justify-center border-b border-r border-t border-neutral-400 bg-neutral-800 px-2 py-2 text-center'>
-                Total
-              </div>
-            </div>
-          )
-        }
-
-        // Week selection UI
-        let weekRowClasses = 'relative w-full flex'
-
-        let mileageCellClasses =
-          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-b border-r bg-neutral-800'
-
-        let weekCellClasses =
-          'w-20 grow-0 shrink-0 items-stretch flex flex-col items-center justify-center text-center px-2 py-1 bg-neutral-800 border-neutral-400 border-l border-r border-b transition'
-
-        const isSelectedWeek = selectedWeekIndex === weekIndex
-        const isHoveringWeek = hoveringWeekIndex === weekIndex
-        const isFocusWeek = focusWeekIndex === weekIndex
-
-        if (!disableSelection) {
-          weekCellClasses += ' cursor-pointer'
-        }
-
-        if (!disableSelection && isSelectedWeek) {
-          weekRowClasses +=
-            ' outline outline-3 outline-eggplant-700 transition-outline drop-shadow z-10'
-          mileageCellClasses +=
-            ' border-eggplant-700 border-b-transparent border-r-transparent'
-          weekCellClasses +=
-            ' border-eggplant-700 border-b-transparent border-l-transparent'
-          weekCellClasses += isHoveringWeek
-            ? ' bg-eggplant-600'
-            : ' bg-eggplant-700'
-        }
-
-        if (!disableSelection && !isSelectedWeek && isHoveringWeek) {
-          weekCellClasses += ' bg-eggplant-700 border-eggplant-700'
-        }
-
-        if (isFocusWeek) {
-          weekRowClasses += ' z-20'
-        }
-
+        const dates = []
         const dateIndexes = [0, 1, 2, 3, 4, 5, 6]
 
-        rows.push(
-          <div key={weekIndex} className={weekRowClasses}>
-            <div
-              className={weekCellClasses}
-              onClick={() => onWeekClick(weekIndex)}
-              onMouseEnter={() => setHoveringWeekIndex(weekIndex)}
-              onMouseLeave={() => setHoveringWeekIndex(null)}
-            >
-              <span className='origin-center -rotate-90 whitespace-nowrap'>
-                {`Week ${weekIndex + 1}`}
-              </span>
-            </div>
+        dateIndexes.map((dateIndex) => {
+          dates.push(training.dates[weekIndex * 7 + dateIndex])
+        })
 
-            {dateIndexes.map((dateIndex) => {
-              const date = training.dates[weekIndex * 7 + dateIndex]
+        const isLastRow = weekIndex + 1 === training.weeks.length
 
-              return (
-                <CalendarDate
-                  key={dateIndex}
-                  isSelectedDate={
-                    date.dateISO.split('T')[0] === selectedDateISO
-                  }
-                  isSelectedWeek={isSelectedWeek}
-                  onMenuOpen={() => {
-                    setSelectedWeekIndex(null)
-                    setSelectedDateISO(null)
-                  }}
-                  isLastRow={weekIndex + 1 === training.weeks.length}
-                  date={date}
-                  onDateEdit={onDateEdit}
-                  onDateClick={onDateClick}
-                  disableSelection={disableSelection}
-                  setIsFocusing={() => {
-                    setFocusWeekIndex(weekIndex)
-                  }}
-                />
-              )
-            })}
-
-            <div className={mileageCellClasses}>
-              <div className='mb-2 text-lg'>
-                {formatActualMileage(weekDisplayDistances[weekIndex] || 0)}
-              </div>
-              <div className='text-sm text-gray-400'>
-                {formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
-              </div>
-            </div>
-          </div>
+        return (
+          <CalendarWeekRow
+            key={weekIndex}
+            dates={dates}
+            weekIndex={weekIndex}
+            isLastRow={isLastRow}
+            selectedDateISO={selectedDateISO}
+            selectedWeekIndex={selectedWeekIndex}
+            hoveringWeekIndex={hoveringWeekIndex}
+            focusWeekIndex={focusWeekIndex}
+            handleMouseEnter={() => setHoveringWeekIndex(weekIndex)}
+            handleMouseLeave={() => setHoveringWeekIndex(null)}
+            handleDateMenuOpen={() => {
+              setSelectedWeekIndex(null)
+              setSelectedDateISO(null)
+            }}
+            handleWeekFocus={() => {
+              setFocusWeekIndex(weekIndex)
+            }}
+            onWeekClick={onWeekClick}
+            onDateEdit={onDateEdit}
+            onDateClick={onDateClick}
+            disableSelection={disableSelection}
+            actualMileage={formatActualMileage(
+              weekDisplayDistances[weekIndex] || 0
+            )}
+            percentDiff={formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
+          />
         )
-
-        return rows
       })}
     </div>
   )

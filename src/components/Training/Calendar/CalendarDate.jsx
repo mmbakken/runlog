@@ -17,7 +17,7 @@ const CalendarDate = ({
   onDateEdit,
   onDateClick,
   disableSelection,
-  setIsFocusing,
+  onFocus,
   onMenuOpen,
 }) => {
   const [isOptionMenuVisible, setIsOptionMenuVisible] = useState(false)
@@ -39,7 +39,8 @@ const CalendarDate = ({
     showPlannedInput = false
   }
 
-  // This list has to be in this file in order for Tailwind to generate the class names correctly
+  // This list has to be in this file in order for Tailwind to generate the
+  // class names correctly
   const categoryClassName = {
     0: 'bg-rest-800',
     1: 'bg-recovery-700',
@@ -121,7 +122,7 @@ const CalendarDate = ({
 
   const onMenuClick = (e) => {
     if (!disableSelection) {
-      setIsFocusing()
+      onFocus()
       e.preventDefault()
       setIsOptionMenuVisible(!isOptionMenuVisible)
     }
@@ -129,7 +130,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='flex w-full justify-between border-b border-neutral-400 border-opacity-60'>
+      <div className='flex w-full justify-between border-b border-neutral-400/60'>
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -182,7 +183,7 @@ const CalendarDate = ({
       </div>
 
       <WorkoutTextInput
-        text={date.workout}
+        initialText={date.workout}
         onChange={(value) => {
           onDateEdit('workout', value, dt.toISODate())
         }}
@@ -205,7 +206,7 @@ CalendarDate.propTypes = {
   }).isRequired,
   onDateEdit: PropTypes.func.isRequired,
   onDateClick: PropTypes.func.isRequired,
-  setIsFocusing: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onMenuOpen: PropTypes.func.isRequired,
   disableSelection: PropTypes.bool.isRequired,
 }
