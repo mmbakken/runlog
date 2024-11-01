@@ -1,16 +1,12 @@
 import { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
-
-import { StateContext } from '../../../context/StateContext'
-import actions from '../../../reducers/actions'
-import { APIv1 } from '../../../api'
-
+import { StateContext } from 'app/context/StateContext'
+import actions from 'app/reducers/actions'
+import { APIv1 } from 'app/api'
 import CalendarHeaderRow from './CalendarHeaderRow'
 import CalendarWeekRow from './CalendarWeekRow'
-
-import { formatActualMileage } from '../../../formatters/formatMileage.js'
-import formatPercentDiff from '../../../formatters/formatPercentDiff.js'
+import { formatActualMileage, formatPercentDiff } from 'app/formatters'
 import { addFloats } from 'app/utils'
 
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {

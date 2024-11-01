@@ -10,17 +10,14 @@ import {
   faSave,
 } from '@fortawesome/free-regular-svg-icons'
 import { useLocation, useNavigate } from 'react-router-dom'
-
-import { StateContext } from '../../context/StateContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
+import { StateContext } from 'app/context/StateContext'
+import actions from 'app/reducers/actions'
+import { APIv1 } from 'app/api'
 import { AllTrainingPlansRoute } from 'app/routes'
-
 import { articlize } from 'app/utils'
-import { formatActualMileage } from '../../formatters/formatMileage.js'
-
+import { formatActualMileage } from 'app/formatters'
 import TrainingCalendar from './Calendar/TrainingCalendar'
-import Button from '../UI/Button'
+import Button from 'app/components/UI/Button'
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)

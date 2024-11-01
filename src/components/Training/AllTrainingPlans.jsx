@@ -3,19 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
-
-import { StateContext } from '../../context/StateContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
-
+import { StateContext } from 'app/context/StateContext'
+import actions from 'app/reducers/actions'
+import { APIv1 } from 'app/api'
 import { CreateTrainingRoute, ViewTrainingPlanRoute } from 'app/routes'
-
-import {
-  formatActualMileage,
-  formatPlannedMileage,
-} from '../../formatters/formatMileage.js'
-
-import Button from '../UI/Button'
+import { formatActualMileage, formatPlannedMileage } from 'app/formatters'
+import Button from 'app/components/UI/Button'
 
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)

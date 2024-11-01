@@ -1,14 +1,13 @@
 import { Duration } from 'luxon'
 
-// Contants
 import {
   SECONDS_PER_MINUTE,
   MILLISECONDS_PER_SECOND,
   METERS_PER_SECOND_TO_MINUTES_PER_MILE,
-} from '../constants/unitConversion.js'
+} from 'app/constants/unitConversion.js'
 
-// Convert meters per second into minutes per mile, as a string to display to humans.
-const formatPace = (speedInMetersPerSecond) => {
+// Convert meters per second into minutes per mile. Returns a string.
+const formatPace = (speedInMetersPerSecond: number) => {
   if (
     speedInMetersPerSecond == null ||
     Number.isNaN(speedInMetersPerSecond) ||

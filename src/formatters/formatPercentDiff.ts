@@ -1,5 +1,5 @@
 // Given a number of meters, returns a number of the equivalent in miles.
-const formatPercentDiff = (diffString) => {
+const formatPercentDiff = (diffString: number) => {
   const number = Number(diffString)
 
   if (Number.isNaN(number)) {

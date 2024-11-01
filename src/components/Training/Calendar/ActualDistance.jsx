@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { AllRunsRoute, ViewRunRoute } from 'app/routes'
-import { formatActualMileage } from '../../../formatters/formatMileage'
+import { formatActualMileage } from 'app/formatters'
 
 const ActualDistance = ({ isoDate, distance, runIds }) => {
   // Go to run's page if only one run today. Otherwise, go to AllRuns page with a filter param.

@@ -1,34 +1,55 @@
-import React from 'react'
+import { KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
-
 import { ViewRunRoute } from 'app/routes'
+import {
+  formatActualMileage,
+  formatPace,
+  formatDuration,
+  formatHeartRate,
+  formatWeekday,
+  formatDate,
+  formatDateShort,
+} from 'app/formatters'
+import { Run } from 'app/types'
 
-// Unit formatting helper functions
-import { formatActualMileage } from '../../formatters/formatMileage'
-import formatPace from '../../formatters/formatPace'
-import formatDuration from '../../formatters/formatDuration'
-import formatHeartRate from '../../formatters/formatHeartRate'
-import formatWeekday from '../../formatters/formatWeekday'
-import { formatDate, formatDateShort } from '../../formatters/formatDate'
+type RunTableRowProps = {
+  run: Run
+  showBottomBorder: boolean
+}
 
-const RunTableRow = ({ run, showBottomBorder }) => {
+const RunTableRow = ({ run, showBottomBorder }: RunTableRowProps) => {
   const navigate = useNavigate()
 
   if (run == null) {
     return null
   }
 
-  const onRowClick = (runId) => {
+  // When a run is clicked on, navigate to that Run's details page.
+  const onRowClick = (runId: string) => {
     navigate(ViewRunRoute.split(':')[0].concat(runId))
+  }
+
+  // Allow keyboard users to interact with run row elements.
+  const handleRowKeydown = (
+    event: KeyboardEvent<HTMLDivElement>,
+    runId: string
+  ) => {
+    if (event.key === 'Enter') {
+      onRowClick(runId)
+    }
   }
 
   return (
     <>
       <div
-        className='RunTableRow mx-4 mt-2 flex max-h-60 cursor-pointer items-center rounded border border-neutral-600 bg-neutral-800 sm:mx-0 sm:contents'
+        className='mx-4 mt-2 flex max-h-60 cursor-pointer items-center rounded border border-neutral-600 bg-neutral-800 sm:mx-0 sm:contents'
+        role='link'
+        tabIndex={0}
         onClick={() => {
           onRowClick(run._id)
+        }}
+        onKeyDown={(event) => {
+          handleRowKeydown(event, run._id)
         }}
       >
         {/* Narrow UI. Uses flex layout. */}
@@ -59,31 +80,31 @@ const RunTableRow = ({ run, showBottomBorder }) => {
         <div className='ml-4 hidden items-center py-1 hover:underline sm:flex'>
           {formatWeekday(run.startDate)}
         </div>
-        <div className='ml-2 hidden items-center py-1 pr-2 pr-4 hover:underline sm:flex md:pr-8'>
+        <div className='ml-2 hidden items-center py-1 hover:underline sm:flex md:pr-8'>
           {formatDate(run.startDate)}
         </div>
 
-        <div className='hidden items-center py-1 pr-2 pr-4 hover:underline sm:flex md:pr-8'>
+        <div className='hidden items-center py-1 hover:underline sm:flex md:pr-8'>
           {run.title}
         </div>
 
-        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 hover:underline sm:flex md:pl-8'>
           {formatActualMileage(run.distance)}
         </div>
 
-        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 hover:underline sm:flex md:pl-8'>
           {formatDuration(run.time)}
         </div>
 
-        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 hover:underline sm:flex md:pl-8'>
           {formatPace(run.averageSpeed)}
         </div>
 
-        <div className='hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
+        <div className='hidden items-center justify-self-end py-1 hover:underline sm:flex md:pl-8'>
           {formatHeartRate(run.averageHeartRate)}
         </div>
 
-        <div className='mr-4 hidden items-center justify-self-end py-1 pl-2 pl-4 hover:underline sm:flex md:pl-8'>
+        <div className='mr-4 hidden items-center justify-self-end py-1 hover:underline sm:flex md:pl-8'>
           {formatHeartRate(run.maxHeartRate)}
         </div>
 
@@ -97,11 +118,6 @@ const RunTableRow = ({ run, showBottomBorder }) => {
       )}
     </>
   )
-}
-
-RunTableRow.propTypes = {
-  run: PropTypes.object,
-  showBottomBorder: PropTypes.bool,
 }
 
 export default RunTableRow

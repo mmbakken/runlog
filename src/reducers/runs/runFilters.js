@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import initialState from '../initialState'
-import { formatActualMileage } from '../../formatters/formatMileage'
+import { formatActualMileage } from 'app/formatters'
 
 // Given the runs by their id mapping and a filter object,
 // Returns an array of run._id strings that pass the filters.

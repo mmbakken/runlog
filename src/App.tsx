@@ -12,9 +12,10 @@ import HomePage from 'components/HomePage'
 import AllTrainingPlans from 'components/Training/AllTrainingPlans'
 import ViewTrainingPlan from 'components/Training/ViewTrainingPlan'
 import CreateTrainingPlan from 'components/Training/CreateTrainingPlan'
-import AllRuns from 'components/Runs/AllRuns'
-import ViewRun from 'components/Runs/ViewRun'
 import AccountPage from 'components/User/AccountPage'
+
+import AllRunsPage from 'app/features/runs/AllRunsPage'
+import ViewRunPage from 'app/features/runs/ViewRunPage'
 
 import {
   HomeRoute,
@@ -86,11 +87,11 @@ const App = () => {
           />
 
           <Route
-            exact
+            index
             path={AllRunsRoute}
             element={
               <RequireAuth redirectTo={LoginRoute}>
-                <AllRuns />
+                <AllRunsPage />
               </RequireAuth>
             }
           />
@@ -99,7 +100,7 @@ const App = () => {
             path={ViewRunRoute}
             element={
               <RequireAuth redirectTo={LoginRoute}>
-                <ViewRun />
+                <ViewRunPage />
               </RequireAuth>
             }
           />

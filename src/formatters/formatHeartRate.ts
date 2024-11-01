@@ -1,5 +1,5 @@
-// Given a number of seconds, returns a string representing the duration of a run.
-const formatHeartRate = (heartRate) => {
+// Given a heart rate, returns a string to display to the user.
+const formatHeartRate = (heartRate: number) => {
   if (heartRate == null || Number.isNaN(heartRate) || heartRate === 0) {
     return '–'
   }

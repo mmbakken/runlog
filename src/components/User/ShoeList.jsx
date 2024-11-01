@@ -1,16 +1,12 @@
 import { useState, useContext } from 'react'
 import { toast } from 'react-toastify'
-
-import { StateContext } from '../../context/StateContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
-
+import { StateContext } from 'app/context/StateContext'
+import actions from 'app/reducers/actions'
+import { APIv1 } from 'app/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
-
-import { formatActualMileage } from '../../formatters/formatMileage'
-
-import Button from '../UI/Button'
+import Button from 'app/components/UI/Button'
+import { formatActualMileage } from 'app/formatters'
 
 const ShoeList = ({ shoes }) => {
   const [newShoeName, setNewShoeName] = useState('')
