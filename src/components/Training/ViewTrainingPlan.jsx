@@ -16,7 +16,7 @@ import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 import { AllTrainingPlansRoute } from 'app/routes'
 
-import articlize from '../../utils/articlize.js'
+import { articlize } from 'app/utils'
 import { formatActualMileage } from '../../formatters/formatMileage.js'
 
 import TrainingCalendar from './Calendar/TrainingCalendar'

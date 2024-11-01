@@ -1,5 +1,5 @@
 import { it, expect } from '@jest/globals'
-import showWeekDivider from './showWeekDivider.js'
+import { showWeekDivider } from 'app/utils'
 import { DateTime } from 'luxon'
 
 // Parameter validation

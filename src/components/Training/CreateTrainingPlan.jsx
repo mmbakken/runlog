@@ -7,7 +7,7 @@ import { AuthContext } from '../../context/AuthContext'
 import actions from '../../reducers/actions'
 import { APIv1 } from '../../api'
 
-import nextUpcomingWeekStart from '../../utils/nextUpcomingWeekStart.js'
+import { nextUpcomingWeekStart } from 'app/utils'
 import { AllTrainingPlansRoute } from 'app/routes'
 
 import Checkbox from '../Forms/Checkbox'

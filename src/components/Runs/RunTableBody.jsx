@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
-
+import { showWeekDivider } from 'app/utils'
 import RunTableRow from './RunTableRow'
-
-import showWeekDivider from '../../utils/showWeekDivider'
 
 // Given an array of run activities, displays as table content
 const RunTableBody = ({ runsById, filteredIds, isLoading }) => {

@@ -1,5 +1,5 @@
 import { it, expect } from '@jest/globals'
-import nextUpcomingWeekStart from './nextUpcomingWeekStart.js'
+import { nextUpcomingWeekStart } from 'app/utils'
 import { DateTime } from 'luxon'
 
 // Parameter validation

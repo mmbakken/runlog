@@ -1,9 +1,22 @@
 import { DateTime } from 'luxon'
 
-// Given a string is ISO date format (yyyy-mm-dd) ``
-// Given an integer representing the start of the weekday `weekStartsOn`
-// Returns a Luxon DateTime object representing the soonest date on or after isoDate which is the same weekday value as weekStartsOn
-const nextUpcomingWeekStart = (isoDate, weekStartsOn) => {
+// Luxon date indexes: 1 => Monday, 7 => Sunday.
+import type { WeekdayNumbers } from 'luxon'
+
+/**
+ * Finds the next date on the weekday which is the start of the week. Can be the
+ * same date as `isoDate`.
+ *
+ * @param isoDate - A date, in ISO 8601 format (yyyy-mm-dd).
+ * @param weekStartsOn - An integer representing what day of the week the user
+ * considers the start of the week.
+ * @returns The soonest date on or after `isoDate` which is the same weekday
+ * value as `weekStartsOn`.
+ */
+const nextUpcomingWeekStart = (
+  isoDate: string,
+  weekStartsOn: WeekdayNumbers
+) => {
   if (
     isoDate == null ||
     weekStartsOn == null ||

@@ -11,7 +11,7 @@ import CalendarWeekRow from './CalendarWeekRow'
 
 import { formatActualMileage } from '../../../formatters/formatMileage.js'
 import formatPercentDiff from '../../../formatters/formatPercentDiff.js'
-import addFloats from '../../../utils/addFloats.js'
+import { addFloats } from 'app/utils'
 
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]
