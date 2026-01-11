@@ -535,7 +535,7 @@ const ViewTrainingPlan = () => {
           </div>
 
           {isEditMode ? (
-            <div className='mb-8 mt-4 flex justify-between px-4'>
+            <div className='mt-4 mb-8 flex justify-between px-4'>
               <div className='inline-block space-x-4'>
                 <Button
                   type='primary'
@@ -587,7 +587,7 @@ const ViewTrainingPlan = () => {
           />
 
           {DEBUG && (
-            <pre className='max-h-120 min-h-16 w-120 overflow-scroll wrap-break-word rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm'>
+            <pre className='max-h-120 min-h-16 w-120 overflow-scroll rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm wrap-break-word'>
               {JSON.stringify(training, null, 2)}
             </pre>
           )}
