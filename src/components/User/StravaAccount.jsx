@@ -55,7 +55,7 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
           {stravaRuns?.length > 0 ? (
             <div>
               <h2>Recent Runs</h2>
-              <pre className='max-h-120 min-h-16 w-full overflow-scroll break-words rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
+              <pre className='max-h-120 min-h-16 w-full overflow-scroll wrap-break-word rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
                 {JSON.stringify(stravaRuns, null, 2)}
               </pre>
             </div>
