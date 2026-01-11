@@ -5,9 +5,9 @@ import stravaLogoPoweredBy from 'app/assets/stravaLogoPoweredBy.svg'
 const HomePage = () => {
   return (
     <div className='HomePage -mt-12'>
-      <header className='mx-4 flex h-200 max-h-screen flex-col items-center justify-between border-b border-neutral-500 pb-8 pt-32 text-center'>
+      <header className='mx-4 flex h-200 max-h-screen flex-col items-center justify-between border-b border-neutral-500 pt-32 pb-8 text-center'>
         <div className='flex flex-col gap-4'>
-          <h1 className='mb-12 mt-12 font-heading text-8xl'>runlog</h1>
+          <h1 className='mt-12 mb-12 font-heading text-8xl'>runlog</h1>
           <p className='text-2xl'>
             Better run training and tracking tools – no more spreadsheets.
           </p>

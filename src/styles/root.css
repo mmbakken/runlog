@@ -5,18 +5,14 @@
 
   --font-heading: 'Train One', 'Quicksand', 'sans-serif';
   --font-sans: 'Quicksand', 'sans-serif';
-  --font-mono: 'source-code-pro',
-    'Menlo',
-    'Monaco',
-    'Consolas',
-    'Courier New',
-    'monospace';
+  --font-mono:
+    'source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace';
 
   /* Colors */
 
-  --color-eggplant-300: #A1687C;
+  --color-eggplant-300: #a1687c;
   --color-eggplant-600: #983457;
-  --color-eggplant-700: #7A2A46;
+  --color-eggplant-700: #7a2a46;
 
   /* Category colors */
   /* Cool */

@@ -41,7 +41,7 @@ const RunTableRow = ({ run, showBottomBorder }) => {
           </div>
         </div>
 
-        <div className='shrink grow border-l border-r border-neutral-600 px-4 py-2 text-lg sm:hidden'>
+        <div className='shrink grow border-r border-l border-neutral-600 px-4 py-2 text-lg sm:hidden'>
           {run.title}
         </div>
 
@@ -93,7 +93,7 @@ const RunTableRow = ({ run, showBottomBorder }) => {
       </div>
 
       {showBottomBorder && (
-        <div className='mx-4 mb-3 mt-2 flex border-b-2 border-eggplant-700 pt-1 sm:hidden' />
+        <div className='mx-4 mt-2 mb-3 flex border-b-2 border-eggplant-700 pt-1 sm:hidden' />
       )}
     </>
   )

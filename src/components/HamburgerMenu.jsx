@@ -66,7 +66,7 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
       </div>
 
       {isOpen && (
-        <ul className='fixed bottom-0 left-0 right-0 top-20 z-50 flex flex-col border-t-2 border-eggplant-700 bg-neutral-800 text-lg'>
+        <ul className='fixed top-20 right-0 bottom-0 left-0 z-50 flex flex-col border-t-2 border-eggplant-700 bg-neutral-800 text-lg'>
           <li
             className={'cursor-pointer border-b border-gray-300 px-4 py-4'}
             onClick={() => {
