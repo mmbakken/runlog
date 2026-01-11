@@ -587,7 +587,7 @@ const ViewTrainingPlan = () => {
           />
 
           {DEBUG && (
-            <pre className='max-h-120 min-h-16 w-120 overflow-scroll break-words rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm'>
+            <pre className='max-h-120 min-h-16 w-120 overflow-scroll wrap-break-word rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm'>
               {JSON.stringify(training, null, 2)}
             </pre>
           )}

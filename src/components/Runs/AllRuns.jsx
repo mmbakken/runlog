@@ -58,7 +58,7 @@ const AllRuns = () => {
     <div className='AllRuns w-full pb-4 sm:w-auto'>
       <RunFilters />
 
-      <section className='overflow-scroll sm:grid sm:grid-cols-runs-page sm:space-y-0'>
+      <section className='overflow-scroll sm:grid sm:grid-cols-(--runs-page) sm:space-y-0'>
         <RunTableHeaders />
         <RunTableBody
           runsById={state.runs.byId}

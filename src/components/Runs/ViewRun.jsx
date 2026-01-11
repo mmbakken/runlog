@@ -396,7 +396,7 @@ const ViewRun = () => {
             )}
           </div>
 
-          <div className='w-full max-w-screen-sm'>
+          <div className='w-full max-w-(--breakpoint-sm)'>
             <label className='block w-full text-xl'>
               Results
               <textarea

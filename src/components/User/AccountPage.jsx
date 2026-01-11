@@ -24,7 +24,7 @@ const AccountPage = () => {
 
       <div className='mx-4'>
         <h2 className='mb-4 text-lg'>Runlog Account</h2>
-        <pre className='max-h-120 min-h-16 w-full overflow-scroll break-words rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
+        <pre className='max-h-120 min-h-16 w-full overflow-scroll wrap-break-word rounded border border-neutral-500 bg-neutral-800 px-2 py-1 font-mono text-sm sm:w-120'>
           {JSON.stringify(auth.user, null, 2)}
         </pre>
       </div>

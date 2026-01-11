@@ -124,7 +124,7 @@ const ShoeList = ({ shoes }) => {
   return (
     <div>
       {shoes != null ? (
-        <div className='mb-4 grid grid-cols-shoe-list gap-x-8 gap-y-2'>
+        <div className='mb-4 grid grid-cols-(--shoe-list) gap-x-8 gap-y-2'>
           <div>Title</div>
           <div>Distance</div>
           <div>Runs</div>

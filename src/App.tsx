@@ -29,7 +29,7 @@ import {
 
 const App = () => {
   return (
-    <div className='mx-auto h-full w-full min-w-[350px] max-w-screen-2xl font-sans text-neutral-200'>
+    <div className='mx-auto h-full w-full min-w-[350px] max-w-(--breakpoint-2xl) font-sans text-neutral-200'>
       <ToastContainer
         position='top-right'
         autoClose={5000}

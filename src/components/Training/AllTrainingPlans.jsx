@@ -60,7 +60,7 @@ const AllTrainingPlans = () => {
 
         {state.training.byId &&
         Object.values(state.training.byId).length > 0 ? (
-          <div className='mb-6 grid w-full grid-cols-plans-page gap-x-6 gap-y-2'>
+          <div className='mb-6 grid w-full grid-cols-(--plans-page) gap-x-6 gap-y-2'>
             {Object.values(state.training.byId)
               .sort((planA, planB) => {
                 if (planA.isActive && !planB.isActive) {
