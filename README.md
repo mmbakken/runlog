@@ -11,9 +11,9 @@ This project is hosted at runlog.dev. Public sign-up is unavailable at this time
 Clone this repo.
 Clone the Runlog API repo and follow instructions for running that app.
 See Runlog API scripts for seeding the local database.
-Run `$ yarn dev` from the project directory.
+Run `$ npm run dev` from the project directory.
 Navigate to `localhost:3000`.
 
 ## Deployment
 
-Test out the front end build with `$ yarn build` and then serve it locally with `$ yarn preview`.
+Test out the front end build with `$ npm run build` and then serve it locally with `$ npm run preview`.
