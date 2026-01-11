@@ -23,9 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Use yarn instead of NPM
-package-lock.json
-
 .eslintcache
 
 # misc
