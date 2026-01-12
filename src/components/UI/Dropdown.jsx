@@ -28,7 +28,7 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
 
   const onSelectedOption = (id) => {
     setIsOpen(false)
-    onSelect(id) // Callback
+    onSelect(id)
   }
 
   return (
