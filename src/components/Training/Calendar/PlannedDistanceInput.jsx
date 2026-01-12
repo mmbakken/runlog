@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 // Returns the UI value to use for date.plannedDistance, or 0 if there is none.

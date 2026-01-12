@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { AllRunsRoute, ViewRunRoute } from 'app/routes'
 import { formatActualMileage } from 'app/formatters'

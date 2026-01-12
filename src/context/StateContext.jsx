@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react'
+import { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 import initialState from '../reducers/initialState'
 import stateReducer from '../reducers/stateReducer'
