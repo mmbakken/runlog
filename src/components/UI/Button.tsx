@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types'
+import type { ReactNode, MouseEvent } from 'react'
 
-const Button = ({ type, onClick = () => {}, children }) => {
+type ButtonProps = {
+  type: 'primary' | 'secondary' | 'inline'
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void
+  children: ReactNode
+}
+
+const Button = ({ type, onClick = () => {}, children }: ButtonProps) => {
   // Valid types:
   //   'primary' => a colorful button with white text. Main actions.
   //   'secondary' => a dark button with gray text. Less common actions.
@@ -23,12 +29,6 @@ const Button = ({ type, onClick = () => {}, children }) => {
       {children}
     </button>
   )
-}
-
-Button.propTypes = {
-  type: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
 }
 
 export default Button
