@@ -20,7 +20,6 @@ export default tseslint.config(
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
-      ecmaVersion: 2020,
       globals: globals.browser,
       parser: tseslint.parser,
       parserOptions: {
@@ -44,6 +43,8 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.flatConfigs.recommended.rules,
+      ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
+      ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
 
       // Rule overrides
       'react/prop-types': 0,
@@ -52,8 +53,9 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
 
-      ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
-      ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+      // Disable rules that conflict with prettier
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/enforce-consistent-class-order': 'off',
     },
     settings: {
       react: { version: '19.2.3' },
@@ -69,7 +71,6 @@ export default tseslint.config(
     ...tseslint.configs.disableTypeChecked,
     languageOptions: {
       ...tseslint.configs.disableTypeChecked.languageOptions,
-      ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
         ...tseslint.configs.disableTypeChecked.languageOptions.parserOptions,
@@ -92,6 +93,8 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.flatConfigs.recommended.rules,
+      ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
+      ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
 
       // Rule overrides
       'react/prop-types': 0,
@@ -100,8 +103,9 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
 
-      ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
-      ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+      // Disable rules that conflict with prettier
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/enforce-consistent-class-order': 'off',
     },
     settings: {
       ...tseslint.configs.disableTypeChecked.settings,
