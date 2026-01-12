@@ -1,7 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
-const Button = ({ type, onClick, children }) => {
+const Button = ({ type, onClick = () => {}, children }) => {
   // Valid types:
   //   'primary' => a colorful button with white text. Main actions.
   //   'secondary' => a dark button with gray text. Less common actions.
@@ -30,12 +29,6 @@ Button.propTypes = {
   type: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node,
-}
-
-Button.defaultProps = {
-  onClick: () => {
-    return null
-  },
 }
 
 export default Button
