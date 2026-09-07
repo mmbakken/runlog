@@ -35,10 +35,8 @@ const ViewRunPage = () => {
   }
 
   return (
-    <div className='w-full space-y-4 px-4 pb-4'>
-      <header>
-        <RunTitle initTitle={run?.title} runId={run?._id} />
-      </header>
+    <div className='flex w-full flex-col gap-4 px-4 pb-4'>
+      <RunTitle initTitle={run?.title} runId={run?._id} />
 
       <section className='flex flex-col items-start space-y-6'>
         <RunStats
