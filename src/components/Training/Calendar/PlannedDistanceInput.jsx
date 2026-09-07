@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 
 // Returns the UI value to use for date.plannedDistance, or 0 if there is none.
 const getPlannedDistanceUIValue = (distance) => {
@@ -75,11 +74,6 @@ const PlannedDistanceInput = ({ distance, onChange }) => {
       onContextMenu={(event) => event.preventDefault()}
     />
   )
-}
-
-PlannedDistanceInput.propTypes = {
-  distance: PropTypes.number, // sometimes null, usually a number though
-  onChange: PropTypes.func.isRequired,
 }
 
 export default PlannedDistanceInput

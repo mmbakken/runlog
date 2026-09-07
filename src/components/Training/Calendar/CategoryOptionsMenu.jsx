@@ -1,6 +1,4 @@
 import { useEffect } from 'react'
-import PropTypes from 'prop-types'
-
 import useOutsideClickHandler from '../../UI/useOutsideClickHandler'
 
 // Displays a pop-up context menu
@@ -64,15 +62,6 @@ const OptionsMenu = ({
       </ul>
     </div>
   )
-}
-
-OptionsMenu.propTypes = {
-  isVisible: PropTypes.bool,
-  hide: PropTypes.func,
-  options: PropTypes.array,
-  onSelect: PropTypes.func,
-  activeOption: PropTypes.number,
-  containerRef: PropTypes.any,
 }
 
 export default OptionsMenu

@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import PropTypes from 'prop-types'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -128,12 +126,6 @@ const HamburgerMenu = ({ isLoggedIn, logout, isHomeRoute }) => {
       )}
     </div>
   )
-}
-
-HamburgerMenu.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  isHomeRoute: PropTypes.bool,
-  logout: PropTypes.func.isRequired,
 }
 
 export default HamburgerMenu

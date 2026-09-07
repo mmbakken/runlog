@@ -1,5 +1,4 @@
 import { useReducer, createContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { jwtDecode } from 'jwt-decode'
 import authReducer from '../reducers/authReducer'
 import actions from '../reducers/actions'
@@ -64,8 +63,4 @@ export const AuthContextProvider = (props) => {
       {props.children}
     </AuthContext.Provider>
   )
-}
-
-AuthContextProvider.propTypes = {
-  children: PropTypes.element.isRequired,
 }

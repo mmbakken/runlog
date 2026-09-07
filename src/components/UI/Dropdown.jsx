@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-
 import DropdownOption from './DropdownOption'
 
 const DEFAULT_PLACEHOLDER = 'Select an option...'
@@ -62,13 +59,6 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
       ) : null}
     </div>
   )
-}
-
-Dropdown.propTypes = {
-  options: PropTypes.array,
-  selectedId: PropTypes.string,
-  onSelect: PropTypes.func,
-  placeholder: PropTypes.string,
 }
 
 export default Dropdown

@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
 import { StateContext } from 'app/context/StateContext'
 import actions from 'app/reducers/actions'
@@ -632,38 +631,38 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   )
 }
 
-TrainingCalendar.propTypes = {
-  training: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired, // Runlog: 'user._id'
-    startDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
-    endDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
-    timezone: PropTypes.string.isRequired, // This is not just an offset
-    title: PropTypes.string.isRequired, // User-defined name, required to create a new training plan
-    goal: PropTypes.string.isRequired, // Allows the user to keep their aspirations in view while reviewing training plan
-    isActive: PropTypes.bool.isRequired, // Is this plan the one the user is currently following?
+// TrainingCalendar.propTypes = {
+//   training: PropTypes.shape({
+//     _id: PropTypes.string.isRequired,
+//     userId: PropTypes.string.isRequired, // Runlog: 'user._id'
+//     startDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
+//     endDate: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
+//     timezone: PropTypes.string.isRequired, // This is not just an offset
+//     title: PropTypes.string.isRequired, // User-defined name, required to create a new training plan
+//     goal: PropTypes.string.isRequired, // Allows the user to keep their aspirations in view while reviewing training plan
+//     isActive: PropTypes.bool.isRequired, // Is this plan the one the user is currently following?
 
-    // Plan-wide distance totals
-    actualDistance: PropTypes.number.isRequired, // Total of all runs that have actually happened in this plan period
-    plannedDistance: PropTypes.number.isRequired, // Sum of all runs that have actually happened + planned runs in future dates for this plan
+//     // Plan-wide distance totals
+//     actualDistance: PropTypes.number.isRequired, // Total of all runs that have actually happened in this plan period
+//     plannedDistance: PropTypes.number.isRequired, // Sum of all runs that have actually happened + planned runs in future dates for this plan
 
-    // Week-specific distance totals
-    weeks: PropTypes.array.isRequired,
+//     // Week-specific distance totals
+//     weeks: PropTypes.array.isRequired,
 
-    // These objects are the basis of the Calendar section. They allow the user to see daily distance
-    // totals, workout descriptions, and
-    dates: PropTypes.array.isRequired,
+//     // These objects are the basis of the Calendar section. They allow the user to see daily distance
+//     // totals, workout descriptions, and
+//     dates: PropTypes.array.isRequired,
 
-    // The journal is a section of the training plan where the user can add text comments about their
-    // progress, specific workouts, injury status, etc.
-    journal: PropTypes.array.isRequired,
+//     // The journal is a section of the training plan where the user can add text comments about their
+//     // progress, specific workouts, injury status, etc.
+//     journal: PropTypes.array.isRequired,
 
-    // Fields added and used by ViewTrainingPlan component when in edit mode. Do not display these.
-    ui: PropTypes.object,
-  }),
+//     // Fields added and used by ViewTrainingPlan component when in edit mode. Do not display these.
+//     ui: PropTypes.object,
+//   }),
 
-  disableSelection: PropTypes.bool.isRequired, // Flag to deselect all weeks and dates and disallow selection
-  updatePlan: PropTypes.func.isRequired, // Callback to update the training plan in the database
-}
+//   disableSelection: PropTypes.bool.isRequired, // Flag to deselect all weeks and dates and disallow selection
+//   updatePlan: PropTypes.func.isRequired, // Callback to update the training plan in the database
+// }
 
 export default TrainingCalendar

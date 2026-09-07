@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { AllRunsRoute, ViewRunRoute } from 'app/routes'
 import { formatActualMileage } from 'app/formatters'
 
@@ -35,12 +34,6 @@ const ActualDistance = ({ isoDate, distance, runIds }) => {
   } else {
     return <span className='h-6'>{formatActualMileage(distance)}</span>
   }
-}
-
-ActualDistance.propTypes = {
-  isoDate: PropTypes.string.isRequired,
-  distance: PropTypes.number,
-  runIds: PropTypes.array,
 }
 
 export default ActualDistance

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import { APIv1 } from '../../api'
 
 import Button from '../UI/Button'
@@ -84,11 +83,6 @@ const StravaAccount = ({ hasStravaAccount, userId }) => {
       )}
     </div>
   )
-}
-
-StravaAccount.propTypes = {
-  hasStravaAccount: PropTypes.bool,
-  userId: PropTypes.string.isRequired,
 }
 
 export default StravaAccount

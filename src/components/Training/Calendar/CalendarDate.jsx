@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-
 import WorkoutTextInput from './WorkoutTextInput'
 import CategoryOptionsMenu from './CategoryOptionsMenu'
 import DateDistance from './DateDistance'
@@ -192,23 +189,23 @@ const CalendarDate = ({
   )
 }
 
-CalendarDate.propTypes = {
-  isSelectedDate: PropTypes.bool.isRequired,
-  isSelectedWeek: PropTypes.bool.isRequired,
-  isLastRow: PropTypes.bool.isRequired,
-  date: PropTypes.shape({
-    dateISO: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
-    actualDistance: PropTypes.number, // will often be null
-    plannedDistance: PropTypes.number, // sometimes null, usually a number though
-    workout: PropTypes.string,
-    workoutCategory: PropTypes.number,
-    runIds: PropTypes.array,
-  }).isRequired,
-  onDateEdit: PropTypes.func.isRequired,
-  onDateClick: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onMenuOpen: PropTypes.func.isRequired,
-  disableSelection: PropTypes.bool.isRequired,
-}
+// CalendarDate.propTypes = {
+//   isSelectedDate: PropTypes.bool.isRequired,
+//   isSelectedWeek: PropTypes.bool.isRequired,
+//   isLastRow: PropTypes.bool.isRequired,
+//   date: PropTypes.shape({
+//     dateISO: PropTypes.string.isRequired, // ISO 8601, like 2022-03-29
+//     actualDistance: PropTypes.number, // will often be null
+//     plannedDistance: PropTypes.number, // sometimes null, usually a number though
+//     workout: PropTypes.string,
+//     workoutCategory: PropTypes.number,
+//     runIds: PropTypes.array,
+//   }).isRequired,
+//   onDateEdit: PropTypes.func.isRequired,
+//   onDateClick: PropTypes.func.isRequired,
+//   onFocus: PropTypes.func.isRequired,
+//   onMenuOpen: PropTypes.func.isRequired,
+//   disableSelection: PropTypes.bool.isRequired,
+// }
 
 export default CalendarDate

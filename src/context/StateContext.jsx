@@ -1,5 +1,4 @@
 import { useReducer, createContext } from 'react'
-import PropTypes from 'prop-types'
 import initialState from '../reducers/initialState'
 import stateReducer from '../reducers/stateReducer'
 
@@ -16,8 +15,4 @@ export const StateContextProvider = (props) => {
       {props.children}
     </StateContext.Provider>
   )
-}
-
-StateContextProvider.propTypes = {
-  children: PropTypes.element.isRequired,
 }
