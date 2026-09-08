@@ -26,7 +26,15 @@ dist-ssr
 .eslintcache
 
 # misc
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# server
+
+*/node_modules
+*/mongodump
+*.DS_Store
+server/scripts/.DS_Store
