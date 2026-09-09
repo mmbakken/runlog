@@ -1,0 +1,23 @@
+{
+  "name": "runlog",
+  "author": "Matt Bakken <mmbakken@gmail.com>",
+  "version": "0.0.0",
+  "description": "An application for tracking and planning your running actitivies.",
+  "scripts": {
+    "lint": "",
+    "lint:fix": ""
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=26.8.1"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.3.4",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.3.4",
+  "type": "module"
+}
