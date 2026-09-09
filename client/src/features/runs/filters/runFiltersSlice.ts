@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from 'app/store'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { DistanceTypes } from 'app/types'
+import { createSlice } from "@reduxjs/toolkit"
+import { RootState } from "app/store"
+import type { PayloadAction } from "@reduxjs/toolkit"
+import type { DistanceTypes } from "app/types"
 
 const DISTANCE_TYPES: Record<string, DistanceTypes> = {
-  BETWEEN: 'Between',
-  LESS_THAN: 'Less Than',
-  MORE_THAN: 'More Than',
+  BETWEEN: "Between",
+  LESS_THAN: "Less Than",
+  MORE_THAN: "More Than",
 }
 
 export const DISTANCE_MIN_INIT = 0
@@ -21,15 +21,15 @@ export interface RunFiltersState {
 }
 
 const initialState: RunFiltersState = {
-  startDate: '',
-  endDate: '',
+  startDate: "",
+  endDate: "",
   distanceType: DISTANCE_TYPES.BETWEEN,
   distance: DISTANCE_MIN_INIT,
   distanceMax: DISTANCE_MAX_INIT,
 }
 
 export const runFiltersSlice = createSlice({
-  name: 'runFilters',
+  name: "runFilters",
   initialState,
   reducers: {
     selectedStartDate: (state, action: PayloadAction<string>) => {

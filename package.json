@@ -1,17 +1,19 @@
 {
   "name": "runlog",
-  "author": "Matt Bakken <mmbakken@gmail.com>",
   "version": "0.0.0",
   "description": "An application for tracking and planning your running actitivies.",
+  "license": "MIT",
+  "author": "Matt Bakken <mmbakken@gmail.com>",
+  "type": "module",
   "scripts": {
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "fmt": "oxfmt",
+    "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=26.8.1"
+  "devDependencies": {
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0"
   },
   "devEngines": {
     "packageManager": {
@@ -20,10 +22,8 @@
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.3.4",
-  "type": "module",
-  "devDependencies": {
-    "oxfmt": "^0.67.0",
-    "oxlint": "^1.82.0"
-  }
+  "engines": {
+    "node": ">=26.8.1"
+  },
+  "packageManager": "pnpm@12.3.4"
 }

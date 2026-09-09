@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 // This collection holds plan documents that represent user's planned workouts/mileage for a set
 // period of time. It allows the user to plan thier training over weeks or seasons in one view.
@@ -55,4 +55,4 @@ const trainingSchema = new mongoose.Schema({
   ],
 })
 
-export default mongoose.model('Plans', trainingSchema)
+export default mongoose.model("Plans", trainingSchema)

@@ -1,21 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { DistanceTypes, Run, Shoe } from 'app/types'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { DistanceTypes, Run, Shoe } from "app/types"
 
 const baseUrl = import.meta.env.DEV
-  ? 'http://localhost:4000/api/v1'
-  : 'https://www.runlog.dev/api/v1'
+  ? "http://localhost:4000/api/v1"
+  : "https://www.runlog.dev/api/v1"
 
 export const runlogAPI = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
-    credentials: 'omit',
+    credentials: "omit",
     headers: new Headers({
-      Authorization: localStorage.getItem('token') ?? '',
-      'Content-type': 'application/json',
+      Authorization: localStorage.getItem("token") ?? "",
+      "Content-type": "application/json",
     }),
   }),
-  tagTypes: ['Run', 'Shoe'],
+  tagTypes: ["Run", "Shoe"],
   endpoints: (builder) => ({
     //=======================================
     // Runs
@@ -24,7 +24,7 @@ export const runlogAPI = createApi({
     // The query accepts an id string and returns a Run.
     getRun: builder.query<Run, string>({
       query: (_id) => ({ url: `runs/${_id}` }),
-      providesTags: ['Run'],
+      providesTags: ["Run"],
     }),
 
     // The query accepts an filters object and returns a map of Runs by id.
@@ -42,7 +42,7 @@ export const runlogAPI = createApi({
         const { startDate, endDate, distanceType, distance, distanceMax } = arg
 
         return {
-          url: 'runs/',
+          url: "runs/",
           params: {
             startDate,
             endDate,
@@ -52,26 +52,26 @@ export const runlogAPI = createApi({
           },
         }
       },
-      providesTags: ['Run'],
+      providesTags: ["Run"],
     }),
 
     // The mutation accepts a Partial<Run> arg, and returns a Run.
-    updateRun: builder.mutation<Run, Partial<Run> & Pick<Run, '_id'>>({
+    updateRun: builder.mutation<Run, Partial<Run> & Pick<Run, "_id">>({
       query: ({ _id, ...updates }) => ({
         url: `runs/${_id}`,
-        method: 'PUT',
+        method: "PUT",
         body: {
           updates,
         },
       }),
-      invalidatesTags: ['Run'],
+      invalidatesTags: ["Run"],
 
       // Implements an optimistic update, so the user can see their edits now.
       async onQueryStarted({ _id, ...updates }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          runlogAPI.util.updateQueryData('getRun', _id, (draft) => {
+          runlogAPI.util.updateQueryData("getRun", _id, (draft) => {
             Object.assign(draft, updates)
-          })
+          }),
         )
 
         try {
@@ -82,12 +82,12 @@ export const runlogAPI = createApi({
       },
     }),
 
-    deleteRun: builder.mutation<Run, Pick<Run, '_id'>>({
+    deleteRun: builder.mutation<Run, Pick<Run, "_id">>({
       query: ({ _id }) => ({
         url: `runs/${_id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Run'],
+      invalidatesTags: ["Run"],
     }),
 
     //=======================================
@@ -97,7 +97,7 @@ export const runlogAPI = createApi({
     // The query returns a map of Shoes by id.
     getShoes: builder.query<Record<string, Shoe>, void>({
       query: () => ({ url: `shoes` }),
-      providesTags: ['Shoe'],
+      providesTags: ["Shoe"],
     }),
   }),
 })

@@ -8,7 +8,7 @@
  * @example "(GMT-06:00) America/Chicago" => "America/Chicago".
  */
 const stravaTimezoneToLuxonTimezone = (stravaTimezone: string) => {
-  return stravaTimezone.split(' ')[1]
+  return stravaTimezone.split(" ")[1]
 }
 
 export default stravaTimezoneToLuxonTimezone

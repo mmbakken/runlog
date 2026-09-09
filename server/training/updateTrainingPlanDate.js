@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon'
-import TrainingModel from '../db/TrainingModel.js'
+import { DateTime } from "luxon"
+import TrainingModel from "../db/TrainingModel.js"
 
-import addFloats from '../utils/addFloats.js'
-import { METERS_PER_MILE } from '../constants/unitConversion.js'
+import addFloats from "../utils/addFloats.js"
+import { METERS_PER_MILE } from "../constants/unitConversion.js"
 
 const updateTrainingPlanDate = async (req, res) => {
   let plan
@@ -21,7 +21,7 @@ const updateTrainingPlanDate = async (req, res) => {
 
   if (req.body == null || req.body.updates == null) {
     console.error(
-      `Cannot update date within plan with id "${plan._id}": Must include req.body.updates.`
+      `Cannot update date within plan with id "${plan._id}": Must include req.body.updates.`,
     )
     return res.sendStatus(400)
   }
@@ -29,7 +29,7 @@ const updateTrainingPlanDate = async (req, res) => {
   // Make sure plan has the date specified
   if (plan.dates == null) {
     console.error(
-      `Cannot update date within plan with id "${plan._id}": plan.dates array is missing."`
+      `Cannot update date within plan with id "${plan._id}": plan.dates array is missing."`,
     )
     return res.sendStatus(400)
   }
@@ -37,12 +37,12 @@ const updateTrainingPlanDate = async (req, res) => {
   let jsDate
   const date = plan.dates.find((dateObj) => {
     jsDate = new Date(dateObj._doc.dateISO)
-    return jsDate.toISOString().split('T')[0] === req.params.dateISO
+    return jsDate.toISOString().split("T")[0] === req.params.dateISO
   })
 
   if (date == null) {
     console.error(
-      `Cannot update date "${req.params.dateISO}" within plan with id "${plan._id}": plan.dates does not contain this date."`
+      `Cannot update date "${req.params.dateISO}" within plan with id "${plan._id}": plan.dates does not contain this date."`,
     )
     return res.sendStatus(400)
   }
@@ -53,21 +53,21 @@ const updateTrainingPlanDate = async (req, res) => {
   for (let [field, value] of Object.entries(req.body.updates)) {
     if (!validFields.includes(field)) {
       console.error(
-        `Cannot update date "${req.params.dateISO}" within plan with id "${plan._id}": Field "${field}" is not present in the date document`
+        `Cannot update date "${req.params.dateISO}" within plan with id "${plan._id}": Field "${field}" is not present in the date document`,
       )
       return res.sendStatus(400)
     }
 
     // Do we need to update the week.plannedDistance and plan.plannedDistance fields?
-    if (field === 'plannedDistance') {
+    if (field === "plannedDistance") {
       // Difference of new value and old value added to plan.plannedDistance and appropriate
       // weekly.plannedDistance, based on date.
-      const thisDateDT = DateTime.fromISO(req.params.dateISO, { zone: 'utc' })
+      const thisDateDT = DateTime.fromISO(req.params.dateISO, { zone: "utc" })
 
       let weekStartDT
       let weekEndDT
       const thisWeek = plan.weeks.find((week) => {
-        weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+        weekStartDT = DateTime.fromISO(week.startDateISO, { zone: "utc" })
         weekEndDT = weekStartDT.plus({ days: 6 })
         return (
           thisDateDT.equals(weekStartDT) ||
@@ -78,7 +78,7 @@ const updateTrainingPlanDate = async (req, res) => {
 
       if (thisWeek == null) {
         console.error(
-          `Unable to find week containing ${req.params.dateISO}. Aborting plan update.`
+          `Unable to find week containing ${req.params.dateISO}. Aborting plan update.`,
         )
         return res.sendStatus(500)
       }

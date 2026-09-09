@@ -1,7 +1,7 @@
 // A script to add the `weekStartsOn` field to each existing User document
-import mongoose from 'mongoose'
-import connectToMongo from '../../db/connectToMongo.js'
-import UserModel from '../../db/UserModel.js'
+import mongoose from "mongoose"
+import connectToMongo from "../../db/connectToMongo.js"
+import UserModel from "../../db/UserModel.js"
 
 const addWeekStartsOnFieldToUsers = async () => {
   connectToMongo()
@@ -13,7 +13,7 @@ const addWeekStartsOnFieldToUsers = async () => {
         stats: {
           weekStartsOn: 1,
         },
-      }
+      },
     )
 
     console.log(`${result.n} users found, ${result.nModified} updated.`)

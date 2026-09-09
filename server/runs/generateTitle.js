@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from "luxon"
 
 // Given a run start time & tz, returns a title string describing this run.
 const generateTitle = (runStartTime, timezone) => {
@@ -6,9 +6,9 @@ const generateTitle = (runStartTime, timezone) => {
 
   if (dt.invalid) {
     console.error(
-      `Could not generate title for run with start time "${runStartTime}" and timezone "${timezone}". Explanation: ${dt.invalidExplanation}`
+      `Could not generate title for run with start time "${runStartTime}" and timezone "${timezone}". Explanation: ${dt.invalidExplanation}`,
     )
-    return 'Run'
+    return "Run"
   }
 
   // Thresholds
@@ -18,13 +18,13 @@ const generateTitle = (runStartTime, timezone) => {
   const startOfLateNight = dt.set({ hour: 22, minute: 0, second: 0 })
 
   if (dt < startOfMorning || dt >= startOfLateNight) {
-    return 'Late Night Run'
+    return "Late Night Run"
   } else if (dt < startOfAfternoon) {
-    return 'Morning Run'
+    return "Morning Run"
   } else if (dt < startOfEvening) {
-    return 'Afternoon Run'
+    return "Afternoon Run"
   } else {
-    return 'Evening Run'
+    return "Evening Run"
   }
 }
 

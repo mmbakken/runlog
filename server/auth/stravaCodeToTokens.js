@@ -1,7 +1,7 @@
-import {} from 'dotenv/config.js'
-import axios from 'axios'
-import qs from 'qs'
-import UserModel from '../db/UserModel.js'
+import {} from "dotenv/config.js"
+import axios from "axios"
+import qs from "qs"
+import UserModel from "../db/UserModel.js"
 
 const stravaCodeToTokens = async (req, res) => {
   const userId = req.params.id
@@ -16,7 +16,7 @@ const stravaCodeToTokens = async (req, res) => {
 
     if (user == null) {
       console.error(
-        `Unable to complete Strava code/token exchange: Unable to find user with id "${userId}"`
+        `Unable to complete Strava code/token exchange: Unable to find user with id "${userId}"`,
       )
       return res.sendStatus(400)
     }
@@ -28,13 +28,13 @@ const stravaCodeToTokens = async (req, res) => {
     const clientSecret = process.env.STRAVA_CLIENT_SECRET
 
     const response = await axios({
-      method: 'post',
-      url: 'https://www.strava.com/oauth/token',
+      method: "post",
+      url: "https://www.strava.com/oauth/token",
       data: qs.stringify({
         client_id: clientId,
         client_secret: clientSecret,
         code: stravaCode,
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
       }),
     })
 

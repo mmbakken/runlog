@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
-import type { DateTime as DateTimeType } from 'luxon'
+import { DateTime } from "luxon"
+import type { DateTime as DateTimeType } from "luxon"
 
 /**
  * Returns true iff `date` and `nextDate` are in different weeks.
@@ -45,7 +45,7 @@ const showWeekDivider = (date: DateTimeType, nextDate: DateTimeType) => {
   // If they're not in the same week, then show a divider
   if (
     date.weekday < nextDate.weekday ||
-    date.diff(nextDate, 'days').days >= 7
+    date.diff(nextDate, "days").days >= 7
   ) {
     addWeekBorder = true
   }

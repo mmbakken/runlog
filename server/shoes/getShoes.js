@@ -1,9 +1,9 @@
-import ShoeModel from '../db/ShoeModel.js'
+import ShoeModel from "../db/ShoeModel.js"
 
 // Returns the logged in user's runs from the database.
 const getShoes = async (req, res) => {
   if (req.user == null || req.user._id == null) {
-    console.error('UserId is required for this route')
+    console.error("UserId is required for this route")
     return res.sendStatus(400)
   }
 

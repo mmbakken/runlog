@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import DropdownOption from './DropdownOption'
+import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
+import DropdownOption from "./DropdownOption"
 
-const DEFAULT_PLACEHOLDER = 'Select an option...'
+const DEFAULT_PLACEHOLDER = "Select an option..."
 
 const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,15 +13,15 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
   })
 
   const placeholderText =
-    placeholder == null || placeholder === ''
+    placeholder == null || placeholder === ""
       ? DEFAULT_PLACEHOLDER
       : placeholder
   let selectorClasses =
-    'w-full flex justify-between items-center border px-4 py-2 bg-neutral-800 cursor-pointer'
+    "w-full flex justify-between items-center border px-4 py-2 bg-neutral-800 cursor-pointer"
   let optionsClasses =
-    'left-0 right-0 -mt-px absolute flex flex-col border rounded-b'
+    "left-0 right-0 -mt-px absolute flex flex-col border rounded-b"
 
-  selectorClasses += isOpen ? ' rounded-t' : ' rounded'
+  selectorClasses += isOpen ? " rounded-t" : " rounded"
 
   const onSelectedOption = (id) => {
     setIsOpen(false)
@@ -29,7 +29,7 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
   }
 
   return (
-    <div className='relative'>
+    <div className="relative">
       <div
         className={selectorClasses}
         onClick={() => {
@@ -39,7 +39,7 @@ const Dropdown = ({ options, selectedId, onSelect, placeholder }) => {
         <span>
           {selectedId == null ? placeholderText : selectedOption?.title}
         </span>
-        <FontAwesomeIcon className={'ml-2 inline-block'} icon={faChevronDown} />
+        <FontAwesomeIcon className={"ml-2 inline-block"} icon={faChevronDown} />
       </div>
 
       {isOpen ? (

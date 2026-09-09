@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 
 // Returns the UI value to use for date.plannedDistance, or 0 if there is none.
 const getPlannedDistanceUIValue = (distance) => {
-  if (distance != null && distance != '' && typeof distance === 'number') {
+  if (distance != null && distance != "" && typeof distance === "number") {
     return distance
   }
 
@@ -14,9 +14,9 @@ const getCleanDistance = (value) => {
   let cleanDistance = 0
 
   if (value != null && value.length > 0) {
-    let integerStr = value.toString().split('.')[0]
+    let integerStr = value.toString().split(".")[0]
     let integer = Math.abs(parseInt(integerStr))
-    let decimalStr = value.toString().split('.')[1]
+    let decimalStr = value.toString().split(".")[1]
     let decimal = parseInt(decimalStr)
 
     cleanDistance = integer
@@ -54,16 +54,16 @@ const PlannedDistanceInput = ({ distance, onChange }) => {
     setDistanceTimeoutRef(
       setTimeout(() => {
         onChange(cleanDistance)
-      }, DEBOUNCE_TIME_IN_MS)
+      }, DEBOUNCE_TIME_IN_MS),
     )
   }
 
   return (
     <input
-      type='number'
-      min='0'
-      step='1'
-      className='h-6 w-full cursor-default resize-none bg-transparent text-right outline-none'
+      type="number"
+      min="0"
+      step="1"
+      className="h-6 w-full cursor-default resize-none bg-transparent text-right outline-none"
       value={plannedDistanceUI.toString()}
       onFocus={(e) => {
         e.target.select()

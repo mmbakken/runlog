@@ -1,12 +1,12 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
 // Simple component for displaying table headers
 const Checkbox = ({ className, checked, onChange }) => {
-  let checkClasses = 'text-neutral-200'
+  let checkClasses = "text-neutral-200"
 
   if (!checked) {
-    checkClasses += ' opacity-0'
+    checkClasses += " opacity-0"
   }
 
   return (

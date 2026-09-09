@@ -1,10 +1,10 @@
 {
   "name": "runlog-api",
-  "author": "Matt Bakken <mmbakken@gmail.com>",
   "version": "0.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "author": "Matt Bakken <mmbakken@gmail.com>",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "serve": "nodemon index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll"
@@ -27,12 +27,12 @@
     "nodemon": "^3.1.14"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "js"
-    ],
     "moduleDirectories": [
       "node_modules",
       "runlog-api"
+    ],
+    "moduleFileExtensions": [
+      "js"
     ],
     "testEnvironment": "node",
     "transform": {},
@@ -40,15 +40,15 @@
       "<rootDir>/node_modules/"
     ]
   },
-  "engines": {
-    "node": ">=26.8.1"
-  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
       "version": "12.3.4",
       "onFail": "download"
     }
+  },
+  "engines": {
+    "node": ">=26.8.1"
   },
   "packageManager": "pnpm@12.3.4"
 }

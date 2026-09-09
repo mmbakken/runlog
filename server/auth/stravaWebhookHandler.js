@@ -1,7 +1,7 @@
-import axios from 'axios'
-import UserModel from '../db/UserModel.js'
-import { useFreshTokens } from '../auth/stravaTokens.js'
-import createRunFromStravaActivity from '../runs/createRunFromStravaActivity.js'
+import axios from "axios"
+import UserModel from "../db/UserModel.js"
+import { useFreshTokens } from "../auth/stravaTokens.js"
+import createRunFromStravaActivity from "../runs/createRunFromStravaActivity.js"
 
 // This route is for handling requests sent by Strava as part of their Webhook API.
 // When a new activity is added to Strava or a user deauthorizes Runlog from their OAuth
@@ -12,7 +12,7 @@ import createRunFromStravaActivity from '../runs/createRunFromStravaActivity.js'
 //
 // See: https://developers.strava.com/docs/webhooks/
 const stravaWebhookHandler = async (req, res) => {
-  console.log('Strava made a webhook POST request:')
+  console.log("Strava made a webhook POST request:")
   console.dir(req.body)
 
   // Immediately return a '200 OK' response so we don't get spammed with repeated updates.
@@ -28,7 +28,7 @@ const stravaWebhookHandler = async (req, res) => {
     req.body.owner_id == null
   ) {
     console.error(
-      'Got a weirdly formatted request to stravaWebhookHandler. Aborting.'
+      "Got a weirdly formatted request to stravaWebhookHandler. Aborting.",
     )
     return
   }
@@ -69,15 +69,15 @@ const stravaWebhookHandler = async (req, res) => {
   // }
 
   if (
-    req.body.object_type === 'activity' &&
-    req.body.aspect_type === 'create'
+    req.body.object_type === "activity" &&
+    req.body.aspect_type === "create"
   ) {
     // Look up user by strava athlete id in mongo and get the token
     const user = await UserModel.findOne({ stravaUserId: req.body.owner_id })
 
     if (user == null) {
       console.error(
-        `No user found for Strava athlete id "${req.body.owner_id}"`
+        `No user found for Strava athlete id "${req.body.owner_id}"`,
       )
       return
     }
@@ -87,7 +87,7 @@ const stravaWebhookHandler = async (req, res) => {
     try {
       // Fetch the Activity details from the Strava API so we can create a Run document from it.
       const response = await axios({
-        method: 'get',
+        method: "get",
         url: `https://www.strava.com/api/v3/activities/${req.body.object_id}`,
         params: {
           include_all_efforts: false,
@@ -103,7 +103,7 @@ const stravaWebhookHandler = async (req, res) => {
     }
   } else {
     console.log(
-      'Unsupported webhook callback message body. Might want to implement this?'
+      "Unsupported webhook callback message body. Might want to implement this?",
     )
   }
 }

@@ -1,4 +1,4 @@
-import TrainingModel from '../db/TrainingModel.js'
+import TrainingModel from "../db/TrainingModel.js"
 
 // Returns the logged in user's training plans from the database.
 const getAllTrainingPlans = async (req, res) => {

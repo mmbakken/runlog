@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import TrainingModel from '../db/TrainingModel.js'
+import mongoose from "mongoose"
+import TrainingModel from "../db/TrainingModel.js"
 
 // Returns the logged in user's training plans from the database.
 const getTrainingPlan = async (req, res) => {
@@ -18,7 +18,7 @@ const getTrainingPlan = async (req, res) => {
     return res.json(plan)
   } catch (e) {
     console.error(
-      `Error while trying to get training plan with id "${req.params.id}"`
+      `Error while trying to get training plan with id "${req.params.id}"`,
     )
     console.dir(e)
 

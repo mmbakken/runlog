@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import DailyStatsModel from '../../db/DailyStatsModel.js'
-import { DateTime } from 'luxon'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import DailyStatsModel from "../../db/DailyStatsModel.js"
+import { DateTime } from "luxon"
 
 // Test script for using the $gte and $lte queries inside a .find call
 const findRunsWithinSixDays = async () => {
@@ -21,7 +21,7 @@ const findRunsWithinSixDays = async () => {
           ],
         },
       },
-      '_id date'
+      "_id date",
     ).lean()
 
     console.dir(runs)

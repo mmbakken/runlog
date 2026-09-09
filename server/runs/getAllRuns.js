@@ -1,9 +1,9 @@
-import RunModel from '../db/RunModel.js'
+import RunModel from "../db/RunModel.js"
 
 // Returns the logged in user's runs from the database.
 const getAllRuns = async (req, res) => {
   if (req.user == null || req.user._id == null) {
-    console.error('UserId is required for this route')
+    console.error("UserId is required for this route")
     return res.sendStatus(400)
   }
 

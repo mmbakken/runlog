@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import RunModel from '../db/RunModel.js'
+import mongoose from "mongoose"
+import RunModel from "../db/RunModel.js"
 
-import resetDailyStats from '../dailyStats/resetDailyStats.js'
-import updatePlansFromRun from './updatePlansFromRun.js'
+import resetDailyStats from "../dailyStats/resetDailyStats.js"
+import updatePlansFromRun from "./updatePlansFromRun.js"
 
 // Removes the given run from the database
 const deleteRun = async (req, res) => {
@@ -11,7 +11,7 @@ const deleteRun = async (req, res) => {
 
     if (run == null) {
       console.error(
-        `Cannot delete run with id "${req.params.id}": id was not found.`
+        `Cannot delete run with id "${req.params.id}": id was not found.`,
       )
       return res.sendStatus(404)
     }
@@ -30,7 +30,7 @@ const deleteRun = async (req, res) => {
     return res.json(run)
   } catch (e) {
     console.error(
-      `Error while trying to delete run with id "${req.params.id}". Aborting delete action.`
+      `Error while trying to delete run with id "${req.params.id}". Aborting delete action.`,
     )
     console.dir(e)
 

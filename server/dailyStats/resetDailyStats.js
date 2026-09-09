@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon'
-import RunModel from '../db/RunModel.js'
-import DailyStatsModel from '../db/DailyStatsModel.js'
-import addFloats from '../utils/addFloats.js'
+import { DateTime } from "luxon"
+import RunModel from "../db/RunModel.js"
+import DailyStatsModel from "../db/DailyStatsModel.js"
+import addFloats from "../utils/addFloats.js"
 
 // Deletes all existing DailyStats objects for this user and creates new ones that represent the
 // distances for each date that a run exists for that user.
@@ -19,7 +19,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
   try {
     allRuns = await RunModel.find(
       { userId: userId }, // all runs for this user
-      '_id startDate timezone distance title'
+      "_id startDate timezone distance title",
     ).lean()
   } catch (err) {
     if (isVerboseLogging) {
@@ -39,7 +39,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
     let run = allRuns[j]
 
     // Timezone field has a weird format like "(GMT-07:00) America/Denver", just ignore the offset
-    const tz = run.timezone.split(' ')[1]
+    const tz = run.timezone.split(" ")[1]
 
     // Convert the run's full timestamp into a simpler yyyy-mm-dd date string
     const startDate = DateTime.fromJSDate(run.startDate, {
@@ -52,7 +52,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
       dailyStats[startDate] = {
         ...dailyStats[startDate],
         distance: addFloats(dailyStats[startDate].distance, run.distance),
-        title: 'Multiple runs',
+        title: "Multiple runs",
         runIds: [...dailyStats[startDate].runIds, run._id],
       }
     } else {
@@ -79,7 +79,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
 
   if (isVerboseLogging) {
     console.log(`User's week starts on: ${user.stats.weekStartsOn}`)
-    console.log('~~~~~~~~~~~~~~~~~~~~~')
+    console.log("~~~~~~~~~~~~~~~~~~~~~")
   }
 
   // Using the existing daily distance totals, calculate the derivative distance fields
@@ -93,7 +93,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
     if (isVerboseLogging) {
       console.log(`DailyStats date: ${dates[i]}`)
       console.log(`weekday: ${currentDate.weekday}`)
-      console.log('~~~~~~~~~~~~~~~~~~~~~')
+      console.log("~~~~~~~~~~~~~~~~~~~~~")
     }
 
     // Values we're trying to calculate
@@ -113,14 +113,14 @@ const resetDailyStats = async (user, isVerboseLogging) => {
       if (dailyStats[dateStr] != null) {
         // 7-day distance is just the sum of all distance for previous 6 days
         if (isVerboseLogging) {
-          console.log('    adding to 7day total')
+          console.log("    adding to 7day total")
         }
         currentDailyStats.sevenDayDistance += dailyStats[dateStr].distance
 
         // Have we hit the start of this week yet? If so, do not add this to the weekly distance
         if (!hitStartOfWeek) {
           if (isVerboseLogging) {
-            console.log('    adding to weekly total')
+            console.log("    adding to weekly total")
           }
 
           // Update the halting flag, then add this date's distance to the weekly sum.
@@ -136,8 +136,8 @@ const resetDailyStats = async (user, isVerboseLogging) => {
   }
 
   if (isVerboseLogging) {
-    console.log('\n\n\n')
-    console.log('Inserting DS into mongo for this user:')
+    console.log("\n\n\n")
+    console.log("Inserting DS into mongo for this user:")
   }
 
   for (let ds of Object.values(dailyStats)) {
@@ -150,7 +150,7 @@ const resetDailyStats = async (user, isVerboseLogging) => {
       await DailyStatsModel.insertMany(ds)
     } catch (err) {
       if (isVerboseLogging) {
-        console.error('Failed to insert this ds:')
+        console.error("Failed to insert this ds:")
         console.dir(ds)
         console.error(err)
       }

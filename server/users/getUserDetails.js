@@ -1,4 +1,4 @@
-import UserModel from '../db/UserModel.js'
+import UserModel from "../db/UserModel.js"
 
 // Returns more user fields to the client if they're already authenticated.
 // This is useful for refreshing the user data on the client if it has recently changed.
@@ -6,7 +6,7 @@ import UserModel from '../db/UserModel.js'
 const getUserDetails = async (req, res) => {
   // Can't rely on the JWT for the user ID since some users can request OTHER user's records
   if (req.params.id == null) {
-    console.error('Unable to provide user details: id missing in route params.')
+    console.error("Unable to provide user details: id missing in route params.")
     return res.sendStatus(400)
   }
 
@@ -14,7 +14,7 @@ const getUserDetails = async (req, res) => {
   if (req.user._id !== req.params.id) {
     // TODO: allow admin users to skip this check
     console.error(
-      `User with id "${req.user._id} is forbidden from accessing user details for user id: "${req.params.id}"`
+      `User with id "${req.user._id} is forbidden from accessing user details for user id: "${req.params.id}"`,
     )
     return res.sendStatus(403)
   }

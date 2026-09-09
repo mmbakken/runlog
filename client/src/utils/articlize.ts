@@ -9,7 +9,7 @@
  * Consider "a 9-mile run" vs "an 11-mile run" or "an 18-mile run", etc.
  */
 const articlize = (number: number, a: string, an: string) => {
-  if (number === 11 || number === 18 || number.toString().charAt(0) === '8') {
+  if (number === 11 || number === 18 || number.toString().charAt(0) === "8") {
     return an
   } else {
     return a

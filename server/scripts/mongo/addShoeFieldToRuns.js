@@ -1,6 +1,6 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import RunModel from '../../db/RunModel.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import RunModel from "../../db/RunModel.js"
 
 const addShoeFieldToRuns = async () => {
   connectToMongo()
@@ -9,7 +9,7 @@ const addShoeFieldToRuns = async () => {
   try {
     const allRuns = await RunModel.find(
       {}, // all runs
-      '_id'
+      "_id",
     )
 
     let nModified = 0

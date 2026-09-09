@@ -1,15 +1,15 @@
-import { useState, useContext } from 'react'
-import { toast } from 'react-toastify'
-import { StateContext } from 'app/context/StateContext'
-import actions from 'app/reducers/actions'
-import { APIv1 } from 'app/api'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
-import Button from 'app/components/UI/Button'
-import { formatActualMileage } from 'app/formatters'
+import { useState, useContext } from "react"
+import { toast } from "react-toastify"
+import { StateContext } from "app/context/StateContext"
+import actions from "app/reducers/actions"
+import { APIv1 } from "app/api"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons"
+import Button from "app/components/UI/Button"
+import { formatActualMileage } from "app/formatters"
 
 const ShoeList = ({ shoes }) => {
-  const [newShoeName, setNewShoeName] = useState('')
+  const [newShoeName, setNewShoeName] = useState("")
   const dispatch = useContext(StateContext)[1]
 
   const onNewShoeSubmit = (e) => {
@@ -23,26 +23,26 @@ const ShoeList = ({ shoes }) => {
       type: actions.CREATE_SHOES__START,
     })
 
-    APIv1.post('/shoes', newShoe)
+    APIv1.post("/shoes", newShoe)
       .then((response) => {
         dispatch({
           type: actions.CREATE_SHOES__SUCCESS,
           shoe: response.data,
         })
 
-        toast.success('Shoes saved successfully.', {
-          position: 'bottom-center',
+        toast.success("Shoes saved successfully.", {
+          position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: "light",
         })
       })
       .catch((error) => {
-        console.error('Error while adding a new shoe:')
+        console.error("Error while adding a new shoe:")
         console.dir(error)
 
         dispatch({
@@ -50,26 +50,26 @@ const ShoeList = ({ shoes }) => {
           error: error,
         })
 
-        toast.error('Error adding shoes. Please try again later.', {
-          position: 'bottom-center',
+        toast.error("Error adding shoes. Please try again later.", {
+          position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: "light",
         })
       })
       .finally(() => {
-        setNewShoeName('')
+        setNewShoeName("")
       })
   }
 
   const deleteShoe = (shoeId) => {
     if (
       confirm(
-        'Are you sure you want to delete this shoe? This action cannot be undone.'
+        "Are you sure you want to delete this shoe? This action cannot be undone.",
       )
     ) {
       dispatch({
@@ -83,19 +83,19 @@ const ShoeList = ({ shoes }) => {
             shoe: response.data,
           })
 
-          toast.success('Shoes deleted.', {
-            position: 'bottom-center',
+          toast.success("Shoes deleted.", {
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'light',
+            theme: "light",
           })
         })
         .catch((error) => {
-          console.error('Error while deleting shoes:')
+          console.error("Error while deleting shoes:")
           console.dir(error)
 
           dispatch({
@@ -103,15 +103,15 @@ const ShoeList = ({ shoes }) => {
             error: error,
           })
 
-          toast.error('Error deleting shoes. Please try again later.', {
-            position: 'bottom-center',
+          toast.error("Error deleting shoes. Please try again later.", {
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'light',
+            theme: "light",
           })
         })
     }
@@ -120,7 +120,7 @@ const ShoeList = ({ shoes }) => {
   return (
     <div>
       {shoes != null ? (
-        <div className='mb-4 grid grid-cols-(--shoe-list) gap-x-8 gap-y-2'>
+        <div className="mb-4 grid grid-cols-(--shoe-list) gap-x-8 gap-y-2">
           <div>Title</div>
           <div>Distance</div>
           <div>Runs</div>
@@ -130,19 +130,19 @@ const ShoeList = ({ shoes }) => {
             const shoe = shoes[shoeId]
 
             return (
-              <div key={`shoe-${index}`} className='contents'>
+              <div key={`shoe-${index}`} className="contents">
                 <div>{shoe?.title}</div>
                 <div>{formatActualMileage(shoe?.distance)} mi</div>
                 <div>{shoe?.runIds?.length}</div>
                 <div>
                   <Button
-                    type='inline'
+                    type="inline"
                     onClick={() => {
                       deleteShoe(shoe?._id)
                     }}
                   >
-                    <span className='mr-2'>Delete</span>
-                    <FontAwesomeIcon className='' icon={faTrashCan} />
+                    <span className="mr-2">Delete</span>
+                    <FontAwesomeIcon className="" icon={faTrashCan} />
                   </Button>
                 </div>
               </div>
@@ -152,15 +152,15 @@ const ShoeList = ({ shoes }) => {
       ) : null}
 
       <form
-        className='mb-4'
+        className="mb-4"
         onSubmit={(e) => {
           onNewShoeSubmit(e)
         }}
       >
         <input
-          className='mr-4 rounded border px-4 py-2'
-          type='text'
-          placeholder='e.g. Green Mizunos'
+          className="mr-4 rounded border px-4 py-2"
+          type="text"
+          placeholder="e.g. Green Mizunos"
           value={newShoeName}
           onChange={(e) => {
             setNewShoeName(e.target.value)
@@ -168,8 +168,8 @@ const ShoeList = ({ shoes }) => {
         />
 
         <Button
-          type='primary'
-          role='submit'
+          type="primary"
+          role="submit"
           onClick={(e) => {
             onNewShoeSubmit(e)
           }}

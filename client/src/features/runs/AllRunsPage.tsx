@@ -1,5 +1,5 @@
-import RunsList from 'app/features/runs/RunsList'
-import RunFilters from 'app/features/runs/filters/RunFilters'
+import RunsList from "app/features/runs/RunsList"
+import RunFilters from "app/features/runs/filters/RunFilters"
 
 const AllRunsPage = () => {
   return (

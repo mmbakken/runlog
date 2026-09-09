@@ -1,7 +1,7 @@
-import actions from '../actions'
-import initialState from '../initialState'
+import actions from "../actions"
+import initialState from "../initialState"
 
-import { getFilteredRunIds } from './runFilters'
+import { getFilteredRunIds } from "./runFilters"
 
 const runsReducer = (state, action) => {
   switch (action.type) {

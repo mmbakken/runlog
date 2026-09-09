@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react'
-import debounce from 'lodash.debounce'
+import { useEffect, useMemo, useRef } from "react"
+import debounce from "lodash.debounce"
 
 const DEBOUNCE_TIME_IN_MS = 500
 

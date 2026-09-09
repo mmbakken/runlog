@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import TrainingModel from '../db/TrainingModel.js'
-import DailyStatsModel from '../db/DailyStatsModel.js'
-import RunModel from '../db/RunModel.js'
-import UserModel from '../db/UserModel.js'
+import mongoose from "mongoose"
+import TrainingModel from "../db/TrainingModel.js"
+import DailyStatsModel from "../db/DailyStatsModel.js"
+import RunModel from "../db/RunModel.js"
+import UserModel from "../db/UserModel.js"
 import {
   jest,
   describe,
@@ -12,25 +12,25 @@ import {
   afterEach,
   afterAll,
   test,
-} from '@jest/globals'
+} from "@jest/globals"
 
-import deleteRun from './deleteRun.js'
+import deleteRun from "./deleteRun.js"
 
 beforeAll(async () => {
   // Set up test DB
   try {
-    await mongoose.connect('mongodb://localhost/deleteRun', {
+    await mongoose.connect("mongodb://localhost/deleteRun", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
   } catch (err) {
-    console.error('Failed to connect to Mongoose')
+    console.error("Failed to connect to Mongoose")
     console.dir(err)
   }
 })
 
 beforeEach(() => {
-  jest.spyOn(console, 'log').mockImplementation(() => {}) // Ignores console.log, keeps others
+  jest.spyOn(console, "log").mockImplementation(() => {}) // Ignores console.log, keeps others
 })
 
 afterEach(async () => {
@@ -46,44 +46,44 @@ afterAll(async () => {
   return await mongoose.connection.close()
 })
 
-describe('Run deletion', () => {
-  test('Delete a single run', async () => {
+describe("Run deletion", () => {
+  test("Delete a single run", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     const run = await RunModel.create({
       userId: user._id,
-      name: 'Test Run 1',
-      startDate: new Date('2022-10-03T23:07:39Z'), // first day of plan
-      startDateLocal: new Date('2022-10-03T17:07:39Z'),
-      timezone: '(GMT-06:00) America/Chicago',
+      name: "Test Run 1",
+      startDate: new Date("2022-10-03T23:07:39Z"), // first day of plan
+      startDateLocal: new Date("2022-10-03T17:07:39Z"),
+      timezone: "(GMT-06:00) America/Chicago",
       distance: 1609.34, // 1 mile, in meters
     })
 
     // Existing DS document
     await DailyStatsModel.create({
       userId: user._id,
-      date: '2022-10-03',
+      date: "2022-10-03",
       distance: 1609.34,
       runIds: [run._id],
     })
 
     await TrainingModel.create({
       userId: user._id,
-      startDate: '2022-10-03',
-      endDate: '2022-10-09',
-      timezone: 'America/Denver',
-      title: 'Training Plan 1 Week',
-      goal: 'Delete run inside training plans without bugs :)',
+      startDate: "2022-10-03",
+      endDate: "2022-10-09",
+      timezone: "America/Denver",
+      title: "Training Plan 1 Week",
+      goal: "Delete run inside training plans without bugs :)",
       isActive: true,
       actualDistance: 1609.34, // 1 mile, in meters
       plannedDistance: 1,
       plannedDistanceMeters: 1609.34, // 1 mile, in meters
       weeks: [
         {
-          startDateISO: '2022-10-03',
+          startDateISO: "2022-10-03",
           actualDistance: 1609.34, // 1 mile, in meters
           plannedDistance: 1,
           plannedDistanceMeters: 1609.34, // 1 mile, in meters
@@ -91,65 +91,65 @@ describe('Run deletion', () => {
       ],
       dates: [
         {
-          dateISO: '2022-10-03',
+          dateISO: "2022-10-03",
           actualDistance: 1609.34, // 1 mile, in meters
           plannedDistance: 1,
           plannedDistanceMeters: 1609.34, // 1 mile, in meters
-          workout: '',
+          workout: "",
           workoutCategory: 1, // Easy
           runIds: [run._id.toString()],
         },
         {
-          dateISO: '2022-10-04',
+          dateISO: "2022-10-04",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-05',
+          dateISO: "2022-10-05",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-06',
+          dateISO: "2022-10-06",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-07',
+          dateISO: "2022-10-07",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-08',
+          dateISO: "2022-10-08",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-09',
+          dateISO: "2022-10-09",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
@@ -159,18 +159,18 @@ describe('Run deletion', () => {
 
     await TrainingModel.create({
       userId: user._id,
-      startDate: '2022-10-03',
-      endDate: '2022-10-09',
-      timezone: 'America/Denver',
-      title: 'Another training plan',
-      goal: 'Delete run inside training plans without bugs :)',
+      startDate: "2022-10-03",
+      endDate: "2022-10-09",
+      timezone: "America/Denver",
+      title: "Another training plan",
+      goal: "Delete run inside training plans without bugs :)",
       isActive: true,
       actualDistance: 1609.34, // 1 mile, in meters
       plannedDistance: 1,
       plannedDistanceMeters: 1609.34, // 1 mile, in meters
       weeks: [
         {
-          startDateISO: '2022-10-03',
+          startDateISO: "2022-10-03",
           actualDistance: 1609.34, // 1 mile, in meters
           plannedDistance: 1,
           plannedDistanceMeters: 1609.34, // 1 mile, in meters
@@ -178,65 +178,65 @@ describe('Run deletion', () => {
       ],
       dates: [
         {
-          dateISO: '2022-10-03',
+          dateISO: "2022-10-03",
           actualDistance: 1609.34, // 1 mile, in meters
           plannedDistance: 1,
           plannedDistanceMeters: 1609.34, // 1 mile, in meters
-          workout: '',
+          workout: "",
           workoutCategory: 1, // Easy
           runIds: [run._id.toString()],
         },
         {
-          dateISO: '2022-10-04',
+          dateISO: "2022-10-04",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-05',
+          dateISO: "2022-10-05",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-06',
+          dateISO: "2022-10-06",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-07',
+          dateISO: "2022-10-07",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-08',
+          dateISO: "2022-10-08",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },
         {
-          dateISO: '2022-10-09',
+          dateISO: "2022-10-09",
           actualDistance: 0,
           plannedDistance: 0,
           plannedDistanceMeters: 0,
-          workout: '',
+          workout: "",
           workoutCategory: 0,
           runIds: [],
         },

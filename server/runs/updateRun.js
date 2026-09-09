@@ -1,7 +1,7 @@
-import RunModel from '../db/RunModel.js'
-import DailyStatsModel from '../db/DailyStatsModel.js'
+import RunModel from "../db/RunModel.js"
+import DailyStatsModel from "../db/DailyStatsModel.js"
 
-import updateUserShoeList from './updateUserShoeList.js'
+import updateUserShoeList from "./updateUserShoeList.js"
 
 // Given a run id and a map of {field: value} pairs of updates, the run document
 // will have the changes applied.
@@ -25,7 +25,7 @@ const updateRun = async (req, res) => {
 
   if (req.body == null || req.body.updates == null) {
     console.error(
-      `Cannot update run with id "${run._id}": Must include req.body.updates.`
+      `Cannot update run with id "${run._id}": Must include req.body.updates.`,
     )
     return res.sendStatus(400)
   }
@@ -36,7 +36,7 @@ const updateRun = async (req, res) => {
   for (let [field, value] of Object.entries(req.body.updates)) {
     if (!validFields.includes(field)) {
       console.error(
-        `Cannot update run with id "${run._id}": Field "${field}" is not present in the document`
+        `Cannot update run with id "${run._id}": Field "${field}" is not present in the document`,
       )
       return res.sendStatus(400)
     }
@@ -45,7 +45,7 @@ const updateRun = async (req, res) => {
     run[field] = value
 
     // Do we need to update the DailyStats for this date too?
-    if (field === 'title') {
+    if (field === "title") {
       try {
         await DailyStatsModel.updateOne(
           {
@@ -56,11 +56,11 @@ const updateRun = async (req, res) => {
           },
           {
             title: run.title,
-          }
+          },
         )
       } catch (error) {
         console.error(
-          `Error while attempting to update DailyStats for run with id "${run._id}"`
+          `Error while attempting to update DailyStats for run with id "${run._id}"`,
         )
         console.dir(error)
         return res.sendStatus(500)
@@ -69,7 +69,7 @@ const updateRun = async (req, res) => {
 
     // Update the user's shoe distance if the shoe id has changed.
     if (
-      field === 'shoeId' &&
+      field === "shoeId" &&
       (currentValue == null || value !== currentValue.toString())
     ) {
       let currentShoeId = currentValue == null ? null : currentValue.toString()
@@ -80,11 +80,11 @@ const updateRun = async (req, res) => {
           currentShoeId,
           req.user._id,
           run._id,
-          run.distance
+          run.distance,
         )
       } catch (err) {
         console.error(
-          `Error while attempting to update user shoe list for run with id "${run._id}"`
+          `Error while attempting to update user shoe list for run with id "${run._id}"`,
         )
         console.dir(err)
         return res.sendStatus(500)

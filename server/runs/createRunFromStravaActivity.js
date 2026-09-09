@@ -1,9 +1,9 @@
-import RunModel from '../db/RunModel.js'
+import RunModel from "../db/RunModel.js"
 
-import generateTitle from './generateTitle.js'
-import generateLocation from './generateLocation.js'
-import updateDailyStats from '../dailyStats/updateDailyStats.js'
-import updatePlansFromRun from './updatePlansFromRun.js'
+import generateTitle from "./generateTitle.js"
+import generateLocation from "./generateLocation.js"
+import updateDailyStats from "../dailyStats/updateDailyStats.js"
+import updatePlansFromRun from "./updatePlansFromRun.js"
 
 // This function will create a new Run document based on the Strava activity provided.
 //
@@ -20,15 +20,15 @@ const createRunFromStravaActivity = async (user, activity) => {
     const runExists = await RunModel.exists({ stravaActivityId: activity.id })
 
     // Make sure we want to track it
-    if (activity.type !== 'Run') {
-      console.log('Activity was not a run, disregard this one.')
+    if (activity.type !== "Run") {
+      console.log("Activity was not a run, disregard this one.")
       return
     }
 
     // Only add to db if this is a new activity
     if (!runExists) {
       // Format should be like '(GMT-08:00) America/Denver', luxon wants just the latter half
-      const tz = activity.timezone.split(' ')[1]
+      const tz = activity.timezone.split(" ")[1]
 
       const lat = activity?.start_latlng[0]
       const lng = activity?.start_latlng[1]
@@ -57,7 +57,7 @@ const createRunFromStravaActivity = async (user, activity) => {
       })
 
       console.log(
-        `New run created successfully. Runlog Id: "${newRun._id}", Strava activityId: "${activity.id}"`
+        `New run created successfully. Runlog Id: "${newRun._id}", Strava activityId: "${activity.id}"`,
       )
 
       // A new run means daily totals have changed. Update them appropriately.
@@ -69,7 +69,7 @@ const createRunFromStravaActivity = async (user, activity) => {
       return
     } else {
       console.log(
-        'Strava Activity already exists as a Run document. Will not add a duplicate.'
+        "Strava Activity already exists as a Run document. Will not add a duplicate.",
       )
       return
     }

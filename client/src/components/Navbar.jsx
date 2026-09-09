@@ -1,12 +1,12 @@
-import { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useContext } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-import actions from '../reducers/actions'
-import { AuthContext } from '../context/AuthContext'
-import { StateContext } from '../context/StateContext'
+import actions from "../reducers/actions"
+import { AuthContext } from "../context/AuthContext"
+import { StateContext } from "../context/StateContext"
 
-import HamburgerMenu from './HamburgerMenu'
+import HamburgerMenu from "./HamburgerMenu"
 
 import {
   HomeRoute,
@@ -14,7 +14,7 @@ import {
   AllRunsRoute,
   LoginRoute,
   AccountRoute,
-} from 'app/routes'
+} from "app/routes"
 
 const Navbar = () => {
   const location = useLocation()
@@ -25,7 +25,7 @@ const Navbar = () => {
 
   // Delete the user token and reset auth state
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token")
     authDispatch({
       type: actions.LOGOUT,
     })
@@ -35,39 +35,39 @@ const Navbar = () => {
     navigate(HomeRoute)
   }
 
-  const routeBasePath = currentPath.substr(1).split('/')[0]
+  const routeBasePath = currentPath.substr(1).split("/")[0]
 
   // Set up the class names for each link item
   let trainingClasses =
-    routeBasePath === 'training' ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === "training" ? "border-eggplant-700" : "border-transparent"
   const runsClasses =
-    routeBasePath === 'runs' ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === "runs" ? "border-eggplant-700" : "border-transparent"
   const loginClasses =
-    routeBasePath === 'login' ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === "login" ? "border-eggplant-700" : "border-transparent"
   const accountClasses =
-    routeBasePath === 'account' ? 'border-eggplant-700' : 'border-transparent'
+    routeBasePath === "account" ? "border-eggplant-700" : "border-transparent"
 
-  const isHomeRoute = routeBasePath === ''
+  const isHomeRoute = routeBasePath === ""
 
   if (isHomeRoute) {
-    trainingClasses += ' ml-4'
+    trainingClasses += " ml-4"
   }
 
   return (
-    <nav className='Navbar h-20 py-4'>
+    <nav className="Navbar h-20 py-4">
       <HamburgerMenu
         logout={logout}
         isLoggedIn={auth.isLoggedIn}
         isHomeRoute={isHomeRoute}
       />
 
-      <div className='hidden justify-between text-lg sm:flex'>
-        <ul className='inline-flex items-center space-x-4'>
+      <div className="hidden justify-between text-lg sm:flex">
+        <ul className="inline-flex items-center space-x-4">
           {isHomeRoute ? null : (
             <li>
               <Link to={HomeRoute}>
                 <header>
-                  <h1 className='px-4 pb-2 font-heading text-4xl'>runlog</h1>
+                  <h1 className="px-4 pb-2 font-heading text-4xl">runlog</h1>
                 </header>
               </Link>
             </li>
@@ -76,7 +76,7 @@ const Navbar = () => {
           <li
             className={
               trainingClasses +
-              ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
+              " mt-2 border-b-2 leading-snug hover:border-eggplant-700"
             }
           >
             <Link to={AllTrainingPlansRoute}>Training</Link>
@@ -85,7 +85,7 @@ const Navbar = () => {
           <li
             className={
               runsClasses +
-              ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
+              " mt-2 border-b-2 leading-snug hover:border-eggplant-700"
             }
           >
             <Link to={AllRunsRoute}>Runs</Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
             <li
               className={
                 accountClasses +
-                ' mt-2 border-b-2 leading-snug hover:border-eggplant-700'
+                " mt-2 border-b-2 leading-snug hover:border-eggplant-700"
               }
             >
               <Link to={AccountRoute}>Account</Link>
@@ -103,12 +103,12 @@ const Navbar = () => {
           )}
         </ul>
 
-        <ul className='mr-4 inline-flex items-center space-x-4'>
+        <ul className="mr-4 inline-flex items-center space-x-4">
           {!auth.isLoggedIn && (
             <li
               className={
                 loginClasses +
-                ' mt-2 border-b-2 border-transparent leading-snug hover:border-eggplant-700'
+                " mt-2 border-b-2 border-transparent leading-snug hover:border-eggplant-700"
               }
             >
               <Link to={LoginRoute}>Login</Link>
@@ -116,7 +116,7 @@ const Navbar = () => {
           )}
 
           {auth.isLoggedIn && (
-            <li className='mt-2 cursor-pointer border-b-2 border-transparent leading-snug hover:border-eggplant-700'>
+            <li className="mt-2 cursor-pointer border-b-2 border-transparent leading-snug hover:border-eggplant-700">
               <a onClick={logout}>Logout</a>
             </li>
           )}

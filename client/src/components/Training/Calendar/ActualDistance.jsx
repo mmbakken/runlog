@@ -1,5 +1,5 @@
-import { AllRunsRoute, ViewRunRoute } from 'app/routes'
-import { formatActualMileage } from 'app/formatters'
+import { AllRunsRoute, ViewRunRoute } from "app/routes"
+import { formatActualMileage } from "app/formatters"
 
 const ActualDistance = ({ isoDate, distance, runIds }) => {
   // Go to run's page if only one run today. Otherwise, go to AllRuns page with a filter param.
@@ -10,18 +10,18 @@ const ActualDistance = ({ isoDate, distance, runIds }) => {
   if (runIds == null || runIds.length === 0) {
     route = null
   } else if (runIds.length === 1) {
-    route = ViewRunRoute.replace(':runId', runIds[0])
+    route = ViewRunRoute.replace(":runId", runIds[0])
   } else {
     route = `${AllRunsRoute}?date=${isoDate}`
   }
 
   if (distance > 0) {
     return (
-      <span className='h-6 cursor-pointer hover:underline'>
+      <span className="h-6 cursor-pointer hover:underline">
         {route ? (
           <a
-            target='_blank'
-            rel='noopener noreferrer'
+            target="_blank"
+            rel="noopener noreferrer"
             href={`${url.origin}${route}`}
           >
             {formatActualMileage(distance)}
@@ -32,7 +32,7 @@ const ActualDistance = ({ isoDate, distance, runIds }) => {
       </span>
     )
   } else {
-    return <span className='h-6'>{formatActualMileage(distance)}</span>
+    return <span className="h-6">{formatActualMileage(distance)}</span>
   }
 }
 

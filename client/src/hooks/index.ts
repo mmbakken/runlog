@@ -1,3 +1,3 @@
-import useDebounce from 'app/hooks/useDebounce'
+import useDebounce from "app/hooks/useDebounce"
 
 export { useDebounce }

@@ -1,7 +1,7 @@
-import { useAppSelector } from 'app/store'
-import { useGetRunsQuery } from 'app/features/api/apiSlice'
-import RunTableHeaders from './RunTableHeaders'
-import RunTableBody from './RunTableBody'
+import { useAppSelector } from "app/store"
+import { useGetRunsQuery } from "app/features/api/apiSlice"
+import RunTableHeaders from "./RunTableHeaders"
+import RunTableBody from "./RunTableBody"
 
 import {
   getStartDate,
@@ -9,7 +9,7 @@ import {
   getDistanceType,
   getDistance,
   getDistanceMax,
-} from 'app/features/runs/filters/runFiltersSlice'
+} from "app/features/runs/filters/runFiltersSlice"
 
 const RunsList = () => {
   //=====================================
@@ -45,7 +45,7 @@ const RunsList = () => {
   }
 
   return (
-    <section className='overflow-scroll sm:grid sm:grid-cols-runs-page sm:space-y-0'>
+    <section className="overflow-scroll sm:grid sm:grid-cols-runs-page sm:space-y-0">
       <RunTableHeaders />
       <RunTableBody
         runsById={runsById}

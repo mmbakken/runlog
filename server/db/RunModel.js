@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 // This collection holds run documents that represent run activities on a user's
 // third-party linked accounts like Strava, Fitbit, etc.
@@ -36,4 +36,4 @@ const runSchema = new mongoose.Schema({
   shoeId: { type: mongoose.ObjectId, default: null },
 })
 
-export default mongoose.model('Runs', runSchema)
+export default mongoose.model("Runs", runSchema)

@@ -1,8 +1,8 @@
-import { useReducer, createContext, useEffect } from 'react'
-import { jwtDecode } from 'jwt-decode'
-import authReducer from '../reducers/authReducer'
-import actions from '../reducers/actions'
-import { APIv1, setAuthHeader } from '../api'
+import { useReducer, createContext, useEffect } from "react"
+import { jwtDecode } from "jwt-decode"
+import authReducer from "../reducers/authReducer"
+import actions from "../reducers/actions"
+import { APIv1, setAuthHeader } from "../api"
 
 export const AuthContext = createContext()
 
@@ -19,7 +19,7 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     // Check for a JWT, and save it to the AuthContext if set
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token")
 
     if (token != null) {
       // Add the token to the API instance
@@ -58,7 +58,7 @@ export const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider
       value={[auth, authDispatch]}
-      displayName='Auth Context'
+      displayName="Auth Context"
     >
       {props.children}
     </AuthContext.Provider>

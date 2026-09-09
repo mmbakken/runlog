@@ -1,5 +1,5 @@
-import connectToMongo from '../db/connectToMongo.js'
-import RunModel from '../db/RunModel.js'
+import connectToMongo from "../db/connectToMongo.js"
+import RunModel from "../db/RunModel.js"
 
 // This script adds user-editable fields to every run object and sets their default values.
 
@@ -18,7 +18,7 @@ const addUserEditableFields = async () => {
           results: null, // string
         },
         $currentDate: { lastModified: true },
-      }
+      },
     )
 
     console.log(`${result.n} runs found, ${result.nModified} updated.`)

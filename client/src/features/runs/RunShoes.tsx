@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState } from "react"
 import {
   useGetShoesQuery,
   useUpdateRunMutation,
-} from 'app/features/api/apiSlice'
-import type { ChangeEvent } from 'react'
+} from "app/features/api/apiSlice"
+import type { ChangeEvent } from "react"
 
 type RunShoesProps = {
   initShoeId?: string | null
   runId?: string
 }
 
-const RunShoes = ({ initShoeId, runId = '' }: RunShoesProps) => {
-  const [shoeId, setShoeId] = useState(initShoeId ?? '')
+const RunShoes = ({ initShoeId, runId = "" }: RunShoesProps) => {
+  const [shoeId, setShoeId] = useState(initShoeId ?? "")
   const {
     data: shoesById,
     isLoading,
@@ -33,8 +33,8 @@ const RunShoes = ({ initShoeId, runId = '' }: RunShoesProps) => {
     const newShoeId = event.target.value
 
     // No shoe found - reset to initial state or empty state.
-    if (newShoeId == null || newShoeId === '') {
-      setShoeId(initShoeId ?? '')
+    if (newShoeId == null || newShoeId === "") {
+      setShoeId(initShoeId ?? "")
       return
     }
 
@@ -45,22 +45,22 @@ const RunShoes = ({ initShoeId, runId = '' }: RunShoesProps) => {
     })
   }
 
-  const id = 'view-run-shoe-select'
+  const id = "view-run-shoe-select"
 
   // TODO: Build a better Dropdown UI component
   return (
-    <div className='w-full sm:w-80'>
-      <label htmlFor={id} className='mb-3 block text-xl'>
+    <div className="w-full sm:w-80">
+      <label htmlFor={id} className="mb-3 block text-xl">
         Shoes
       </label>
       <select
         id={id}
         value={shoeId}
         onChange={handleChange}
-        className='w-40 bg-black bg-opacity-50'
+        className="w-40 bg-black bg-opacity-50"
       >
-        <option key={'Empty option'} value=''>
-          {isLoading ? '' : 'Select a shoe'}
+        <option key={"Empty option"} value="">
+          {isLoading ? "" : "Select a shoe"}
         </option>
 
         {!isLoading &&

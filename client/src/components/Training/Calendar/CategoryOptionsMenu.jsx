@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import useOutsideClickHandler from '../../UI/useOutsideClickHandler'
+import { useEffect } from "react"
+import useOutsideClickHandler from "../../UI/useOutsideClickHandler"
 
 // Displays a pop-up context menu
 const OptionsMenu = ({
@@ -24,32 +24,32 @@ const OptionsMenu = ({
       }
     }
 
-    window.addEventListener('keydown', handleEscPress)
+    window.addEventListener("keydown", handleEscPress)
 
     // Unregister listeners on dismount
     return () => {
-      window.removeEventListener('keydown', handleEscPress)
+      window.removeEventListener("keydown", handleEscPress)
     }
   }, [])
 
   let menuClasses =
-    'absolute left-0 w-full font-normal text-base text-left drop-shadow-lg border rounded-b border-neutral-500 bg-neutral-700 z-50'
+    "absolute left-0 w-full font-normal text-base text-left drop-shadow-lg border rounded-b border-neutral-500 bg-neutral-700 z-50"
 
-  menuClasses += isVisible ? ' block' : ' hidden'
+  menuClasses += isVisible ? " block" : " hidden"
 
   return (
     <div className={menuClasses}>
-      <ul className='flex w-full flex-col'>
+      <ul className="flex w-full flex-col">
         {options.map((categoryName, index) => {
           const isActiveCategory = activeOption === index
           const optionClasses = `${
-            isActiveCategory ? 'bg-eggplant-700 text-neutral-200 ' : ''
+            isActiveCategory ? "bg-eggplant-700 text-neutral-200 " : ""
           } w-full text-sm px-2 py-1 hover:bg-eggplant-600 cursor-pointer transition`
 
           return (
             <li
               key={index}
-              tabIndex='0'
+              tabIndex="0"
               className={optionClasses}
               onClick={() => {
                 onSelect(index)

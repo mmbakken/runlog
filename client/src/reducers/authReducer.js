@@ -1,5 +1,5 @@
-import actions from './actions'
-import userReducer from './userReducer'
+import actions from "./actions"
+import userReducer from "./userReducer"
 
 const authReducer = (state, action) => {
   switch (action.type) {

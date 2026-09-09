@@ -1,5 +1,5 @@
-import PlannedDistanceInput from './PlannedDistanceInput'
-import ActualDistance from './ActualDistance'
+import PlannedDistanceInput from "./PlannedDistanceInput"
+import ActualDistance from "./ActualDistance"
 
 const DateDistance = ({
   showPlannedInput,
@@ -10,11 +10,11 @@ const DateDistance = ({
   runIds,
 }) => {
   return (
-    <div className='w-32 cursor-default px-2 py-1 text-right'>
+    <div className="w-32 cursor-default px-2 py-1 text-right">
       {showPlannedInput ? (
         <PlannedDistanceInput
           distance={plannedDistance}
-          onChange={(value) => onDateEdit('plannedDistance', value, isoDate)}
+          onChange={(value) => onDateEdit("plannedDistance", value, isoDate)}
         />
       ) : (
         <ActualDistance

@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon'
-import mongoose from 'mongoose'
-import DailyStatsModel from '../db/DailyStatsModel.js'
-import RunModel from '../db/RunModel.js'
-import UserModel from '../db/UserModel.js'
+import { DateTime } from "luxon"
+import mongoose from "mongoose"
+import DailyStatsModel from "../db/DailyStatsModel.js"
+import RunModel from "../db/RunModel.js"
+import UserModel from "../db/UserModel.js"
 import {
   describe,
   expect,
@@ -10,19 +10,19 @@ import {
   afterEach,
   afterAll,
   test,
-} from '@jest/globals'
+} from "@jest/globals"
 
-import updateDailyStats from './updateDailyStats.js'
+import updateDailyStats from "./updateDailyStats.js"
 
 beforeAll(async () => {
   // Set up test DB
   try {
-    await mongoose.connect('mongodb://localhost/dailyStats', {
+    await mongoose.connect("mongodb://localhost/dailyStats", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
   } catch (err) {
-    console.error('Failed to connect to Mongoose')
+    console.error("Failed to connect to Mongoose")
     console.dir(err)
   }
 })
@@ -39,8 +39,8 @@ afterAll(async () => {
   return await mongoose.connection.close()
 })
 
-describe('DailyStats creation', () => {
-  test('Can create a new DailyStats document', async () => {
+describe("DailyStats creation", () => {
+  test("Can create a new DailyStats document", async () => {
     // Make a run to base the DailyStats on
     const run = await RunModel.create({
       startDate: DateTime.fromObject(
@@ -51,16 +51,16 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      title: 'Afternoon Run',
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     // Make the DailyStats using hardcoded values to make sure document creation works
@@ -74,12 +74,12 @@ describe('DailyStats creation', () => {
       weeklyDistance: run.distance,
     })
 
-    const ds = await DailyStatsModel.find({ date: '2021-10-10' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2021-10-10" }).exec()
 
     expect(ds.length).toBe(1)
   })
 
-  test('Creates a DailyStats document when one Run document is created.', async () => {
+  test("Creates a DailyStats document when one Run document is created.", async () => {
     // Make a run to base the DailyStats on
     const run = await RunModel.create({
       startDate: DateTime.fromObject(
@@ -90,22 +90,22 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     await updateDailyStats(run, user)
 
-    const ds = await DailyStatsModel.find({ date: '2021-10-10' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2021-10-10" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(6900.01)
     expect(ds[0].sevenDayDistance).toBe(6900.01)
@@ -113,10 +113,10 @@ describe('DailyStats creation', () => {
     expect(ds[0].runIds).toContainEqual(run._id)
   })
 
-  test('Add a second run after an existing run', async () => {
+  test("Add a second run after an existing run", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     // Run + DailyStats that existed prior to today's new run
@@ -129,11 +129,11 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 1000, // meters
     })
 
@@ -158,17 +158,17 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
     await updateDailyStats(newRun, user)
 
-    const ds = await DailyStatsModel.find({ date: '2022-03-25' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2022-03-25" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(6900.01)
     expect(ds[0].sevenDayDistance).toBe(7900.01)
@@ -176,10 +176,10 @@ describe('DailyStats creation', () => {
     expect(ds[0].runIds).toContainEqual(newRun._id)
   })
 
-  test('Add a third run over a week boundary', async () => {
+  test("Add a third run over a week boundary", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
       stats: {
         weekStartsOn: 1, // Monday
       },
@@ -195,11 +195,11 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 1000, // meters
     })
 
@@ -213,11 +213,11 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 1000, // meters
     })
 
@@ -252,17 +252,17 @@ describe('DailyStats creation', () => {
           hour: 15,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 1000, // meters
     })
 
     await updateDailyStats(newRun, user)
 
-    const ds = await DailyStatsModel.find({ date: '2022-03-24' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2022-03-24" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(1000)
     expect(ds[0].sevenDayDistance).toBe(3000)
@@ -270,10 +270,10 @@ describe('DailyStats creation', () => {
     expect(ds[0].runIds).toContainEqual(newRun._id)
   })
 
-  test('Add a second run with a date BEFORE an existing run', async () => {
+  test("Add a second run with a date BEFORE an existing run", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     // Run + DailyStats that existed prior to the "new" run being added at a priot date
@@ -286,11 +286,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 1000, // meters
     })
 
@@ -315,27 +315,27 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
     await updateDailyStats(newRun, user)
 
-    const ds = await DailyStatsModel.find({ date: '2022-03-25' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2022-03-25" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(1000)
     expect(ds[0].sevenDayDistance).toBe(7900.01)
     expect(ds[0].weeklyDistance).toBe(7900.01)
   })
 
-  test('Two runs on the same day', async () => {
+  test("Two runs on the same day", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     const run1 = await RunModel.create({
@@ -347,11 +347,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Morning Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Morning Run",
       distance: 1000, // meters
     })
 
@@ -364,28 +364,28 @@ describe('DailyStats creation', () => {
           hour: 14,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
     await updateDailyStats(run1, user)
     await updateDailyStats(run2, user)
 
-    const ds = await DailyStatsModel.find({ date: '2022-03-25' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2022-03-25" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(7900.01)
     expect(ds[0].sevenDayDistance).toBe(7900.01)
     expect(ds[0].weeklyDistance).toBe(7900.01)
   })
 
-  test('Two runs on the same day, added after existing runs', async () => {
+  test("Two runs on the same day, added after existing runs", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     const olderRun = await RunModel.create({
@@ -397,11 +397,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Morning Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Morning Run",
       distance: 1000, // meters
     })
 
@@ -414,11 +414,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Morning Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Morning Run",
       distance: 1000, // meters
     })
 
@@ -431,11 +431,11 @@ describe('DailyStats creation', () => {
           hour: 14,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
@@ -443,17 +443,17 @@ describe('DailyStats creation', () => {
     await updateDailyStats(run1, user)
     await updateDailyStats(run2, user)
 
-    const ds = await DailyStatsModel.find({ date: '2022-03-25' }).exec()
+    const ds = await DailyStatsModel.find({ date: "2022-03-25" }).exec()
     expect(ds.length).toBe(1)
     expect(ds[0].distance).toBe(7900.01)
     expect(ds[0].sevenDayDistance).toBe(8900.01)
     expect(ds[0].weeklyDistance).toBe(8900.01)
   })
 
-  test('Two runs on the same day, added BEFORE existing runs', async () => {
+  test("Two runs on the same day, added BEFORE existing runs", async () => {
     const user = await UserModel.create({
-      name: 'Vlad',
-      email: 'lenin@gmail.com',
+      name: "Vlad",
+      email: "lenin@gmail.com",
     })
 
     const existingRunInFuture = await RunModel.create({
@@ -465,11 +465,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Morning Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Morning Run",
       distance: 1000, // meters
     })
 
@@ -482,11 +482,11 @@ describe('DailyStats creation', () => {
           hour: 6,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Morning Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Morning Run",
       distance: 1000, // meters
     })
 
@@ -499,11 +499,11 @@ describe('DailyStats creation', () => {
           hour: 14,
         },
         {
-          zone: 'America/Denver',
-        }
+          zone: "America/Denver",
+        },
       ).toUTC(),
-      timezone: '(GMT-07:00) America/Denver',
-      title: 'Afternoon Run',
+      timezone: "(GMT-07:00) America/Denver",
+      title: "Afternoon Run",
       distance: 6900.01, // meters
     })
 
@@ -511,13 +511,13 @@ describe('DailyStats creation', () => {
     await updateDailyStats(run1, user)
     await updateDailyStats(run2, user)
 
-    const ds1 = await DailyStatsModel.find({ date: '2022-03-25' }).exec()
+    const ds1 = await DailyStatsModel.find({ date: "2022-03-25" }).exec()
     expect(ds1.length).toBe(1)
     expect(ds1[0].distance).toBe(7900.01)
     expect(ds1[0].sevenDayDistance).toBe(7900.01)
     expect(ds1[0].weeklyDistance).toBe(7900.01)
 
-    const ds2 = await DailyStatsModel.find({ date: '2022-03-26' }).exec()
+    const ds2 = await DailyStatsModel.find({ date: "2022-03-26" }).exec()
     expect(ds2.length).toBe(1)
     expect(ds2[0].distance).toBe(1000)
     expect(ds2[0].sevenDayDistance).toBe(8900.01)

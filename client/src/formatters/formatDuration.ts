@@ -1,13 +1,13 @@
-import { Duration } from 'luxon'
+import { Duration } from "luxon"
 
 // Given a number of seconds, returns a string representing the duration.
 const formatDuration = (timeInSeconds: number) => {
   const duration = Duration.fromMillis(timeInSeconds * 1000)
 
-  if (duration.as('hours') >= 1) {
-    return duration.toFormat('h:mm:ss')
+  if (duration.as("hours") >= 1) {
+    return duration.toFormat("h:mm:ss")
   } else {
-    return duration.toFormat('mm:ss')
+    return duration.toFormat("mm:ss")
   }
 }
 

@@ -38,9 +38,9 @@ export type UpdateRunPayload = {
   }
 }
 
-export type DistanceTypes = 'Between' | 'Less Than' | 'More Than' | 'Exactly'
+export type DistanceTypes = "Between" | "Less Than" | "More Than" | "Exactly"
 
-export type HabitTypes = 'strength' | 'stretch' | 'ice'
+export type HabitTypes = "strength" | "stretch" | "ice"
 
 export type Shoe = {
   _id: string

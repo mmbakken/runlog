@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon'
+import { DateTime } from "luxon"
 
 // Luxon date indexes: 1 => Monday, 7 => Sunday.
-import type { WeekdayNumbers } from 'luxon'
+import type { WeekdayNumbers } from "luxon"
 
 /**
  * Finds the next date on the weekday which is the start of the week. Can be the
@@ -15,12 +15,12 @@ import type { WeekdayNumbers } from 'luxon'
  */
 const nextUpcomingWeekStart = (
   isoDate: string,
-  weekStartsOn: WeekdayNumbers
+  weekStartsOn: WeekdayNumbers,
 ) => {
   if (
     isoDate == null ||
     weekStartsOn == null ||
-    typeof weekStartsOn !== 'number' ||
+    typeof weekStartsOn !== "number" ||
     weekStartsOn < 0 ||
     weekStartsOn > 7
   ) {

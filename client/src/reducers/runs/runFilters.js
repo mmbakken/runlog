@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
-import initialState from '../initialState'
-import { formatActualMileage } from 'app/formatters'
+import { DateTime } from "luxon"
+import initialState from "../initialState"
+import { formatActualMileage } from "app/formatters"
 
 // Given the runs by their id mapping and a filter object,
 // Returns an array of run._id strings that pass the filters.
@@ -36,20 +36,20 @@ const passesDateFilter = (run, startDate, endDate) => {
   // UX decision: User must select startDate before endDate (can't only select an endDate)
   if (!startDT.isValid && endDT.isValid) {
     throw new Error(
-      'Error in passesDateFilter: endDate filter must have a startDate filter value!'
+      "Error in passesDateFilter: endDate filter must have a startDate filter value!",
     )
   }
 
   if (run == null) {
-    throw new Error('Error in passesDateFilter: run is required.')
+    throw new Error("Error in passesDateFilter: run is required.")
   }
 
-  const tz = run.timezone.split(' ')[1]
+  const tz = run.timezone.split(" ")[1]
   const runDT = DateTime.fromISO(run.startDate, { zone: tz })
 
   if (!runDT.isValid) {
     throw new Error(
-      'Error in passesDateFilter: run.startDate must be a valid date.'
+      "Error in passesDateFilter: run.startDate must be a valid date.",
     )
   }
 
@@ -67,10 +67,10 @@ const passesDateFilter = (run, startDate, endDate) => {
 }
 
 const DISTANCE_FIILTER_MATCH_TYPE_VALUES = [
-  'Between',
-  'Less Than',
-  'More Than',
-  'Exactly',
+  "Between",
+  "Less Than",
+  "More Than",
+  "Exactly",
 ]
 
 const passesDistanceFilter = (run, distanceFilters) => {
@@ -107,7 +107,7 @@ const passesDistanceFilter = (run, distanceFilters) => {
 
     default: {
       throw new Error(
-        'Error in passesDistanceFilter: distance matchType must be one of the following values: ${DISTANCE_FIILTER_MATCH_TYPE_VALUES}'
+        "Error in passesDistanceFilter: distance matchType must be one of the following values: ${DISTANCE_FIILTER_MATCH_TYPE_VALUES}",
       )
     }
   }

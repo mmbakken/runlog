@@ -1,19 +1,19 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import react from '@vitejs/plugin-react'
-import { createHtmlPlugin } from 'vite-plugin-html'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite"
+import path from "path"
+import react from "@vitejs/plugin-react"
+import { createHtmlPlugin } from "vite-plugin-html"
+import tailwindcss from "@tailwindcss/vite"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: "/",
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      app: path.resolve(__dirname, './src'),
-      components: path.resolve(__dirname, './src/components'),
-      styles: path.resolve(__dirname, './src/styles'),
-      utils: path.resolve(__dirname, './src/utils'),
+      "@": path.resolve(__dirname, "./src"),
+      app: path.resolve(__dirname, "./src"),
+      components: path.resolve(__dirname, "./src/components"),
+      styles: path.resolve(__dirname, "./src/styles"),
+      utils: path.resolve(__dirname, "./src/utils"),
     },
   },
   plugins: [

@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
-import { DateTime } from 'luxon'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import WorkoutTextInput from './WorkoutTextInput'
-import CategoryOptionsMenu from './CategoryOptionsMenu'
-import DateDistance from './DateDistance'
+import { useState, useEffect, useRef } from "react"
+import { DateTime } from "luxon"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons"
+import WorkoutTextInput from "./WorkoutTextInput"
+import CategoryOptionsMenu from "./CategoryOptionsMenu"
+import DateDistance from "./DateDistance"
 
 const CalendarDate = ({
   date,
@@ -21,8 +21,8 @@ const CalendarDate = ({
   const [isHovering, setIsHovering] = useState(false)
   const containerRef = useRef(null)
 
-  const dt = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf('day')
-  const now = DateTime.now().startOf('day')
+  const dt = DateTime.fromISO(date.dateISO, { zone: "utc" }).startOf("day")
+  const now = DateTime.now().startOf("day")
 
   let isPastDate = dt < now
   const isCurrentDate = now.toISODate() === dt.toISODate()
@@ -39,73 +39,73 @@ const CalendarDate = ({
   // This list has to be in this file in order for Tailwind to generate the
   // class names correctly
   const categoryClassName = {
-    0: 'bg-rest-800',
-    1: 'bg-recovery-700',
-    2: 'bg-easy-700',
-    3: 'bg-long-700',
-    4: 'bg-marathon-700',
-    5: 'bg-tempo-700',
-    6: 'bg-vo2max-700',
-    7: 'bg-race-700',
-    8: 'bg-cross-training-700',
+    0: "bg-rest-800",
+    1: "bg-recovery-700",
+    2: "bg-easy-700",
+    3: "bg-long-700",
+    4: "bg-marathon-700",
+    5: "bg-tempo-700",
+    6: "bg-vo2max-700",
+    7: "bg-race-700",
+    8: "bg-cross-training-700",
   }
 
   const categoryClassNameHover = {
-    0: 'bg-rest-700',
-    1: 'bg-recovery-600',
-    2: 'bg-easy-600',
-    3: 'bg-long-600',
-    4: 'bg-marathon-600',
-    5: 'bg-tempo-600',
-    6: 'bg-vo2max-600',
-    7: 'bg-race-600',
-    8: 'bg-cross-training-600',
+    0: "bg-rest-700",
+    1: "bg-recovery-600",
+    2: "bg-easy-600",
+    3: "bg-long-600",
+    4: "bg-marathon-600",
+    5: "bg-tempo-600",
+    6: "bg-vo2max-600",
+    7: "bg-race-600",
+    8: "bg-cross-training-600",
   }
 
   const categoryNames = [
-    'Rest',
-    'Recovery',
-    'Easy',
-    'Long',
-    'Marathon',
-    'Tempo',
-    'VO₂max',
-    'Race',
-    'Cross Training',
+    "Rest",
+    "Recovery",
+    "Easy",
+    "Long",
+    "Marathon",
+    "Tempo",
+    "VO₂max",
+    "Race",
+    "Cross Training",
   ]
 
-  let classes = 'w-48 shrink-0 text-center'
+  let classes = "w-48 shrink-0 text-center"
 
   let dateBoxClasses =
-    'w-16 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none'
+    "w-16 px-2 py-1 flex items-center align-center border-r border-neutral-400 select-none"
 
   let categoryButtonClasses =
-    'w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-400 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700'
+    "w-full flex align-center items-center justify-between text-center py-1 border-b border-neutral-400 border-opacity-30 text-sm px-2 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-eggplant-700"
 
   if (isSelectedDate) {
     classes +=
-      ' outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 '
+      " outline outline-3 border-r border-transparent drop-shadow outline-eggplant-700 transition-outline z-10 "
   } else {
-    classes += ' border-b border-r border-neutral-400 '
+    classes += " border-b border-r border-neutral-400 "
   }
 
   if (isSelectedWeek) {
-    classes += ' border-t-eggplant-700 border-b-transparent '
+    classes += " border-t-eggplant-700 border-b-transparent "
   }
 
   if (isLastRow) {
-    classes += ' border-b '
+    classes += " border-b "
   }
 
   if (disableSelection) {
     classes += categoryClassName[date.workoutCategory]
-    categoryButtonClasses += ' cursor-default'
+    categoryButtonClasses += " cursor-default"
   } else {
-    categoryButtonClasses += ' cursor-pointer'
+    categoryButtonClasses += " cursor-pointer"
 
     if (isHovering) {
       classes += categoryClassNameHover[date.workoutCategory]
-      dateBoxClasses += ' cursor-pointer'
+      dateBoxClasses += " cursor-pointer"
     } else {
       classes += categoryClassName[date.workoutCategory]
     }
@@ -127,7 +127,7 @@ const CalendarDate = ({
 
   return (
     <div className={classes}>
-      <div className='flex w-full justify-between border-b border-neutral-400/60'>
+      <div className="flex w-full justify-between border-b border-neutral-400/60">
         <div
           className={dateBoxClasses}
           onClick={() => onDateClick(dt.toISODate())}
@@ -135,8 +135,8 @@ const CalendarDate = ({
           onMouseLeave={() => setIsHovering(false)}
         >
           {dt.toLocaleString({
-            month: 'numeric',
-            day: 'numeric',
+            month: "numeric",
+            day: "numeric",
           })}
         </div>
 
@@ -150,7 +150,7 @@ const CalendarDate = ({
         />
       </div>
 
-      <div className='relative w-full' ref={containerRef}>
+      <div className="relative w-full" ref={containerRef}>
         <button
           className={categoryButtonClasses}
           onClick={(e) => {
@@ -159,7 +159,7 @@ const CalendarDate = ({
           }}
         >
           <span>{categoryNames[date.workoutCategory]}</span>
-          <span className='cursor-pointer text-xs'>
+          <span className="cursor-pointer text-xs">
             <FontAwesomeIcon icon={faAngleDown} />
           </span>
         </button>
@@ -174,7 +174,7 @@ const CalendarDate = ({
           }}
           onSelect={(index) => {
             setIsOptionMenuVisible(false)
-            onDateEdit('workoutCategory', index, dt.toISODate())
+            onDateEdit("workoutCategory", index, dt.toISODate())
           }}
         />
       </div>
@@ -182,7 +182,7 @@ const CalendarDate = ({
       <WorkoutTextInput
         initialText={date.workout}
         onChange={(value) => {
-          onDateEdit('workout', value, dt.toISODate())
+          onDateEdit("workout", value, dt.toISODate())
         }}
       />
     </div>

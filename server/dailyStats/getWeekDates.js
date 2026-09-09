@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from "luxon"
 
 // Given an ISO Date string and a weekday integer (Luxon DateTime.weekday), returns an array of
 // ISO Date strings that are in the current week.

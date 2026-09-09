@@ -1,10 +1,10 @@
-import { useContext, useEffect } from 'react'
-import { useLocation, Navigate } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
+import { useContext, useEffect } from "react"
+import { useLocation, Navigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
+import actions from "../../reducers/actions"
+import { APIv1 } from "../../api"
 
-import { AccountRoute } from 'app/routes'
+import { AccountRoute } from "app/routes"
 
 const StravaTokenHandler = () => {
   const authDispatch = useContext(AuthContext)[1]
@@ -14,20 +14,20 @@ const StravaTokenHandler = () => {
 
   // Send the user's Strava access code to the backend so we can exchange it for a token
   // pair and start making requests to Strava's API.
-  const code = query.get('code')
-  const scope = query.get('scope')
-  const userId = query.get('state')
+  const code = query.get("code")
+  const scope = query.get("scope")
+  const userId = query.get("state")
 
   if (
     code == null ||
-    code === '' ||
+    code === "" ||
     scope == null ||
-    scope === '' ||
+    scope === "" ||
     userId == null ||
-    userId === ''
+    userId === ""
   ) {
     console.error(
-      'Something went wrong while parsing the Strava code after redirect'
+      "Something went wrong while parsing the Strava code after redirect",
     )
     return null
   }
@@ -58,7 +58,7 @@ const StravaTokenHandler = () => {
       })
       .catch((error) => {
         console.log(
-          'Something went wrong while trying to POST the Strava access code to the Runlog API.'
+          "Something went wrong while trying to POST the Strava access code to the Runlog API.",
         )
         console.error(error)
       })

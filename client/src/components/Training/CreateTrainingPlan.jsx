@@ -1,17 +1,17 @@
-import { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { DateTime } from 'luxon'
+import { useState, useContext } from "react"
+import { useNavigate } from "react-router-dom"
+import { DateTime } from "luxon"
 
-import { StateContext } from '../../context/StateContext'
-import { AuthContext } from '../../context/AuthContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
+import { StateContext } from "../../context/StateContext"
+import { AuthContext } from "../../context/AuthContext"
+import actions from "../../reducers/actions"
+import { APIv1 } from "../../api"
 
-import { nextUpcomingWeekStart } from 'app/utils'
-import { AllTrainingPlansRoute } from 'app/routes'
+import { nextUpcomingWeekStart } from "app/utils"
+import { AllTrainingPlansRoute } from "app/routes"
 
-import Checkbox from '../Forms/Checkbox'
-import Button from '../UI/Button'
+import Checkbox from "../Forms/Checkbox"
+import Button from "../UI/Button"
 
 const CreateTrainingPlan = () => {
   const dispatch = useContext(StateContext)[1]
@@ -22,10 +22,10 @@ const CreateTrainingPlan = () => {
   const DEFAULT_WEEK_COUNT = 8 // Seems like a reasonable training plan length
   const DEFAULT_WEEK_STARTS_ON = 1 // Monday
   const DAYS_PER_WEEK = 7
-  const DEFAULT_TITLE = ''
+  const DEFAULT_TITLE = ""
   const DEFAULT_START_DATE = nextUpcomingWeekStart(
     now.toISODate(),
-    auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON
+    auth?.user?.stats?.weekStartsOn || DEFAULT_WEEK_STARTS_ON,
   )
 
   // Tracks local state info about the unsaved training plan. This data will be converted to the
@@ -42,7 +42,7 @@ const CreateTrainingPlan = () => {
     }).toISODate(),
     timezone: now.zoneName,
     title: DEFAULT_TITLE,
-    goal: '',
+    goal: "",
     isActive: false,
   })
 
@@ -76,7 +76,7 @@ const CreateTrainingPlan = () => {
       plan: newPlan,
     })
 
-    APIv1.post('/training', newPlan)
+    APIv1.post("/training", newPlan)
       .then((response) => {
         dispatch({
           type: actions.CREATE_TRAINING_PLAN__SUCCESS,
@@ -128,7 +128,7 @@ const CreateTrainingPlan = () => {
 
     // TODO: If this happens it's likely bc the weekCount is not a number
     if (!newEndDate.isValid) {
-      console.error('Invalid end date after changing start date!')
+      console.error("Invalid end date after changing start date!")
       return
     }
 
@@ -163,88 +163,88 @@ const CreateTrainingPlan = () => {
   }
 
   return (
-    <div className='TrainingPage w-full space-y-4 px-4 pb-4'>
-      <h1 className='text-2xl'>New Training Plan</h1>
-      <form onSubmit={handleSubmit} className='w-full'>
-        <div className='mt-4 flex w-full space-x-8'>
-          <label className='w-full max-w-lg text-lg'>
+    <div className="TrainingPage w-full space-y-4 px-4 pb-4">
+      <h1 className="text-2xl">New Training Plan</h1>
+      <form onSubmit={handleSubmit} className="w-full">
+        <div className="mt-4 flex w-full space-x-8">
+          <label className="w-full max-w-lg text-lg">
             Title
             <input
-              type='text'
+              type="text"
               required
               autoFocus
-              placeholder='What race are you training for?'
+              placeholder="What race are you training for?"
               value={newTrainingPlan.title}
               onChange={(e) => onTitleChange(e.target.value)}
-              className='mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+              className="mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
             />
           </label>
         </div>
 
-        <div className='mt-4 flex w-full space-x-8'>
-          <label className='w-full max-w-lg text-lg'>
+        <div className="mt-4 flex w-full space-x-8">
+          <label className="w-full max-w-lg text-lg">
             Goal
             <textarea
-              type='text'
+              type="text"
               required
-              placeholder='What do you want to achieve?'
+              placeholder="What do you want to achieve?"
               value={newTrainingPlan.goal}
               onChange={(e) => onGoalChange(e.target.value)}
-              className='mt-2 block h-36 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+              className="mt-2 block h-36 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
             />
           </label>
         </div>
 
-        <div className='mt-4 flex space-x-8'>
-          <label className='text-lg'>
+        <div className="mt-4 flex space-x-8">
+          <label className="text-lg">
             Start Date
             <input
-              type='date'
+              type="date"
               value={newTrainingPlan.startDateISO}
               onChange={(e) => onDateChange(e.target.value)}
-              className='mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+              className="mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
             />
           </label>
 
-          <label className='text-lg'>
+          <label className="text-lg">
             Weeks
             <input
-              type='number'
+              type="number"
               value={newTrainingPlan.weekCount}
-              min='1'
-              max='52'
+              min="1"
+              max="52"
               onChange={(e) => onWeekCountChange(e.target.value)}
-              className='mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+              className="mt-2 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
             />
           </label>
 
-          <label className='text-lg'>
+          <label className="text-lg">
             End Date
             <input
               disabled
-              type='date'
+              type="date"
               value={newTrainingPlan.endDateISO}
-              className='mt-2 block rounded bg-transparent py-2 text-base'
+              className="mt-2 block rounded bg-transparent py-2 text-base"
             />
           </label>
         </div>
 
-        <div className='mt-4 flex space-x-8 text-lg'>
-          <label className='block flex flex-col items-start text-base'>
+        <div className="mt-4 flex space-x-8 text-lg">
+          <label className="block flex flex-col items-start text-base">
             Active Plan
-            <span className='block text-base text-neutral-500'>
+            <span className="block text-base text-neutral-500">
               Is this your current training plan?
             </span>
             <Checkbox
-              className='mt-2'
+              className="mt-2"
               onChange={() => toggleIsActive()}
               checked={newTrainingPlan.isActive}
             />
           </label>
         </div>
 
-        <div className='mt-6'>
-          <Button type='primary' disabled={!allowCreation}>
+        <div className="mt-6">
+          <Button type="primary" disabled={!allowCreation}>
             Create Plan
           </Button>
         </div>

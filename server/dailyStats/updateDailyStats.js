@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
-import DailyStatsModel from '../db/DailyStatsModel.js'
-import getWeekDates from './getWeekDates.js'
+import { DateTime } from "luxon"
+import DailyStatsModel from "../db/DailyStatsModel.js"
+import getWeekDates from "./getWeekDates.js"
 
 // Either create a new DailyStats document for this date, or look up the existing DailyStats
 // document for this date and add distances and this runId to the document.
@@ -9,11 +9,11 @@ import getWeekDates from './getWeekDates.js'
 // dates or nearby future dates, if this run is older than other runs).
 const updateDailyStats = async (newRun, user) => {
   // Timeone field has a weird format like "(GMT-07:00) America/Denver", just ignore the offset
-  const tz = newRun.timezone.split(' ')[1]
+  const tz = newRun.timezone.split(" ")[1]
   const runStartDate = DateTime.fromJSDate(newRun.startDate, { zone: tz })
   const currentWeekDates = getWeekDates(
     runStartDate.toISODate(),
-    user.stats.weekStartsOn
+    user.stats.weekStartsOn,
   )
 
   let currentDailyStats = await DailyStatsModel.findOne({
@@ -53,7 +53,7 @@ const updateDailyStats = async (newRun, user) => {
       for (let i = 0; i < recentDailyStats.length; i++) {
         let thisDS = recentDailyStats[i]
         recentDatesMap[
-          DateTime.fromJSDate(thisDS.date, { zone: 'utc' }).toISODate()
+          DateTime.fromJSDate(thisDS.date, { zone: "utc" }).toISODate()
         ] = thisDS
       }
 
@@ -105,7 +105,7 @@ const updateDailyStats = async (newRun, user) => {
     for (let i = 0; i < upcomingDailyStats.length; i++) {
       let thisDS = upcomingDailyStats[i]
       upcomingDatesMap[
-        DateTime.fromJSDate(thisDS.date, { zone: 'utc' }).toISODate()
+        DateTime.fromJSDate(thisDS.date, { zone: "utc" }).toISODate()
       ] = thisDS
     }
 

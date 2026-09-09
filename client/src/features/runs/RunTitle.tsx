@@ -1,15 +1,15 @@
-import { useRef, useState } from 'react'
-import cn from 'classnames'
-import { useDebounce } from 'app/hooks'
-import { useUpdateRunMutation } from 'app/features/api/apiSlice'
-import type { ChangeEvent, KeyboardEvent } from 'react'
+import { useRef, useState } from "react"
+import cn from "classnames"
+import { useDebounce } from "app/hooks"
+import { useUpdateRunMutation } from "app/features/api/apiSlice"
+import type { ChangeEvent, KeyboardEvent } from "react"
 
 type RunTitleProps = {
   initTitle?: string
   runId?: string
 }
 
-const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
+const RunTitle = ({ initTitle = "", runId = "" }: RunTitleProps) => {
   const titleButtonRef = useRef<HTMLButtonElement>(null)
   const titleInputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
@@ -25,17 +25,17 @@ const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
   })
 
   const buttonClasses1 = cn(
-    'cursor-pointer absolute',
-    { 'z-10 opacity-0': isEditing },
-    { 'z-20': !isEditing }
+    "cursor-pointer absolute",
+    { "z-10 opacity-0": isEditing },
+    { "z-20": !isEditing },
   )
 
-  const buttonClasses = 'hidden'
+  const buttonClasses = "hidden"
 
   const inputClasses = cn(
-    'absolute w-auto',
-    { 'z-20': isEditing },
-    { 'z-10': !isEditing }
+    "absolute w-auto",
+    { "z-20": isEditing },
+    { "z-10": !isEditing },
   )
 
   //===============================================
@@ -43,7 +43,7 @@ const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
   //===============================================
 
   const handleTitleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'Enter' || e.key === 'Space') {
+    if (e.key === "Enter" || e.key === "Space") {
       handleTitleClick()
     }
   }
@@ -59,7 +59,7 @@ const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
   }
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape' || e.key === 'Enter') {
+    if (e.key === "Escape" || e.key === "Enter") {
       handleInputBlur()
     }
   }
@@ -71,10 +71,10 @@ const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
 
   // TODO: Improve UI here
   return (
-    <header className='relative pb-4 text-2xl'>
+    <header className="relative pb-4 text-2xl">
       <button
         ref={titleButtonRef}
-        aria-label='Edit run title'
+        aria-label="Edit run title"
         className={buttonClasses}
         onClick={handleTitleClick}
         onKeyDown={handleTitleKeyDown}
@@ -88,7 +88,7 @@ const RunTitle = ({ initTitle = '', runId = '' }: RunTitleProps) => {
         onKeyDown={handleInputKeyDown}
         onBlur={handleInputBlur}
         value={title}
-        placeholder='Enter run title'
+        placeholder="Enter run title"
       />
     </header>
   )

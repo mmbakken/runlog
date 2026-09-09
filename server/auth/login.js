@@ -1,8 +1,8 @@
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 // Databse Schema
-import UserModel from '../db/UserModel.js'
+import UserModel from "../db/UserModel.js"
 
 const login = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ const login = async (req, res) => {
 
     if (user == null) {
       console.error(
-        `Cannot log in user: Unable to find user with email "${req.body.email}"`
+        `Cannot log in user: Unable to find user with email "${req.body.email}"`,
       )
       return res.sendStatus(401)
     }

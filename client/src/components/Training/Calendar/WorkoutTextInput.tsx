@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef } from "react"
 
 type WorkoutTextInputProps = {
   initialText?: string
@@ -27,9 +27,9 @@ const WorkoutTextInput = ({ initialText, onChange }: WorkoutTextInputProps) => {
   }
 
   return (
-    <div className='h-28 w-full'>
+    <div className="h-28 w-full">
       <textarea
-        className='size-full cursor-default resize-none bg-transparent px-2 py-1 text-sm outline-none'
+        className="size-full cursor-default resize-none bg-transparent px-2 py-1 text-sm outline-none"
         spellCheck={false}
         value={inputText}
         onChange={(event) => {

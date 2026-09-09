@@ -1,12 +1,12 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   /* Fonts */
 
-  --font-heading: 'Train One', 'Quicksand', 'sans-serif';
-  --font-sans: 'Quicksand', 'sans-serif';
+  --font-heading: "Train One", "Quicksand", "sans-serif";
+  --font-sans: "Quicksand", "sans-serif";
   --font-mono:
-    'source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace';
+    "source-code-pro", "Menlo", "Monaco", "Consolas", "Courier New", "monospace";
 
   /* Colors */
 
@@ -50,8 +50,8 @@ body {
 }
 
 /* Removes the up and down arrows from input[number] elements */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

@@ -1,4 +1,4 @@
-import DailyStatsModel from '../db/DailyStatsModel.js'
+import DailyStatsModel from "../db/DailyStatsModel.js"
 
 // Returns the logged in user's runs from the database.
 const getAllDailyStats = async (req, res) => {

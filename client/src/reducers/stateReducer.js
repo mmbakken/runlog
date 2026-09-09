@@ -1,8 +1,8 @@
-import actions from './actions'
-import initialState from './initialState'
-import runsReducer from './runs/runsReducer'
-import shoesReducer from './shoesReducer'
-import trainingReducer from './trainingReducer'
+import actions from "./actions"
+import initialState from "./initialState"
+import runsReducer from "./runs/runsReducer"
+import shoesReducer from "./shoesReducer"
+import trainingReducer from "./trainingReducer"
 
 const stateReducer = (state, action) => {
   switch (action.type) {

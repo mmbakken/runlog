@@ -1,21 +1,21 @@
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import 'styles/toast.css'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import "styles/toast.css"
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import RequireAuth from 'components/Auth/RequireAuth'
-import StravaTokenHandler from 'components/Auth/StravaTokenHandler'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import RequireAuth from "components/Auth/RequireAuth"
+import StravaTokenHandler from "components/Auth/StravaTokenHandler"
 
-import Navbar from 'components/Navbar'
-import LoginPage from 'components/Auth/LoginPage'
-import HomePage from 'components/HomePage'
-import AllTrainingPlans from 'components/Training/AllTrainingPlans'
-import ViewTrainingPlan from 'components/Training/ViewTrainingPlan'
-import CreateTrainingPlan from 'components/Training/CreateTrainingPlan'
-import AccountPage from 'components/User/AccountPage'
+import Navbar from "components/Navbar"
+import LoginPage from "components/Auth/LoginPage"
+import HomePage from "components/HomePage"
+import AllTrainingPlans from "components/Training/AllTrainingPlans"
+import ViewTrainingPlan from "components/Training/ViewTrainingPlan"
+import CreateTrainingPlan from "components/Training/CreateTrainingPlan"
+import AccountPage from "components/User/AccountPage"
 
-import AllRunsPage from 'app/features/runs/AllRunsPage'
-import ViewRunPage from 'app/features/runs/ViewRunPage'
+import AllRunsPage from "app/features/runs/AllRunsPage"
+import ViewRunPage from "app/features/runs/ViewRunPage"
 
 import {
   HomeRoute,
@@ -26,13 +26,13 @@ import {
   ViewRunRoute,
   LoginRoute,
   AccountRoute,
-} from 'app/routes'
+} from "app/routes"
 
 const App = () => {
   return (
-    <div className='mx-auto h-full w-full max-w-(--breakpoint-2xl) min-w-[350px] font-sans text-neutral-200'>
+    <div className="mx-auto h-full w-full max-w-(--breakpoint-2xl) min-w-[350px] font-sans text-neutral-200">
       <ToastContainer
-        position='top-right'
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={true}
@@ -41,7 +41,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme='light'
+        theme="light"
       />
 
       <Router>
@@ -49,7 +49,7 @@ const App = () => {
 
         <Routes>
           <Route
-            path='/exchange_token'
+            path="/exchange_token"
             element={
               <RequireAuth redirectTo={LoginRoute}>
                 <StravaTokenHandler />

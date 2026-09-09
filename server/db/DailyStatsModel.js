@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 // This collection holds run documents that represent run activities on a user's
 // third-party linked accounts like Strava, Fitbit, etc.
@@ -16,4 +16,4 @@ const dailyStatsSchema = new mongoose.Schema({
   weeklyDistance: { type: Number, default: 0 }, // The running total of distance since this week began (in meters)
 })
 
-export default mongoose.model('dailyStats', dailyStatsSchema)
+export default mongoose.model("dailyStats", dailyStatsSchema)

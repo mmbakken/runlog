@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
-import ShoeModel from '../db/ShoeModel.js'
-import addFloats from '../utils/addFloats.js'
+import mongoose from "mongoose"
+import ShoeModel from "../db/ShoeModel.js"
+import addFloats from "../utils/addFloats.js"
 
 // Given a shoeId and an optional currentShoeId, this function updates the shoes
 // matching each id to reflect that a run has been assigned a new shoe.
@@ -10,24 +10,24 @@ const updateUserShoeList = async (
   currentShoeId,
   userId,
   runId,
-  distance
+  distance,
 ) => {
   // NB: There is no way to "unset" a shoe for a run, once a shoe is set.
   if (shoeId == null) {
     throw new Error(
-      'Invalid params for updateUserShoeList: shoeId must not be null. Returning without updating user shoe list.'
+      "Invalid params for updateUserShoeList: shoeId must not be null. Returning without updating user shoe list.",
     )
   }
 
   if (runId == null) {
     throw new Error(
-      'Invalid params for updateUserShoeList: runId must not be null. Returning without updating user shoe list.'
+      "Invalid params for updateUserShoeList: runId must not be null. Returning without updating user shoe list.",
     )
   }
 
-  if (distance == null || typeof distance !== 'number') {
+  if (distance == null || typeof distance !== "number") {
     throw new Error(
-      'Invalid params for updateUserShoeList: distance must be a number. Returning without updating user shoe list.'
+      "Invalid params for updateUserShoeList: distance must be a number. Returning without updating user shoe list.",
     )
   }
 
@@ -39,13 +39,13 @@ const updateUserShoeList = async (
 
     if (newShoe == null) {
       throw new Error(
-        `Unable to find shoe document with id: "${shoeId}". Returning without updating shoe run ids or distance.`
+        `Unable to find shoe document with id: "${shoeId}". Returning without updating shoe run ids or distance.`,
       )
     }
   } catch (err) {
     console.error(err)
     throw new Error(
-      `Something went wrong while trying to find the new shoe with id "${shoeId}". Returning without updating shoe run ids or distance.`
+      `Something went wrong while trying to find the new shoe with id "${shoeId}". Returning without updating shoe run ids or distance.`,
     )
   }
 
@@ -57,12 +57,12 @@ const updateUserShoeList = async (
       {
         runIds: [...newShoe.runIds, runId],
         distance: addFloats(newShoe.distance, distance),
-      }
+      },
     )
   } catch (err) {
     console.error(err)
     throw new Error(
-      `Something went wrong while updating the new shoe with id "${shoeId}". Returning without updating shoe run ids or distance.`
+      `Something went wrong while updating the new shoe with id "${shoeId}". Returning without updating shoe run ids or distance.`,
     )
   }
 
@@ -74,7 +74,7 @@ const updateUserShoeList = async (
 
     if (currentShoe != null) {
       // Remove the runId from the current run's shoe
-      const updatedRunIds = currentShoe.runIds.filter(id => {
+      const updatedRunIds = currentShoe.runIds.filter((id) => {
         return id.toString() !== runId.toString()
       })
 
@@ -89,12 +89,12 @@ const updateUserShoeList = async (
           {
             runIds: updatedRunIds,
             distance: updatedDistance,
-          }
+          },
         )
       } catch (err) {
         console.error(err)
         throw new Error(
-          `Something went wrong while updating the current shoe with id "${currentShoeId}". Returning without updating shoe run ids or distance.`
+          `Something went wrong while updating the current shoe with id "${currentShoeId}". Returning without updating shoe run ids or distance.`,
         )
       }
     }

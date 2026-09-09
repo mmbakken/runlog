@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import RunModel from '../db/RunModel.js'
+import mongoose from "mongoose"
+import RunModel from "../db/RunModel.js"
 
 // Returns the logged in user's runs from the database.
 const getRun = async (req, res) => {

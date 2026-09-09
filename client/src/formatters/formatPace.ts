@@ -1,10 +1,10 @@
-import { Duration } from 'luxon'
+import { Duration } from "luxon"
 
 import {
   SECONDS_PER_MINUTE,
   MILLISECONDS_PER_SECOND,
   METERS_PER_SECOND_TO_MINUTES_PER_MILE,
-} from 'app/constants/unitConversion.js'
+} from "app/constants/unitConversion.js"
 
 // Convert meters per second into minutes per mile. Returns a string.
 const formatPace = (speedInMetersPerSecond: number) => {
@@ -13,7 +13,7 @@ const formatPace = (speedInMetersPerSecond: number) => {
     Number.isNaN(speedInMetersPerSecond) ||
     speedInMetersPerSecond === 0
   ) {
-    return '–'
+    return "–"
   }
 
   // Solve for x, given speed:
@@ -26,8 +26,8 @@ const formatPace = (speedInMetersPerSecond: number) => {
     METERS_PER_SECOND_TO_MINUTES_PER_MILE / speedInMetersPerSecond
   return (
     Duration.fromMillis(
-      minutesPerMile * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND
-    ).toFormat('m:ss') + '/mi'
+      minutesPerMile * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND,
+    ).toFormat("m:ss") + "/mi"
   )
 }
 

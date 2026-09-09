@@ -1,6 +1,6 @@
-import axios from 'axios'
-import UserModel from '../db/UserModel.js'
-import { useFreshTokens } from '../auth/stravaTokens.js'
+import axios from "axios"
+import UserModel from "../db/UserModel.js"
+import { useFreshTokens } from "../auth/stravaTokens.js"
 
 const getStravaRuns = async (req, res) => {
   try {
@@ -12,14 +12,14 @@ const getStravaRuns = async (req, res) => {
     }
 
     const response = await axios({
-      method: 'get',
-      url: 'https://www.strava.com/api/v3/athlete/activities',
+      method: "get",
+      url: "https://www.strava.com/api/v3/athlete/activities",
       headers: {
         Authorization: `Bearer ${await useFreshTokens(user)}`,
       },
     })
 
-    console.log('Retrieved Strava activities successfully')
+    console.log("Retrieved Strava activities successfully")
 
     // TODO: Eventually, we can import these runs into our database for this user.
     return res.json(response.data)

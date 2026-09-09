@@ -1,14 +1,14 @@
-import { useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { DateTime } from 'luxon'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { StateContext } from 'app/context/StateContext'
-import actions from 'app/reducers/actions'
-import { APIv1 } from 'app/api'
-import { CreateTrainingRoute, ViewTrainingPlanRoute } from 'app/routes'
-import { formatActualMileage, formatPlannedMileage } from 'app/formatters'
-import Button from 'app/components/UI/Button'
+import { useEffect, useContext } from "react"
+import { useNavigate } from "react-router-dom"
+import { DateTime } from "luxon"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { StateContext } from "app/context/StateContext"
+import actions from "app/reducers/actions"
+import { APIv1 } from "app/api"
+import { CreateTrainingRoute, ViewTrainingPlanRoute } from "app/routes"
+import { formatActualMileage, formatPlannedMileage } from "app/formatters"
+import Button from "app/components/UI/Button"
 
 const AllTrainingPlans = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -21,7 +21,7 @@ const AllTrainingPlans = () => {
       type: actions.GET_ALL_TRAINING__START,
     })
 
-    APIv1.get('/training')
+    APIv1.get("/training")
       .then((response) => {
         dispatch({
           type: actions.GET_ALL_TRAINING__SUCCESS,
@@ -37,13 +37,13 @@ const AllTrainingPlans = () => {
   }, [])
 
   const onViewClick = (id) => {
-    navigate(ViewTrainingPlanRoute.split(':')[0].concat(id))
+    navigate(ViewTrainingPlanRoute.split(":")[0].concat(id))
   }
 
   return (
-    <div className='TrainingPage w-full px-4 pb-4'>
-      <div className='w-full'>
-        <h1 className='mb-4 text-2xl'>All Training Plans</h1>
+    <div className="TrainingPage w-full px-4 pb-4">
+      <div className="w-full">
+        <h1 className="mb-4 text-2xl">All Training Plans</h1>
 
         {state.training.isFetching ? (
           <div>
@@ -53,7 +53,7 @@ const AllTrainingPlans = () => {
 
         {state.training.byId &&
         Object.values(state.training.byId).length > 0 ? (
-          <div className='mb-6 grid w-full grid-cols-(--plans-page) gap-x-6 gap-y-2'>
+          <div className="mb-6 grid w-full grid-cols-(--plans-page) gap-x-6 gap-y-2">
             {Object.values(state.training.byId)
               .sort((planA, planB) => {
                 if (planA.isActive && !planB.isActive) {
@@ -72,22 +72,22 @@ const AllTrainingPlans = () => {
                 const rows = []
                 if (index === 0) {
                   rows.push(
-                    <div key='header' className='contents'>
-                      <div className='col-span-2'>Title</div>
+                    <div key="header" className="contents">
+                      <div className="col-span-2">Title</div>
                       <div>Start Date</div>
                       <div>End Date</div>
                       <div>Weeks</div>
                       <div>Mileage</div>
                       <div>Planned</div>
-                    </div>
+                    </div>,
                   )
                 }
 
                 rows.push(
-                  <div key={index} className='contents'>
+                  <div key={index} className="contents">
                     <div>
                       <span
-                        className='cursor-pointer hover:underline'
+                        className="cursor-pointer hover:underline"
                         onClick={() => {
                           onViewClick(training._id)
                         }}
@@ -100,29 +100,29 @@ const AllTrainingPlans = () => {
                         <div>
                           <FontAwesomeIcon
                             icon={faStar}
-                            className='mx-2 text-eggplant-700'
+                            className="mx-2 text-eggplant-700"
                           />
                         </div>
                       ) : (
-                        ''
+                        ""
                       )}
                     </div>
                     <div>
                       {DateTime.fromISO(training.startDate, {
-                        zone: 'utc',
+                        zone: "utc",
                       }).toLocaleString()}
                     </div>
                     <div>
                       {DateTime.fromISO(training.endDate, {
-                        zone: 'utc',
+                        zone: "utc",
                       }).toLocaleString()}
                     </div>
-                    <div className='text-center'>{training.weeks.length}</div>
+                    <div className="text-center">{training.weeks.length}</div>
                     <div>{formatActualMileage(training.actualDistance)} mi</div>
                     <div>
                       {formatPlannedMileage(training.plannedDistance)} mi
                     </div>
-                  </div>
+                  </div>,
                 )
 
                 return rows
@@ -133,13 +133,13 @@ const AllTrainingPlans = () => {
         {!state.training.isFetching &&
           (state.training.byId == null ||
             Object.values(state.training.byId).length === 0) && (
-            <div className='mb-4'>No training plans found.</div>
+            <div className="mb-4">No training plans found.</div>
           )}
       </div>
 
       <div>
         <Button
-          type='primary'
+          type="primary"
           onClick={() => {
             navigate(CreateTrainingRoute)
           }}

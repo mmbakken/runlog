@@ -1,9 +1,9 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import { DateTime } from 'luxon'
-import UserModel from '../../db/UserModel.js'
-import RunModel from '../../db/RunModel.js'
-import TrainingModel from '../../db/TrainingModel.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import { DateTime } from "luxon"
+import UserModel from "../../db/UserModel.js"
+import RunModel from "../../db/RunModel.js"
+import TrainingModel from "../../db/TrainingModel.js"
 
 // This script adds a array field `runIds` to all plan objects. The value is added to each existing
 // plan based on the same logic (at time of writing) as used in the RunPage.js component.
@@ -33,7 +33,7 @@ const addRunIdsToPlans = async () => {
       let runISODate
       runs.map((run) => {
         runISODate = DateTime.fromJSDate(run.startDate, {
-          zone: run.timezone.split(' ')[1],
+          zone: run.timezone.split(" ")[1],
         }).toISODate()
 
         if (runIdsByDate[runISODate] != null) {
@@ -54,7 +54,7 @@ const addRunIdsToPlans = async () => {
           nPlanDatesModified++
           planDate.runIds = []
           isoDate = DateTime.fromJSDate(planDate.dateISO, {
-            zone: 'utc',
+            zone: "utc",
           }).toISODate()
           console.log(isoDate)
 
@@ -76,9 +76,9 @@ const addRunIdsToPlans = async () => {
 
       console.log(`${plans.length} plans found and ${nModified} plans updated.`)
       console.log(
-        `${nPlanDatesModified} plan dates updated to include runIds array.`
+        `${nPlanDatesModified} plan dates updated to include runIds array.`,
       )
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log("~~~~~~~~~~~~~~~~~~~~~~~~")
     }
   } catch (err) {
     console.error(err)

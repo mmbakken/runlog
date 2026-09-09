@@ -1,23 +1,23 @@
-import trainingImg from 'app/assets/trainingCalendar.png'
-import allRunsImg from 'app/assets/allRuns.png'
-import stravaLogoPoweredBy from 'app/assets/stravaLogoPoweredBy.svg'
+import trainingImg from "app/assets/trainingCalendar.png"
+import allRunsImg from "app/assets/allRuns.png"
+import stravaLogoPoweredBy from "app/assets/stravaLogoPoweredBy.svg"
 
 const HomePage = () => {
   return (
-    <div className='HomePage -mt-12'>
-      <header className='mx-4 flex h-200 max-h-screen flex-col items-center justify-between border-b border-neutral-500 pt-32 pb-8 text-center'>
-        <div className='flex flex-col gap-4'>
-          <h1 className='mt-12 mb-12 font-heading text-8xl'>runlog</h1>
-          <p className='text-2xl'>
+    <div className="HomePage -mt-12">
+      <header className="mx-4 flex h-200 max-h-screen flex-col items-center justify-between border-b border-neutral-500 pt-32 pb-8 text-center">
+        <div className="flex flex-col gap-4">
+          <h1 className="mt-12 mb-12 font-heading text-8xl">runlog</h1>
+          <p className="text-2xl">
             Better run training and tracking tools – no more spreadsheets.
           </p>
-          <p className='text-xl'>
-            Created by{' '}
+          <p className="text-xl">
+            Created by{" "}
             <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href='https://github.com/mmbakken'
-              className='hover:underline'
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/mmbakken"
+              className="hover:underline"
             >
               @mmbakken
             </a>
@@ -27,27 +27,27 @@ const HomePage = () => {
         <div>
           <p>
             <img
-              className='h-16'
+              className="h-16"
               src={stravaLogoPoweredBy}
-              alt='Powered by Strava API logo.'
+              alt="Powered by Strava API logo."
             />
           </p>
         </div>
       </header>
 
-      <section className='mx-4 flex flex-col items-center justify-between space-y-4 py-16 sm:flex-row md:space-x-24'>
-        <div className='basis-2/3'>
+      <section className="mx-4 flex flex-col items-center justify-between space-y-4 py-16 sm:flex-row md:space-x-24">
+        <div className="basis-2/3">
           <img
-            className='mb-8 rounded-lg border sm:mb-0'
+            className="mb-8 rounded-lg border sm:mb-0"
             src={trainingImg}
-            alt='A calendar component showing many recent workouts'
+            alt="A calendar component showing many recent workouts"
           />
         </div>
 
-        <div className='basis-1/3'>
-          <h2 className='mb-4 text-3xl'>Training Calendar</h2>
+        <div className="basis-1/3">
+          <h2 className="mb-4 text-3xl">Training Calendar</h2>
 
-          <ul className='space-y-4 text-xl'>
+          <ul className="space-y-4 text-xl">
             <li>
               <p>Plan your weekly training over months.</p>
             </li>
@@ -70,11 +70,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className='mx-4 flex flex-col-reverse items-center justify-between space-y-4 border-b border-neutral-500 py-16 sm:flex-row md:space-x-24'>
-        <div className='basis-1/3'>
-          <h2 className='mb-4 text-3xl'>Run Tracking</h2>
+      <section className="mx-4 flex flex-col-reverse items-center justify-between space-y-4 border-b border-neutral-500 py-16 sm:flex-row md:space-x-24">
+        <div className="basis-1/3">
+          <h2 className="mb-4 text-3xl">Run Tracking</h2>
 
-          <ul className='space-y-4 text-xl'>
+          <ul className="space-y-4 text-xl">
             <li>
               <p>View all of your recent runs in one simple list.</p>
             </li>
@@ -93,11 +93,11 @@ const HomePage = () => {
           </ul>
         </div>
 
-        <div className='basis-2/3'>
+        <div className="basis-2/3">
           <img
-            className='mb-8 rounded-lg border sm:mb-0'
+            className="mb-8 rounded-lg border sm:mb-0"
             src={allRunsImg}
-            alt='A calendar component showing many recent workouts'
+            alt="A calendar component showing many recent workouts"
           />
         </div>
       </section>

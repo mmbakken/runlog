@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import ShoeModel from '../db/ShoeModel.js'
+import mongoose from "mongoose"
+import ShoeModel from "../db/ShoeModel.js"
 
 // Removes the given shoe from the database
 const deleteShoes = async (req, res) => {
@@ -8,7 +8,7 @@ const deleteShoes = async (req, res) => {
 
     if (shoe == null) {
       console.error(
-        `Cannot delete shoe with id "${req.params.id}": id was not found.`
+        `Cannot delete shoe with id "${req.params.id}": id was not found.`,
       )
       return res.sendStatus(404)
     }
@@ -22,7 +22,7 @@ const deleteShoes = async (req, res) => {
     return res.json(shoe)
   } catch (e) {
     console.error(
-      `Error while trying to delete shoe with id "${req.params.id}". Aborting delete action.`
+      `Error while trying to delete shoe with id "${req.params.id}". Aborting delete action.`,
     )
     console.dir(e)
 

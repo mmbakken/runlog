@@ -1,6 +1,6 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import UserModel from '../../db/UserModel.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import UserModel from "../../db/UserModel.js"
 
 const addGearToUsers = async () => {
   connectToMongo()
@@ -9,7 +9,7 @@ const addGearToUsers = async () => {
   try {
     const allUsers = await UserModel.find(
       {}, // all runs
-      '_id'
+      "_id",
     )
 
     let nModified = 0

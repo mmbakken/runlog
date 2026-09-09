@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import TrainingModel from '../../db/TrainingModel.js'
-import updatePlanDistances from '../../training/updatePlanDistances.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import TrainingModel from "../../db/TrainingModel.js"
+import updatePlanDistances from "../../training/updatePlanDistances.js"
 
 // Sets the plannedDistance values for
 const updateAllPlanDistances = async () => {

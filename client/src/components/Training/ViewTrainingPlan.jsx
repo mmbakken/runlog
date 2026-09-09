@@ -1,23 +1,23 @@
-import { useState, useEffect, useContext } from 'react'
-import { toast } from 'react-toastify'
-import { DateTime } from 'luxon'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { useState, useEffect, useContext } from "react"
+import { toast } from "react-toastify"
+import { DateTime } from "luxon"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faStar } from "@fortawesome/free-solid-svg-icons"
 import {
   faStar as faStarOutline,
   faEdit,
   faTrashCan,
   faSave,
-} from '@fortawesome/free-regular-svg-icons'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { StateContext } from 'app/context/StateContext'
-import actions from 'app/reducers/actions'
-import { APIv1 } from 'app/api'
-import { AllTrainingPlansRoute } from 'app/routes'
-import { articlize } from 'app/utils'
-import { formatActualMileage } from 'app/formatters'
-import TrainingCalendar from './Calendar/TrainingCalendar'
-import Button from 'app/components/UI/Button'
+} from "@fortawesome/free-regular-svg-icons"
+import { useLocation, useNavigate } from "react-router-dom"
+import { StateContext } from "app/context/StateContext"
+import actions from "app/reducers/actions"
+import { APIv1 } from "app/api"
+import { AllTrainingPlansRoute } from "app/routes"
+import { articlize } from "app/utils"
+import { formatActualMileage } from "app/formatters"
+import TrainingCalendar from "./Calendar/TrainingCalendar"
+import Button from "app/components/UI/Button"
 
 const ViewTrainingPlan = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -25,25 +25,25 @@ const ViewTrainingPlan = () => {
   const [editedPlan, setEditedPlan] = useState(null)
   const location = useLocation()
   const navigate = useNavigate()
-  const id = location.pathname.split('/training/')[1]
+  const id = location.pathname.split("/training/")[1]
   const DEBUG = false
   const DAYS_PER_WEEK = 7
 
   const training = state?.training?.byId[id]
 
-  let planDesc = ''
+  let planDesc = ""
   if (training != null) {
-    planDesc = `${articlize(training.weeks.length, 'A', 'An')} ${
+    planDesc = `${articlize(training.weeks.length, "A", "An")} ${
       training.weeks.length
     }-week training plan from ${DateTime.fromISO(training.startDate, {
-      zone: 'utc',
+      zone: "utc",
     }).toLocaleString({
-      month: 'numeric',
-      day: 'numeric',
-      year: '2-digit',
+      month: "numeric",
+      day: "numeric",
+      year: "2-digit",
     })} through ${DateTime.fromISO(training.endDate, {
-      zone: 'utc',
-    }).toLocaleString({ month: 'numeric', day: 'numeric', year: '2-digit' })}`
+      zone: "utc",
+    }).toLocaleString({ month: "numeric", day: "numeric", year: "2-digit" })}`
   }
 
   // Get this training plan
@@ -77,10 +77,10 @@ const ViewTrainingPlan = () => {
         ui: {
           weekCount: state.training.byId[id].weeks.length,
           startDateISO: DateTime.fromISO(state.training.byId[id].startDate, {
-            zone: 'utc',
+            zone: "utc",
           }).toISODate(),
           endDateISO: DateTime.fromISO(state.training.byId[id].endDate, {
-            zone: 'utc',
+            zone: "utc",
           }).toISODate(),
         },
 
@@ -123,10 +123,10 @@ const ViewTrainingPlan = () => {
       ui: {
         weekCount: state.training.byId[id].weeks.length,
         startDateISO: DateTime.fromISO(state.training.byId[id].startDate, {
-          zone: 'utc',
+          zone: "utc",
         }).toISODate(),
         endDateISO: DateTime.fromISO(state.training.byId[id].endDate, {
-          zone: 'utc',
+          zone: "utc",
         }).toISODate(),
       },
 
@@ -153,7 +153,7 @@ const ViewTrainingPlan = () => {
     // TODO: Confirm modal?
     if (
       window.confirm(
-        'Are you sure you want to cancel your changes to this training plan? This action cannot be undone.'
+        "Are you sure you want to cancel your changes to this training plan? This action cannot be undone.",
       )
     ) {
       setIsEditMode(false)
@@ -186,7 +186,7 @@ const ViewTrainingPlan = () => {
   const onDateChange = (newDate) => {
     // TODO: Need to ensure that the user picks a date which is the start of a week
 
-    const newStartDT = DateTime.fromISO(newDate, { zone: 'utc' })
+    const newStartDT = DateTime.fromISO(newDate, { zone: "utc" })
 
     if (!newStartDT.isValid) {
       console.error(`Invalid start date selected: ${newDate}`)
@@ -201,14 +201,14 @@ const ViewTrainingPlan = () => {
 
     // TODO: If this happens it's likely bc the weekCount is not a number
     if (!newEndDT.isValid) {
-      console.error('Invalid end date after changing start date!')
+      console.error("Invalid end date after changing start date!")
       return
     }
 
     // So the start date and end date have changed. This means we should regenerate the weeks and dates arrays based on the new date range.
     // Wherever possible, we must reuse the current training plan's weeks and dates
-    const oldStartDT = DateTime.fromISO(training.startDate, { zone: 'utc' })
-    const oldEndDT = DateTime.fromISO(training.endDate, { zone: 'utc' })
+    const oldStartDT = DateTime.fromISO(training.startDate, { zone: "utc" })
+    const oldEndDT = DateTime.fromISO(training.endDate, { zone: "utc" })
     let startOfWeekDT
     let foundWeek
     let weeks = []
@@ -216,8 +216,8 @@ const ViewTrainingPlan = () => {
 
     // For each date between startDT and endDT (there may be none of these), add to the dates array
     let foundDates = training.dates.filter((date) => {
-      let existingDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
-        'day'
+      let existingDT = DateTime.fromISO(date.dateISO, { zone: "utc" }).startOf(
+        "day",
       )
       return newStartDT <= existingDT && existingDT <= newEndDT
     })
@@ -238,14 +238,14 @@ const ViewTrainingPlan = () => {
         // Find the week in the weeks array with this date as its start date
         // Then find all of the date objects with this date plus the next 6 dates and add them
         foundWeek = training.weeks.find((week) => {
-          return DateTime.fromISO(week.startDateISO, { zone: 'utc' }).equals(
-            startOfWeekDT
+          return DateTime.fromISO(week.startDateISO, { zone: "utc" }).equals(
+            startOfWeekDT,
           )
         })
 
         if (foundWeek == null) {
           console.error(
-            'Did not find the week we needed in training.weeks array'
+            "Did not find the week we needed in training.weeks array",
           )
           return
         }
@@ -269,7 +269,7 @@ const ViewTrainingPlan = () => {
               .toISODate(),
             actualDistance: 0, // TODO: Lol good luck
             plannedDistance: 0,
-            workout: '',
+            workout: "",
             workoutCategory: 0,
           })
         }
@@ -292,7 +292,7 @@ const ViewTrainingPlan = () => {
 
   // Handler to update the end date of the training plan
   const onWeekCountChange = (newWeekCount) => {
-    const startDT = DateTime.fromISO(editedPlan.startDate, { zone: 'utc' })
+    const startDT = DateTime.fromISO(editedPlan.startDate, { zone: "utc" })
     const endDT = startDT.plus({
       days: DAYS_PER_WEEK * Number.parseInt(newWeekCount) - 1,
     })
@@ -334,7 +334,7 @@ const ViewTrainingPlan = () => {
               .toISODate(),
             actualDistance: 0, // TODO: Lol good luck
             plannedDistance: 0,
-            workout: '',
+            workout: "",
             workoutCategory: 0,
           })
         }
@@ -367,7 +367,7 @@ const ViewTrainingPlan = () => {
   const onDeleteClick = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the training plan "${training.title}"? This action cannot be undone.`
+        `Are you sure you want to delete the training plan "${training.title}"? This action cannot be undone.`,
       )
     ) {
       dispatch({
@@ -381,15 +381,15 @@ const ViewTrainingPlan = () => {
             id: id,
           })
 
-          toast.success('Training plan deleted.', {
-            position: 'bottom-center',
+          toast.success("Training plan deleted.", {
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'light',
+            theme: "light",
           })
 
           navigate(AllTrainingPlansRoute)
@@ -400,22 +400,22 @@ const ViewTrainingPlan = () => {
             error: error,
           })
 
-          toast.error('Error deleting training plan. Please try again later.', {
-            position: 'bottom-center',
+          toast.error("Error deleting training plan. Please try again later.", {
+            position: "bottom-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'light',
+            theme: "light",
           })
         })
     }
   }
 
   return (
-    <div className='TrainingPage w-full pb-4'>
+    <div className="TrainingPage w-full pb-4">
       {state.training.isFetching && (
         <div>
           <span>Loading...</span>
@@ -423,29 +423,29 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && state.training.byId && training && (
-        <div className='mb-4 h-auto w-full'>
-          <div className='mb-4 flex w-full space-x-4 px-4'>
-            <div className='flex w-full flex-col'>
-              <div className='align-center flex w-full items-center'>
+        <div className="mb-4 h-auto w-full">
+          <div className="mb-4 flex w-full space-x-4 px-4">
+            <div className="flex w-full flex-col">
+              <div className="align-center flex w-full items-center">
                 {isEditMode ? (
-                  <label className='w-full max-w-lg text-lg'>
+                  <label className="w-full max-w-lg text-lg">
                     Title
                     <input
-                      type='text'
+                      type="text"
                       autoFocus
-                      placeholder='What race are you training for?'
+                      placeholder="What race are you training for?"
                       value={editedPlan.title}
                       onChange={(e) => onTitleChange(e.target.value)}
-                      className='mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+                      className="mt-2 block w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
                     />
                   </label>
                 ) : (
                   <>
-                    <h1 className='text-2xl'>{training.title}</h1>
-                    <div className='ml-4 text-xl'>
+                    <h1 className="text-2xl">{training.title}</h1>
+                    <div className="ml-4 text-xl">
                       {training.isActive ? (
                         <span
-                          className='cursor-pointer bg-transparent text-eggplant-700 transition'
+                          className="cursor-pointer bg-transparent text-eggplant-700 transition"
                           onClick={() => {
                             onToggleIsActiveClick(false)
                           }}
@@ -454,7 +454,7 @@ const ViewTrainingPlan = () => {
                         </span>
                       ) : (
                         <span
-                          className='cursor-pointer bg-transparent text-eggplant-700 transition'
+                          className="cursor-pointer bg-transparent text-eggplant-700 transition"
                           onClick={() => {
                             onToggleIsActiveClick(true)
                           }}
@@ -467,62 +467,62 @@ const ViewTrainingPlan = () => {
                 )}
               </div>
 
-              <div className='flex w-full flex-col'>
+              <div className="flex w-full flex-col">
                 {isEditMode ? (
-                  <div className='mt-4 flex w-full space-x-4 sm:space-x-8'>
-                    <label className='text-lg'>
+                  <div className="mt-4 flex w-full space-x-4 sm:space-x-8">
+                    <label className="text-lg">
                       Start Date
                       <input
-                        type='date'
+                        type="date"
                         value={editedPlan.ui.startDateISO}
                         onChange={(e) => onDateChange(e.target.value)}
-                        className='mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+                        className="mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
                       />
                     </label>
 
-                    <label className='text-lg'>
+                    <label className="text-lg">
                       Weeks
                       <input
-                        type='number'
+                        type="number"
                         value={editedPlan.ui.weekCount}
-                        min='1'
-                        max='52'
+                        min="1"
+                        max="52"
                         onChange={(e) => onWeekCountChange(e.target.value)}
-                        className='mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-center text-base'
+                        className="mt-1 block rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-center text-base"
                       />
                     </label>
 
-                    <label className='text-lg'>
+                    <label className="text-lg">
                       End Date
                       <input
                         disabled
-                        type='date'
+                        type="date"
                         value={editedPlan.ui.endDateISO}
-                        className='mt-1 block rounded bg-transparent py-2 text-base'
+                        className="mt-1 block rounded bg-transparent py-2 text-base"
                       />
                     </label>
                   </div>
                 ) : (
-                  <h2 className='mt-1 text-sm opacity-60'>{planDesc}</h2>
+                  <h2 className="mt-1 text-sm opacity-60">{planDesc}</h2>
                 )}
 
                 {isEditMode ? (
-                  <label className='mt-4 w-full max-w-lg text-lg'>
+                  <label className="mt-4 w-full max-w-lg text-lg">
                     Goal
                     <textarea
-                      type='text'
+                      type="text"
                       required
-                      placeholder='What do you want to achieve?'
+                      placeholder="What do you want to achieve?"
                       value={editedPlan.goal}
                       onChange={(e) => onGoalChange(e.target.value)}
-                      className='mt-1 block h-24 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base'
+                      className="mt-1 block h-24 w-full rounded border border-neutral-200 bg-neutral-800 px-2 py-2 text-base"
                     />
                   </label>
                 ) : (
                   <>
-                    <h2 className='mt-2'>Goal: {training.goal}</h2>
-                    <h2 className='mt-2'>
-                      Mileage: {formatActualMileage(training.actualDistance)}{' '}
+                    <h2 className="mt-2">Goal: {training.goal}</h2>
+                    <h2 className="mt-2">
+                      Mileage: {formatActualMileage(training.actualDistance)}{" "}
                       miles
                     </h2>
                   </>
@@ -532,19 +532,19 @@ const ViewTrainingPlan = () => {
           </div>
 
           {isEditMode ? (
-            <div className='mt-4 mb-8 flex justify-between px-4'>
-              <div className='inline-block space-x-4'>
+            <div className="mt-4 mb-8 flex justify-between px-4">
+              <div className="inline-block space-x-4">
                 <Button
-                  type='primary'
+                  type="primary"
                   onClick={() => {
                     onSaveEditsClick()
                   }}
                 >
                   <span>Save</span>
-                  <FontAwesomeIcon className='ml-2' icon={faSave} />
+                  <FontAwesomeIcon className="ml-2" icon={faSave} />
                 </Button>
                 <Button
-                  type='secondary'
+                  type="secondary"
                   onClick={() => {
                     onCancelEditsClick()
                   }}
@@ -554,25 +554,25 @@ const ViewTrainingPlan = () => {
               </div>
             </div>
           ) : (
-            <div className='mb-4 flex space-x-4 px-4'>
+            <div className="mb-4 flex space-x-4 px-4">
               <Button
-                type='secondary'
+                type="secondary"
                 onClick={() => {
                   onEditModeClick()
                 }}
               >
                 <span>Edit</span>
-                <FontAwesomeIcon className='ml-2' icon={faEdit} />
+                <FontAwesomeIcon className="ml-2" icon={faEdit} />
               </Button>
 
               <Button
-                type='secondary'
+                type="secondary"
                 onClick={() => {
                   onDeleteClick()
                 }}
               >
                 <span>Delete</span>
-                <FontAwesomeIcon className='ml-2' icon={faTrashCan} />
+                <FontAwesomeIcon className="ml-2" icon={faTrashCan} />
               </Button>
             </div>
           )}
@@ -584,7 +584,7 @@ const ViewTrainingPlan = () => {
           />
 
           {DEBUG && (
-            <pre className='max-h-120 min-h-16 w-120 overflow-scroll rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm wrap-break-word'>
+            <pre className="max-h-120 min-h-16 w-120 overflow-scroll rounded border border-neutral-500 bg-gray-100 px-2 py-1 font-mono text-sm wrap-break-word">
               {JSON.stringify(training, null, 2)}
             </pre>
           )}
@@ -592,7 +592,7 @@ const ViewTrainingPlan = () => {
       )}
 
       {!state.training.isFetching && training == null && (
-        <div className='mb-4 px-4'>No training plan found with id {id}</div>
+        <div className="mb-4 px-4">No training plan found with id {id}</div>
       )}
     </div>
   )

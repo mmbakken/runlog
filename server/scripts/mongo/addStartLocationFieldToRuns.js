@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import RunModel from '../../db/RunModel.js'
-import generateLocation from '../../runs/generateLocation.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import RunModel from "../../db/RunModel.js"
+import generateLocation from "../../runs/generateLocation.js"
 
 // This script adds a string field `startLocation` to all run objects. The value
 // is added to each existing run based on the same logic (at time of writing) as
@@ -15,7 +15,7 @@ const addStartLocationFieldToRuns = async () => {
   try {
     const allRuns = await RunModel.find(
       {}, // all runs
-      '_id startLatitude startLongitude'
+      "_id startLatitude startLongitude",
     )
 
     // Add the startLocation field to this run document
@@ -25,7 +25,7 @@ const addStartLocationFieldToRuns = async () => {
 
       run.startLocation = generateLocation(
         run._doc.startLatitude,
-        run._doc.startLongitude
+        run._doc.startLongitude,
       )
 
       try {

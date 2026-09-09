@@ -1,9 +1,9 @@
-import { DateTime } from 'luxon'
-import { showWeekDivider } from 'app/utils'
-import RunTableRow from './RunTableRow'
-import { Run } from 'app/types'
-import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import type { SerializedError } from '@reduxjs/toolkit'
+import { DateTime } from "luxon"
+import { showWeekDivider } from "app/utils"
+import RunTableRow from "./RunTableRow"
+import { Run } from "app/types"
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query"
+import type { SerializedError } from "@reduxjs/toolkit"
 
 type RunTableBodyProps = {
   runsById: Record<string, Run>
@@ -20,13 +20,13 @@ const RunTableBody = ({
   error,
 }: RunTableBodyProps) => {
   if (isLoading) {
-    return <div className='mx-4 w-full'>Loading...</div>
+    return <div className="mx-4 w-full">Loading...</div>
   }
 
   // TODO: Show error UI inside the table body
   if (isError) {
     return (
-      <div className='mx-4 w-full'>
+      <div className="mx-4 w-full">
         <h1>Error</h1>
         <pre>{JSON.stringify(error, null, 2)}</pre>
       </div>
@@ -45,7 +45,7 @@ const RunTableBody = ({
   return sortedRuns.map((run, rowIndex, runsArray) => {
     // Timezone field has a format like "(GMT-07:00) America/Denver" so this
     // just ignores the offset and uses the location. This is what Luxon wants.
-    const tz = run.timezone.split(' ')[1]
+    const tz = run.timezone.split(" ")[1]
 
     // Make sure to interpret this run's start date in the timezone where the
     // run actually happened, not the timezone of this browser.

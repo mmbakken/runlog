@@ -9,10 +9,10 @@ const addFloats = (a: number, b: number) => {
   if (
     a == null ||
     Number.isNaN(a) ||
-    typeof a !== 'number' ||
+    typeof a !== "number" ||
     b == null ||
     Number.isNaN(b) ||
-    typeof b !== 'number'
+    typeof b !== "number"
   ) {
     return NaN
   }

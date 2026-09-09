@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from 'react'
-import { DateTime } from 'luxon'
-import { StateContext } from 'app/context/StateContext'
-import actions from 'app/reducers/actions'
-import { APIv1 } from 'app/api'
-import CalendarHeaderRow from './CalendarHeaderRow'
-import CalendarWeekRow from './CalendarWeekRow'
-import { formatActualMileage, formatPercentDiff } from 'app/formatters'
-import { addFloats } from 'app/utils'
+import { useState, useEffect, useContext } from "react"
+import { DateTime } from "luxon"
+import { StateContext } from "app/context/StateContext"
+import actions from "app/reducers/actions"
+import { APIv1 } from "app/api"
+import CalendarHeaderRow from "./CalendarHeaderRow"
+import CalendarWeekRow from "./CalendarWeekRow"
+import { formatActualMileage, formatPercentDiff } from "app/formatters"
+import { addFloats } from "app/utils"
 
 const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   const dispatch = useContext(StateContext)[1]
@@ -33,7 +33,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   // Calculate the display value for this week's mileage. It's a combination of its dates' planned
   // and actual distance values.
   let weekDisplayDistances = []
-  let weekPercentDiff = ['–'] // null/NaN/Div-by-0 symbol
+  let weekPercentDiff = ["–"] // null/NaN/Div-by-0 symbol
   const nowLocalDT = DateTime.now()
 
   // Today's local date, expressed as the same yyyy-mm-dd but in UTC at start of day. This is needed
@@ -41,14 +41,14 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   // ISO Date. Basically, it allows the user to edit planned mileage for current or future dates
   // that are close to the week boundaries within the timezone offset range.
   const startOfTodayUTC = nowLocalDT
-    .startOf('day')
-    .setZone('utc')
-    .startOf('day')
+    .startOf("day")
+    .setZone("utc")
+    .startOf("day")
   const todayISODate = startOfTodayUTC.toISODate()
 
   for (let weekIndex = 0; weekIndex < training.weeks.length; weekIndex++) {
     const week = training.weeks[weekIndex]
-    const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+    const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: "utc" })
     const weekEndDT = weekStartDT.plus({ days: 7 })
 
     const weekISODates = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) => {
@@ -62,8 +62,8 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       // For each date in this week, sum the actualDistances.
       // If no actualDistance, use plannedDistanceMeters. If no plannedDistanceMeters, use 0.
       for (let date of training.dates) {
-        const dateDT = DateTime.fromISO(date.dateISO, { zone: 'utc' }).startOf(
-          'day'
+        const dateDT = DateTime.fromISO(date.dateISO, { zone: "utc" }).startOf(
+          "day",
         )
 
         if (weekStartDT <= dateDT && dateDT < weekEndDT) {
@@ -103,7 +103,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     } else {
       weekPercentDiff[weekIndex] =
         Math.round(
-          ((weekDistance - prevWeekDistance) / prevWeekDistance) * 100 * 100
+          ((weekDistance - prevWeekDistance) / prevWeekDistance) * 100 * 100,
         ) / 100
     }
   }
@@ -113,37 +113,37 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   })
 
   let copyBtnClasses =
-    'border border-neutral-500 rounded-lg px-2 py-1 transition whitespace-nowrap'
+    "border border-neutral-500 rounded-lg px-2 py-1 transition whitespace-nowrap"
   let pasteBtnClasses =
-    'border border-neutral-500 rounded-lg px-2 py-1 transition whitespace-nowrap'
+    "border border-neutral-500 rounded-lg px-2 py-1 transition whitespace-nowrap"
 
   if (!disableSelection) {
     if (allowCopy) {
       copyBtnClasses +=
-        ' cursor-pointer bg-eggplant-700 text-neutral-200 border-eggplant-700 hover:bg-eggplant-600'
+        " cursor-pointer bg-eggplant-700 text-neutral-200 border-eggplant-700 hover:bg-eggplant-600"
     } else {
-      copyBtnClasses += ' cursor-not-allowed bg-neutral-800'
+      copyBtnClasses += " cursor-not-allowed bg-neutral-800"
     }
 
     if (allowPaste) {
       pasteBtnClasses +=
-        ' cursor-pointer bg-eggplant-700 text-neutral-200 border-eggplant-700 hover:bg-eggplant-600'
+        " cursor-pointer bg-eggplant-700 text-neutral-200 border-eggplant-700 hover:bg-eggplant-600"
     } else {
-      pasteBtnClasses += ' cursor-not-allowed bg-neutral-800'
+      pasteBtnClasses += " cursor-not-allowed bg-neutral-800"
     }
   }
 
-  let copyText = 'Copy'
-  let pasteText = 'Paste'
+  let copyText = "Copy"
+  let pasteText = "Paste"
 
   if (selectedWeekIndex != null) {
-    copyText += ' Week'
-    pasteText += ' Week'
+    copyText += " Week"
+    pasteText += " Week"
   }
 
   if (selectedDateISO != null) {
-    copyText += ' Date'
-    pasteText += ' Date'
+    copyText += " Date"
+    pasteText += " Date"
   }
 
   const showCopyPasteBox =
@@ -225,7 +225,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
   const onCopyClick = () => {
     if (!allowCopy) {
-      console.error('Attempted copy while allowCopy is false, aborting')
+      console.error("Attempted copy while allowCopy is false, aborting")
       return
     }
 
@@ -233,12 +233,12 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       // What dates are in this week?
       const weekStartDT = DateTime.fromISO(
         training.weeks[selectedWeekIndex].startDateISO,
-        { zone: 'utc' }
+        { zone: "utc" },
       )
       const weekEndDT = weekStartDT.plus({ days: 7 })
       let thisDT
       let weekDates = training.dates.filter((date) => {
-        thisDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+        thisDT = DateTime.fromISO(date.dateISO, { zone: "utc" })
         return weekStartDT <= thisDT && thisDT < weekEndDT
       })
 
@@ -256,12 +256,12 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       setAllowPaste(true)
     } else if (selectedDateISO != null) {
       const date = training.dates.find((dateObj) => {
-        return dateObj.dateISO.split('T')[0] === selectedDateISO
+        return dateObj.dateISO.split("T")[0] === selectedDateISO
       })
 
       if (date == null) {
         return console.error(
-          `Unable to find date with ISO: "${selectedDateISO}"`
+          `Unable to find date with ISO: "${selectedDateISO}"`,
         )
       }
 
@@ -282,19 +282,19 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
   const onPasteClick = () => {
     if (!allowPaste) {
-      console.error('Cannot paste: Attempted paste while allowPaste is false')
+      console.error("Cannot paste: Attempted paste while allowPaste is false")
       return
     }
 
     if (copiedDate != null) {
       if (selectedDateISO == null) {
         return console.error(
-          'Cannot paste date: no date is selected to paste over'
+          "Cannot paste date: no date is selected to paste over",
         )
       }
 
       const selectedDate = training.dates.find((dateObj) => {
-        return dateObj.dateISO.split('T')[0] === selectedDateISO
+        return dateObj.dateISO.split("T")[0] === selectedDateISO
       })
 
       pasteDate(selectedDate, copiedDate, training.weeks, training.dates)
@@ -302,7 +302,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       // Make sure there is a week selected right now
       if (selectedWeekIndex == null) {
         return console.error(
-          'Cannot paste week: no week is selected to paste over'
+          "Cannot paste week: no week is selected to paste over",
         )
       }
 
@@ -313,11 +313,11 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
         copiedWeek.week,
         copiedWeek.dates,
         training.weeks,
-        training.dates
+        training.dates,
       )
     } else {
       return console.error(
-        'Cannot paste: No copied date or copied week exists to paste from'
+        "Cannot paste: No copied date or copied week exists to paste from",
       )
     }
   }
@@ -325,19 +325,19 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
   // Updates the training plan by hitting the API with the changes from this copied date
   const pasteDate = (selectedDate, copiedDate, currentWeeks, currentDates) => {
     if (selectedDate == null) {
-      return console.error('Cannot paste date: selectedDate is required')
+      return console.error("Cannot paste date: selectedDate is required")
     }
 
     if (copiedDate == null) {
-      return console.error('Cannot paste date: copiedDate is required')
+      return console.error("Cannot paste date: copiedDate is required")
     }
 
     if (currentWeeks == null) {
-      return console.error('Cannot paste date: currentWeeks is required')
+      return console.error("Cannot paste date: currentWeeks is required")
     }
 
     if (currentDates == null) {
-      return console.error('Cannot paste date: currentDates is required')
+      return console.error("Cannot paste date: currentDates is required")
     }
 
     // Replace the selectedDate with the copiedDate in the return dates array
@@ -363,18 +363,18 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     // Find the week the selected date belongs to
     let newPlannedDistance = 0
     const selectedDateDT = DateTime.fromISO(selectedDate.dateISO, {
-      zone: 'utc',
+      zone: "utc",
     })
 
     const selectedDateWeek = currentWeeks.find((week) => {
-      const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+      const weekStartDT = DateTime.fromISO(week.startDateISO, { zone: "utc" })
       const nextWeekStartDT = weekStartDT.plus({ days: 7 })
 
       if (weekStartDT <= selectedDateDT && selectedDateDT < nextWeekStartDT) {
         // Calculate the plannedDistance for this week but use the copiedDate's distance instead for the selectedDate
         for (let currentDate of currentDates) {
           const currentDateDT = DateTime.fromISO(currentDate.dateISO, {
-            zone: 'utc',
+            zone: "utc",
           })
 
           // Is this date in the current week?
@@ -421,26 +421,26 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
     copiedWeek,
     copiedDates,
     currentWeeks,
-    currentDates
+    currentDates,
   ) => {
     if (selectedWeek == null) {
-      return console.error('Cannot paste week: selectedWeek is required')
+      return console.error("Cannot paste week: selectedWeek is required")
     }
 
     if (copiedWeek == null) {
-      return console.error('Cannot paste week: copiedWeek is required')
+      return console.error("Cannot paste week: copiedWeek is required")
     }
 
     if (copiedDates == null) {
-      return console.error('Cannot paste week: copiedDates is required')
+      return console.error("Cannot paste week: copiedDates is required")
     }
 
     if (currentWeeks == null) {
-      return console.error('Cannot paste week: currentWeeks is required')
+      return console.error("Cannot paste week: currentWeeks is required")
     }
 
     if (currentDates == null) {
-      return console.error('Cannot paste week: currentDates is required')
+      return console.error("Cannot paste week: currentDates is required")
     }
 
     // GENERATE AN UPDATED WEEKS ARRAY
@@ -470,12 +470,12 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
 
     // Which ISO dates are we replacing?
     const selectedWeekStartDT = DateTime.fromISO(selectedWeek.startDateISO, {
-      zone: 'utc',
+      zone: "utc",
     })
     const selectedWeekEndDT = selectedWeekStartDT.plus({ days: 7 })
     let thisDT
     let selectedWeekDates = currentDates.filter((date) => {
-      thisDT = DateTime.fromISO(date.dateISO, { zone: 'utc' })
+      thisDT = DateTime.fromISO(date.dateISO, { zone: "utc" })
       return selectedWeekStartDT <= thisDT && thisDT < selectedWeekEndDT
     })
 
@@ -555,19 +555,19 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
       }
     }
 
-    window.addEventListener('keydown', handleCopyShortcut)
-    window.addEventListener('keydown', handlePasteShortcut)
+    window.addEventListener("keydown", handleCopyShortcut)
+    window.addEventListener("keydown", handlePasteShortcut)
 
     return () => {
-      window.removeEventListener('keydown', handleCopyShortcut)
-      window.removeEventListener('keydown', handlePasteShortcut)
+      window.removeEventListener("keydown", handleCopyShortcut)
+      window.removeEventListener("keydown", handlePasteShortcut)
     }
   }, [allowCopy, allowPaste, selectedWeekIndex, selectedDateISO])
 
   return (
-    <div className='z-0 flex w-[1536px] flex-col px-4 pb-12'>
+    <div className="z-0 flex w-[1536px] flex-col px-4 pb-12">
       {!disableSelection && showCopyPasteBox ? (
-        <div className='fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 justify-center space-x-4 rounded border border-neutral-400 bg-neutral-800 px-4 py-2 drop-shadow-lg'>
+        <div className="fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 justify-center space-x-4 rounded border border-neutral-400 bg-neutral-800 px-4 py-2 drop-shadow-lg">
           <button
             className={copyBtnClasses}
             disabled={!allowCopy}
@@ -621,7 +621,7 @@ const TrainingCalendar = ({ training, disableSelection, updatePlan }) => {
             onDateClick={onDateClick}
             disableSelection={disableSelection}
             actualMileage={formatActualMileage(
-              weekDisplayDistances[weekIndex] || 0
+              weekDisplayDistances[weekIndex] || 0,
             )}
             percentDiff={formatPercentDiff(weekPercentDiff[weekIndex] || 0)}
           />

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 const shoeSchema = new mongoose.Schema({
   userId: mongoose.ObjectId,
@@ -7,4 +7,4 @@ const shoeSchema = new mongoose.Schema({
   distance: Number, // In meters, like runs are
 })
 
-export default mongoose.model('Shoes', shoeSchema)
+export default mongoose.model("Shoes", shoeSchema)

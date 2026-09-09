@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
-import { useDispatch, useSelector } from 'react-redux'
-import { runlogAPI } from 'app/features/api/apiSlice'
-import { runFiltersSlice } from 'app/features/runs/filters/runFiltersSlice'
+import { configureStore } from "@reduxjs/toolkit"
+import { setupListeners } from "@reduxjs/toolkit/query"
+import { useDispatch, useSelector } from "react-redux"
+import { runlogAPI } from "app/features/api/apiSlice"
+import { runFiltersSlice } from "app/features/runs/filters/runFiltersSlice"
 
 export const store = configureStore({
   reducer: {

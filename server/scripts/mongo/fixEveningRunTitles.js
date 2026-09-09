@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import RunModel from '../../db/RunModel.js'
-import generateTitle from '../../runs/generateTitle.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import RunModel from "../../db/RunModel.js"
+import generateTitle from "../../runs/generateTitle.js"
 
 // This script is used to fix runs titled "Evening Run" by a bug introduced in November 2021 and
 // fixed on March 29, 2022. It correctly titles the runs which were not already renamed.
@@ -16,9 +16,9 @@ const fixEveningRunTitles = async () => {
   try {
     const allRuns = await RunModel.find(
       {
-        title: 'Run',
+        title: "Run",
       },
-      '_id timezone startDate'
+      "_id timezone startDate",
     )
 
     // Add the correct title field to this run document
@@ -26,7 +26,7 @@ const fixEveningRunTitles = async () => {
     for (let i = 0; i < allRuns.length; i++) {
       let run = allRuns[i]
       const dateStr = new Date(run._doc.startDate).toISOString()
-      run.title = generateTitle(dateStr, run._doc.timezone.split(' ')[1])
+      run.title = generateTitle(dateStr, run._doc.timezone.split(" ")[1])
 
       try {
         await run.save()
@@ -37,7 +37,7 @@ const fixEveningRunTitles = async () => {
     }
 
     console.log(
-      `${allRuns.length} runs found with 'Evening Run' title, ${nModified} updated to correct title.`
+      `${allRuns.length} runs found with 'Evening Run' title, ${nModified} updated to correct title.`,
     )
   } catch (err) {
     console.error(err)

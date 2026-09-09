@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import UserModel from '../../db/UserModel.js'
-import resetDailyStats from '../../dailystats/resetDailyStats.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import UserModel from "../../db/UserModel.js"
+import resetDailyStats from "../../dailystats/resetDailyStats.js"
 
 // This script adds documents to the DailyStats collection based on the existing run data
 
@@ -18,7 +18,7 @@ const initializeDailyStats = async () => {
   try {
     allUsers = await UserModel.find(
       {}, // all users
-      '_id stats'
+      "_id stats",
     ).lean()
   } catch (err) {
     console.error(err)

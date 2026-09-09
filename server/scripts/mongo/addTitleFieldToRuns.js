@@ -1,7 +1,7 @@
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import RunModel from '../../db/RunModel.js'
-import generateTitle from '../../runs/generateTitle.js'
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import RunModel from "../../db/RunModel.js"
+import generateTitle from "../../runs/generateTitle.js"
 
 // This script adds a string field `title` to all run objects. The value is added to each existing
 // run based on the same logic (at time of writing) as used in the RunPage.js component.
@@ -15,7 +15,7 @@ const addTitleFieldToRuns = async () => {
   try {
     const allRuns = await RunModel.find(
       {}, // all runs
-      '_id timezone startDate'
+      "_id timezone startDate",
     )
 
     // Add the title field to this run document
@@ -25,7 +25,7 @@ const addTitleFieldToRuns = async () => {
 
       run.title = generateTitle(
         run._doc.startDate,
-        run._doc.timezone.split(' ')[1]
+        run._doc.timezone.split(" ")[1],
       ) // used to be a string
 
       try {

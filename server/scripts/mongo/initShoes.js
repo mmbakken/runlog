@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
-import connectToMongo from '../../db/connectToMongo.js'
-import disconnectFromMongo from '../../db/disconnectFromMongo.js'
-import UserModel from '../../db/UserModel.js'
-import ShoeModel from '../../db/ShoeModel.js'
-import RunModel from '../../db/RunModel.js'
+import mongoose from "mongoose"
+import connectToMongo from "../../db/connectToMongo.js"
+import disconnectFromMongo from "../../db/disconnectFromMongo.js"
+import UserModel from "../../db/UserModel.js"
+import ShoeModel from "../../db/ShoeModel.js"
+import RunModel from "../../db/RunModel.js"
 
 // Moves every `user.gear.shoes` sub-document into the shoes collection as its
 // own docuemnt. The `user.gear.shoes[i].id` field is not preserved.
@@ -22,7 +22,7 @@ const initShoes = async () => {
   try {
     const allUsers = await UserModel.find(
       {}, // all users
-      '_id gear name'
+      "_id gear name",
     )
 
     let usersModified = 0
@@ -32,7 +32,7 @@ const initShoes = async () => {
     // Value: new shoe id (ShoeModel), string
     let shoeIdMap = {}
     for (const user of allUsers) {
-      console.log('User:')
+      console.log("User:")
       console.log`user._id: ${user._id.toString()}`
       console.log`user.name: ${user.name}`
       console.log`user.gear.shoes:`
@@ -53,9 +53,9 @@ const initShoes = async () => {
           distance: shoe.distance,
         })
 
-        console.log('    Creating new shoe:')
+        console.log("    Creating new shoe:")
         console.log(newShoe.inspect())
-        console.log('~~~~~~~~~~~~~~~~`')
+        console.log("~~~~~~~~~~~~~~~~`")
 
         const newShoeDoc = await newShoe.save()
         shoeIdMap[shoe._id.toString()] = newShoeDoc._id.toString()
@@ -63,25 +63,25 @@ const initShoes = async () => {
         newShoeCount++
       }
 
-      console.log('~~~~~~~~~~~~~~~~\n\n\n\n`')
+      console.log("~~~~~~~~~~~~~~~~\n\n\n\n`")
     }
 
     console.log(
-      `${allUsers.length} users found, ${usersModified} updated (should be 0 updated).`
+      `${allUsers.length} users found, ${usersModified} updated (should be 0 updated).`,
     )
     console.log(`${newShoeCount} shoes created.`)
     console.log(`~~~~~~~~~~~~~~~~~~~~~~~~~~~`)
     console.log(`~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n`)
 
     console.log(`Updating run.shoeId to match new ShoeModel documents.`)
-    console.log('Old shoe id => new shoe id:')
+    console.log("Old shoe id => new shoe id:")
     console.dir(shoeIdMap)
 
     let runsModified = 0
 
     const allRuns = await RunModel.find(
       {}, // all runs
-      '_id shoeId'
+      "_id shoeId",
     )
 
     // Update each run with new shoeId value
@@ -113,7 +113,7 @@ const initShoes = async () => {
 
     // Finally, delete all of the old shoe records (only use of `user.gear`).
     for (const user of allUsers) {
-      console.log('User:')
+      console.log("User:")
       console.log(user.inspect())
 
       console.log(`Deleting user.gear: ${user.gear}`)
@@ -122,7 +122,7 @@ const initShoes = async () => {
       usersModified2++
 
       console.log(`${allUsers.length} users found, ${usersModified2} updated.`)
-      console.log('~~~~~~~~~~~~~~~~`')
+      console.log("~~~~~~~~~~~~~~~~`")
     }
   } catch (err) {
     console.error(err)

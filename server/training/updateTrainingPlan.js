@@ -1,8 +1,8 @@
-import TrainingModel from '../db/TrainingModel.js'
-import updatePlanDistances from './updatePlanDistances.js'
-import recalculatePlanRunIds from './recalculatePlanRunIds.js'
+import TrainingModel from "../db/TrainingModel.js"
+import updatePlanDistances from "./updatePlanDistances.js"
+import recalculatePlanRunIds from "./recalculatePlanRunIds.js"
 
-import { METERS_PER_MILE } from '../constants/unitConversion.js'
+import { METERS_PER_MILE } from "../constants/unitConversion.js"
 
 const updateTrainingPlan = async (req, res) => {
   let plan
@@ -21,7 +21,7 @@ const updateTrainingPlan = async (req, res) => {
 
   if (req.body == null || req.body.updates == null) {
     console.error(
-      `Cannot update training plan with id "${plan._id}": Must include req.body.updates.`
+      `Cannot update training plan with id "${plan._id}": Must include req.body.updates.`,
     )
     return res.sendStatus(400)
   }
@@ -32,24 +32,24 @@ const updateTrainingPlan = async (req, res) => {
   for (let [field, value] of Object.entries(req.body.updates)) {
     if (!validFields.includes(field)) {
       console.error(
-        `Cannot update training plan with id "${plan._id}": Field "${field}" is not present in the document`
+        `Cannot update training plan with id "${plan._id}": Field "${field}" is not present in the document`,
       )
       return res.sendStatus(400)
     }
 
     // Do not allow the user to update this field directly. Its value is determined by the
     // plannedDistance field, just expressed as a different unit (meters instead of miles).
-    if (field === 'plannedDistanceMeters') {
+    if (field === "plannedDistanceMeters") {
       continue
     }
 
-    if (field === 'plannedDistance') {
-      plan['plannedDistanceMeters'] =
+    if (field === "plannedDistance") {
+      plan["plannedDistanceMeters"] =
         Math.round(value * METERS_PER_MILE * 100) / 100
     }
 
     // For each week and each date, calculate the plannedDistanceMeters field
-    else if (field === 'weeks') {
+    else if (field === "weeks") {
       value = value.map((week) => {
         return {
           ...week,
@@ -57,7 +57,7 @@ const updateTrainingPlan = async (req, res) => {
             Math.round(week.plannedDistance * METERS_PER_MILE * 100) / 100,
         }
       })
-    } else if (field === 'dates') {
+    } else if (field === "dates") {
       value = value.map((date) => {
         return {
           ...date,
@@ -70,7 +70,7 @@ const updateTrainingPlan = async (req, res) => {
     // If either of the dates are updated, we need to recalculate the actualDistance fields for the plan
     if (
       !shouldUpdateDates &&
-      (field === 'startDate' || field === 'endDate') &&
+      (field === "startDate" || field === "endDate") &&
       plan[field] !== value
     ) {
       shouldUpdateDates = true

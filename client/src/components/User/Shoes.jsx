@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react'
-import { StateContext } from '../../context/StateContext'
-import actions from '../../reducers/actions'
-import { APIv1 } from '../../api'
+import { useContext, useEffect } from "react"
+import { StateContext } from "../../context/StateContext"
+import actions from "../../reducers/actions"
+import { APIv1 } from "../../api"
 
-import ShoeList from './ShoeList'
+import ShoeList from "./ShoeList"
 
 const Shoes = () => {
   const [state, dispatch] = useContext(StateContext)
@@ -16,7 +16,7 @@ const Shoes = () => {
       type: actions.GET_ALL_SHOES__START,
     })
 
-    APIv1.get('/shoes')
+    APIv1.get("/shoes")
       .then((response) => {
         dispatch({
           type: actions.GET_ALL_SHOES__SUCCESS,
@@ -32,10 +32,10 @@ const Shoes = () => {
   }, [dispatch])
 
   return (
-    <div className='space-y-4'>
-      <section className='mx-4'>
-        <h2 className='mb-2 text-lg'>Shoes</h2>
-        <p className='mb-4'>Add new shoes here and track their mileage.</p>
+    <div className="space-y-4">
+      <section className="mx-4">
+        <h2 className="mb-2 text-lg">Shoes</h2>
+        <p className="mb-4">Add new shoes here and track their mileage.</p>
         <ShoeList shoes={state.shoes.byId} />
       </section>
     </div>

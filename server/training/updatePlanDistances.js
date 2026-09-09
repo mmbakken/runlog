@@ -1,12 +1,12 @@
-import { DateTime } from 'luxon'
-import DailyStatsModel from '../db/DailyStatsModel.js'
+import { DateTime } from "luxon"
+import DailyStatsModel from "../db/DailyStatsModel.js"
 
-import addFloats from '../utils/addFloats.js'
+import addFloats from "../utils/addFloats.js"
 
 // Given a Training Plan document, returns the correct values for: plan, week, date
 const updatePlanDistances = async (plan) => {
   if (plan == null) {
-    throw new Error('updatePlanDistances requires plan as a parameter')
+    throw new Error("updatePlanDistances requires plan as a parameter")
   }
 
   // Grab the dailystats for the plan's date range
@@ -22,9 +22,9 @@ const updatePlanDistances = async (plan) => {
 
   let dateISO
   ds.map((dailyStatsObj) => {
-    dateISO = DateTime.fromJSDate(dailyStatsObj.date, { zone: 'utc' })
+    dateISO = DateTime.fromJSDate(dailyStatsObj.date, { zone: "utc" })
       .toISODate()
-      .split('T')[0]
+      .split("T")[0]
     allDailyStatsByDate[dateISO] = dailyStatsObj
   })
 
@@ -45,12 +45,12 @@ const updatePlanDistances = async (plan) => {
   let weekEndDT
 
   for (let week of plan.weeks) {
-    weekStartDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' }).startOf(
-      'day'
+    weekStartDT = DateTime.fromISO(week.startDateISO, { zone: "utc" }).startOf(
+      "day",
     )
-    weekEndDT = DateTime.fromISO(week.startDateISO, { zone: 'utc' })
+    weekEndDT = DateTime.fromISO(week.startDateISO, { zone: "utc" })
       .plus({ days: 7 })
-      .startOf('day')
+      .startOf("day")
     weekActualDistance = 0
     weekPlannedDistance = 0
     weekPlannedDistanceMeters = 0
@@ -60,7 +60,7 @@ const updatePlanDistances = async (plan) => {
 
     for (let date of plan.dates) {
       // If this date is in this week, then let's look at it now
-      thisDateDT = DateTime.fromJSDate(date.dateISO, { zone: 'utc' })
+      thisDateDT = DateTime.fromJSDate(date.dateISO, { zone: "utc" })
 
       if (weekStartDT <= thisDateDT && thisDateDT < weekEndDT) {
         // Find the DS for this date and save its distance
@@ -68,15 +68,15 @@ const updatePlanDistances = async (plan) => {
         date.actualDistance = thisDS?.distance || 0
         weekActualDistance = addFloats(
           thisDS?.distance || 0,
-          weekActualDistance
+          weekActualDistance,
         )
         weekPlannedDistance = addFloats(
           date.plannedDistance || 0,
-          weekPlannedDistance
+          weekPlannedDistance,
         )
         weekPlannedDistanceMeters = addFloats(
           date.plannedDistanceMeters || 0,
-          weekPlannedDistanceMeters
+          weekPlannedDistanceMeters,
         )
       }
     }
@@ -88,7 +88,7 @@ const updatePlanDistances = async (plan) => {
     planPlannedDistance = addFloats(weekPlannedDistance, planPlannedDistance)
     planPlannedDistanceMeters = addFloats(
       weekPlannedDistanceMeters,
-      planPlannedDistanceMeters
+      planPlannedDistanceMeters,
     )
   }
 

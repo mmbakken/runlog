@@ -6,24 +6,24 @@
 //
 // See: https://developers.strava.com/docs/webhooks/
 
-const runlogStravaToken = 'RunlogStravaToken' // arbitrary string
+const runlogStravaToken = "RunlogStravaToken" // arbitrary string
 
 const stravaWebhookVerification = (req, res) => {
-  console.log('stravaWebhookVerification GET request made:')
+  console.log("stravaWebhookVerification GET request made:")
   console.dir(req.query)
 
   if (
-    req.query['hub.verify_token'] === runlogStravaToken &&
-    req.query['hub.mode'] === 'subscribe' &&
-    req.query['hub.challenge'] != null
+    req.query["hub.verify_token"] === runlogStravaToken &&
+    req.query["hub.mode"] === "subscribe" &&
+    req.query["hub.challenge"] != null
   ) {
     // This is the first callback from Strava to verify this callback URL.
     return res.json({
-      'hub.challenge': req.query['hub.challenge'],
+      "hub.challenge": req.query["hub.challenge"],
     })
   }
 
-  console.error('req.query validation failed :(')
+  console.error("req.query validation failed :(")
   return res.sendStatus(500)
 }
 
