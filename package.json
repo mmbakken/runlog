@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "description": "An application for tracking and planning your running actitivies.",
   "scripts": {
-    "lint": "",
-    "lint:fix": ""
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "license": "MIT",
   "engines": {
@@ -19,5 +21,9 @@
     }
   },
   "packageManager": "pnpm@12.3.4",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0"
+  }
 }
